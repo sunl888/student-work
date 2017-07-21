@@ -13,4 +13,4 @@ git clone https://github.com/wqer1019/student-work.git
 
 ## License
 
-The T-cms is open-sourced software licensed under the [MIT license](https://mit-license.org/).
+The project is open-sourced software licensed under the [MIT license](https://mit-license.org/).
