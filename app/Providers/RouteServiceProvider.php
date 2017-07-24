@@ -17,6 +17,12 @@ class RouteServiceProvider extends ServiceProvider
     protected $namespace = 'App\Http\Controllers';
 
     /**
+     * api 命名空间
+     * @var string
+     */
+    protected $apiNamespace = 'App\Http\Controllers\Api';
+
+    /**
      * Define your route model bindings, pattern filters, etc.
      *
      * @return void
@@ -52,8 +58,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
     }
 
     /**
@@ -65,9 +71,17 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        Route::prefix('api')
+        /*Route::prefix('api')
              ->middleware('api')
              ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+             ->group(base_path('routes/api.php'));*/
+        $api = app('Dingo\Api\Routing\Router');
+        $api->version(
+            'v1', [
+            'namespace' => $this->apiNamespace,
+            'middleware' => 'api'
+        ], function ($api) {
+            include(base_path('routes/api.php'));
+        });
     }
 }
