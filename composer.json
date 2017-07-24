@@ -7,9 +7,13 @@
     "require": {
         "php": ">=5.6.4",
         "laravel/framework": "5.4.*",
-        "laravel/tinker": "~1.0"
+        "dingo/api": "1.0.x@dev",
+        "itsgoingd/clockwork": "^1.14",
+        "laravel/tinker": "~1.0",
+        "zizaco/entrust": "dev-master"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.4",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.7"
