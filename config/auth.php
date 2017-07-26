@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'providers' => [
+    /*'providers' => [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
@@ -74,8 +74,14 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+    ],*/
+    'providers' => [
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => \App\Models\User::class,
+            'table' => 'users',
+        ],
     ],
-
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords

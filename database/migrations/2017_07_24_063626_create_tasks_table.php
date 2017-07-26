@@ -13,11 +13,11 @@ class CreateTasksTable extends Migration
      */
     public function up()
     {
+        // 学生处发布的任务
         Schema::create('tasks', function (Blueprint $blueprint) {
             $blueprint->increments('id');
-            $blueprint->string('title', 10)->comment('任务标题');
-            $blueprint->string('detail')->comment('任务详情');
-            //$blueprint->string('person_liable')->comment('责任人');
+            $blueprint->string('title', 50)->comment('任务标题');
+            $blueprint->string('detail')->nullable()->comment('任务详情');
             $blueprint->integer('work_type_id')->comment('工作类型');
             $blueprint->integer('department_id')->comment('对口科室');
             $blueprint->timestamp('created_at')->comment('创建时间');

@@ -13,6 +13,7 @@ class CreateAssessTable extends Migration
      */
     public function up()
     {
+        //考核等级数据预制表
         Schema::create('assess', function (Blueprint $blueprint) {
             $blueprint->increments('id');
             $blueprint->string('title',20)->comment('考核等级');

@@ -13,10 +13,11 @@ class CreateSemestersTable extends Migration
      */
     public function up()
     {
-        Schema::create('selemesters', function (Blueprint $blueprint) {
+        //学期
+        Schema::create('semesters', function (Blueprint $blueprint) {
             $blueprint->increments('id');
-            $blueprint->string('title',10)->comment('学期：2016-2017');
-            $blueprint->integer('semester')->comment('第几学期：1，2');
+            $blueprint->string('title',10)->comment('学期区间：2016-2017');
+            $blueprint->integer('semester')->comment('具体学期：1，2');
             $blueprint->timestamps();
             $blueprint->softDeletes();
         });
