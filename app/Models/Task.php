@@ -16,4 +16,6 @@ class Task extends BaseModel
     public function task_progresses(){
         return $this->hasMany(TaskProgress::class);
     }
+
+    //public function
 }

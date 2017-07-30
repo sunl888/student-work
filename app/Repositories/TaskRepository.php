@@ -8,6 +8,8 @@
 
 namespace App\Repositories;
 
+use App\Models\Task;
+
 class TaskRepository extends Repository
 {
     public function model()
@@ -17,6 +19,10 @@ class TaskRepository extends Repository
 
     public function lists(){
         return $this->all();
+    }
+
+    public function getTasksByTime($startTime, $endTime){
+        return Task::whereBetween('created_at', [$startTime,$endTime])->get();
     }
 
 }

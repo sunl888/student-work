@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Container\Container as Application;
 
 abstract class Repository implements RepositoryContract {
-    private $app;
+    protected $app;
 
     protected $model;
 
@@ -39,8 +39,11 @@ abstract class Repository implements RepositoryContract {
         return $this->model->create($data);
     }
 
-    public function update(array $data, $id, $attribute="id") {
+    /*public function update(array $data, $id, $attribute="id") {
         return $this->model->where($attribute, '=', $id)->update($data);
+    }*/
+    public function update(array $data, $conditions) {
+        return $this->model->where($conditions)->update($data);
     }
 
     public function delete($id) {

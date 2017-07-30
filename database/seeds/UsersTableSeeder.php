@@ -18,7 +18,10 @@ class UsersTableSeeder extends Seeder
                 'name' => 'xsc',
                 'password' => bcrypt('xsc2017'),
                 'email'=>'test'.random_int(1,99).'@qq.com',
-                'gender' => true,
+                'college_id' =>null,
+                'department_id' =>null,
+                'picture' => null,
+                'gender' =>true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ], [
@@ -26,7 +29,10 @@ class UsersTableSeeder extends Seeder
                 'name' => 'jsj',
                 'password' => bcrypt('jsj2017'),
                 'email'=>'test'.random_int(1,99).'@qq.com',
-                'gender' => false,
+                'college_id' =>9,
+                'department_id' =>null,
+                'picture' => null,
+                'gender' =>true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ], [
@@ -34,7 +40,10 @@ class UsersTableSeeder extends Seeder
                 'name' => 'sunlong',
                 'password' => bcrypt('sunlong'),
                 'email'=>'test'.random_int(1,99).'@qq.com',
-                'gender' => false,
+                'college_id' =>9,
+                'department_id' =>null,
+                'picture' => null,
+                'gender' =>true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]
