@@ -16,7 +16,7 @@ class CreateTaskProgressesTable extends Migration
         // 每个学院的任务进展情况
         Schema::create('task_progresses', function (Blueprint $blueprint) {
             $blueprint->increments('id');
-            $blueprint->integer('task_id')->comment('任务id');
+            $blueprint->integer('task_id')->index()->comment('任务id');
             $blueprint->integer('college_id')->comment('学院id');
             $blueprint->string('user_id')->comment('责任人');
             $blueprint->integer('assess_id')->nullable()->comment('考核等级');
@@ -36,6 +36,6 @@ class CreateTaskProgressesTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('task_progresses');
     }
 }

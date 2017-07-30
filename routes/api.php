@@ -11,6 +11,10 @@
 |
 */
 
-$api->get('home', function () {
-    echo 'OK!';
+$api->post('login', 'LoginController@login');
+$api->group(['middleware' => 'auth:web'], function ($api) {
+    $api->get('me', 'UsersController@me');
+    $api->get('logout', 'LoginController@logout');
+    $api->post('create_task', 'TaskController@createTask')->name('create_task');
+    $api->get('tasks', 'TaskController@tasks')->name('tasks');
 });
