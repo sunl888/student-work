@@ -18,7 +18,7 @@ class CreateTaskProgressesTable extends Migration
             $blueprint->increments('id');
             $blueprint->integer('task_id')->index()->comment('任务id');
             $blueprint->integer('college_id')->comment('学院id');
-            $blueprint->string('user_id')->comment('责任人');
+            $blueprint->string('user_id')->nullable()->comment('责任人');
             $blueprint->integer('assess_id')->nullable()->comment('考核等级');
             $blueprint->dateTime('status')->nullable()->comment('完成状态(完成时间)');
             $blueprint->string('quality')->nullable()->comment('完成质量');

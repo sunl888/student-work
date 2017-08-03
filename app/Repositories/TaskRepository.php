@@ -8,7 +8,6 @@
 
 namespace App\Repositories;
 
-use App\Models\Task;
 
 class TaskRepository extends Repository
 {
@@ -17,12 +16,12 @@ class TaskRepository extends Repository
         return 'App\Models\Task';
     }
 
-    public function lists(){
-        return $this->all();
+    public function createTask(array $data){
+        if( !$this->hasRecord(['title' => $data['title']])){
+            return $this->create($data);
+        }
     }
-
-    public function getTasksByTime($startTime, $endTime){
+    /*public function getTasksByTime($startTime, $endTime){
         return Task::whereBetween('created_at', [$startTime,$endTime])->get();
-    }
-
+    }*/
 }

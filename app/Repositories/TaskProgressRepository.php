@@ -8,24 +8,31 @@
 
 namespace App\Repositories;
 
-use App\Models\TaskProgress;
-
 class TaskProgressRepository extends Repository
 {
     public function model()
     {
         return 'App\Models\TaskProgress';
     }
-    public function allotTask(array $data = null){
-        if(!empty($data)){
-            if(!TaskProgress::where(['task_id'=>$data['task_id'],'college_id'=>$data['college_id'] ])->first()){
-                $this->create($data);
-            }
+
+    /*public function allotTask(array $data, array $conditions)
+    {
+        if ($this->hasRecord($conditions) != null) {
+            return $this->update($data, $conditions);
         }
-    }
+    }*/
 
     public function submitTask(array $data, $conditions)
     {
-        $this->update($data, $conditions);
+        if ($this->hasRecord($conditions) != null) {
+            return $this->update($data, $conditions);
+        }
     }
+
+    /*public function hasTaskProgress(array $conditions)
+    {
+        if ($conditions != null) {
+            return app(TaskProgress::class)->where($conditions)->first();
+        }
+    }*/
 }

@@ -21,11 +21,13 @@ class SendEmailsListener
     /**
      * Handle the event.
      *
-     * @param  TaskSaved  $event
+     * @param  $event
      * @return void
      */
-    public function handle(TaskSaved $event)
+    public function handle($event)
     {
-        //发送邮件
+        if($event instanceof TaskSaved){
+            //
+        }
     }
 }

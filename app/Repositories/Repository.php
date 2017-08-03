@@ -27,6 +27,15 @@ abstract class Repository implements RepositoryContract {
      */
     abstract function model();
 
+
+    public function hasRecord(array $conditions)
+    {
+        if ($conditions != null) {
+            return $this->model->where($conditions)->first();
+        }
+    }
+
+
     public function all($columns = array('*')) {
         return $this->model->get($columns);
     }

@@ -18,6 +18,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\TaskSaved' => [
             'App\Listeners\SendEmailsListener',
+            'App\Listeners\CreateTaskProgressListener',
         ]
     ];
 
