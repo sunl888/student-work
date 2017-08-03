@@ -36,4 +36,6 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('work_types', 'WorkTypeController@lists');
     //对口科室
     $api->get('departments', 'DepartmentController@lists');
+    //获取当前学院下的所有用户
+    $api->get('users', 'UsersController@usersWithCollege');
 });

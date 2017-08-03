@@ -25,7 +25,7 @@ class AllotTaskRequest extends FormRequest
     {
         return [
             'task_id' =>'required|exists:tasks,id',
-            'user_id' =>'required|exists:users,id',
+            'user_id' =>'required',
             //'college_id' =>
         ];
     }
