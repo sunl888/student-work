@@ -25,8 +25,8 @@ class TaskTransformer extends TransformerAbstract
             'work_type' => WorkType::find($task->work_type_id, ['title']),
             'department_id' => $task->department_id,
             'department' => Department::find($task->department_id, ['name']),
-            'created_at' =>$task->created_at,
-            'end_time' =>$task->end_time,
+            'created_at' => $task->created_at,
+            'end_time' => $task->end_time,
         ];
     }
 }

@@ -39,7 +39,7 @@ class CreateTaskProgressListener
                         'updated_at' => Carbon::now(),
                     ];
                 }
-                app(TaskProgressRepository::class)->createTaskProgress($data);
+                app(TaskProgressRepository::class)->createTaskProgress($data, $event->task->id);
                 //TaskProgress::insert($data);
             }
         }

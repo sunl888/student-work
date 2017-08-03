@@ -26,7 +26,7 @@ class SendEmailsListener
      */
     public function handle($event)
     {
-        if($event instanceof TaskSaved){
+        if ($event instanceof TaskSaved) {
             //
         }
     }

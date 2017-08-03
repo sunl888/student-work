@@ -23,8 +23,8 @@ class AppServiceProvider extends ServiceProvider
             function ($query) {
                 \Log::info(
                     'sql', [$query->sql
-                    , $query->bindings
-                    , $query->time]
+                        , $query->bindings
+                        , $query->time]
                 );
             }
         );
@@ -93,10 +93,10 @@ class AppServiceProvider extends ServiceProvider
                     ], 422
                 );
             }
-            /*function (ValidationException $exception) {
-                dd($exception->validator->errors()->toArray());
-                throw new ValidationHttpException($exception->validator->errors());
-            }*/
+        /*function (ValidationException $exception) {
+            dd($exception->validator->errors()->toArray());
+            throw new ValidationHttpException($exception->validator->errors());
+        }*/
         );
         $apiHandler->register(
             function (QueryException $exception) {

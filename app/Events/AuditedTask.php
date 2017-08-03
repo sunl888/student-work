@@ -25,9 +25,9 @@ class AuditedTask
      */
     public function __construct($task)
     {
-        if($task && !($task instanceof Task)){
+        if ($task && !($task instanceof Task)) {
             $this->task = app(TaskRepository::class)->find($task);
-        }else{
+        } else {
             $this->task = $task;
         }
     }

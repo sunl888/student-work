@@ -9,7 +9,6 @@
 namespace App\Repositories;
 
 
-
 class CollegeRepository extends Repository
 {
     public function model()

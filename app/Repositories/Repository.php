@@ -5,18 +5,21 @@
  * Date: 2017/7/27
  * Time: 15:20
  */
+
 namespace App\Repositories;
 
 use App\Repositories\Contracts\RepositoryContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Container\Container as Application;
 
-abstract class Repository implements RepositoryContract {
+abstract class Repository implements RepositoryContract
+{
     protected $app;
 
     protected $model;
 
-    public function __construct(Application $app) {
+    public function __construct(Application $app)
+    {
         $this->app = $app;
         $this->makeModel();
     }
@@ -36,35 +39,43 @@ abstract class Repository implements RepositoryContract {
     }
 
 
-    public function all($columns = array('*')) {
+    public function all($columns = array('*'))
+    {
         return $this->model->get($columns);
     }
 
-    public function paginate($perPage = 15, $columns = array('*')) {
+    public function paginate($perPage = 15, $columns = array('*'))
+    {
         return $this->model->paginate($perPage, $columns);
     }
 
-    public function create(array $data) {
+    public function create(array $data)
+    {
         return $this->model->create($data);
     }
 
-    public function update(array $data, $conditions) {
+    public function update(array $data, $conditions)
+    {
         return $this->model->where($conditions)->update($data);
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         return $this->model->destroy($id);
     }
 
-    public function find($id, $columns = array('*')) {
+    public function find($id, $columns = array('*'))
+    {
         return $this->model->find($id, $columns);
     }
 
-    public function findBy($attribute, $value, $columns = array('*')) {
+    public function findBy($attribute, $value, $columns = array('*'))
+    {
         return $this->model->where($attribute, '=', $value)->first($columns);
     }
 
-    public function makeModel() {
+    public function makeModel()
+    {
         $model = $this->app->make($this->model());
         if (!$model instanceof Model)
             throw new \Exception("Class {$this->model()} must be an instance of Illuminate\\Database\\Eloquent\\Model");

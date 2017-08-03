@@ -18,24 +18,28 @@ class TaskRepository extends Repository
         return 'App\Models\Task';
     }
 
-    public function createTask(array $data){
-        if( !$this->hasRecord($data)){
+    public function createTask(array $data)
+    {
+        if (!$this->hasRecord($data)) {
             return $this->create($data);
         }
     }
 
-    public function updateTask(array $data, $conditions){
-        if( !$this->hasRecord($conditions)){
+    public function updateTask(array $data, $conditions)
+    {
+        if (!$this->hasRecord($conditions)) {
             return $this->save($data);
         }
     }
 
-    public function deleteTask($taskId){
+    public function deleteTask($taskId)
+    {
         $this->model->findOrFail($taskId)->task_progresses()->delete();
         return $this->model->find($taskId)->delete();
     }
 
-    public function restoreTask($taskId){
+    public function restoreTask($taskId)
+    {
         $this->model->onlyTrashed()->findOrFail($taskId)->task_progresses()->onlyTrashed()->restore();
         return $this->model->onlyTrashed()->find($taskId)->restore();
     }

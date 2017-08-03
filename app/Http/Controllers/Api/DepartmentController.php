@@ -7,7 +7,8 @@ use App\Transformers\DepartmentTransformer;
 
 class DepartmentController extends BaseController
 {
-    public function lists(){
+    public function lists()
+    {
         return $this->response->collection(app(DepartmentRepository::class)->all(), new DepartmentTransformer());
     }
 }

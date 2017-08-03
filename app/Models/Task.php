@@ -9,7 +9,7 @@ class Task extends BaseModel
 {
     use SoftDeletes;
 
-    protected $fillable = ['title','detail','work_type_id','department_id','end_time'];
+    protected $fillable = ['title', 'detail', 'work_type_id', 'department_id', 'end_time'];
 
     protected $hasDefaultValuesFields = ['status'];
 
@@ -19,7 +19,8 @@ class Task extends BaseModel
      * 一个任务可以有多个执行者
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function task_progresses(){
+    public function task_progresses()
+    {
         return $this->hasMany(TaskProgress::class);
     }
 
@@ -32,10 +33,12 @@ class Task extends BaseModel
     {
         return $this->type == 'draft';
     }
+
     public function scopePublish($query)
     {
         return $query->where('status', 'publish');
     }
+
     public function scopeDraft($query)
     {
         return $query->where('status', 'draft');

@@ -16,7 +16,7 @@ class CreateCollegesTable extends Migration
         //学院表
         Schema::create('colleges', function (Blueprint $blueprint) {
             $blueprint->increments('id');
-            $blueprint->string('title',20)->comment('学院名称');
+            $blueprint->string('title', 20)->comment('学院名称');
             $blueprint->timestamps();
             $blueprint->softDeletes();
         });

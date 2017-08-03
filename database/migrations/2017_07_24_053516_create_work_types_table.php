@@ -16,7 +16,7 @@ class CreateWorkTypesTable extends Migration
         //工作类型表
         Schema::create('work_types', function (Blueprint $blueprint) {
             $blueprint->increments('id');
-            $blueprint->string('title',10)->comment('工作类型：重点工作、常规工作、突发工作、其他工作');
+            $blueprint->string('title', 10)->comment('工作类型：重点工作、常规工作、突发工作、其他工作');
             $blueprint->timestamps();
             $blueprint->softDeletes();
         });

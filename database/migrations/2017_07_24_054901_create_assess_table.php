@@ -16,7 +16,7 @@ class CreateAssessTable extends Migration
         //考核等级数据预制表
         Schema::create('assess', function (Blueprint $blueprint) {
             $blueprint->increments('id');
-            $blueprint->string('title',20)->comment('考核等级');
+            $blueprint->string('title', 20)->comment('考核等级');
             $blueprint->integer('score')->comment('评分');
             $blueprint->timestamps();
             $blueprint->softDeletes();

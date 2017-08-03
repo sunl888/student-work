@@ -38,11 +38,12 @@ class TaskController extends BaseController
      * 任务审核
      * @param $taskId
      */
-    public function auditTask($taskId){
+    public function auditTask($taskId)
+    {
         $data['status'] = 'publish';
-        if ($this->allowAuditTask()){
-            if($this->taskRepository->hasRecord(['status'=>'draft','id'=>$taskId])){
-                $this->taskRepository->update($data,['id'=>$taskId]);
+        if ($this->allowAuditTask()) {
+            if ($this->taskRepository->hasRecord(['status' => 'draft', 'id' => $taskId])) {
+                $this->taskRepository->update($data, ['id' => $taskId]);
                 event(new AuditedTask($taskId));
             }
         }
@@ -118,7 +119,7 @@ class TaskController extends BaseController
     public function taskScore($taskId, TaskScoreRequest $request)
     {
         if ($this->allowScore()) {
-            $request->offsetSet('task_id',$taskId);
+            $request->offsetSet('task_id', $taskId);
             app(TaskProgressRepository::class)->submitTask($request);
         }
         return $this->response->noContent();
@@ -128,6 +129,7 @@ class TaskController extends BaseController
     {
         return $this->validatePermission('admin.create_task');
     }
+
     private function allowAuditTask()
     {
         return $this->validatePermission('admin.audit_task');

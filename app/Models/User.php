@@ -12,7 +12,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
-class User extends BaseModel implements AuthenticatableContract,AuthorizableContract,CanResetPasswordContract
+class User extends BaseModel implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
     use Authenticatable, Authorizable, CanResetPassword, Notifiable;
     use EntrustUserTrait {
@@ -25,7 +25,7 @@ class User extends BaseModel implements AuthenticatableContract,AuthorizableCont
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','avatar','gender','college_id','department_id','picture'
+        'name', 'email', 'password', 'avatar', 'gender', 'college_id', 'department_id', 'picture'
     ];
 
     /**

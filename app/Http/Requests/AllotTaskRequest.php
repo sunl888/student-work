@@ -24,8 +24,8 @@ class AllotTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'task_id' =>'required|exists:tasks,id',
-            'user_id' =>'required',
+            'task_id' => 'required|exists:tasks,id',
+            'user_id' => 'required',
             //'college_id' =>
         ];
     }
@@ -33,10 +33,10 @@ class AllotTaskRequest extends FormRequest
     public function messages()
     {
         return [
-            'task_id.required' =>'任务ID有误',
-            'task_id.exists' =>'该任务不存在',
-            'user_id.required' =>'必须指定一名责任人',
-            'user_id.exists' =>'指定的责任人不存在'
+            'task_id.required' => '任务ID有误',
+            'task_id.exists' => '该任务不存在',
+            'user_id.required' => '必须指定一名责任人',
+            'user_id.exists' => '指定的责任人不存在'
         ];
     }
 }
