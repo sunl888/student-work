@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\AuditedTask;
 use App\Events\TaskSaved;
 use App\Http\Requests\AllotTaskRequest;
 use App\Http\Requests\CreateTaskRequest;
@@ -27,36 +28,65 @@ class TaskController extends BaseController
      */
     public function createTask(CreateTaskRequest $taskRequest)
     {
-        //if (!$this->guard()->user()->isSuperAdmin())
         if ($this->allowCreateTask()) {
-            $task = $this->taskRepository->createTask($taskRequest->all());
-            event(new TaskSaved($task));
+            event(new TaskSaved($this->taskRepository->createTask($taskRequest->all())));
         }
         return $this->response->noContent();
     }
 
-    public function deleteTask($taskId){
-        if($taskId != null){
-            $this->taskRepository->deleteTask($taskId);
-        }
-    }
-    public function restoreTask($taskId){
-        if($taskId != null){
-            $this->taskRepository->restoreTask($taskId);
+    /**
+     * 任务审核
+     * @param $taskId
+     */
+    public function auditTask($taskId){
+        $data['status'] = 'publish';
+        if ($this->allowAuditTask()){
+            if($this->taskRepository->hasRecord(['status'=>'draft','id'=>$taskId])){
+                $this->taskRepository->update($data,['id'=>$taskId]);
+                event(new AuditedTask($taskId));
+            }
         }
     }
 
     /**
+     * 软删除任务
+     * @param $taskId
+     */
+    public function deleteTask($taskId)
+    {
+        if ($this->allowDeleteTask()) {
+            if ($taskId != null) {
+                $this->taskRepository->deleteTask($taskId);
+            }
+        }
+        return $this->response->noContent();
+    }
+
+    /**
+     * 恢复被软删除的任务
+     * @param $taskId
+     */
+    public function restoreTask($taskId)
+    {
+        if ($this->allowRestoreTask()) {
+            if ($taskId != null) {
+                $this->taskRepository->restoreTask($taskId);
+            }
+        }
+        return $this->response->noContent();
+    }
+
+    /**
      * 分配任务（指派责任人）
+     * 因为只有各二级学院有权利对任务分配责任人，所以这里的学院id直接填当前用户的学院id
      * @param AllotTaskRequest $allotTaskRequest
      * @return \Dingo\Api\Http\Response
      */
     public function allotTask(AllotTaskRequest $allotTaskRequest)
     {
         if ($this->allowAllotTask()) {
-            $allotTask = $allotTaskRequest->all();
-            $college_id = Auth::user()->college_id;
-            app(TaskProgressRepository::class)->allotTask($allotTask, ['task_id' => $allotTask['task_id'], 'college_id' => $college_id]);
+            $allotTaskRequest->offsetSet('college_id', Auth::user()->college_id);
+            app(TaskProgressRepository::class)->allotTask($allotTaskRequest);
         }
         return $this->response->noContent();
     }
@@ -70,7 +100,7 @@ class TaskController extends BaseController
      */
     public function submitTask($taskId)
     {
-        if ($this->allowCreateTask()) {
+        if ($this->allowSubmitTask()) {
             $college_id = Auth::user()->college_id;
             $data['status'] = Carbon::now();
             app(TaskProgressRepository::class)->submitTask($data, ['task_id' => $taskId, 'college_id' => $college_id]);
@@ -97,13 +127,19 @@ class TaskController extends BaseController
     {
         return $this->validatePermission('admin.create_task');
     }
+    private function allowAuditTask()
+    {
+        return $this->validatePermission('admin.audit_task');
+    }
+
     private function allowDeleteTask()
     {
         return $this->validatePermission('admin.delete_task');
     }
+
     private function allowRestoreTask()
     {
-        return $this->validatePermission('admin.create_task');
+        return $this->allowDeleteTask();
     }
 
     private function allowAllotTask()

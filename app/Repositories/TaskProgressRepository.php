@@ -8,6 +8,9 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\AllotTaskRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 class TaskProgressRepository extends Repository
 {
     public function model()
@@ -15,12 +18,22 @@ class TaskProgressRepository extends Repository
         return 'App\Models\TaskProgress';
     }
 
-    /*public function allotTask(array $data, array $conditions)
+    public function createTaskProgress(array $data)
     {
-        if ($this->hasRecord($conditions) != null) {
-            return $this->update($data, $conditions);
+        return $this->model->insert($data);
+    }
+
+    public function allotTask($data)
+    {
+        if($data instanceof AllotTaskRequest){
+            $data = $data->toArray();
         }
-    }*/
+        $affectRows = $this->update($data, ['task_id' => $data['task_id'], 'college_id' => $data['college_id']]);
+        if ($affectRows <=0){
+            throw new ModelNotFoundException('添加责任人失败，数据可能已被删除');
+        }
+    }
+
 
     public function submitTask(array $data, $conditions)
     {
@@ -31,15 +44,8 @@ class TaskProgressRepository extends Repository
 
     public function deleteTask($taskId)
     {
-        if( ($tasks = $this->hasRecord(['task_id'=>$taskId]) ) != null ){
+        if (($tasks = $this->hasRecord(['task_id' => $taskId])) != null) {
             return $tasks->delete();
         }
     }
-
-    /*public function hasTaskProgress(array $conditions)
-    {
-        if ($conditions != null) {
-            return app(TaskProgress::class)->where($conditions)->first();
-        }
-    }*/
 }

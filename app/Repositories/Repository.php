@@ -48,9 +48,6 @@ abstract class Repository implements RepositoryContract {
         return $this->model->create($data);
     }
 
-    /*public function update(array $data, $id, $attribute="id") {
-        return $this->model->where($attribute, '=', $id)->update($data);
-    }*/
     public function update(array $data, $conditions) {
         return $this->model->where($conditions)->update($data);
     }

@@ -16,8 +16,14 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Event' => [
             'App\Listeners\EventListener',
         ],
+        //任务创建成功
         'App\Events\TaskSaved' => [
+            //发送email
             'App\Listeners\SendEmailsListener',
+        ],
+        //任务审核通过
+        'App\Events\AuditedTask' => [
+            //为每个学院创建任务进程
             'App\Listeners\CreateTaskProgressListener',
         ]
     ];

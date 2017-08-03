@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
-use App\Events\TaskSaved;
-use App\Models\College;
-use App\Models\TaskProgress;
+use App\Events\AuditedTask;
+use App\Repositories\CollegeRepository;
+use App\Repositories\TaskProgressRepository;
 use Carbon\Carbon;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -27,9 +27,9 @@ class CreateTaskProgressListener
     public function handle($event)
     {
         // 每创建一个任务就为每个学院建立一个任务进程记录
-        if ($event instanceof TaskSaved) {
-            $collegeIds = College::all(['id']);
-            if ($collegeIds->isNotEmpty() && $event->task != null) {
+        if ($event instanceof AuditedTask) {
+            $collegeIds = app(CollegeRepository::class)->all(['id']);
+            if ($collegeIds->isNotEmpty() && $event->task) {
                 $data = array();
                 foreach ($collegeIds as $collegeId) {
                     $data[] = [
@@ -39,7 +39,8 @@ class CreateTaskProgressListener
                         'updated_at' => Carbon::now(),
                     ];
                 }
-                TaskProgress::insert($data);
+                app(TaskProgressRepository::class)->createTaskProgress($data);
+                //TaskProgress::insert($data);
             }
         }
     }

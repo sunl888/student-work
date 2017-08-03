@@ -24,6 +24,12 @@ class TaskRepository extends Repository
         }
     }
 
+    public function updateTask(array $data, $conditions){
+        if( !$this->hasRecord($conditions)){
+            return $this->save($data);
+        }
+    }
+
     public function deleteTask($taskId){
         $this->model->findOrFail($taskId)->task_progresses()->delete();
         return $this->model->find($taskId)->delete();
@@ -33,6 +39,7 @@ class TaskRepository extends Repository
         $this->model->onlyTrashed()->findOrFail($taskId)->task_progresses()->onlyTrashed()->restore();
         return $this->model->onlyTrashed()->find($taskId)->restore();
     }
+
     /*public function getTasksByTime($startTime, $endTime){
         return Task::whereBetween('created_at', [$startTime,$endTime])->get();
     }*/

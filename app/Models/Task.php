@@ -11,7 +11,9 @@ class Task extends BaseModel
 
     protected $fillable = ['title','detail','work_type_id','department_id','end_time'];
 
-    public $timestamps = false;
+    protected $hasDefaultValuesFields = ['status'];
+
+    public $timestamps = true;
 
     /**
      * 一个任务可以有多个执行者
@@ -19,5 +21,23 @@ class Task extends BaseModel
      */
     public function task_progresses(){
         return $this->hasMany(TaskProgress::class);
+    }
+
+    public function isPublish()
+    {
+        return $this->status == 'publish';
+    }
+
+    public function isDraft()
+    {
+        return $this->type == 'draft';
+    }
+    public function scopePublish($query)
+    {
+        return $query->where('status', 'publish');
+    }
+    public function scopeDraft($query)
+    {
+        return $query->where('status', 'draft');
     }
 }

@@ -61,6 +61,13 @@ class PermissionsTableSeeder extends Seeder
                 'description' => '质量评价（QA）',
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now()
+            ], [
+                'id' => 8,
+                'name' => 'admin.audit_task',
+                'display_name' => '审核任务',
+                'description' => '审核任务',
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now()
             ]
         ]);
     }
