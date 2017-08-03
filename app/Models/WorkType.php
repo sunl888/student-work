@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class WorkType extends Model
+class WorkType extends BaseModel
 {
-    //
+    protected $guarded = [];
+
 }

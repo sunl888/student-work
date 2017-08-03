@@ -16,4 +16,9 @@ class TaskProgress extends BaseModel
     {
         return !is_null($this->status);
     }
+
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
+    }
 }

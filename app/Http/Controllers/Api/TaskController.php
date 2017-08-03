@@ -101,9 +101,10 @@ class TaskController extends BaseController
     public function submitTask($taskId)
     {
         if ($this->allowSubmitTask()) {
-            $college_id = Auth::user()->college_id;
+            $data['college_id'] = Auth::user()->college_id;
             $data['status'] = Carbon::now();
-            app(TaskProgressRepository::class)->submitTask($data, ['task_id' => $taskId, 'college_id' => $college_id]);
+            $data['task_id'] = $taskId;
+            app(TaskProgressRepository::class)->submitTask($data);
         }
         return $this->response->noContent();
     }
@@ -117,8 +118,8 @@ class TaskController extends BaseController
     public function taskScore($taskId, TaskScoreRequest $request)
     {
         if ($this->allowScore()) {
-            $data = $request->all();
-            app(TaskProgressRepository::class)->submitTask($data, ['task_id' => $taskId, 'college_id' => $data['college_id']]);
+            $request->offsetSet('task_id',$taskId);
+            app(TaskProgressRepository::class)->submitTask($request);
         }
         return $this->response->noContent();
     }
@@ -161,8 +162,4 @@ class TaskController extends BaseController
     {
         return $this->response->collection($this->taskRepository->lists(), new TaskTransformer());
     }*/
-    public function showTaskProgress($taskId)
-    {
-
-    }
 }

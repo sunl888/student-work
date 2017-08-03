@@ -27,8 +27,13 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     // 添加责任人
     $api->post('allot_task', 'TaskController@allotTask')->name('allot_task');
     // 完成任务
-    $api->post('submit_task/{task_id}', 'TaskController@submitTask');
+    $api->put('submit_task/{task_id}', 'TaskController@submitTask');
     // 任务评分
     $api->post('task_score/{task_id}', 'TaskController@taskScore');
     //$api->get('tasks', 'TaskController@tasks')->name('tasks');
+
+    //工作类型
+    $api->get('work_types', 'WorkTypeController@lists');
+    //对口科室
+    $api->get('departments', 'DepartmentController@lists');
 });

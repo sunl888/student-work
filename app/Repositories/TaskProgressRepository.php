@@ -9,6 +9,8 @@
 namespace App\Repositories;
 
 use App\Http\Requests\AllotTaskRequest;
+use App\Http\Requests\TaskScoreRequest;
+use App\Models\Task;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TaskProgressRepository extends Repository
@@ -20,32 +22,52 @@ class TaskProgressRepository extends Repository
 
     public function createTaskProgress(array $data)
     {
-        return $this->model->insert($data);
+        if ($this->isAutided($data['task_id'])) {
+            return $this->model->insert($data);
+        }
     }
 
+    /**
+     * 添加责任人
+     * @param $data
+     */
     public function allotTask($data)
     {
-        if($data instanceof AllotTaskRequest){
+        if ($data instanceof AllotTaskRequest) {
             $data = $data->toArray();
         }
-        $affectRows = $this->update($data, ['task_id' => $data['task_id'], 'college_id' => $data['college_id']]);
-        if ($affectRows <=0){
-            throw new ModelNotFoundException('添加责任人失败，数据可能已被删除');
+        if ($this->isAutided($data['task_id'])) {
+            $conditions = ['task_id' => $data['task_id'], 'college_id' => $data['college_id']];
+            $affectRows = $this->update($data, $conditions);
+            if ($affectRows <= 0) {
+                throw new ModelNotFoundException('添加责任人失败，数据可能已被删除');
+            }
         }
     }
 
-
-    public function submitTask(array $data, $conditions)
+    public function submitTask($data)
     {
-        if ($this->hasRecord($conditions) != null) {
-            return $this->update($data, $conditions);
+        if($data instanceof TaskScoreRequest){
+            $data = $data->toArray();
         }
+        $conditions = ['task_id' => $data['task_id'], 'college_id' => $data['college_id']];
+        if (($task = $this->hasRecord($conditions)) && $this->isAutided($data['task_id'])) {
+            //return $task->update(array_only($data, ['status']));
+            return $task->update(array_except($data, ['task_id','college_id']));
+        }
+        throw new ModelNotFoundException('提交任务失败，该任务不存在');
     }
 
-    public function deleteTask($taskId)
+    /**
+     * 判断任务有没有被审核
+     * @param $taskId
+     * @return mixed
+     */
+    public function isAutided($taskId)
     {
-        if (($tasks = $this->hasRecord(['task_id' => $taskId])) != null) {
-            return $tasks->delete();
+        if (app(Task::class)->findOrFail($taskId)->isPublish()) {
+            return true;
         }
+        throw new ModelNotFoundException('任务还没有被上级审核，暂时不能操作');
     }
 }
