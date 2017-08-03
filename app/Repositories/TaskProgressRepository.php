@@ -70,4 +70,8 @@ class TaskProgressRepository extends Repository
         }
         throw new ModelNotFoundException('任务还没有被上级审核，暂时不能操作');
     }
+
+    public function show($taskId){
+        return $this->model->where(['task_id'=>$taskId])->get();
+    }
 }

@@ -22,11 +22,11 @@ class TaskTransformer extends TransformerAbstract
             'title' => $task->title,
             'detail' => $task->detail,
             'work_type_id' => $task->work_type_id,
-            'work_type' => WorkType::find($task->work_type_id, ['title']),
+            'work_type' => app(WorkType::class)->find($task->work_type_id, ['title']),
             'department_id' => $task->department_id,
-            'department' => Department::find($task->department_id, ['name']),
-            'created_at' => $task->created_at,
-            'end_time' => $task->end_time,
+            'department' => app(Department::class)->find($task->department_id, ['name']),
+            'created_at' => $task->created_at->toDateTimeString(),
+            'end_time' => $task->end_time->toDateTimeString(),
         ];
     }
 }

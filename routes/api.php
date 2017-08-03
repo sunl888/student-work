@@ -38,4 +38,6 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('departments', 'DepartmentController@lists');
     //获取当前学院下的所有用户
     $api->get('users', 'UsersController@usersWithCollege');
+    //
+    $api->get('task_progress/{task_id}', 'TaskProgressController@show');
 });

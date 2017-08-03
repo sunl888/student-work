@@ -40,7 +40,7 @@ class CreateTaskProgressListener
                     ];
                 }
                 app(TaskProgressRepository::class)->createTaskProgress($data, $event->task->id);
-                //TaskProgress::insert($data);
+                //TaskProgressController::insert($data);
             }
         }
     }
