@@ -10,7 +10,6 @@ use App\Repositories\TaskProgressRepository;
 use App\Repositories\TaskRepository;
 use Auth;
 use Carbon\Carbon;
-use Illuminate\Auth\Access\AuthorizationException;
 
 class TaskController extends BaseController
 {
@@ -29,11 +28,22 @@ class TaskController extends BaseController
     public function createTask(CreateTaskRequest $taskRequest)
     {
         //if (!$this->guard()->user()->isSuperAdmin())
-        if ($this->allowAllotTask()) {
+        if ($this->allowCreateTask()) {
             $task = $this->taskRepository->createTask($taskRequest->all());
             event(new TaskSaved($task));
         }
         return $this->response->noContent();
+    }
+
+    public function deleteTask($taskId){
+        if($taskId != null){
+            $this->taskRepository->deleteTask($taskId);
+        }
+    }
+    public function restoreTask($taskId){
+        if($taskId != null){
+            $this->taskRepository->restoreTask($taskId);
+        }
     }
 
     /**
@@ -84,6 +94,14 @@ class TaskController extends BaseController
     }
 
     private function allowCreateTask()
+    {
+        return $this->validatePermission('admin.create_task');
+    }
+    private function allowDeleteTask()
+    {
+        return $this->validatePermission('admin.delete_task');
+    }
+    private function allowRestoreTask()
     {
         return $this->validatePermission('admin.create_task');
     }

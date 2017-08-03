@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
 {
+
     protected $hasDefaultValuesFields = [];
 
     public function scopeRecent($query)

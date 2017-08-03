@@ -3,8 +3,12 @@
 namespace App\Models;
 
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Task extends BaseModel
 {
+    use SoftDeletes;
+
     protected $fillable = ['title','detail','work_type_id','department_id','end_time'];
 
     public $timestamps = false;
@@ -16,6 +20,4 @@ class Task extends BaseModel
     public function task_progresses(){
         return $this->hasMany(TaskProgress::class);
     }
-
-    //public function
 }

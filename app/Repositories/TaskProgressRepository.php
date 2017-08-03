@@ -29,6 +29,13 @@ class TaskProgressRepository extends Repository
         }
     }
 
+    public function deleteTask($taskId)
+    {
+        if( ($tasks = $this->hasRecord(['task_id'=>$taskId]) ) != null ){
+            return $tasks->delete();
+        }
+    }
+
     /*public function hasTaskProgress(array $conditions)
     {
         if ($conditions != null) {

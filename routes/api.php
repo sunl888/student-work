@@ -18,6 +18,8 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     //$api->post('create_task', ['middleware' => ['ability:super_admin|common_admin,admin.create_task,true'],'uses'=>'TaskController@createTask'])->name('create_task');
     // 创建任务
     $api->post('create_task','TaskController@createTask')->name('create_task');
+    $api->get('delete_task/{task_id}','TaskController@deleteTask');
+    $api->get('restore_task/{task_id}','TaskController@restoreTask');
     // 添加责任人
     $api->post('allot_task', 'TaskController@allotTask')->name('allot_task');
     // 完成任务
