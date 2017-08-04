@@ -18,6 +18,8 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     //$api->post('create_task', ['middleware' => ['ability:super_admin|common_admin,admin.create_task,true'],'uses'=>'TaskController@createTask'])->name('create_task');
     // 创建任务
     $api->post('create_task', 'TaskController@createTask')->name('create_task');
+    //修改任务
+    $api->post('update_task/{task_id}', 'TaskController@updateTask')->name('update_task');
     //软删除任务
     $api->delete('delete_task/{task_id}', 'TaskController@deleteTask');
     //恢复任务
@@ -38,6 +40,6 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('departments', 'DepartmentController@lists');
     //获取当前学院下的所有用户
     $api->get('users', 'UsersController@usersWithCollege');
-    //
+    //显示某个任务的进程情况
     $api->get('task_progress/{task_id}', 'TaskProgressController@show');
 });

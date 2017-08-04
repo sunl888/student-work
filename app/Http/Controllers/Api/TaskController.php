@@ -7,6 +7,8 @@ use App\Events\TaskSaved;
 use App\Http\Requests\AllotTaskRequest;
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\TaskScoreRequest;
+use App\Http\Requests\UpdateTaskRequest;
+use App\Models\Task;
 use App\Repositories\TaskProgressRepository;
 use App\Repositories\TaskRepository;
 use Auth;
@@ -42,10 +44,26 @@ class TaskController extends BaseController
     {
         $data['status'] = 'publish';
         if ($this->allowAuditTask()) {
-            if ($this->taskRepository->hasRecord(['status' => 'draft', 'id' => $taskId])) {
-                $this->taskRepository->update($data, ['id' => $taskId]);
+            //todo 这里的判断最好写到taskRepository里
+            /*if ($this->taskRepository->hasRecord(['status' => 'draft', 'id' => $taskId])) {
+                $this->taskRepository->updateTask($data, ['id' => $taskId]);
+                event(new AuditedTask($taskId));
+            }*/
+            if ($this->taskRepository->updateTask($data, $taskId)) {
                 event(new AuditedTask($taskId));
             }
+        }
+    }
+
+    /**
+     * 修改任务
+     * @param $taskId
+     * @param UpdateTaskRequest $request
+     */
+    public function updateTask(UpdateTaskRequest $request, $taskId)
+    {
+        if ($this->allowUpdateTask()) {
+            $this->taskRepository->updateTask($request->only(Task::$allowUpdateFields), $taskId);
         }
     }
 
@@ -158,6 +176,11 @@ class TaskController extends BaseController
     private function allowScore()
     {
         return $this->validatePermission('admin.quality_assessment');
+    }
+
+    private function allowUpdateTask()
+    {
+        return $this->validatePermission('admin.edit_task');
     }
 
     /*public function tasks()

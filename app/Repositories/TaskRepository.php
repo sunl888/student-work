@@ -8,8 +8,7 @@
 
 namespace App\Repositories;
 
-
-use App\Models\Task;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TaskRepository extends Repository
 {
@@ -25,10 +24,13 @@ class TaskRepository extends Repository
         }
     }
 
-    public function updateTask(array $data, $conditions)
+    public function updateTask(array $data, $taskId)
     {
-        if (!$this->hasRecord($conditions)) {
-            return $this->save($data);
+        $conditions = ['status' => 'draft', 'id' => $taskId];
+        if ($task = $this->hasRecord($conditions)) {
+            return $task->update($data);
+        }else{
+            throw new ModelNotFoundException('该任务不存在或者任务已发布，不可以修改');
         }
     }
 

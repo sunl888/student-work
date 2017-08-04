@@ -13,6 +13,8 @@ class Task extends BaseModel
 
     protected $hasDefaultValuesFields = ['status'];
 
+    public static $allowUpdateFields = ['title', 'detail', 'work_type_id', 'department_id', 'end_time'];
+
     public $timestamps = true;
 
     /**
