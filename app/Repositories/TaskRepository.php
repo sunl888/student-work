@@ -46,6 +46,10 @@ class TaskRepository extends Repository
         return $this->model->onlyTrashed()->find($taskId)->restore();
     }
 
+    public function isDelay($taskId){
+        return $this->model->findOrFail($taskId)->isDelay();
+    }
+
     /*public function getTasksByTime($startTime, $endTime){
         return Task::whereBetween('created_at', [$startTime,$endTime])->get();
     }*/

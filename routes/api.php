@@ -27,8 +27,10 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->put('audit_task/{task_id}', 'TaskController@auditTask');
     // 添加责任人
     $api->post('allot_task', 'TaskController@allotTask')->name('allot_task');
-    // 完成任务
+    // 完成任务 如果该任务过了截止日期需要填写推迟理由字段（delay）
     $api->put('submit_task/{task_id}', 'TaskController@submitTask');
+    // 判断指定的任务是否过了截止日期 return bool
+    $api->get('is_delay/{task_id}', 'TaskController@isDelay');
     // 任务评分
     $api->post('task_score/{task_id}', 'TaskController@taskScore');
     //$api->get('tasks', 'TaskController@tasks')->name('tasks');

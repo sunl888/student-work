@@ -6,6 +6,7 @@ use App\Events\AuditedTask;
 use App\Events\TaskSaved;
 use App\Http\Requests\AllotTaskRequest;
 use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\SubmitTaskRequest;
 use App\Http\Requests\TaskScoreRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
@@ -117,16 +118,24 @@ class TaskController extends BaseController
      * @param null $college_id 学院id
      * @return \Dingo\Api\Http\Response
      */
-    public function submitTask($taskId)
+    public function submitTask($taskId, SubmitTaskRequest $request)
     {
         if ($this->allowSubmitTask()) {
-            $data['college_id'] = Auth::user()->college_id;
-            $data['status'] = Carbon::now();
-            $data['task_id'] = $taskId;
-            app(TaskProgressRepository::class)->submitTask($data);
+            $request->offsetSet('college_id', Auth::user()->college_id);
+            $request->offsetSet('status', Carbon::now());
+            $request->offsetSet('task_id', $taskId);
+            app(TaskProgressRepository::class)->submitTask($request->all());
         }
         return $this->response->noContent();
     }
+
+    /**
+     * // 判断指定的任务是否过了截止日期
+     * @param $taskId
+     */
+    /*public function isDelay($taskId){
+        return $this->response()->item(app(TaskRepository::class)->isDelay($taskId));
+    }*/
 
     /**
      * 任务评分
@@ -138,7 +147,7 @@ class TaskController extends BaseController
     {
         if ($this->allowScore()) {
             $request->offsetSet('task_id', $taskId);
-            app(TaskProgressRepository::class)->submitTask($request);
+            app(TaskProgressRepository::class)->submitTask($request->all());
         }
         return $this->response->noContent();
     }

@@ -22,7 +22,8 @@ class CreateTaskProgressesTable extends Migration
             $blueprint->integer('assess_id')->nullable()->comment('考核等级');
             $blueprint->dateTime('status')->nullable()->comment('完成状态(完成时间)');
             $blueprint->string('quality')->nullable()->comment('完成质量');
-            $blueprint->string('remark')->nullable()->comment('备注(推迟理由)');
+            $blueprint->string('remark')->nullable()->comment('备注');
+            $blueprint->string('delay')->nullable()->comment('推迟理由');
             $blueprint->dateTime('remind')->nullable()->comment('提醒记录');
             $blueprint->timestamps();
             $blueprint->softDeletes();

@@ -3,13 +3,14 @@
 namespace App\Models;
 
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Task extends BaseModel
 {
     use SoftDeletes;
 
-    protected $fillable = ['title', 'detail', 'work_type_id', 'department_id', 'end_time'];
+    protected $fillable = ['title', 'detail', 'work_type_id', 'department_id', 'end_time','status'];
 
     protected $hasDefaultValuesFields = ['status'];
 
@@ -44,5 +45,15 @@ class Task extends BaseModel
     public function scopeDraft($query)
     {
         return $query->where('status', 'draft');
+    }
+
+    /**
+     * 延迟提交
+     * rule: 当前日期是否大于任务的截止日期 ?: false
+     * @return bool
+     */
+    public function isDelay(){
+        $end_time = Carbon::parse($this->end_time);
+        return (Carbon::now()->gt($end_time) );
     }
 }

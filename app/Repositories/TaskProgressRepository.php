@@ -47,12 +47,11 @@ class TaskProgressRepository extends Repository
 
     public function submitTask($data)
     {
-        if ($data instanceof TaskScoreRequest) {
+        /*if ($data instanceof TaskScoreRequest) {
             $data = $data->toArray();
-        }
+        }*/
         $conditions = ['task_id' => $data['task_id'], 'college_id' => $data['college_id']];
         if (($task = $this->hasRecord($conditions)) && $this->isAutided($data['task_id'])) {
-            //return $task->update(array_only($data, ['status']));
             return $task->update(array_except($data, ['task_id', 'college_id']));
         }
         throw new ModelNotFoundException('提交任务失败，该任务不存在');
