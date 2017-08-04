@@ -14,4 +14,10 @@ class WorkTypeRepository extends Repository
     {
         return 'App\Models\WorkType';
     }
+
+    /*public function delete($id)
+    {
+        //删除模型  destroy(array)
+        return $this->model->where(['id'=>$id])->delete();
+    }*/
 }

@@ -16,4 +16,6 @@ class AssessRepository extends Repository
         return 'App\Models\Assess';
     }
 
+
+
 }

@@ -15,7 +15,6 @@ $api->post('login', 'LoginController@login');
 $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('me', 'UsersController@me');
     $api->get('logout', 'LoginController@logout');
-    //$api->post('create_task', ['middleware' => ['ability:super_admin|common_admin,admin.create_task,true'],'uses'=>'TaskController@createTask'])->name('create_task');
     // 创建任务
     $api->post('create_task', 'TaskController@createTask')->name('create_task');
     //修改任务
@@ -39,10 +38,38 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
      */
     //工作类型
     $api->get('work_types', 'WorkTypeController@lists');
+    //考核等级
+    $api->get('assess', 'AssessController@lists');
+    //学院
+    $api->get('colleges', 'CollegeController@lists');
     //对口科室
     $api->get('departments', 'DepartmentController@lists');
     //获取当前学院下的所有用户
     $api->get('users', 'UsersController@usersWithCollege');
     //显示某个任务的进程情况
     $api->get('task_progress/{task_id}', 'TaskProgressController@show');
+
+    //预置数据的添加、修改、删除
+    $api->group(['middleware' => ['role:super_admin']], function ($api) {
+        //工作类型
+        $api->post('create_work_type', 'WorkTypeController@store');
+        $api->put('update_work_type/{work_id}', 'WorkTypeController@update');
+        $api->delete('delete_work_type/{work_id}', 'WorkTypeController@delete');
+
+        //考核等级
+        $api->post('assess', 'AssessController@store');
+        $api->delete('assess/{assess_id}', 'AssessController@delete');
+        $api->put('assess/{assess_id}', 'AssessController@update');
+
+        //学院
+        $api->post('departments', 'DepartmentController@store');
+        $api->put('departments/{department_id}', 'DepartmentController@update');
+        $api->delete('departments/{department_id}', 'DepartmentController@delete');
+
+        //对口科室
+        $api->post('colleges', 'CollegeController@store');
+        $api->put('colleges/{college_id}', 'CollegeController@update');
+        $api->delete('colleges/{college_id}', 'CollegeController@delete');
+
+    });
 });

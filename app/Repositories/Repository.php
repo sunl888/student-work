@@ -61,7 +61,8 @@ abstract class Repository implements RepositoryContract
 
     public function delete($id)
     {
-        return $this->model->destroy($id);
+        //return $this->model->destroy($id);
+        return $this->model->where(['id'=>$id])->delete();
     }
 
     public function find($id, $columns = array('*'))
