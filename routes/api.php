@@ -34,6 +34,9 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->post('task_score/{task_id}', 'TaskController@taskScore');
     //$api->get('tasks', 'TaskController@tasks')->name('tasks');
 
+    /**
+     * 预置数据的处理
+     */
     //工作类型
     $api->get('work_types', 'WorkTypeController@lists');
     //对口科室
