@@ -3,17 +3,18 @@
     <div class='login el-col-4'>
       <h3>欢迎使用学生处管理系统</h3>
       <div class="form">
+          <p>{{wrong}}</p>
         <el-row>
           <el-form class="demo-ruleForm">
             <el-col :span="20" :offset="2">
-                <el-input placeholder="请输入用户名" size="small"></el-input>
+                <el-input v-model="userName" placeholder="请输入用户名" size="small"></el-input>
             </el-col>
             <el-col :span="20" :offset="2">
-              <el-input type="password" placeholder="请输入密码" size="small"></el-input>
+              <el-input v-model="userPsw" type="password" placeholder="请输入密码" size="small"></el-input>
             </el-col>
           </el-form>
           <el-col :span="12" :offset="6">
-            <el-button type="success" @click="jump(1)" class="el-col-24" size="small" :loading="this.isLoading">登录</el-button>
+            <el-button type="success"  @keyup.enter="jump" @click="jump()" class="el-col-24" size="small" :loading="this.isLoading">登录</el-button>
           </el-col>
         </el-row>
       </div>
@@ -21,12 +22,13 @@
   </div>
 </template>
 <script>
+  import api from '../api.js'
   export default {
     data () {
       return {
-        restaurants: [],
-        name: '',
-        psd: '',
+        userName: '',
+        userPsw: '',
+        wrong: '',
         isLoading: false
       }
     },
@@ -34,16 +36,27 @@
     },
     methods: {
       jump () {
-        console.log(this.x)
         this.isLoading = true
-        window.setTimeout(() => {
-          this.isLoading = false
-          if (this.x === 0) {
-            this.$router.push({name: 'TaskManage'})
-          } else {
-            this.$router.push({name: 'TaskManage'})
-          }
-        }, 3000)
+        api.login(this.userName, this.userPsw, (status, data) => {
+            this.isLoading = false
+            if(status === 204){
+                this.$router.push({name: 'TaskManage'})
+            } else {
+                this.$message({
+                    showClose: true,
+                    type: 'error',
+                    message: data
+                })
+            }
+        })
+//        window.setTimeout(() => {
+//          this.isLoading = false
+//          if (this.x === 0) {
+//            this.$router.push({name: 'TaskManage'})
+//          } else {
+//            this.$router.push({name: 'TaskManage'})
+//          }
+//        }, 3000)
       }
     }
   }
