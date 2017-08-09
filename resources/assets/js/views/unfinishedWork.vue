@@ -1,7 +1,5 @@
 <template>
   <div class="taskManage item">
-    <JHeader></JHeader>
-    <navMenu></navMenu>
     <div class="item_man item el-col-21">
       <div class="table" v-if="this.tableData.length">
         <el-table
@@ -88,13 +86,9 @@
   </div>
 </template>
 <script>
-  import JHeader from '../components/header.vue'
-  import navMenu from '../components/navMenu.vue'
   import page from '../components/page.vue'
   export default{
     components: {
-      JHeader,
-      navMenu,
       page
     },
     data () {

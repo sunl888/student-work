@@ -1,7 +1,5 @@
 <template>
   <div class="addTask ">
-    <JHeader></JHeader>
-    <navMenu></navMenu>
     <div class="item_add item">
       <div class="left el-col-18 el-col-offset-1">
         <!--表单-->
@@ -50,13 +48,7 @@
   </div>
 </template>
 <script>
-  import JHeader from '../components/header.vue'
-  import navMenu from '../components/navMenu.vue'
   export default{
-    components: {
-      JHeader,
-      navMenu
-    },
     data () {
       return {
         options: [{

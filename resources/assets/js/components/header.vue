@@ -45,7 +45,7 @@
         <el-breadcrumb-item>任务管理</el-breadcrumb-item>
         <el-breadcrumb-item>任务管理</el-breadcrumb-item>
       </el-breadcrumb>
-      <router-link :to="{name: 'AddTask'}" class="newest el-col-offset-7">添加任务</router-link>
+      <router-link :to="{path: 'home/addTask'}" class="newest el-col-offset-7">添加任务</router-link>
       <a class="newest">最新通知（5）</a>
     </el-col>
 

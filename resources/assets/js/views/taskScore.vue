@@ -1,8 +1,6 @@
 <script src="../api.js"></script>
 <template>
 <div class="taskScore">
-    <JHeader></JHeader>
-    <navMenu></navMenu>
     <div class="el-col-19 el-col-offset-1 box">
         <div class="taskDetail">
             <el-card  class="box-card">
@@ -77,13 +75,7 @@
 </div>
 </template>
 <script>
-    import JHeader from '../components/header.vue'
-    import navMenu from '../components/navMenu.vue'
     export default {
-        components: {
-            JHeader,
-            navMenu
-        },
         data () {
             return {
                 activeNames: '',

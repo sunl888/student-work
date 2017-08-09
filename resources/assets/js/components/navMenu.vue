@@ -1,6 +1,6 @@
 <template>
-  <div class="menuBox el-col-3">
-    <el-menu default-active="1" class="el-menu-vertical-demo el-col-24" router>
+  <div class="menuBox">
+    <el-menu unique-opened theme="dark" default-active="1" >
       <div class="mine">
         <i class="material-icons">account_circle</i>
         <p>欢迎您，XX老师</p>
@@ -44,17 +44,14 @@
 
 </script>
 <style scoped>
-  .menuBox{
-    height:100%;
-    max-height:537.8px;
-  }
   .el-menu{
-    min-width:150px;
-    overflow:hidden;
-    height:100%;
-    border-right:1px solid lightgrey;
-    border-bottom:1px solid lightgrey;
-    background:white;
+    border-radius: 0;
+    width: 180px;
+    transition: transform .3s;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
   }
   .menu{
     font-size:30px;
@@ -62,29 +59,23 @@
     margin-left:20px;
     cursor:pointer;
   }
-  .el-menu-item{
-    width:auto;
-  }
   .newIcon{
     float:left;
-    line-height:56px;
-  }
-  .menu_txt{
-    height:56px;
-    float:left;
-    margin-left:10px;
     line-height:56px;
   }
   .mine{
     height:80px;
     margin-top:20px;
-    border-bottom:1px solid #e1e1e1;
   }
   .mine i{
     font-size:35px;
     margin-bottom:10px;
   }
-  .mine p {
+  .mine>p{
     font-size: 12px;
+    color: #fff;
+  }
+  .el-menu-item{
+    min-width: 180px!important;
   }
 </style>

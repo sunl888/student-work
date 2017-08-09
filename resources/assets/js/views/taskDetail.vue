@@ -1,7 +1,5 @@
 <template>
   <div class="taskDetail">
-    <JHeader></JHeader>
-    <navMenu></navMenu>
     <div class="current el-col-19 el-col-offset-1">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
@@ -57,13 +55,7 @@
 
 </template>
 <script>
-import JHeader from '../components/header.vue'
-import navMenu from '../components/navMenu.vue'
 export default{
-  components: {
-    JHeader,
-    navMenu
-  },
   methods: {
     jump (address) {
       this.$router.push({name: address})
