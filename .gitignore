@@ -24,6 +24,7 @@ Homestead.json
 /public/storage
 /public/hot
 /public/uploads
+/public/mix-manifest.json
 npm-debug.log
 npm-debug.log*
 .DS_Store

@@ -1,6 +1,11 @@
 <template>
+<<<<<<< HEAD
   <div class="menuBox">
     <el-menu unique-opened theme="dark" default-active="1" >
+=======
+  <div class="menuBox el-col-3">
+    <el-menu theme="light" unique-opened default-active="1" class="el-menu-vertical-demo el-col-24" router>
+>>>>>>> b199454cf9001467b005b32e84573d69271c05d3
       <div class="mine">
         <i class="material-icons">account_circle</i>
         <p>欢迎您，XX老师</p>
