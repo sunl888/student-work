@@ -38,13 +38,13 @@
           </el-form-item>
           <!--完成时间-->
           <el-form-item label="完成时间">
-            <el-col :span="6">
+            <el-col :span="7" :pull="1">
               <el-form-item prop="date1">
                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
               </el-form-item>
             </el-col>
-            <el-col class="line" :span="1">-</el-col>
-            <el-col :span="6">
+            <el-col class="line" :pull="1" :span="1">-</el-col>
+            <el-col :span="7" :pull="2">
               <el-form-item prop="date2">
                 <el-time-picker type="fixed-time" placeholder="选择时间" v-model="ruleForm.date2" style="width: 100%;"></el-time-picker>
               </el-form-item>
@@ -52,11 +52,11 @@
           </el-form-item>
           <!--任务要求-->
           <el-form-item label="任务名称" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
+            <el-input v-model="ruleForm.name" placeholder="请输入任务名称"></el-input>
           </el-form-item>
           <!--任务内容-->
           <el-form-item label="任务内容" prop="detail">
-            <el-input type="textarea" :rows="8" v-model="ruleForm.detail"></el-input>
+            <el-input type="textarea" :rows="8" placeholder="请输入任务详情" v-model="ruleForm.detail"></el-input>
           </el-form-item>
 
           <!--上传附件-->
@@ -212,6 +212,6 @@
     float:left;
   }
 .addTask{
-  height:83%;
+  height:100%;
 }
 </style>

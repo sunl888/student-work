@@ -68,11 +68,10 @@
           <!--</el-table-column>-->
           <el-table-column
             label="操作"
-            width="130">
+            width="100">
             <template scope="scope" class="operaBtn">
               <i  size="small" title="编辑" class="el-icon-edit" @click="jump('AddTask')"></i>
               <i  size="small" title="删除" @click="remove($index)" class="el-icon-delete"></i>
-              <i size="small" title="审核" class="el-icon-check"></i>
             </template>
           </el-table-column>
         </el-table>
@@ -187,7 +186,6 @@
     methods: {
       remove (index) {
         this.tableData.splice(index, 1)
-        console.log(123)
       },
       jump (address) {
         this.$router.push({name: address})
@@ -195,7 +193,7 @@
     }
   }
 </script>
-<style>
+<style scoped>
   .el-table th{
     text-align:center;
   }
@@ -203,8 +201,8 @@
     min-height:470px;
   }
   .el-table .cell i{
-    margin-right:8px;
     cursor:pointer;
+    margin-right:15px;
   }
   .el-table .cell i:hover{
     color:#20a0ff;
@@ -217,18 +215,8 @@
     line-height:30px;
     margin-left:40px;
   }
-  .task_detail{
-    color:#777;
-    text-indent:2em;
-    text-align:left;
-    overflow : hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-  }
   .taskManage,.item_man,.table{
-    height:83%;
+    height:100%;
   }
   .table{
     background:#f5f5f5;

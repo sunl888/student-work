@@ -38,6 +38,10 @@ export default new Router({
       path: '/taskDetail',
       name: 'TaskDetail',
       component: require('../views/taskDetail.vue')
-    }
+    },{
+      path: '/taskScore',
+      name: 'TaskScore',
+      component: require('../views/taskScore.vue')
+      }
   ]
 })
