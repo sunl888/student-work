@@ -43,7 +43,7 @@
             label="操作"
             width="130">
             <template scope="scope" class="operaBtn">
-              <i size="small" title="审核" @click="jump('TaskScore')" class="el-icon-check"></i>
+              <i size="small" title="审核" @click="jump('taskScore')" class="el-icon-check"></i>
             </template>
           </el-table-column>
         </el-table>

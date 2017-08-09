@@ -1,88 +1,85 @@
 <template>
   <div class="taskManage item">
-    <div class="item_man el-col-21">
-      <div class="table" v-if="this.tableData.length">
-        <el-table
-          max-height="720px"
-          @row-click="jump('TaskDetail')"
-          :default-sort = "{prop: 'date', order: 'descending'}"
-          :data="tableData"
-          border
-          stripe
-          style="width: 100%">
-          <el-table-column
-            prop="date"
-            sortable
-            label="发布日期">
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            sortable
-            label="任务名称"
-            min-width="180"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="province"
-            label="工作类型"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="city"
-            label="对口科室"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="address"
-            sortable
-            label="责任人"
-            min-width="100"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="zip"
-            label="截止时间"
-            sortable
-          ></el-table-column>
-          <el-table-column
-            prop="zip"
-            label="完成时间"
-            sortable
-          >
-          </el-table-column>
-          <el-table-column
-            prop="addFile"
-            label="附件情况"
-            sortable
-          >
-          </el-table-column>
-          <!--<el-table-column-->
-          <!--prop="addFile"-->
-          <!--label="附件情况"-->
-          <!--sortable-->
-          <!--&gt;-->
-          <!--</el-table-column>-->
-          <el-table-column
-            label="操作"
-            width="100">
-            <template scope="scope" class="operaBtn">
-              <i  size="small" title="编辑" class="el-icon-edit" @click="jump('AddTask')"></i>
-              <i  size="small" title="删除" @click="remove($index)" class="el-icon-delete"></i>
-            </template>
-          </el-table-column>
-        </el-table>
-        <page></page>
-      </div>
-      <div class="ifNone" v-else>
-        <p>
-          当前还没有任务哦，请单击右侧按钮添加任务&emsp;
-          <el-button type="primary" icon="plus" @click="jump('AddTask')"></el-button>
-        </p>
-      </div>
+    <div class="table" v-if="this.tableData.length">
+      <el-table
+        max-height="720px"
+        @row-click="jump('taskDetail')"
+        :default-sort = "{prop: 'date', order: 'descending'}"
+        :data="tableData"
+        border
+        stripe
+        style="width: 100%">
+        <el-table-column
+          prop="date"
+          sortable
+          label="发布日期">
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          sortable
+          label="任务名称"
+          min-width="180"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="province"
+          label="工作类型"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          prop="city"
+          label="对口科室"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          sortable
+          label="责任人"
+          min-width="100"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="zip"
+          label="截止时间"
+          sortable
+        ></el-table-column>
+        <el-table-column
+          prop="zip"
+          label="完成时间"
+          sortable
+        >
+        </el-table-column>
+        <el-table-column
+          prop="addFile"
+          label="附件情况"
+          sortable
+        >
+        </el-table-column>
+        <!--<el-table-column-->
+        <!--prop="addFile"-->
+        <!--label="附件情况"-->
+        <!--sortable-->
+        <!--&gt;-->
+        <!--</el-table-column>-->
+        <el-table-column
+          label="操作"
+          width="100">
+          <template scope="scope" class="operaBtn">
+            <i  size="small" title="编辑" class="el-icon-edit" @click="jump('AddTask')"></i>
+            <i  size="small" title="删除" @click="remove($index)" class="el-icon-delete"></i>
+          </template>
+        </el-table-column>
+      </el-table>
+      <page></page>
     </div>
-
+    <div class="ifNone" v-else>
+      <p>
+        当前还没有任务哦，请单击右侧按钮添加任务&emsp;
+        <el-button type="primary" icon="plus" @click="jump('AddTask')"></el-button>
+      </p>
+    </div>
   </div>
 </template>
 <script>
@@ -193,9 +190,6 @@
   .el-table th{
     text-align:center;
   }
-  .el-table{
-    min-height:470px;
-  }
   .el-table .cell i{
     cursor:pointer;
     margin-right:15px;
@@ -203,16 +197,9 @@
   .el-table .cell i:hover{
     color:#20a0ff;
   }
-  .ifNone p{
-    line-height:400px;
-    color:#aaa;
-  }
   .el-form-item__content{
     line-height:30px;
     margin-left:40px;
-  }
-  .taskManage,.item_man,.table{
-    height:100%;
   }
   .table{
     background:#f5f5f5;

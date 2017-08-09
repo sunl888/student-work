@@ -40,7 +40,7 @@
         api.login(this.userName, this.userPsw, (status, data) => {
             this.isLoading = false
             if(status === 204){
-                this.$router.push({name: 'TaskManage'})
+                this.$router.push({name: 'home'})
             } else {
                 this.$message({
                     showClose: true,

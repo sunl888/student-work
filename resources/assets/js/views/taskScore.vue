@@ -1,4 +1,3 @@
-<script src="../api.js"></script>
 <template>
 <div class="taskScore">
     <div class="el-col-19 el-col-offset-1 box">
@@ -74,7 +73,9 @@
 
 </div>
 </template>
+
 <script>
+import api from '../api.js'
     export default {
         data () {
             return {

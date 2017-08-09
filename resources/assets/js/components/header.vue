@@ -5,7 +5,6 @@
       <h2 class="el-col-3 el-col-push-2">学生处管理系统</h2>
       <el-autocomplete
         icon="search"
-        size="large"
         class="inline-input el-col-10 el-col-push-2 search"
         v-model="state1"
         :fetch-suggestions="querySearch"
@@ -104,7 +103,6 @@
   .logo{
     width:60px;
     height:60px;
-    margin-left:30px;
     margin-top:10px;
   }
 

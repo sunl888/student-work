@@ -11,6 +11,7 @@ export default new Router({
     },
     {
       path: '/home',
+      name: 'home',
       component: require('../views/Home.vue'),
       children: [
         {
@@ -19,27 +20,27 @@ export default new Router({
         },
         {
           path: 'addTask',
-          name: 'AddTask',
+          name: 'addTask',
           component: require('../views/addTask.vue')
         },
         {
           path: 'goingFinish',
-          name: 'GoingFinish',
+          name: 'goingFinish',
           component: require('../views/goingFinish.vue')
         },
         {
           path: 'unfinished',
-          name: 'Unfinished',
+          name: 'unfinished',
           component: require('../views/unfinishedWork.vue')
         },
         {
-          path: '/taskDetail',
-          name: 'TaskDetail',
+          path: 'taskDetail',
+          name: 'taskDetail',
           component: require('../views/taskDetail.vue')
         },
         {
-          path: '/taskScore',
-          name: 'TaskScore',
+          path: 'taskScore',
+          name: 'taskScore',
           component: require('../views/taskScore.vue')
         }
       ]
