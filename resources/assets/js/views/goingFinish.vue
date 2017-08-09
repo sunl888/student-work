@@ -129,6 +129,6 @@
     float:left;
   }
   .addTask{
-    height:83%;
+    height:100%;
   }
 </style>

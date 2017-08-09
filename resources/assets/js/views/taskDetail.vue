@@ -118,7 +118,7 @@ export default{
   }
 }
 </script>
-<style>
+<style scoped>
   .box-card{
     margin-top:20px;
     padding-bottom:50px;
@@ -128,7 +128,7 @@ export default{
     text-align:left;
   }
 .taskDetail{
-  height:83%;
+  height:100%;
 }
 .clearfix:before,
 .clearfix:after {

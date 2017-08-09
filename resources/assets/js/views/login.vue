@@ -14,7 +14,7 @@
             </el-col>
           </el-form>
           <el-col :span="12" :offset="6">
-            <el-button type="success"  @keyup.enter="jump" @click="jump()" class="el-col-24" size="small" :loading="this.isLoading">登录</el-button>
+            <el-button type="success" @click="jump()" class="el-col-24" size="small" :loading="this.isLoading">登录</el-button>
           </el-col>
         </el-row>
       </div>

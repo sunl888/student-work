@@ -23,8 +23,19 @@
           <i class="material-icons newIcon">message</i>
           <span class="menu_txt">工作通知</span>
         </template>
-        <el-menu-item index="1-3-1">通知公告</el-menu-item>
-        <el-menu-item index="1-3-2">工作讨论</el-menu-item>
+        <el-menu-item index="3-1-1">通知公告</el-menu-item>
+        <el-menu-item index="3-1-2">工作讨论</el-menu-item>
+      </el-submenu>
+      <el-submenu index="4">
+        <template slot="title">
+          <i class="material-icons newIcon">multiline_chart</i>
+          <span class="menu_txt">预置数据</span>
+        </template>
+        <el-menu-item index="4-1-1">学院名称设置</el-menu-item>
+        <el-menu-item index="4-1-2">工作类型设置</el-menu-item>
+        <el-menu-item index="4-1-3">对口科室设置</el-menu-item>
+        <el-menu-item index="4-1-4">考核等级设置</el-menu-item>
+        <el-menu-item index="4-1-5">学期设置</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
