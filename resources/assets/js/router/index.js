@@ -7,15 +7,17 @@ export default new Router({
   routes: [
     {
       path: '*',
-      redirect: {name: 'Login'}
+      redirect: {name: 'home'}
     },
     {
       path: '/home',
       name: 'home',
       component: require('../views/Home.vue'),
+      redirect: {name: 'taskManage'},
       children: [
         {
-          path: '/',
+          path: 'taskManage',
+          name: 'taskManage',
           component: require('../views/taskManage.vue')
         },
         {
@@ -42,6 +44,11 @@ export default new Router({
           path: 'taskScore',
           name: 'taskScore',
           component: require('../views/taskScore.vue')
+        },
+        {
+          path: 'workType',
+          name: 'workType',
+          component: require('../views/precut/WorkType.vue')
         }
       ]
     },

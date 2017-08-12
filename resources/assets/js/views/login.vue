@@ -10,11 +10,11 @@
                 <el-input v-model="userName" placeholder="请输入用户名" size="small"></el-input>
             </el-col>
             <el-col :span="20" :offset="2">
-              <el-input v-model="userPsw" type="password" placeholder="请输入密码" size="small"></el-input>
+              <el-input @keyup.enter.native="login()" v-model="userPsw" type="password" placeholder="请输入密码" size="small"></el-input>
             </el-col>
           </el-form>
           <el-col :span="12" :offset="6">
-            <el-button type="success" @click="jump()" class="el-col-24" size="small" :loading="this.isLoading">登录</el-button>
+            <el-button type="success" @click="login()" class="el-col-24" size="small" :loading="this.isLoading">登录</el-button>
           </el-col>
         </el-row>
       </div>
@@ -26,8 +26,8 @@
   export default {
     data () {
       return {
-        userName: '',
-        userPsw: '',
+        userName: 'xsc',
+        userPsw: 'xsc2017',
         wrong: '',
         isLoading: false
       }
@@ -35,31 +35,27 @@
     mounted () {
     },
     methods: {
-      jump () {
+      login () {
         this.isLoading = true
-        api.login(this.userName, this.userPsw, (status, data) => {
-            this.isLoading = false
-            if(status === 204){
-                this.$router.push({name: 'home'})
-            } else {
-                this.$message({
-                    showClose: true,
-                    type: 'error',
-                    message: data
-                })
-            }
-        })
-//        window.setTimeout(() => {
-//          this.isLoading = false
-//          if (this.x === 0) {
-//            this.$router.push({name: 'TaskManage'})
-//          } else {
-//            this.$router.push({name: 'TaskManage'})
-//          }
-//        }, 3000)
+        this.$http.post('login', {
+          name: this.userName,
+          password: this.userPsw
+        }).then(res => {
+              window.localStorage.token = res.token
+              this.isLoading = false
+              if (res.status === 204) {
+                  this.$router.push({name: 'home'})
+              } else {
+                  this.$message({
+                      showClose: true,
+                      type: 'error',
+                      message: data
+                  })
+              }
+          })
+        }
       }
     }
-  }
 </script>
 <style scoped>
   .loginBox{

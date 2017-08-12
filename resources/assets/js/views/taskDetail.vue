@@ -1,9 +1,9 @@
 <template>
   <div class="taskDetail">
-    <div class="current el-col-19 el-col-offset-1">
+    <div class="current">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <span style="line-height: 36px;">{{'任务名称：' + tableData.name}}</span>
+          <h2 style="line-height: 36px;color: #444;">{{'任务名称：' + tableData.name}}</h2>
         </div>
         <div class="text item">
           <div>发布日期：<span>{{ tableData.createDate }}</span></div>
@@ -11,10 +11,10 @@
           <div> 对口科室：<span>{{ tableData.city }}</span></div>
           <div> 负责人：<span>{{ tableData.address }}</span></div>
           <div>截止日期：<span>{{ tableData.zip }}</span></div>
-          <div>附件情况：<span>{{ tableData.addFile   }}</span></div>
-          <p> 任务详情：<span>{{ tableData.item}}</span></p>
+          <div>附件情况：<span>{{ tableData.addFile }}</span></div>
+          <p class="content"><span>{{ tableData.item}}</span></p>
         </div>
-    <div class="taskWatch el-col-22 el-col-offset-1">
+    <div class="taskWatch">
       <template>
         <el-table
           border
@@ -111,16 +111,17 @@ export default{
 }
 </script>
 <style scoped>
-  .box-card{
-    margin-top:20px;
-    padding-bottom:50px;
-  }
-  .current p{
-    margin-top:10px;
-    text-align:left;
-  }
+.box-card{
+  margin-top:20px;
+  padding-bottom:50px;
+}
+.current p{
+  margin-top:10px;
+  text-align:left;
+}
 .taskDetail{
   height:100%;
+  width: 100%;
 }
 .clearfix:before,
 .clearfix:after {
@@ -130,7 +131,7 @@ export default{
 .clearfix:after {
   clear: both
 }
-.text {
+.text{
   font-size: 14px;
 }
 .operaBtn i{
@@ -141,17 +142,21 @@ export default{
   color:#888;
   margin-right:25px;
 }
-.text>p{
+.text>p.content{
   color:#888;
+  padding: 15px 30px;
+  line-height: 2;
+  font-size: 16px;
+  text-indent: 2em;
 }
-  .text>div span,.text>p span{
-    color:#333;
-  }
-  .el-card__header{
-    padding:5px;
-  }
-  .taskWatch{
-    text-align:center;
-    margin-top:20px;
-  }
+.text>div span,.text>p span{
+  color:#333;
+}
+.el-card__header{
+  padding:5px;
+}
+.taskWatch{
+  text-align:center;
+  margin-top:20px;
+}
 </style>
