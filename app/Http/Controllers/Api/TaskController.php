@@ -45,7 +45,6 @@ class TaskController extends BaseController
     {
         $data['status'] = 'publish';
         if ($this->allowAuditTask()) {
-            //todo 这里的判断最好写到taskRepository里
             /*if ($this->taskRepository->hasRecord(['status' => 'draft', 'id' => $taskId])) {
                 $this->taskRepository->updateTask($data, ['id' => $taskId]);
                 event(new AuditedTask($taskId));

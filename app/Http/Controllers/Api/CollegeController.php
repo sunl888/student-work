@@ -9,6 +9,11 @@ use App\Transformers\CollegeTransformer;
 
 class CollegeController extends BaseController
 {
+    /*public function __construct()
+    {
+        $this->middleware('role:super_admin');
+    }*/
+
     public function lists()
     {
         return $this->response->collection(app(CollegeRepository::class)->all(), new CollegeTransformer());

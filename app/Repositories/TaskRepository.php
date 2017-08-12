@@ -21,6 +21,8 @@ class TaskRepository extends Repository
     {
         if (!$this->hasRecord($data)) {
             return $this->create($data);
+        }else{
+            throw new ModelNotFoundException('该任务已经存在');
         }
     }
 
