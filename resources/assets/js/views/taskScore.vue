@@ -1,6 +1,6 @@
 <template>
 <div class="taskScore">
-    <div class="el-col-19 el-col-offset-1 box">
+    <div class="box">
         <div class="taskDetail">
             <el-card  class="box-card">
                 <div slot="header" class="clearfix">

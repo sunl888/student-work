@@ -24,4 +24,8 @@ export default {
 .home>.content{
   padding-left: 180px;
 }
+.info_box{
+  padding: 10px 15px;
+  overflow: hidden;
+}
 </style>

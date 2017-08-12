@@ -38,14 +38,17 @@
           <!--</el-submenu>-->
         <!--</el-menu>-->
       <!--</div>-->
-    <el-col :span="24" class="local">
-      <el-breadcrumb class="el-col-10 el-col-offset-2" separator="/">
-        <span>当前位置 : &emsp;</span>
-        <el-breadcrumb-item>任务管理</el-breadcrumb-item>
+    <el-col class="local">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>首页</el-breadcrumb-item>
         <el-breadcrumb-item>任务管理</el-breadcrumb-item>
       </el-breadcrumb>
-      <router-link :to="{path: 'home/addTask'}" class="newest el-col-offset-7">添加任务</router-link>
-      <a class="newest">最新通知（5）</a>
+      <div class="operation">
+        <el-button type="primary" @click="$router.push({name: 'addTask'})">添加任务</el-button>
+        <el-badge :value="3" class="item">
+          <el-button>最新通知</el-button>
+        </el-badge>
+      </div>
     </el-col>
 
   </div>
@@ -94,57 +97,52 @@
   }
 </script>
 <style scoped>
-  .item{
-    background:white;
-  }
-  .top{
-    height:80px;
-  }
-  .logo{
-    width:60px;
-    height:60px;
-    margin-top:10px;
-  }
+.item{
+  background:white;
+}
+.top{
+  height:80px;
+}
+.logo{
+  width:60px;
+  height:60px;
+  margin-top:10px;
+}
+.local{
+  position: relative;
+  background:#f5f5f5;
+  padding: 10px 20px 0;
+}
+.local>.operation{
+  position: absolute;
+  top: 8px;
+  right: 20px;
+}
+.top h2{
+  color:#444;
+  font-size:1.4em;
+  line-height:80px;
+  min-width:200px;
+}
+.search{
+  margin-top:20px;
+  margin-left:20px;
+}
+.btn{
+  margin-top:22.5px;
+  min-width:80px;
+}
 
-  .top h2{
-    color:#444;
-    font-size:1.4em;
-    line-height:80px;
-    min-width:200px;
-  }
-  .search{
-    margin-top:20px;
-    margin-left:20px;
-  }
-  .btn{
-    margin-top:22.5px;
-    min-width:80px;
-  }
-
-  .el-submenu .el-menu{
-    background-color: white;
-  }
-  .local{
-    height:30px;
-    line-height:30px;
-    background:#f5f5f5;
-    font-size:14px;
-    border-top:1px solid lightgrey;
-  }
-  .el-breadcrumb{
-    line-height:30px;
-  }
-  .el-breadcrumb span, .newest{
-    float:left;
-  }
-  .newest{
-    cursor:pointer;
-    margin-right:20px;
-  }
-  .newest:hover{
-    color:#20a0ff;
-  }
-  .el-submenu .el-menu-item{
-    min-width: 150px;
-  }
+.el-submenu .el-menu{
+  background-color: white;
+}
+.el-breadcrumb{
+  line-height:30px;
+}
+.el-breadcrumb span,{
+  float:left;
+}
+.el-submenu .el-menu-item{
+  min-width: 150px;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="taskManage item">
-    <div class="item_man item el-col-21">
+    <div class="item_man item">
       <div class="table" v-if="this.tableData.length">
         <el-table
           max-height="720px"
