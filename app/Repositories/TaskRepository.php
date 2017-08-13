@@ -13,11 +13,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TaskRepository extends Repository
 {
-    /*public function model()
-    {
-        return 'App\Models\Task';
-    }*/
-
     public function __construct()
     {
         $this->model = app(Task::class);
@@ -56,6 +51,10 @@ class TaskRepository extends Repository
 
     public function isDelay($taskId){
         return $this->model->findOrFail($taskId)->isDelay();
+    }
+
+    public function lists($offset,$limit){
+        return $this->model->forPage($offset,$limit)->get();
     }
 
     /*public function getTasksByTime($startTime, $endTime){

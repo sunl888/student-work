@@ -78,7 +78,7 @@ class AppServiceProvider extends ServiceProvider
                         'status_code' => 404,
                         'code' => 404,
                         //todo 这里的错误显示需要处理
-                        'message' => '没有查询结果'
+                        'message' => $exception->getMessage()
                     ], 404
                 );
             }
