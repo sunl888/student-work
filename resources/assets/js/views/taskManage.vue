@@ -3,7 +3,7 @@
     <div class="table" v-if="this.taskList.length">
       <el-table
         max-height="720px"
-        @row-click="jump('taskDetail')"
+        @row-click.stop="jump('taskDetail')"
         :default-sort = "{prop: 'date', order: 'descending'}"
         :data="taskList"
         border
@@ -52,12 +52,13 @@
         ></el-table-column>
         <el-table-column
           label="操作"
+          inline-template
           inline-template>
-          <template v-if="row.status === 'draft1'">
+          <template v-if="row.status === 'draft'">
             <el-button-group>
               <el-button type="success" size="small">审核</el-button>
               <el-button type="primary" size="small"  @click="jump('AddTask')">修改</el-button>
-              <el-button type="danger" size="small" @click="remove($index)">删除</el-button>
+              <el-button type="danger" size="small" @click="deleteTask(row.id)">删除</el-button>
             </el-button-group>
           </template>
           <template scope="scope" class="operaBtn" v-else>
@@ -65,22 +66,23 @@
           </template>
         </el-table-column>
       </el-table>
-      <page></page>
+      <!-- 分页 -->
+      <el-pagination
+        layout="prev, pager, next"
+        :total="50">
+      </el-pagination>
     </div>
     <div class="ifNone" v-else>
       <p>
         当前还没有任务哦，请单击右侧按钮添加任务&emsp;
-        <el-button type="primary" icon="plus" @click="jump('AddTask')"></el-button>
+        <el-button type="primary" icon="plus" @click="jump('addTask')"></el-button>
       </p>
     </div>
   </div>
 </template>
 <script>
-import page from '../components/page.vue'
+
 export default{
-  components: {
-    page
-  },
   data () {
     return {
       pageOffset: 1,
@@ -91,11 +93,29 @@ export default{
     this.getTaskList()
   },
   methods: {
-    remove (index) {
-      this.tableData.splice(index, 1)
+    deleteTask (id) {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$http.get('delete_task/' + id).then(res => {
+            this.getTaskList()
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+
     },
     jump (address) {
-      this.$router.push({name: address})
+      this.$router.push({path: address})
     },
     getTaskList () {
       this.$http.get('tasks/' + this.pageOffset).then(res => {

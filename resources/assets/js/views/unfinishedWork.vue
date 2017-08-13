@@ -73,7 +73,6 @@
             </template>
           </el-table-column>
         </el-table>
-        <page></page>
       </div>
       <div class="ifNone" v-else>
         <p>
@@ -86,11 +85,7 @@
   </div>
 </template>
 <script>
-  import page from '../components/page.vue'
   export default{
-    components: {
-      page
-    },
     data () {
       return {
         tableData: [{

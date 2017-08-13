@@ -29,9 +29,8 @@
             <el-col :span="1">
               <el-date-picker
                 v-model="ruleForm.date"
-                type="datetime"
-                placeholder="选择日期时间"
-                format="yyyy-mm-dd HH:mm:ss">
+                type="date"
+                placeholder="选择日期">
               </el-date-picker>
            </el-col>
           </el-form-item>
@@ -103,11 +102,11 @@
               department_id: this.ruleForm.department,
               end_time: this.ruleForm.date
             }).then(res => {
-              this.resetForm('ruleForm')
               this.$message({
                 message: '添加任务成功',
                 type: 'success'
               })
+              this.$router.push({path: 'home/taskManage'})
             }, res => {
               this.$message.error(res.body.message)
               console.log(res)
