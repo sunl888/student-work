@@ -35,7 +35,6 @@
         <el-menu-item index="workType">工作类型设置</el-menu-item>
         <el-menu-item index="department">对口科室设置</el-menu-item>
         <el-menu-item index="4-1-4">考核等级设置</el-menu-item>
-        <el-menu-item index="4-1-5">学期设置</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
