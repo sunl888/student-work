@@ -20,17 +20,19 @@ class TaskProgressTransformer extends TransformerAbstract
     {
         return [
             'id' => $taskProgress->id,
-            'college_id' => $taskProgress->college_id,
-            'college' => app(CollegeRepository::class)->find($taskProgress->college_id, ['title']),
-            'leading_official' =>$this->getLeadOfficial($taskProgress),
-            'assess_id' => $taskProgress->assess_id,
-            'assess' =>app(AssessRepository::class)->find($taskProgress->assess_id, ['title']),
+            'college_id' => $taskProgress->college_id,//学院id
+            'college' => app(CollegeRepository::class)->find($taskProgress->college_id)['title'],
+            'leading_official' =>$this->getLeadOfficial($taskProgress),//责任人
+            'assess_id' => $taskProgress->assess_id,//考核等级
+            'assess' =>app(AssessRepository::class)->find($taskProgress->assess_id)['title'],
             'created_at' => $taskProgress->created_at->toDateTimeString(),
-            'status' => !empty($taskProgress->status)?'已完成':'未完成',
-            'end_time' => $taskProgress->status,
-            'quality' =>$taskProgress->quality,
-            'remark' =>$taskProgress->remark,
-            'remind' =>$taskProgress->remind,
+            'status' => !empty($taskProgress->status)?'已完成':'未完成',//完成状态
+            'end_time' => $taskProgress->status,//完成时间
+            'quality' =>$taskProgress->quality,//完成质量
+            'remark' =>$taskProgress->remark,//备注
+            'delay' =>$taskProgress->remind,//推迟理由
+            'remind' =>$taskProgress->remind,//推迟记录
+            //'task' =>$taskProgress->task,
         ];
     }
 
