@@ -35,7 +35,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     // 任务评分
     $api->post('task_score/{task_id}', 'TaskController@taskScore');
     //任务列表
-    $api->get('tasks/{offset?}', 'TaskController@tasks');
+    $api->get('tasks/{offset}/{limit?}', 'TaskController@tasks');
     // 获取工作类型
     $api->get('work_types', 'WorkTypeController@lists');
     // 获取考核等级
