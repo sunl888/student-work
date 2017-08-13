@@ -36,6 +36,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('is_delay/{task_id}', 'TaskController@isDelay');
     // 任务评分
     $api->post('task_score/{task_id}', 'TaskController@taskScore');
+    //任务列表
     $api->get('tasks/{offset?}', 'TaskController@tasks');
 
 
@@ -67,13 +68,13 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->post('update_assess/{assess_id}', 'AssessController@update');
         $api->get('delete_assess/{assess_id}', 'AssessController@delete');
         // 学院
-        $api->post('create_departments', 'DepartmentController@store');
-        $api->post('update_departments/{department_id}', 'DepartmentController@update');
-        $api->get('delete_departments/{department_id}', 'DepartmentController@delete');
+        $api->post('create_department', 'DepartmentController@store');
+        $api->post('update_department/{department_id}', 'DepartmentController@update');
+        $api->get('delete_department/{department_id}', 'DepartmentController@delete');
         // 对口科室
-        $api->post('create_colleges', 'CollegeController@store');
-        $api->post('update_colleges/{college_id}', 'CollegeController@update');
-        $api->get('delete_colleges/{college_id}', 'CollegeController@delete');
+        $api->post('create_college', 'CollegeController@store');
+        $api->post('update_college/{college_id}', 'CollegeController@update');
+        $api->get('delete_college/{college_id}', 'CollegeController@delete');
 
     });
 });

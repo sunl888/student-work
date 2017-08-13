@@ -154,7 +154,7 @@ class TaskController extends BaseController
         return $this->response->collection($this->taskRepository->lists($offset,config('app.default_per_page')), new TaskTransformer());
     }
 
-    public function task()
+    public function getTaskProcess()
     {
 
     }
