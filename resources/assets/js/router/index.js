@@ -46,6 +46,11 @@ export default new Router({
           component: require('../views/taskScore.vue')
         },
         {
+          path: 'colleges',
+          name: 'colleges',
+          component: require('../views/precut/Colleges.vue')
+        },
+        {
           path: 'workType',
           name: 'workType',
           component: require('../views/precut/WorkType.vue')

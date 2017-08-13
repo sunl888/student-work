@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -12,7 +11,6 @@
 */
 // 登陆
 $api->post('login', 'LoginController@login');
-
 $api->group(['middleware' => 'auth:web'], function ($api) {
     // 获取当前用户信息
     $api->get('me', 'UsersController@me');
@@ -38,12 +36,6 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->post('task_score/{task_id}', 'TaskController@taskScore');
     //任务列表
     $api->get('tasks/{offset?}', 'TaskController@tasks');
-
-
-
-
-
-
     // 获取工作类型
     $api->get('work_types', 'WorkTypeController@lists');
     // 获取考核等级
@@ -56,7 +48,6 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('users', 'UsersController@usersWithCollege');
     // 显示某个任务的进程情况
     $api->get('task_progress/{task_id}', 'TaskProgressController@show');
-
     // 预置数据的添加、修改、删除(角色：超级管理员)
     $api->group(['middleware' => ['role:super_admin']], function ($api) {
         // 工作类型
@@ -75,6 +66,5 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->post('create_college', 'CollegeController@store');
         $api->post('update_college/{college_id}', 'CollegeController@update');
         $api->get('delete_college/{college_id}', 'CollegeController@delete');
-
     });
 });
