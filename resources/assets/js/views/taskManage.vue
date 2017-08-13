@@ -1,74 +1,67 @@
 <template>
   <div class="taskManage item">
-    <div class="table" v-if="this.tableData.length">
+    <div class="table" v-if="this.taskList.length">
       <el-table
         max-height="720px"
         @row-click="jump('taskDetail')"
         :default-sort = "{prop: 'date', order: 'descending'}"
-        :data="tableData"
+        :data="taskList"
         border
         stripe
         style="width: 100%">
         <el-table-column
-          prop="date"
+          prop="created_at"
           sortable
-          label="发布日期">
+          label="发布日期"
+          width="120">
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="title"
           sortable
           label="任务名称"
-          min-width="180"
+          width="350"
         >
         </el-table-column>
         <el-table-column
-          prop="province"
+          prop="work_type"
           label="工作类型"
+          width="120"
           sortable
         >
         </el-table-column>
         <el-table-column
-          prop="city"
+          prop="department"
           label="对口科室"
+          width="120"
           sortable
         >
         </el-table-column>
         <el-table-column
-          prop="address"
+          inline-template
           sortable
-          label="责任人"
-          min-width="100"
+          label="状态"
+          width="100"
         >
+        <span>{{row.status === 'draft' ? '未审核' : '已审核' }}</span>
         </el-table-column>
         <el-table-column
-          prop="zip"
+          prop="end_time"
           label="截止时间"
+          width="120"
           sortable
         ></el-table-column>
         <el-table-column
-          prop="zip"
-          label="完成时间"
-          sortable
-        >
-        </el-table-column>
-        <el-table-column
-          prop="addFile"
-          label="附件情况"
-          sortable
-        >
-        </el-table-column>
-        <!--<el-table-column-->
-        <!--prop="addFile"-->
-        <!--label="附件情况"-->
-        <!--sortable-->
-        <!--&gt;-->
-        <!--</el-table-column>-->
-        <el-table-column
           label="操作"
-          width="100">
-          <template scope="scope" class="operaBtn">
-            <i  size="small" title="编辑" class="el-icon-edit" @click="jump('AddTask')"></i>
-            <i  size="small" title="删除" @click="remove($index)" class="el-icon-delete"></i>
+          inline-template>
+          <template v-if="row.status === 'draft1'">
+            <el-button-group>
+              <el-button type="success" size="small">审核</el-button>
+              <el-button type="primary" size="small"  @click="jump('AddTask')">修改</el-button>
+              <el-button type="danger" size="small" @click="remove($index)">删除</el-button>
+            </el-button-group>
+          </template>
+          <template scope="scope" class="operaBtn" v-else>
+            <el-button type="primary" size="small">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -83,105 +76,35 @@
   </div>
 </template>
 <script>
-  import page from '../components/page.vue'
-  export default{
-    components: {
-      page
+import page from '../components/page.vue'
+export default{
+  components: {
+    page
+  },
+  data () {
+    return {
+      pageOffset: 1,
+      taskList: []
+    }
+  },
+  mounted () {
+    this.getTaskList()
+  },
+  methods: {
+    remove (index) {
+      this.tableData.splice(index, 1)
     },
-    data () {
-      return {
-        tableData: [{
-          date: '2017-06-21',
-          name: '暑期留校注意事项',
-          province: '常规工作',
-          city: '学生管理',
-          address: '学院负责人',
-          zip: '2017-07-06',
-          addFile: '有',
-          taskStatus: '未完成',
-          item: '随后，许江荣和全体党员职工一起学习了习近平总书记在中共中央政治局第三十三次集体学习时发表的重要讲话：严肃党内政治生活净化党内政治生态、为全面从严治党打下重要政治基础。学习了王岐山在贵州检查工作时的讲话：当好党内政治生态“护林员”，以新面貌新气象迎接十九大。会议结合《关于组织开展庆祝中国共产党成立96周年纪念活动的通知》精神，讨论了下一步学习与实践活动计划。 '
-        }, {
-          date: '2017-05-30',
-          name: '学校招生',
-          province: '常规工作',
-          city: '学生管理',
-          address: '学院负责人',
-          zip: '2017-07-06',
-          addFile: '有',
-          taskStatus: '未完成',
-          item: '随后，许江荣和全体党员职工一起学习了习近平总书记在中共中央政治局第三十三次集体学习时发表的重要讲话：严肃党内政治生活净化党内政治生态、为全面从严治党打下重要政治基础。学习了王岐山在贵州检查工作时的讲话：当好党内政治生态“护林员”，以新面貌新气象迎接十九大。会议结合《关于组织开展庆祝中国共产党成立96周年纪念活动的通知》精神，讨论了下一步学习与实践活动计划。 '
-        }, {
-          date: '2016-05-03',
-          name: '2016~2017年度第二学期考前动员大会',
-          province: '常规工作',
-          city: '学生管理',
-          address: '学院各辅导员',
-          zip: '2017-06-28',
-          addFile: '有',
-          taskStatus: '未完成',
-          item: '随后，许江荣和全体党员职工一起学习了习近平总书记在中共中央政治局第三十三次集体学习时发表的重要讲话：严肃党内政治生活净化党内政治生态、为全面从严治党打下重要政治基础。学习了王岐山在贵州检查工作时的讲话：当好党内政治生态“护林员”，以新面貌新气象迎接十九大。会议结合《关于组织开展庆祝中国共产党成立96周年纪念活动的通知》精神，讨论了下一步学习与实践活动计划。 '
-        }, {
-          date: '2016-05-03',
-          name: '暑期留校注意事项',
-          province: '常规工作',
-          city: '学生管理',
-          address: '学院负责人',
-          zip: '2017-07-06',
-          addFile: '有',
-          taskStatus: '未完成',
-          item: '随后，许江荣和全体党员职工一起学习了习近平总书记在中共中央政治局第三十三次集体学习时发表的重要讲话：严肃党内政治生活净化党内政治生态、为全面从严治党打下重要政治基础。学习了王岐山在贵州检查工作时的讲话：当好党内政治生态“护林员”，以新面貌新气象迎接十九大。会议结合《关于组织开展庆祝中国共产党成立96周年纪念活动的通知》精神，讨论了下一步学习与实践活动计划。 '
-        }, {
-          date: '2016-05-03',
-          name: '暑期留校注意事项',
-          province: '常规工作',
-          city: '学生管理',
-          address: '学院负责人',
-          zip: '2017-07-06',
-          addFile: '有',
-          taskStatus: '未完成',
-          item: '随后，许江荣和全体党员职工一起学习了习近平总书记在中共中央政治局第三十三次集体学习时发表的重要讲话：严肃党内政治生活净化党内政治生态、为全面从严治党打下重要政治基础。学习了王岐山在贵州检查工作时的讲话：当好党内政治生态“护林员”，以新面貌新气象迎接十九大。会议结合《关于组织开展庆祝中国共产党成立96周年纪念活动的通知》精神，讨论了下一步学习与实践活动计划。 '
-        }, {
-          date: '2016-05-03',
-          name: '暑期留校注意事项',
-          province: '常规工作',
-          city: '学生管理',
-          address: '学院负责人',
-          zip: '2017-07-06',
-          addFile: '有',
-          taskStatus: '已完成',
-          item: '随后，许江荣和全体党员职工一起学习了习近平总书记在中共中央政治局第三十三次集体学习时发表的重要讲话：严肃党内政治生活净化党内政治生态、为全面从严治党打下重要政治基础。学习了王岐山在贵州检查工作时的讲话：当好党内政治生态“护林员”，以新面貌新气象迎接十九大。会议结合《关于组织开展庆祝中国共产党成立96周年纪念活动的通知》精神，讨论了下一步学习与实践活动计划。 '
-        }, {
-          date: '2016-05-03',
-          name: '暑期留校注意事项',
-          province: '常规工作',
-          city: '学生管理',
-          address: '学院负责人',
-          zip: '2017-07-06',
-          addFile: '有',
-          taskStatus: '已完成',
-          item: '随后，许江荣和全体党员职工一起学习了习近平总书记在中共中央政治局第三十三次集体学习时发表的重要讲话：严肃党内政治生活净化党内政治生态、为全面从严治党打下重要政治基础。学习了王岐山在贵州检查工作时的讲话：当好党内政治生态“护林员”，以新面貌新气象迎接十九大。会议结合《关于组织开展庆祝中国共产党成立96周年纪念活动的通知》精神，讨论了下一步学习与实践活动计划。 '
-        }, {
-          date: '2016-05-03',
-          name: '暑期留校注意事项',
-          province: '常规工作',
-          city: '学生管理',
-          address: '学院负责人',
-          zip: '2017-07-06',
-          addFile: '有',
-          taskStatus: '未完成',
-          item: '随后，许江荣和全体党员职工一起学习了习近平总书记在中共中央政治局第三十三次集体学习时发表的重要讲话：严肃党内政治生活净化党内政治生态、为全面从严治党打下重要政治基础。学习了王岐山在贵州检查工作时的讲话：当好党内政治生态“护林员”，以新面貌新气象迎接十九大。会议结合《关于组织开展庆祝中国共产党成立96周年纪念活动的通知》精神，讨论了下一步学习与实践活动计划。 '
-        }]
-      }
+    jump (address) {
+      this.$router.push({name: address})
     },
-    methods: {
-      remove (index) {
-        this.tableData.splice(index, 1)
-      },
-      jump (address) {
-        this.$router.push({name: address})
-      }
+    getTaskList () {
+      this.$http.get('tasks/' + this.pageOffset).then(res => {
+        console.log(res.data.data)
+        this.taskList = res.data.data
+      })
     }
   }
+}
 </script>
 <style scoped>
   .taskManage{
@@ -189,13 +112,6 @@
   }
   .el-table th{
     text-align:center;
-  }
-  .el-table .cell i{
-    cursor:pointer;
-    margin-right:15px;
-  }
-  .el-table .cell i:hover{
-    color:#20a0ff;
   }
   .el-form-item__content{
     line-height:30px;

@@ -54,6 +54,11 @@ export default new Router({
           path: 'workType',
           name: 'workType',
           component: require('../views/precut/WorkType.vue')
+        },
+        {
+          path: 'department',
+          name: 'department',
+          component: require('../views/precut/Department.vue')
         }
       ]
     },

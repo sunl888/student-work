@@ -1,6 +1,6 @@
 <template>
   <div class="menuBox">
-    <el-menu unique-opened theme="dark" default-active="1" >
+    <el-menu router unique-opened theme="dark" default-active="1" >
       <div class="mine">
         <i class="material-icons">account_circle</i>
         <p>欢迎您，XX老师</p>
@@ -31,9 +31,9 @@
           <i class="material-icons newIcon">multiline_chart</i>
           <span class="menu_txt">预置数据</span>
         </template>
-        <el-menu-item index="4-1-1">学院名称设置</el-menu-item>
-        <el-menu-item index="4-1-2">工作类型设置</el-menu-item>
-        <el-menu-item index="4-1-3">对口科室设置</el-menu-item>
+        <el-menu-item index="colleges">学院名称设置</el-menu-item>
+        <el-menu-item index="workType">工作类型设置</el-menu-item>
+        <el-menu-item index="department">对口科室设置</el-menu-item>
         <el-menu-item index="4-1-4">考核等级设置</el-menu-item>
         <el-menu-item index="4-1-5">学期设置</el-menu-item>
       </el-submenu>
