@@ -2,7 +2,7 @@
 namespace App\Service;
 
 use Illuminate\Auth\Access\AuthorizationException;
-
+use Auth;
 /**
  * Created by PhpStorm.
  * User: 孙龙
