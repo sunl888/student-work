@@ -11,6 +11,7 @@ namespace App\Transformers;
 use App\Models\Department;
 use App\Models\Task;
 use App\Models\WorkType;
+use Carbon\Carbon;
 use League\Fractal\TransformerAbstract;
 
 class TaskTransformer extends TransformerAbstract
@@ -22,11 +23,11 @@ class TaskTransformer extends TransformerAbstract
             'title' => $task->title,
             'detail' => $task->detail,
             'work_type_id' => $task->work_type_id,
-            'work_type' => app(WorkType::class)->find($task->work_type_id, ['title'])['title'],
+            'work_type' => app(WorkType::class)->find($task->work_type_id)['title'],
             'department_id' => $task->department_id,
-            'department' => app(Department::class)->find($task->department_id, ['title'])['title'],
-            'created_at' => $task->created_at->toDateTimeString(),
-            'end_time' => $task->end_time,
+            'department' => app(Department::class)->find($task->department_id)['title'],
+            'created_at' => $task->created_at->toDateString(),
+            'end_time' => Carbon::parse($task->end_time)->toDateString(),
             'status' =>$task->status
         ];
     }

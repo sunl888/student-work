@@ -32,7 +32,6 @@ class TaskProgressTransformer extends TransformerAbstract
             'remark' =>$taskProgress->remark,//备注
             'delay' =>$taskProgress->remind,//推迟理由
             'remind' =>$taskProgress->remind,//推迟记录
-            //'task' =>$taskProgress->task,
         ];
     }
 
