@@ -14,21 +14,21 @@ use Illuminate\Container\Container as Application;
 
 abstract class Repository implements RepositoryContract
 {
-    protected $app;
+    //protected $app;
 
     protected $model;
 
-    public function __construct(Application $app)
+    /*public function __construct(Application $app)
     {
         $this->app = $app;
         $this->makeModel();
-    }
+    }*/
 
     /**
      * model的名字
      * @return mixed
      */
-    abstract function model();
+    //abstract function model();
 
 
     public function hasRecord(array $conditions)
@@ -56,6 +56,7 @@ abstract class Repository implements RepositoryContract
 
     public function update(array $data, $conditions)
     {
+        //dd($conditions);
         return $this->model->where($conditions)->update($data);
     }
 
@@ -75,11 +76,11 @@ abstract class Repository implements RepositoryContract
         return $this->model->where($attribute, '=', $value)->first($columns);
     }
 
-    public function makeModel()
+    /*public function makeModel()
     {
         $model = $this->app->make($this->model());
         if (!$model instanceof Model)
             throw new \Exception("Class {$this->model()} must be an instance of Illuminate\\Database\\Eloquent\\Model");
         return $this->model = $model->newQuery();
-    }
+    }*/
 }

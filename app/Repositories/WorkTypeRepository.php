@@ -8,11 +8,18 @@
 
 namespace App\Repositories;
 
+use App\Models\WorkType;
+
 class WorkTypeRepository extends Repository
 {
-    public function model()
+    /*public function model()
     {
         return 'App\Models\WorkType';
+    }*/
+
+    public function __construct()
+    {
+        $this->model = app(WorkType::class);
     }
 
     /*public function delete($id)

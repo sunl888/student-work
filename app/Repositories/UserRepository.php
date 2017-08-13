@@ -8,12 +8,17 @@
 
 namespace App\Repositories;
 
+use App\Models\User;
+
 class UserRepository extends Repository
 {
-    public function model()
+    /*public function model()
     {
         return 'App\Models\User';
+    }*/
+    public function __construct()
+    {
+        $this->model = app(User::class);
     }
-
 
 }

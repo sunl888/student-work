@@ -19,17 +19,17 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     // 退出登陆
     $api->get('logout', 'LoginController@logout');
     // 创建任务
-    $api->post('create_task', 'TaskController@createTask')->name('create_task');
+    $api->post('create_task', 'TaskController@createTask');
     // 修改任务
-    $api->post('update_task/{task_id}', 'TaskController@updateTask')->name('update_task');
+    $api->post('update_task/{task_id}', 'TaskController@updateTask');
     // 软删除任务
-    $api->get('get_task/{task_id}', 'TaskController@getTask');
+    $api->get('delete_task/{task_id}', 'TaskController@deleteTask');
     // 恢复任务
-    $api->post('restore_task/{task_id}', 'TaskController@restoreTask');
+    $api->get('restore_task/{task_id}', 'TaskController@restoreTask');
     // 审核任务
-    $api->post('audit_task/{task_id}', 'TaskController@auditTask');
+    $api->get('audit_task/{task_id}', 'TaskController@auditTask');
     // 添加责任人
-    $api->post('allot_task', 'TaskController@allotTask')->name('allot_task');
+    $api->post('create_allot_task', 'TaskController@allotTask');
     // 完成任务 如果该任务过了截止日期需要填写推迟理由字段（delay）
     $api->post('submit_task/{task_id}', 'TaskController@submitTask');
     // 判断指定的任务是否过了截止日期 return bool
@@ -55,19 +55,19 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         // 工作类型
         $api->post('create_work_type', 'WorkTypeController@store');
         $api->post('update_work_type/{work_id}', 'WorkTypeController@update');
-        $api->get('get_work_type/{work_id}', 'WorkTypeController@get');
+        $api->get('delete_work_type/{work_id}', 'WorkTypeController@delete');
         // 考核等级
-        $api->post('assess', 'AssessController@store');
-        $api->get('assess/{assess_id}', 'AssessController@get');
-        $api->post('assess/{assess_id}', 'AssessController@update');
+        $api->post('create_assess', 'AssessController@store');
+        $api->post('update_assess/{assess_id}', 'AssessController@update');
+        $api->get('delete_assess/{assess_id}', 'AssessController@delete');
         // 学院
-        $api->post('departments', 'DepartmentController@store');
-        $api->post('departments/{department_id}', 'DepartmentController@update');
-        $api->get('departments/{department_id}', 'DepartmentController@get');
+        $api->post('create_departments', 'DepartmentController@store');
+        $api->post('update_departments/{department_id}', 'DepartmentController@update');
+        $api->get('delete_departments/{department_id}', 'DepartmentController@delete');
         // 对口科室
-        $api->post('colleges', 'CollegeController@store');
-        $api->post('colleges/{college_id}', 'CollegeController@update');
-        $api->get('colleges/{college_id}', 'CollegeController@get');
+        $api->post('create_colleges', 'CollegeController@store');
+        $api->post('update_colleges/{college_id}', 'CollegeController@update');
+        $api->get('delete_colleges/{college_id}', 'CollegeController@delete');
 
     });
 });

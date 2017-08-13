@@ -8,10 +8,17 @@
 
 namespace App\Repositories;
 
+use App\Models\Department;
+
 class DepartmentRepository extends Repository
 {
-    public function model()
+    /*public function model()
     {
         return 'App\Models\Department';
+    }*/
+
+    public function __construct()
+    {
+        $this->model = app(Department::class);
     }
 }

@@ -11,13 +11,19 @@ namespace App\Repositories;
 use App\Http\Requests\AllotTaskRequest;
 use App\Http\Requests\TaskScoreRequest;
 use App\Models\Task;
+use App\Models\TaskProgress;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TaskProgressRepository extends Repository
 {
-    public function model()
+    /*public function model()
     {
         return 'App\Models\TaskProgress';
+    }*/
+
+    public function __construct()
+    {
+        $this->model = app(TaskProgress::class);
     }
 
     public function createTaskProgress(array $data, $taskId)

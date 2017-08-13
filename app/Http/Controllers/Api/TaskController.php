@@ -45,10 +45,6 @@ class TaskController extends BaseController
     {
         $data['status'] = 'publish';
         if ($this->allowAuditTask()) {
-            /*if ($this->taskRepository->hasRecord(['status' => 'draft', 'id' => $taskId])) {
-                $this->taskRepository->updateTask($data, ['id' => $taskId]);
-                event(new AuditedTask($taskId));
-            }*/
             if ($this->taskRepository->updateTask($data, $taskId)) {
                 event(new AuditedTask($taskId));
             }
@@ -151,45 +147,7 @@ class TaskController extends BaseController
         return $this->response->noContent();
     }
 
-    private function allowCreateTask()
-    {
-        return $this->validatePermission('admin.create_task');
-    }
 
-    private function allowAuditTask()
-    {
-        return $this->validatePermission('admin.audit_task');
-    }
-
-    private function allowDeleteTask()
-    {
-        return $this->validatePermission('admin.delete_task');
-    }
-
-    private function allowRestoreTask()
-    {
-        return $this->allowDeleteTask();
-    }
-
-    private function allowAllotTask()
-    {
-        return $this->validatePermission('admin.add_person_liable');
-    }
-
-    private function allowSubmitTask()
-    {
-        return $this->validatePermission('admin.submit_task');
-    }
-
-    private function allowScore()
-    {
-        return $this->validatePermission('admin.quality_assessment');
-    }
-
-    private function allowUpdateTask()
-    {
-        return $this->validatePermission('admin.edit_task');
-    }
 
     /*public function tasks()
     {

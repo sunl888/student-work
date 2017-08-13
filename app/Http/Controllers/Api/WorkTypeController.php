@@ -19,6 +19,7 @@ class WorkTypeController extends BaseController
     }
 
     public function update(UpdateWorkTypeRequest $request, $workId){
+        //dd($workId);
         app(WorkTypeRepository::class)->update($request->only('title'),['id'=>$workId]);
         return $this->response->noContent();
     }

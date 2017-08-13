@@ -8,13 +8,19 @@
 
 namespace App\Repositories;
 
+use App\Models\Task;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TaskRepository extends Repository
 {
-    public function model()
+    /*public function model()
     {
         return 'App\Models\Task';
+    }*/
+
+    public function __construct()
+    {
+        $this->model = app(Task::class);
     }
 
     public function createTask(array $data)

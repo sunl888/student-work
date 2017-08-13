@@ -8,12 +8,18 @@
 
 namespace App\Repositories;
 
+use App\Models\College;
 
 class CollegeRepository extends Repository
 {
-    public function model()
+    /*public function model()
     {
         return 'App\Models\College';
+    }*/
+
+    public function __construct()
+    {
+        $this->model = app(College::class);
     }
 
 }
