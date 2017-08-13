@@ -27,6 +27,11 @@ class Task extends BaseModel
         return $this->hasMany(TaskProgress::class);
     }
 
+    /*public function getStatusAttribute($status)
+    {
+        return $status=='draft'?'未审核':'已审核';
+    }*/
+
     public function isPublish()
     {
         return $this->status == 'publish';

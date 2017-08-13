@@ -26,6 +26,8 @@ class TaskProgressRepository extends Repository
         $this->model = app(TaskProgress::class);
     }
 
+
+
     public function createTaskProgress(array $data, $taskId)
     {
         if ($this->isAutided($taskId)) {
@@ -53,9 +55,6 @@ class TaskProgressRepository extends Repository
 
     public function submitTask($data)
     {
-        /*if ($data instanceof TaskScoreRequest) {
-            $data = $data->toArray();
-        }*/
         $conditions = ['task_id' => $data['task_id'], 'college_id' => $data['college_id']];
         if (($task = $this->hasRecord($conditions)) && $this->isAutided($data['task_id'])) {
             return $task->update(array_except($data, ['task_id', 'college_id']));
@@ -73,7 +72,7 @@ class TaskProgressRepository extends Repository
         if (app(Task::class)->findOrFail($taskId)->isPublish()) {
             return true;
         }
-        throw new ModelNotFoundException('任务还没有被上级审核，暂时不能操作');
+        //throw new ModelNotFoundException('任务还没有被上级审核，暂时不能操作');
     }
 
     public function show($taskId){

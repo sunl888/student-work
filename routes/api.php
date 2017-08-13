@@ -36,6 +36,12 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('is_delay/{task_id}', 'TaskController@isDelay');
     // 任务评分
     $api->post('task_score/{task_id}', 'TaskController@taskScore');
+    $api->get('tasks/{offset?}', 'TaskController@tasks');
+
+
+
+
+
 
     // 获取工作类型
     $api->get('work_types', 'WorkTypeController@lists');

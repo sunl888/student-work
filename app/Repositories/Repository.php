@@ -56,14 +56,12 @@ abstract class Repository implements RepositoryContract
 
     public function update(array $data, $conditions)
     {
-        //dd($conditions);
         return $this->model->where($conditions)->update($data);
     }
 
     public function delete($id)
     {
-        //return $this->model->destroy($id);
-        return $this->model->where(['id'=>$id])->delete();
+        return $this->model->where(['id' => $id])->delete();
     }
 
     public function find($id, $columns = array('*'))

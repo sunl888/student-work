@@ -12,6 +12,7 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 use App\Repositories\TaskProgressRepository;
 use App\Repositories\TaskRepository;
+use App\Transformers\TaskTransformer;
 use Auth;
 use Carbon\Carbon;
 
@@ -128,9 +129,9 @@ class TaskController extends BaseController
      * // 判断指定的任务是否过了截止日期
      * @param $taskId
      */
-    /*public function isDelay($taskId){
-        return $this->response()->item(app(TaskRepository::class)->isDelay($taskId));
-    }*/
+    public function isDelay($taskId){
+        return $this->response()->array(['isDelay'=>app(TaskRepository::class)->isDelay($taskId)]);
+    }
 
     /**
      * 任务评分
@@ -148,9 +149,13 @@ class TaskController extends BaseController
     }
 
 
-
-    /*public function tasks()
+    public function tasks($offset = 0)
     {
-        return $this->response->collection($this->taskRepository->lists(), new TaskTransformer());
-    }*/
+        return $this->response->collection($this->taskRepository->lists($offset,config('app.default_per_page')), new TaskTransformer());
+    }
+
+    public function task()
+    {
+
+    }
 }
