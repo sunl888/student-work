@@ -54,7 +54,7 @@ class TaskRepository extends Repository
     }
 
     public function lists($offset,$limit){
-        return $this->model->forPage($offset,$limit)->get();
+        return $this->model->forPage($offset,$limit)->recent()->get();
     }
 
 
