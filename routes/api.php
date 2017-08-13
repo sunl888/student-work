@@ -60,11 +60,11 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->post('create_assess', 'AssessController@store');
         $api->post('update_assess/{assess_id}', 'AssessController@update');
         $api->get('delete_assess/{assess_id}', 'AssessController@delete');
-        // 学院
+        // 对口科室
         $api->post('create_departments', 'DepartmentController@store');
         $api->post('update_departments/{department_id}', 'DepartmentController@update');
         $api->get('delete_departments/{department_id}', 'DepartmentController@delete');
-        // 对口科室
+        // 学院
         $api->post('create_colleges', 'CollegeController@store');
         $api->post('update_colleges/{college_id}', 'CollegeController@update');
         $api->get('delete_colleges/{college_id}', 'CollegeController@delete');
