@@ -28,6 +28,8 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('force_delete_task/{task_id}', 'TaskController@forceDeleteTask');
     // 审核任务
     $api->get('audit_task/{task_id}', 'TaskController@auditTask');
+    //取消审核
+    $api->get('cancel_audit/{task_id}', 'TaskController@cancelAuditTask');
     // 添加责任人
     $api->post('create_allot_task', 'TaskController@allotTask');
     // 完成任务 如果该任务过了截止日期需要填写推迟理由字段（delay）

@@ -53,6 +53,18 @@ class TaskController extends BaseController
     }
 
     /**
+     * 任务取消审核
+     * @param $taskId
+     */
+    public function cancelAuditTask($taskId)
+    {
+        $data['status'] = 'draft';
+        if ($this->allowAuditTask()) {
+            $this->taskRepository->update($data, ['id'=>$taskId]);
+        }
+    }
+
+    /**
      * 修改任务
      * @param $taskId
      * @param UpdateTaskRequest $request
