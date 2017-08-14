@@ -129,8 +129,9 @@ class TaskController extends BaseController
      * // 判断指定的任务是否过了截止日期
      * @param $taskId
      */
-    public function isDelay($taskId){
-        return $this->response()->array(['isDelay'=>app(TaskRepository::class)->isDelay($taskId)]);
+    public function isDelay($taskId)
+    {
+        return $this->response()->array(['isDelay' => app(TaskRepository::class)->isDelay($taskId)]);
     }
 
     /**
@@ -150,7 +151,20 @@ class TaskController extends BaseController
 
     public function tasks($offset, $limit = 15)
     {
-        return $this->response->collection($this->taskRepository->lists($offset,$limit), new TaskTransformer());
+        return $this->response->collection($this->taskRepository->lists($offset, $limit), new TaskTransformer());
+    }
+    public function task($taskId)
+    {
+        return $this->response->item($this->taskRepository->getTask($taskId), new TaskTransformer());
+    }
+
+    public function getTrashed($offset, $limit = 15)
+    {
+        return $this->response->collection($this->taskRepository->getTrashed($offset, $limit), new TaskTransformer());
+    }
+
+    public function reStore($id){
+        return $this->taskRepository->reStore($id);
     }
 
 }

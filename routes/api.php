@@ -34,8 +34,10 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('is_delay/{task_id}', 'TaskController@isDelay');
     // 任务评分
     $api->post('task_score/{task_id}', 'TaskController@taskScore');
-    //任务列表
+    // 任务列表
     $api->get('tasks/{offset}/{limit?}', 'TaskController@tasks');
+    // 已删除的任务列表
+    $api->get('trashed_tasks/{offset}/{limit?}', 'TaskController@getTrashed');
     // 获取工作类型
     $api->get('work_types', 'WorkTypeController@lists');
     // 获取考核等级
@@ -48,6 +50,11 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('users', 'UsersController@usersWithCollege');
     // 显示某个任务的进程情况
     $api->get('task_progress/{task_id}', 'TaskProgressController@show');
+    // 显示某个任务
+    /*$api->get('task/{task}', function (\App\Models\Task $task) {
+        return $task;
+    });*/
+    $api->get('task/{taskId}', 'TaskController@task');
     // 预置数据的添加、修改、删除(角色：超级管理员)
     $api->group(['middleware' => ['role:super_admin']], function ($api) {
         // 工作类型

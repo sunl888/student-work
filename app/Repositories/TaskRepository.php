@@ -53,8 +53,22 @@ class TaskRepository extends Repository
         return $this->model->findOrFail($taskId)->isDelay();
     }
 
-    public function lists($offset,$limit){
+    public function lists($offset, $limit){
         return $this->model->forPage($offset,$limit)->recent()->get();
+    }
+
+    public function getTask($taskId){
+        return $this->model->find($taskId);
+    }
+
+    public function getTrashed($offset, $limit){
+        return $this->model->onlyTrashed()->forPage($offset,$limit)->recent()->get();
+    }
+
+    public function reStore($id){
+        return $this->model->withTrashed()
+            ->where('id',$id)
+            ->restore();
     }
 
 
