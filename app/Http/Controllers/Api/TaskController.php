@@ -93,6 +93,21 @@ class TaskController extends BaseController
     }
 
     /**
+     * 强制删除
+     * @param $taskId
+     * @return \Dingo\Api\Http\Response
+     */
+    public function forceDeleteTask($taskId)
+    {
+        if ($this->guard()->user()->isSuperAdmin()) {
+            if ($taskId != null) {
+                $this->taskRepository->forceDeleteTask($taskId);
+            }
+        }
+        return $this->response->noContent();
+    }
+
+    /**
      * 分配任务（指派责任人）
      * 因为只有各二级学院有权利对任务分配责任人，所以这里的学院id直接填当前用户的学院id
      * @param AllotTaskRequest $allotTaskRequest
@@ -106,7 +121,6 @@ class TaskController extends BaseController
         }
         return $this->response->noContent();
     }
-
 
     /**
      * 完成任务

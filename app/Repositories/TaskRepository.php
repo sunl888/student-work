@@ -39,14 +39,35 @@ class TaskRepository extends Repository
 
     public function deleteTask($taskId)
     {
-        $this->model->findOrFail($taskId)->task_progresses()->delete();
-        return $this->model->find($taskId)->delete();
+        try{
+            $task = $this->model->findOrFail($taskId);
+        }catch (ModelNotFoundException $e){
+            throw new ModelNotFoundException('没有找到该任务');
+        }
+        $task->task_progresses()->delete();
+        return $task->delete();
     }
 
     public function restoreTask($taskId)
     {
-        $this->model->onlyTrashed()->findOrFail($taskId)->task_progresses()->onlyTrashed()->restore();
-        return $this->model->onlyTrashed()->find($taskId)->restore();
+        try{
+            $task = $this->model->onlyTrashed()->findOrFail($taskId);
+        }catch (ModelNotFoundException $e){
+            throw new ModelNotFoundException('没有找到该任务');
+        }
+        $task->task_progresses()->restore();
+        return $task->restore();
+    }
+
+    public function forceDeleteTask($taskId)
+    {
+        try{
+            $task = $this->model->onlyTrashed()->findOrFail($taskId);
+        }catch (ModelNotFoundException $e){
+            throw new ModelNotFoundException('没有找到该任务');
+        }
+        $task->task_progresses()->forceDelete();
+        return $task->forceDelete();
     }
 
     public function isDelay($taskId){
@@ -71,8 +92,4 @@ class TaskRepository extends Repository
             ->restore();
     }
 
-
-    /*public function getTasksByTime($startTime, $endTime){
-        return Task::whereBetween('created_at', [$startTime,$endTime])->get();
-    }*/
 }

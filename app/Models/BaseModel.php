@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
 {
-
     protected $hasDefaultValuesFields = [];
 
     public function scopeRecent($query)
@@ -30,27 +29,6 @@ class BaseModel extends Model
         return $query->orderBy($this->getKeyName(), 'ASC');
     }
 
-    /**
-     * 过滤有默认值的字段并且字段的值为null的数组
-     *
-     * @param  $data
-     * @return mixed
-     */
-    public function filterNullWhenHasDefaultValue($data)
-    {
-        foreach ($this->hasDefaultValuesFields as $key) {
-            if (array_key_exists($key, $data) && is_null($data[$key])) {
-                unset($data[$key]);
-            }
-        }
-        return $data;
-    }
-
-    public function fill(array $attributes)
-    {
-        return parent::fill($this->filterNullWhenHasDefaultValue($attributes));
-    }
-
     //todo 这里用来将时间描述成n分钟前
     /*public function getCreatedAtAttribute($date)
     {
@@ -58,7 +36,6 @@ class BaseModel extends Model
         if (Carbon::now() > Carbon::parse($date)->addDays(100)) {
             return Carbon::parse($date);
         }
-
         return Carbon::parse($date)->diffForHumans();
     }*/
 }

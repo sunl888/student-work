@@ -24,6 +24,8 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('delete_task/{task_id}', 'TaskController@deleteTask');
     // 恢复任务
     $api->get('restore_task/{task_id}', 'TaskController@restoreTask');
+    //强制删除任务
+    $api->get('force_delete_task/{task_id}', 'TaskController@forceDeleteTask');
     // 审核任务
     $api->get('audit_task/{task_id}', 'TaskController@auditTask');
     // 添加责任人
