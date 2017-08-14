@@ -4,11 +4,10 @@
      <el-tab-pane label="任务列表" name="first">
        <div class="table" v-if="this.taskList.length">
          <el-table
-           max-height="720px"
            :default-sort = "{prop: 'date', order: 'descending'}"
            :data="taskList"
-           border
            stripe
+           border
            style="width: 100%">
            <el-table-column
              prop="created_at"
@@ -20,7 +19,6 @@
              prop="title"
              sortable
              label="任务名称"
-             width="320"
            >
            </el-table-column>
            <el-table-column
@@ -62,7 +60,7 @@
                  <el-button type="primary" size="small" @click="jump('taskDetail')">查看</el-button>
                </el-button-group>
              </template>
-             <template scope="scope" class="operaBtn" v-else>
+             <template scope="scope" v-else>
                <el-button type="primary" size="small" @click="jump('taskDetail')">查看</el-button>
              </template>
            </el-table-column>
@@ -70,7 +68,8 @@
          <!-- 分页 -->
          <el-pagination
            layout="prev, pager, next"
-           :total="50">
+           :total="50"
+           class="page">
          </el-pagination>
        </div>
        <div class="ifNone" v-else>
@@ -100,6 +99,7 @@ export default{
     this.getTaskList()
   },
   methods: {
+
     // 添加任务
     deleteTask (id) {
       this.$confirm('此操作将永久删除该任务, 是否继续?', '提示', {
@@ -124,12 +124,14 @@ export default{
     jump (address) {
       this.$router.push({path: address})
     },
+
     // 获取任务列表
     getTaskList () {
       this.$http.get('tasks/' + this.pageOffset).then(res => {
         this.taskList = res.data.data
       })
     },
+
     // 审核任务
     auditing (id) {
       this.$confirm('任务审核后将无法删除, 是否继续?', '提示', {
@@ -151,9 +153,10 @@ export default{
         });
       });
     },
+
     // 修改任务
     modifyTask (id) {
-      this.$router.push({path: 'home/addTask',
+      this.$router.push({name: 'editTask',
         params: {
           id
         }
@@ -166,25 +169,7 @@ export default{
   .taskManage{
     width: 100%;
   }
-  .el-table th{
-    text-align:center;
+  .page{
+    margin-top: 30px;
   }
-  .el-form-item__content{
-    line-height:30px;
-    margin-left:40px;
-  }
-  .table{
-    background:#f5f5f5;
-  }
-  .active{
-    color:red;
-  }
-  .operaBtn i{
-    width:14px;
-    height:14px;
-  }
-  .el-table{
-    cursor:pointer;
-  }
-
 </style>

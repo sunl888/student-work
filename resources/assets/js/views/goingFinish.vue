@@ -110,17 +110,14 @@
   }
 </script>
 <style scoped>
-  .item_add{
-    height:100%;
-    background:#fff;
-  }
-  .left{
-    margin-top:30px;
-  }
-  .el-select{
-    float:left;
-  }
-  .addTask{
-    height:100%;
-  }
+.item_add{
+  height:100%;
+  background:#fff;
+}
+.left{
+  margin-top:30px;
+}
+.el-select{
+  float:left;
+}
 </style>

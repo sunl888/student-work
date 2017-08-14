@@ -10,9 +10,9 @@
           <i class="material-icons newIcon">dashboard</i>
           <span class="menu_txt">任务管理</span>
         </template>
-        <el-menu-item index="taskManage">任务管理</el-menu-item>
+        <el-menu-item index="/home/taskManage">任务管理</el-menu-item>
         <el-menu-item index="1-1-2">任务考核汇总</el-menu-item>
-        <el-menu-item index="addTask">添加任务</el-menu-item>
+        <el-menu-item index="/home/addTask">添加任务</el-menu-item>
       </el-submenu>
       <el-menu-item index="2">
         <i class="material-icons newIcon">account_box</i>
@@ -31,9 +31,9 @@
           <i class="material-icons newIcon">multiline_chart</i>
           <span class="menu_txt">预置数据</span>
         </template>
-        <el-menu-item index="colleges">学院名称设置</el-menu-item>
-        <el-menu-item index="workType">工作类型设置</el-menu-item>
-        <el-menu-item index="department">对口科室设置</el-menu-item>
+        <el-menu-item index="/home/colleges">学院名称设置</el-menu-item>
+        <el-menu-item index="/home/workType">工作类型设置</el-menu-item>
+        <el-menu-item index="/home/department">对口科室设置</el-menu-item>
         <el-menu-item index="4-1-4">考核等级设置</el-menu-item>
       </el-submenu>
     </el-menu>

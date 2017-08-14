@@ -13,31 +13,6 @@
       ></el-autocomplete>
       <el-button @click="jump('Login')" class="btn el-col-2 el-col-push-3">退出登录</el-button>
     </div>
-      <!--<div v-if="this.isMenu" class="menuBox el-col-3">-->
-        <!--<el-menu default-active="1" class="el-menu-vertical-demo el-col-24" router>-->
-          <!--<el-submenu index="1">-->
-            <!--<template slot="title">-->
-              <!--<i class="material-icons newIcon">dashboard</i>-->
-              <!--<span class="menu_txt">任务管理</span>-->
-            <!--</template>-->
-            <!--<el-menu-item index="taskManage">任务管理</el-menu-item>-->
-            <!--<el-menu-item index="1-1-2">任务考核汇总</el-menu-item>-->
-            <!--<el-menu-item index="addTask">添加任务</el-menu-item>-->
-          <!--</el-submenu>-->
-          <!--<el-menu-item index="2">-->
-            <!--<i class="material-icons newIcon">account_box</i>-->
-            <!--<span class="menu_txt">用户管理</span>-->
-          <!--</el-menu-item>-->
-          <!--<el-submenu index="3">-->
-            <!--<template slot="title">-->
-              <!--<i class="material-icons newIcon">message</i>-->
-              <!--<span class="menu_txt">工作通知</span>-->
-            <!--</template>-->
-            <!--<el-menu-item index="1-3-1">通知公告</el-menu-item>-->
-            <!--<el-menu-item index="1-3-2">工作讨论</el-menu-item>-->
-          <!--</el-submenu>-->
-        <!--</el-menu>-->
-      <!--</div>-->
     <el-col class="local">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>首页</el-breadcrumb-item>

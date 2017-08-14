@@ -26,6 +26,11 @@ export default new Router({
           component: require('../views/addTask.vue')
         },
         {
+          path: 'editTask/:id',
+          name: 'editTask',
+          component: require('../views/addTask.vue')
+        },
+        {
           path: 'goingFinish',
           name: 'goingFinish',
           component: require('../views/goingFinish.vue')

@@ -4,8 +4,8 @@
       <div class="left el-col-18 el-col-offset-1">
         <!--表单-->
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="工作类型" prop="workType">
-            <el-select v-model="ruleForm.workType" class="optionBox">
+          <el-form-item label="工作类型" prop="work_type_id">
+            <el-select v-model="ruleForm.work_type_id" class="optionBox">
               <el-option
                 v-for="item in workTypeList"
                :key="item.id"
@@ -15,8 +15,8 @@
             </el-select>
           </el-form-item>
           <!--对口科室-->
-          <el-form-item label="对口科室" prop="department">
-            <el-select v-model="ruleForm.department" class="optionBox">
+          <el-form-item label="对口科室" prop="department_id">
+            <el-select v-model="ruleForm.department_id" class="optionBox">
               <el-option
                 v-for="item in departmentList"
                 :key="item.id"
@@ -25,18 +25,18 @@
             </el-select>
           </el-form-item>
           <!--完成时间-->
-          <el-form-item label="完成时间" prop="date">
+          <el-form-item label="完成时间" prop="end_time">
             <el-col :span="1">
               <el-date-picker
-                v-model="ruleForm.date"
+                v-model="ruleForm.end_time"
                 type="date"
                 placeholder="选择日期">
               </el-date-picker>
            </el-col>
           </el-form-item>
           <!--任务要求-->
-          <el-form-item label="任务名称" prop="name">
-            <el-input v-model="ruleForm.name" placeholder="请输入任务名称"></el-input>
+          <el-form-item label="任务名称" prop="title">
+            <el-input v-model="ruleForm.title" placeholder="请输入任务名称"></el-input>
           </el-form-item>
           <!--任务内容-->
           <el-form-item label="任务内容" prop="detail">
@@ -44,7 +44,8 @@
           </el-form-item>
           <!--按钮组-->
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+            <el-button v-if="isEdit" type="primary" @click="editTask('ruleForm')">立即修改</el-button>
+            <el-button v-else type="primary" @click="createTask('ruleForm')">立即创建</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
         </el-form>
@@ -57,28 +58,30 @@
   export default{
     data () {
       return {
+        // 是否是修改
+        isEdit: false,
         // 工作类型列表
         workTypeList: [],
         // 对口科室列表
         departmentList: [],
         ruleForm: {
-          workType: '',
-          department: '',
-          date: '',
-          name: '',
+          work_type_id: '',
+          department_id: '',
+          end_time: '',
+          title: '',
           detail: ''
         },
         rules: {
-          workType: [
-            { type: 'number', required: true, message: '请选择工作类型', trigger: 'change' }
+          work_type_id: [
+            { type: 'number', required: true, message: '请选择活动区域1', trigger: 'change' }
           ],
-          department: [
+          department_id: [
             { type: 'number', required: true, message: '请选择活动区域', trigger: 'change' }
           ],
-          date: [
+          end_time: [
             { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
           ],
-          name: [
+          title: [
             { required: true, message: '请输入任务名称', trigger: 'change' }
           ],
           detail: [
@@ -87,21 +90,38 @@
         }
       }
     },
+    watch: {
+      '$route' () {
+        this.ruleForm =  {
+          work_type_id: '',
+          department_id: '',
+          end_time: '',
+          title: '',
+          detail: ''
+        }
+        this.$route.name === 'editTask' ? this.isEdit = true : this.isEdit = false
+      }
+    },
     mounted () {
       this.getWorkTypeList()
       this.getDepartmentsList()
+      // 修改任务
+      if(this.$route.name === 'editTask'){
+        this.isEdit = true
+        this.$http.get('task/' + this.$route.params.id).then(res => {
+          res.data.data.end_time = new Date(res.data.data.end_time);
+          this.ruleForm = res.data.data
+        })
+      }else{
+        this.isEdit = false
+      }
     },
     methods: {
-      submitForm (formName) {
+      // 创建任务
+      createTask (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$http.post('create_task', {
-              title: this.ruleForm.name,
-              detail: this.ruleForm.detail,
-              work_type_id: this.ruleForm.workType,
-              department_id: this.ruleForm.department,
-              end_time: this.ruleForm.date
-            }).then(res => {
+            this.$http.post('create_task',this.ruleForm).then(res => {
               this.$message({
                 message: '添加任务成功',
                 type: 'success'
@@ -109,10 +129,26 @@
               this.$router.push({path: 'home/taskManage'})
             }, res => {
               this.$message.error(res.body.message)
-              console.log(res)
             })
           } else {
-
+            return false
+          }
+        })
+      },
+      // 修改任务
+      editTask (formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.$http.post('update_task/' + this.$route.params.id, this.ruleForm).then(res => {
+              this.$message({
+                message: '修改任务成功',
+                type: 'success'
+              })
+              this.$router.push({path: 'home/taskManage'})
+            }, res => {
+              this.$message.error(res.body.message)
+            })
+          } else {
             return false
           }
         })
@@ -125,6 +161,7 @@
       getWorkTypeList () {
         this.$http.get('work_types').then(res => {
           this.workTypeList = res.data.data
+          console.log(this.workTypeList)
         })
       },
       // 获取对口科室列表
