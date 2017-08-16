@@ -180,9 +180,9 @@ class TaskController extends BaseController
         return $this->response->noContent();
     }
 
-    public function tasks($limit = 15)
+    public function tasks()
     {
-        return $this->response()->paginator($this->taskRepository->lists($limit), new TaskTransformer());
+        return $this->response()->paginator($this->taskRepository->lists($this->perPage()), new TaskTransformer());
     }
     public function task($taskId)
     {
