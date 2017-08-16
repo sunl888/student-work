@@ -90,7 +90,7 @@ class AppServiceProvider extends ServiceProvider
                     [
                         'status_code' => 422,
                         'code' => 422,
-                        'message' => $exception->validator->errors()->first()
+                        'message' => $exception->validator->errors()
                     ], 422
                 );
             }

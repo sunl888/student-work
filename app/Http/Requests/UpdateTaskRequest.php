@@ -24,11 +24,11 @@ class UpdateTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
+            /*'title' => 'required',
             'detail' => 'required',
             'work_type_id' => 'required',
             'department_id' => 'required',
-            'end_time' => 'required',
+            'end_time' => 'required',*/
         ];
     }
 

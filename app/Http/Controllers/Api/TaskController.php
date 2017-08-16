@@ -77,7 +77,7 @@ class TaskController extends BaseController
     public function updateTask(UpdateTaskRequest $request, $taskId)
     {
         if ($this->allowUpdateTask()) {
-            $this->taskRepository->updateTask($request->only(Task::$allowUpdateFields), $taskId);
+            $this->taskRepository->updateTask($request->all(), $taskId);
         }
     }
 
