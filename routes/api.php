@@ -45,7 +45,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     // 获取工作类型
     $api->get('work_types', 'WorkTypeController@lists');
     // 获取考核等级
-    $api->get('assess', 'AssessController@lists');
+    $api->get('appraises', 'AssessController@lists');
     // 获取学院
     $api->get('colleges', 'CollegeController@lists');
     // 获取对口科室
@@ -66,9 +66,9 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->post('update_work_type/{work_id}', 'WorkTypeController@update');
         $api->get('delete_work_type/{work_id}', 'WorkTypeController@delete');
         // 考核等级
-        $api->post('create_assess', 'AssessController@store');
-        $api->post('update_assess/{assess_id}', 'AssessController@update');
-        $api->get('delete_assess/{assess_id}', 'AssessController@delete');
+        $api->post('create_appraise', 'AssessController@store');
+        $api->post('update_appraise/{assess_id}', 'AssessController@update');
+        $api->get('delete_appraise/{assess_id}', 'AssessController@delete');
         // 对口科室
         $api->post('create_department', 'DepartmentController@store');
         $api->post('update_department/{department_id}', 'DepartmentController@update');

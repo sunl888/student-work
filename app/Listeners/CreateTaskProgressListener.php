@@ -27,20 +27,21 @@ class CreateTaskProgressListener
     public function handle($event)
     {
         // 每创建一个任务就为每个学院建立一个任务进程记录
-        if ($event instanceof AuditedTask) {
-            $collegeIds = app(CollegeRepository::class)->all(['id']);
-            if ($collegeIds->isNotEmpty() && $event->task) {
-                $data = array();
-                foreach ($collegeIds as $collegeId) {
-                    $data[] = [
-                        'task_id' => $event->task->id,
-                        'college_id' => $collegeId->id,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ];
+        if ($event instanceof AuditedTask && $event->task) {
+            if (!app(TaskProgressRepository::class)->hasRecord(['task_id' => $event->task->id])) {
+                $collegeIds = app(CollegeRepository::class)->all(['id']);
+                if ($collegeIds->isNotEmpty()) {
+                    $data = array();
+                    foreach ($collegeIds as $collegeId) {
+                        $data[] = [
+                            'task_id' => $event->task->id,
+                            'college_id' => $collegeId->id,
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now(),
+                        ];
+                    }
+                    app(TaskProgressRepository::class)->createTaskProgress($data, $event->task->id);
                 }
-                app(TaskProgressRepository::class)->createTaskProgress($data, $event->task->id);
-                //TaskProgressController::insert($data);
             }
         }
     }

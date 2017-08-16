@@ -16,20 +16,14 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TaskProgressRepository extends Repository
 {
-    /*public function model()
-    {
-        return 'App\Models\TaskProgress';
-    }*/
-
     public function __construct()
     {
         $this->model = app(TaskProgress::class);
     }
 
-
-
     public function createTaskProgress(array $data, $taskId)
     {
+        //todo bug
         if ($this->isAutided($taskId)) {
             return $this->model->insert($data);
         }
