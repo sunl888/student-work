@@ -28,7 +28,7 @@ class SendNotificationListener
     public function handle($event)
     {
         if ($event instanceof AuditedTask) {
-            Notification::send();
+            //Notification::send();
         }
     }
 }
