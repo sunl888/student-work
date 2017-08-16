@@ -19,6 +19,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         EntrustUserTrait::can as may;
         Authorizable::can insteadof EntrustUserTrait;
     }
+
     /**
      * The attributes that are mass assignable.
      *
