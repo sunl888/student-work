@@ -106,11 +106,12 @@
       this.getWorkTypeList()
       this.getDepartmentsList()
       // 修改任务
-      if(this.$route.name === 'editTask'){
+      if(this.$route.name === 'edit_task'){
         this.isEdit = true
         this.$http.get('task/' + this.$route.params.id).then(res => {
           res.data.data.end_time = new Date(res.data.data.end_time);
           this.ruleForm = res.data.data
+          this.$diff.save(this.ruleForm);
         })
       }else{
         this.isEdit = false
@@ -127,8 +128,6 @@
                 type: 'success'
               })
               this.$router.push({path: 'home/taskManage'})
-            }, res => {
-              this.$message.error(res.body.message)
             })
           } else {
             return false
@@ -139,14 +138,12 @@
       editTask (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$http.post('update_task/' + this.$route.params.id, this.ruleForm).then(res => {
+            this.$http.post('update_task/' + this.$route.params.id, this.$diff.diff(this.ruleForm)).then(res => {
               this.$message({
                 message: '修改任务成功',
                 type: 'success'
               })
               this.$router.push({path: 'home/taskManage'})
-            }, res => {
-              this.$message.error(res.body.message)
             })
           } else {
             return false
@@ -161,7 +158,6 @@
       getWorkTypeList () {
         this.$http.get('work_types').then(res => {
           this.workTypeList = res.data.data
-          console.log(this.workTypeList)
         })
       },
       // 获取对口科室列表

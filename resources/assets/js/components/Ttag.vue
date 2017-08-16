@@ -1,6 +1,6 @@
 <template>
   <div class="t-tag" :canhover="!contenteditable">
-    <div :class="{'user_select_none': !contenteditable}" @blur="$emit('update', $event.target.innerHTML), contenteditable = false" @dblclick="contenteditable = true" ref="editableDIv" :contenteditable="contenteditable" class="content">
+    <div :class="{'user_select_none': !contenteditable}" @blur="update" @dblclick="contenteditable = true" ref="editableDIv" :contenteditable="contenteditable" class="content">
       {{content}}
     </div>
     <div class="option">
@@ -18,6 +18,14 @@ export default {
   data () {
     return {
       contenteditable: false
+    }
+  },
+  methods: {
+    update (event) {
+      if(this.content.trim() != event.target.innerHTML.trim()){
+        this.$emit('update', event.target.innerHTML)
+      }
+      this.contenteditable = false
     }
   },
   watch: {

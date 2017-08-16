@@ -11,7 +11,7 @@
         placeholder="请输入内容"
         @select="handleSelect"
       ></el-autocomplete>
-      <el-button @click="jump('Login')" class="btn el-col-2 el-col-push-3">退出登录</el-button>
+      <el-button @click="jump('login')" class="btn el-col-2 el-col-push-3">退出登录</el-button>
     </div>
     <el-col class="local">
       <el-breadcrumb separator="/">
@@ -19,7 +19,7 @@
         <el-breadcrumb-item>任务管理</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="operation">
-        <el-button type="primary" @click="$router.push({name: 'addTask'})">添加任务</el-button>
+        <el-button type="primary" @click="$router.push({name: 'add_task'})">添加任务</el-button>
         <el-badge :value="3" class="item">
           <el-button>最新通知</el-button>
         </el-badge>

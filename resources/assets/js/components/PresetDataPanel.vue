@@ -30,6 +30,7 @@ export default {
   methods: {
     // 更新工作类型
     update (newVal, id) {
+      if(this.inputVal == newVal){return}
       this.$http.post('update_' + this.url + '/' + id, {
         title: newVal
       }).then(res => {
@@ -61,17 +62,24 @@ export default {
     },
     // 删除工作类型
     deleteWorkType (id, index) {
-      this.$http.get('delete_' + this.url + '/' + id).then(res => {
-        this.tags.splice(index, 1)
-          console.log(res.status)
-        this.$message({
-            message: '删除成功',
-            type: 'success'
+      this.$confirm('此操作将删除该数据项, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http.get('delete_' + this.url + '/' + id).then(res => {
+          this.tags.splice(index, 1)
+          this.$message({
+              message: '删除成功',
+              type: 'success'
+          })
         })
-        if (res.status !== 200) {
-
-        }
-      })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
     }
   }
 }
