@@ -25,6 +25,8 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\AuditedTask' => [
             //为每个学院创建任务进程
             'App\Listeners\CreateTaskProgressListener',
+            //发送通知
+            'App\Listeners\SendNotificationListener'
         ]
     ];
 

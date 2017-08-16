@@ -39,7 +39,8 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     // 任务评分
     $api->post('task_score/{task_id}', 'TaskController@taskScore');
     // 任务列表
-    $api->get('tasks/{offset}/{limit?}', 'TaskController@tasks');
+    $api->get('tasks/{limit?}', 'TaskController@tasks');
+
     // 已删除的任务列表
     $api->get('trashed_tasks/{offset}/{limit?}', 'TaskController@getTrashed');
     // 获取工作类型

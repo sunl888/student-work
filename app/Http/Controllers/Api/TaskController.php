@@ -35,14 +35,9 @@ class TaskController extends BaseController
      */
     public function createTask(CreateTaskRequest $taskRequest)
     {
-        /*$user = app(User::class)->find(1);
-        dd($user->unreadNotifications->markAsRead());
-        foreach ($user->unreadNotifications as $notification) {
-            dd($notification->markAsRead());
-        }
-        dd(1);*/
         if ($this->allowCreateTask()) {
-            event(new TaskSaved($this->taskRepository->createTask($taskRequest->all())));
+            $task = $this->taskRepository->createTask($taskRequest->all());
+            event(new TaskSaved($task));
         }
         return $this->response->noContent();
     }
@@ -57,6 +52,7 @@ class TaskController extends BaseController
         if ($this->allowAuditTask()) {
             if ($this->taskRepository->updateTask($data, $taskId)) {
                 event(new AuditedTask($taskId));
+                //event(new );
             }
         }
     }
@@ -184,9 +180,9 @@ class TaskController extends BaseController
         return $this->response->noContent();
     }
 
-    public function tasks($offset, $limit = 15)
+    public function tasks($limit = 15)
     {
-        return $this->response->collection($this->taskRepository->lists($offset, $limit), new TaskTransformer());
+        return $this->response()->paginator($this->taskRepository->lists($limit), new TaskTransformer());
     }
     public function task($taskId)
     {
