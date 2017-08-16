@@ -10,11 +10,14 @@ use App\Http\Requests\SubmitTaskRequest;
 use App\Http\Requests\TaskScoreRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use App\Models\User;
+use App\Notifications\NewTask;
 use App\Repositories\TaskProgressRepository;
 use App\Repositories\TaskRepository;
 use App\Transformers\TaskTransformer;
 use Auth;
 use Carbon\Carbon;
+use Notification;
 
 class TaskController extends BaseController
 {
@@ -32,6 +35,12 @@ class TaskController extends BaseController
      */
     public function createTask(CreateTaskRequest $taskRequest)
     {
+        /*$user = app(User::class)->find(1);
+        dd($user->unreadNotifications->markAsRead());
+        foreach ($user->unreadNotifications as $notification) {
+            dd($notification->markAsRead());
+        }
+        dd(1);*/
         if ($this->allowCreateTask()) {
             event(new TaskSaved($this->taskRepository->createTask($taskRequest->all())));
         }
