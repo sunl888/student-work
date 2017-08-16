@@ -41,15 +41,16 @@ export default {
     },
     // 添加工作类型
     addType () {
-      this.$http.post('create_' + this.url,{
-        title: this.inputVal
+      this.$http.post('create_' + this.url, {
+          title: this.inputVal
       }).then(res => {
-        this.inputVal = ''
-        this.getWorkType()
-        this.$message({
-          message: '添加成功',
-          type: 'success'
-        })
+          console.log(res.status)
+          this.inputVal = ''
+          this.getWorkType()
+          this.$message({
+              message: 'res.status',
+              type: 'error'
+          })
       })
     },
     // 获取工作类型
@@ -62,10 +63,14 @@ export default {
     deleteWorkType (id, index) {
       this.$http.get('delete_' + this.url + '/' + id).then(res => {
         this.tags.splice(index, 1)
+          console.log(res.status)
         this.$message({
-          message: '删除成功',
-          type: 'success'
+            message: '删除成功',
+            type: 'success'
         })
+        if (res.status !== 200) {
+
+        }
       })
     }
   }

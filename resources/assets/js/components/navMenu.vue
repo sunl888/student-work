@@ -2,17 +2,17 @@
   <div class="menuBox">
     <el-menu router unique-opened theme="dark" default-active="1" >
       <div class="mine">
-        <i class="material-icons">account_circle</i>
-        <p>欢迎您，XX老师</p>
+        <i style="color:white;" class="material-icons">account_circle</i>
+        <p>{{'您好，' + me.name + '老师'}}</p>
       </div>
       <el-submenu index="1">
         <template slot="title">
           <i class="material-icons newIcon">dashboard</i>
           <span class="menu_txt">任务管理</span>
         </template>
-        <el-menu-item index="/home/taskManage">任务管理</el-menu-item>
+        <el-menu-item index="/home/task_manage">任务管理</el-menu-item>
         <el-menu-item index="1-1-2">任务考核汇总</el-menu-item>
-        <el-menu-item index="/home/addTask">添加任务</el-menu-item>
+        <el-menu-item index="/home/add_task">添加任务</el-menu-item>
       </el-submenu>
       <el-menu-item index="2">
         <i class="material-icons newIcon">account_box</i>
@@ -32,15 +32,31 @@
           <span class="menu_txt">预置数据</span>
         </template>
         <el-menu-item index="/home/colleges">学院名称设置</el-menu-item>
-        <el-menu-item index="/home/workType">工作类型设置</el-menu-item>
+        <el-menu-item index="/home/work_type">工作类型设置</el-menu-item>
         <el-menu-item index="/home/department">对口科室设置</el-menu-item>
-        <el-menu-item index="4-1-4">考核等级设置</el-menu-item>
+        <el-menu-item index="/home/access">考核等级设置</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
 </template>
 <script>
-
+export default{
+    data () {
+      return {
+          me: ''
+      }
+    },
+    mounted () {
+      this.getMe()
+    },
+    methods: {
+      getMe () {
+          this.$http.get('me').then(res => {
+              this.me = res.data.data
+          })
+      }
+    }
+}
 </script>
 <style scoped>
   .el-menu{

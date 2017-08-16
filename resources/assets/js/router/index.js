@@ -18,37 +18,37 @@ export default new Router({
         {
           path: 'taskManage',
           name: 'taskManage',
-          component: require('../views/taskManage.vue')
+          component: require('../views/task/taskManage.vue')
         },
         {
-          path: 'addTask',
-          name: 'addTask',
-          component: require('../views/addTask.vue')
+          path: 'add_task',
+          name: 'add_task',
+          component: require('../views/task/addTask.vue')
         },
         {
-          path: 'editTask/:id',
-          name: 'editTask',
-          component: require('../views/addTask.vue')
+          path: 'edit_task/:id',
+          name: 'edit_task',
+          component: require('../views/task/addTask.vue')
         },
         {
-          path: 'goingFinish',
-          name: 'goingFinish',
-          component: require('../views/goingFinish.vue')
+          path: 'going_finish',
+          name: 'going_finish',
+          component: require('../views/task/goingFinish.vue')
         },
         {
           path: 'unfinished',
           name: 'unfinished',
-          component: require('../views/unfinishedWork.vue')
+          component: require('../views/task/unfinishedWork.vue')
         },
         {
-          path: 'taskDetail',
-          name: 'taskDetail',
-          component: require('../views/taskDetail.vue')
+          path: 'task_detail',
+          name: 'task_detail',
+          component: require('../views/task/taskDetail.vue')
         },
         {
-          path: 'taskScore',
-          name: 'taskScore',
-          component: require('../views/taskScore.vue')
+          path: 'task_score',
+          name: 'task_score',
+          component: require('../views/task/taskScore.vue')
         },
         {
           path: 'colleges',
@@ -56,20 +56,25 @@ export default new Router({
           component: require('../views/precut/Colleges.vue')
         },
         {
-          path: 'workType',
-          name: 'workType',
+          path: 'work_type',
+          name: 'work_type',
           component: require('../views/precut/WorkType.vue')
         },
         {
-          path: 'department',
-          name: 'department',
-          component: require('../views/precut/Department.vue')
+            path: 'department',
+            name: 'department',
+            component: require('../views/precut/Department.vue')
+        },
+        {
+            path: 'access',
+            name: 'access',
+            component: require('../views/precut/gradeExam.vue')
         }
       ]
     },
     {
       path: '/login',
-      name: 'Login',
+      name: 'login',
       component: require('../views/login.vue')
     }
   ]
