@@ -1,6 +1,6 @@
 <template>
   <div class="t-tag" :canhover="!contenteditable">
-    <div :class="{'user_select_none': !contenteditable}" @blur="update" @dblclick="contenteditable = true" ref="editableDIv" :contenteditable="contenteditable" class="content">
+    <div :class="{'user_select_none': !contenteditable}" @blur="update" ref="editableDIv" :contenteditable="contenteditable" class="content">
       {{content}}
     </div>
     <div class="option">

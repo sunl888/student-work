@@ -2,7 +2,7 @@
   <div class="prese_data_panel">
     <h2 class="title">{{title}}</h2>
     <transition-group name="el-zoom-in-center">
-      <Ttag @update="update($event, item.id)" @on-close="deleteWorkType(item.id, index)" :key="item.id" v-for="(item,index) in tags" :content="item.title"></Ttag>
+      <Ttag @update="update($event, item.id)" :key="item.id" v-for="(item,index) in tags"  @on-close="deleteWorkType(item.id, index)" :content="item.title"></Ttag>
     </transition-group>
     <el-input @keyup.enter.native="addType" @click="addType" class="add_input" icon="plus" v-model="inputVal" placeholder="请输入内容"></el-input>
   </div>
@@ -38,6 +38,11 @@ export default {
           message: '修改成功',
           type: 'success'
         })
+      }).catch(res => {
+          $messgae({
+              type: 'error',
+              message: res.data.message
+          })
       })
     },
     // 添加工作类型
@@ -45,12 +50,16 @@ export default {
       this.$http.post('create_' + this.url, {
           title: this.inputVal
       }).then(res => {
-          console.log(res.status)
           this.inputVal = ''
           this.getWorkType()
           this.$message({
-              message: 'res.status',
-              type: 'error'
+              message: '创建成功',
+              type: 'success'
+          })
+      }).catch(res => {
+        this.$message({
+              type: 'error',
+              message: res.data.message
           })
       })
     },
@@ -73,13 +82,13 @@ export default {
               message: '删除成功',
               type: 'success'
           })
+        }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '已取消删除'
+            })
         })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-      });
+      })
     }
   }
 }
