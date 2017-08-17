@@ -11,7 +11,7 @@
         placeholder="请输入内容"
         @select="handleSelect"
       ></el-autocomplete>
-      <el-button @click="jump('login')" class="btn el-col-2 el-col-push-3">退出登录</el-button>
+      <el-button @click="logout()" class="btn el-col-2 el-col-push-3">退出登录</el-button>
     </div>
     <el-col class="local">
       <el-breadcrumb separator="/">
@@ -54,6 +54,15 @@
         return (task) => {
           return (task.value.indexOf(queryString.toLowerCase()) === 0)
         }
+      },
+      logout () {
+          this.$http.get('logout').then(res => {
+              this.$router.push({name: 'login'})
+              this.$message({
+                  type: 'warning',
+                  message: res.data.message
+              })
+          })
       },
       loadAll () {
         return [
