@@ -189,7 +189,7 @@ class TaskController extends BaseController
         return $this->response->item($this->taskRepository->getTask($taskId), new TaskTransformer());
     }
 
-    public function getTrashed($offset, $limit = 15)
+    public function getTrashed()
     {
         return $this->response()->paginator($this->taskRepository->getTrashed($this->perPage()), new TaskTransformer());
     }
