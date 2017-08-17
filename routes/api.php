@@ -42,7 +42,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('tasks', 'TaskController@tasks');
 
     // 已删除的任务列表
-    $api->get('trashed_tasks/{offset}/{limit?}', 'TaskController@getTrashed');
+    $api->get('trashed_tasks', 'TaskController@getTrashed');
     // 获取工作类型
     $api->get('work_types', 'WorkTypeController@lists');
     // 获取考核等级

@@ -191,7 +191,7 @@ class TaskController extends BaseController
 
     public function getTrashed($offset, $limit = 15)
     {
-        return $this->response->collection($this->taskRepository->getTrashed($offset, $limit), new TaskTransformer());
+        return $this->response()->paginator($this->taskRepository->getTrashed($this->perPage()), new TaskTransformer());
     }
 
     public function reStore($id){

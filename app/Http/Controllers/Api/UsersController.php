@@ -28,6 +28,6 @@ class UsersController extends BaseController
     }
 
     public function getCollegeUsers(){
-        dd(app(UserRepository::class)->getUsersWithCollege());
+        dd(app(UserRepository::class)->usersWithRole('college'));
     }
 }

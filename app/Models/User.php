@@ -44,7 +44,15 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     }
 
     public function scopeCollege(){
-        //return $this->role('college');
+        return $this->roles()->where('name','college');
+    }
+
+    /**
+     * 用户角色
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
     }
 
     public function authorize($ability, $arguments = [])

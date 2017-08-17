@@ -76,15 +76,14 @@ class TaskRepository extends Repository
 
     public function lists($limit){
         return $this->model->recent()->paginate($limit);
-        //return $this->model->forPage($offset,$limit)->recent()->get();
     }
 
     public function getTask($taskId){
         return $this->model->find($taskId);
     }
 
-    public function getTrashed($offset, $limit){
-        return $this->model->onlyTrashed()->forPage($offset,$limit)->recent()->get();
+    public function getTrashed($limit){
+        return $this->model->onlyTrashed()->recent()->paginate($limit);
     }
 
     public function reStore($id){
