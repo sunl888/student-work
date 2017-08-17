@@ -2,12 +2,19 @@
     <div class="currency-list-page">
           <div v-loading="loading" class="main">
               <slot v-if="list.length > 0" :data="list"></slot>
-              <div class="ifNone" v-else>
-                <p>
-                  当前还没有任务哦，请单击右侧按钮添加任务&emsp;
-                  <el-button type="primary" icon="plus" @click="jump('addTask')"></el-button>
-                </p>
-              </div>
+              <template v-else>
+                <div v-if="queryName != 'trashed_tasks'">
+                  <p>
+                    当前还没有任务哦，请单击右侧按钮添加任务&emsp;
+                    <el-button type="primary" icon="plus" @click="$router.push({path: 'add_task'})"></el-button>
+                  </p>
+                </div>
+                <div v-else>
+                  <p>
+                    当前还没有已删除的任务
+                  </p>
+                </div>
+              </template>
           </div>
           <div v-if="list.length > 0" class="footer">
               <div class="page_num_box">
@@ -39,7 +46,11 @@
     export default{
         name: 'currencyListPage',
         props: {
-            queryName: String
+            queryName: String,
+            autoRequest: {
+              type: Boolean,
+              default: true
+            }
         },
         data () {
             return {
@@ -51,13 +62,15 @@
             }
         },
         mounted () {
+          if(this.autoRequest){
             this.getList();
+          }
         },
         methods: {
             refresh () {
-                this.$nextTick(() => {
-                    this.getList(this.currentPage);
-                })
+              this.$nextTick(() => {
+                  this.getList(this.currentPage);
+              })
             },
             getList (page = 1, sort) {
                 if(this.queryName){

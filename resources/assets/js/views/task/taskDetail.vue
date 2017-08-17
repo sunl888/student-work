@@ -11,7 +11,6 @@
           <div> 对口科室：<span>{{ tableData.city }}</span></div>
           <div> 负责人：<span>{{ tableData.address }}</span></div>
           <div>截止日期：<span>{{ tableData.zip }}</span></div>
-          <div>附件情况：<span>{{ tableData.addFile }}</span></div>
           <p class="content"><span>{{ tableData.item}}</span></p>
         </div>
     <div class="taskWatch">
