@@ -19,7 +19,7 @@ class AssessController extends BaseController
     }
 
     public function update(UpdateAssessRequest $request, $assessId){
-        app(AssessRepository::class)->update($request->only('title','score'),['id'=>$assessId]);
+        app(AssessRepository::class)->update($request->all(),['id'=>$assessId]);
         return $this->response->noContent();
     }
 

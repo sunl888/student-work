@@ -43,9 +43,14 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         return $this->hasRole('super_admin');
     }
 
+    public function scopeCollege(){
+        //return $this->role('college');
+    }
+
     public function authorize($ability, $arguments = [])
     {
         return app(Gate::class)->forUser($this)->authorize($ability, $arguments);
     }
+
 }
 

@@ -3,6 +3,8 @@
 namespace App\Listeners;
 
 use App\Events\AuditedTask;
+use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Notification;
@@ -28,6 +30,7 @@ class SendNotificationListener
     public function handle($event)
     {
         if ($event instanceof AuditedTask) {
+            $users = app(UserRepository::class);
             //Notification::send();
         }
     }

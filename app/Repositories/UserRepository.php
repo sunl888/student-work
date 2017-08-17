@@ -12,13 +12,13 @@ use App\Models\User;
 
 class UserRepository extends Repository
 {
-    /*public function model()
-    {
-        return 'App\Models\User';
-    }*/
     public function __construct()
     {
         $this->model = app(User::class);
+    }
+
+    public function getUsersWithCollege(){
+        return $this->model->college()->get();
     }
 
 }

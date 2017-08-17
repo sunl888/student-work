@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use App\Repositories\UserRepository;
 use App\Transformers\UserTransformer;
 
 class UsersController extends BaseController
@@ -14,7 +15,7 @@ class UsersController extends BaseController
     }
 
     /**
-     * 获取某个学院下的所有用户
+     * 获取学院下的所有用户
      * @return \Dingo\Api\Http\Response
      */
     public function usersWithCollege()
@@ -24,5 +25,9 @@ class UsersController extends BaseController
             return $this->response->collection($users->except($this->guard()->user()->id), new UserTransformer());
         }
         return $this->response->noContent();
+    }
+
+    public function getCollegeUsers(){
+        dd(app(UserRepository::class)->getUsersWithCollege());
     }
 }
