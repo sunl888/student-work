@@ -40,7 +40,6 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->post('task_score/{task_id}', 'TaskController@taskScore');
     // 任务列表
     $api->get('tasks', 'TaskController@tasks');
-
     // 已删除的任务列表
     $api->get('trashed_tasks', 'TaskController@getTrashed');
     // 获取工作类型
@@ -51,16 +50,12 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('colleges', 'CollegeController@lists');
     // 获取对口科室
     $api->get('departments', 'DepartmentController@lists');
-    // 根据当前登陆用户获取其所在学院下的所有用户
+    // 根据学院id获取该学院下的所有用户 默认根据当前登陆用户所在学院
     $api->get('users', 'UsersController@usersWithCollege');
     // 显示某个任务的进程情况
     $api->get('task_progress/{task_id}', 'TaskProgressController@show');
     // 显示某个任务
     $api->get('task/{taskId}', 'TaskController@task');
-    //
-    $api->get('college_users', 'UsersController@getCollegeUsers');
-
-
 
     // 预置数据的添加、修改、删除(角色：超级管理员)
     $api->group(['middleware' => ['role:super_admin']], function ($api) {
@@ -81,4 +76,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->post('update_college/{college_id}', 'CollegeController@update');
         $api->get('delete_college/{college_id}', 'CollegeController@delete');
     });
+
+    //通知
+    $api->get('unread_notifys','UsersController@unreadNotifications');
 });

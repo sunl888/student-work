@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Events\AuditedTask;
+use App\Events\TaskAlloted;
 use App\Events\TaskSaved;
 use App\Http\Requests\AllotTaskRequest;
 use App\Http\Requests\CreateTaskRequest;
@@ -14,6 +15,7 @@ use App\Models\User;
 use App\Notifications\NewTask;
 use App\Repositories\TaskProgressRepository;
 use App\Repositories\TaskRepository;
+use App\Repositories\UserRepository;
 use App\Transformers\TaskTransformer;
 use Auth;
 use Carbon\Carbon;
@@ -126,14 +128,16 @@ class TaskController extends BaseController
     /**
      * 分配任务（指派责任人）
      * 因为只有各二级学院有权利对任务分配责任人，所以这里的学院id直接填当前用户的学院id
-     * @param AllotTaskRequest $allotTaskRequest
+     * @param AllotTaskRequest $request
      * @return \Dingo\Api\Http\Response
      */
-    public function allotTask(AllotTaskRequest $allotTaskRequest)
+    public function allotTask(AllotTaskRequest $request)
     {
         if ($this->allowAllotTask()) {
-            $allotTaskRequest->offsetSet('college_id', Auth::user()->college_id);
-            app(TaskProgressRepository::class)->allotTask($allotTaskRequest);
+            $college_id = $this->guard()->user()->college_id;
+            $request->offsetSet('college_id', $college_id);
+            app(TaskProgressRepository::class)->allotTask($request);
+            event(new TaskAlloted($request));
         }
         return $this->response->noContent();
     }

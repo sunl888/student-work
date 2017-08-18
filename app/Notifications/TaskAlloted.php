@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-class TaskAudited extends Task
+class TaskAlloted extends Task
 {
 
 }

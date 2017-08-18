@@ -15,15 +15,21 @@ class UsersController extends BaseController
     }
 
     /**
-     * 获取学院下的所有用户
+     * 获取当前学院下的所有用户
      * @return \Dingo\Api\Http\Response
      */
-    public function usersWithCollege()
+    public function usersWithCollege($collegeId = null)
     {
-        $users = app(User::class)->where(['college_id' => $this->guard()->user()->college_id])->get();
-        if ($users->count() > 0) {
-            return $this->response->collection($users->except($this->guard()->user()->id), new UserTransformer());
+        return $this->response->item(app(UserRepository::class)->usersWithCollege($collegeId), new UserTransformer());
+    }
+
+    /**
+     * 获取没有阅读的通知
+     */
+    public function unreadNotifications(){
+        $user = $this->guard()->user();
+        foreach ($user->unreadNotifications as $notification) {
+            dd($notification);
         }
-        return $this->response->noContent();
     }
 }

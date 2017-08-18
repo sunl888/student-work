@@ -25,8 +25,7 @@ class AllotTaskRequest extends FormRequest
     {
         return [
             'task_id' => 'required|exists:tasks,id',
-            'user_id' => 'required',
-            //'college_id' =>
+            'user_id' => 'required|alpha_num',
         ];
     }
 
@@ -36,7 +35,7 @@ class AllotTaskRequest extends FormRequest
             'task_id.required' => '任务ID有误',
             'task_id.exists' => '该任务不存在',
             'user_id.required' => '必须指定一名责任人',
-            'user_id.exists' => '指定的责任人不存在'
+            'user_id.alpha_num' => '请指定责任人(all || id)'
         ];
     }
 }
