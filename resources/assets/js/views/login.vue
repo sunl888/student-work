@@ -14,7 +14,7 @@
             </el-col>
           </el-form>
           <el-col :span="12" :offset="6">
-            <el-button type="success" @click="login()" class="el-col-24" size="small" :loading="this.isLoading">登录</el-button>
+            <el-button type="success" @click="login()" class="el-col-24" :loading="this.isLoading">登录</el-button>
           </el-col>
         </el-row>
       </div>
@@ -38,7 +38,8 @@
         this.isLoading = true
         this.$http.post('login', {
           name: this.userName,
-          password: this.userPsw
+          password: this.userPsw,
+          remember: 1
         }).then(res => {
               window.localStorage.token = res.token
               this.isLoading = false
@@ -57,14 +58,6 @@
     }
 </script>
 <style scoped>
-  .loginBox{
-    position:fixed;
-    top:0;
-    left:0;
-    height:100%;
-    background:url('../assets/images/login_bg.jpg');
-    background-size:cover;
-  }
   .login{
     position:absolute;
     margin:auto;
@@ -76,16 +69,39 @@
     overflow:hidden;
     height:280px;
     background:white;
-    box-shadow:1px 1px 5px 1px #bbb,
-                -1px -1px 5px #bbb;
+    border-radius: 10px;
   }
   .login h3{
-    margin:40px 0;
+    margin: 40px 0;
+    font-size: 22px;
+    color: #444;
   }
   .el-col{
     margin-bottom:15px;
   }
   .el-button{
     margin-top:15px;
+  }
+
+  @keyframes animatedBackground {
+    from { background-position: 0 0; }
+    to { background-position: 100% 0; }
+  }
+  @-webkit-keyframes animatedBackground {
+    from { background-position: 0 0; }
+    to { background-position: 100% 0; }
+  }
+  .loginBox{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #c0deed;
+    background-image: url(../assets/images/login_bg.jpg);
+    background-position: 0px 0px;
+    background-repeat: repeat-x;
+    animation: animatedBackground 40s linear infinite;
+    -ms-animation: animatedBackground 40s linear infinite;
+    -moz-animation: animatedBackground 40s linear infinite;
+    -webkit-animation: animatedBackground 40s linear infinite;
   }
 </style>

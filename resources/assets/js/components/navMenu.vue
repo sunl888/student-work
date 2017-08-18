@@ -31,10 +31,10 @@
           <i class="material-icons newIcon">multiline_chart</i>
           <span class="menu_txt">预置数据</span>
         </template>
-        <el-menu-item index="/home/colleges">学院名称设置</el-menu-item>
-        <el-menu-item index="/home/work_type">工作类型设置</el-menu-item>
-        <el-menu-item index="/home/department">对口科室设置</el-menu-item>
-        <el-menu-item index="/home/access">考核等级设置</el-menu-item>
+        <el-menu-item index="/home/prefabricated/colleges">学院名称设置</el-menu-item>
+        <el-menu-item index="/home/prefabricated/work_type">工作类型设置</el-menu-item>
+        <el-menu-item index="/home/prefabricated/department">对口科室设置</el-menu-item>
+        <el-menu-item index="/home/prefabricated/access">考核等级设置</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 Vue.use(Router)
-
+const parentComponent = {template: '<router-view></router-view>'}
 export default new Router({
   routes: [
     {
@@ -18,25 +18,32 @@ export default new Router({
       children: [
         {
           path: 'taskManage',
-          name: 'taskManage',
+          component: parentComponent,
           meta: {title: '任务管理'},
-          component: require('../views/task/taskManage.vue')
-        },
-        {
-          path: 'add_task',
-          name: 'add_task',
-          meta: {title: '添加任务'},
-          component: require('../views/task/addTask.vue')
-        },
-        {
-          path: 'edit_task/:id',
-          name: 'edit_task',
-          meta: {title: '修改任务'},
-          component: require('../views/task/addTask.vue')
+          children: [
+            {
+              path: '',
+              name: 'taskManage',
+              component: require('../views/task/taskManage.vue')
+            },
+            {
+              path: 'add_task',
+              name: 'add_task',
+              meta: {title: '添加任务'},
+              component: require('../views/task/addTask.vue')
+            },
+            {
+              path: 'edit_task/:id',
+              name: 'edit_task',
+              meta: {title: '修改任务'},
+              component: require('../views/task/addTask.vue')
+            },
+          ]
         },
         {
             path: 'task_item/:id',
             name: 'task_item',
+            meta: {title: '任务详情'},
             component: require('../views/task/taskItem.vue')
         },
         {
@@ -50,12 +57,6 @@ export default new Router({
           name: 'unfinished',
           meta: {title: '未完成任务'},
           component: require('../views/task/unfinishedWork.vue')
-        },
-        {
-          path: 'task_detail',
-          name: 'task_detail',
-          meta: {title: '任务详情'},
-          component: require('../views/task/taskDetail.vue')
         },
         {
           path: 'task_score',
