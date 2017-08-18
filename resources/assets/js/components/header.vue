@@ -15,8 +15,7 @@
     </div>
     <el-col class="local">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>首页</el-breadcrumb-item>
-        <el-breadcrumb-item>任务管理</el-breadcrumb-item>
+        <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="index" :to="{ path: item.path }">{{item.title}}</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="operation">
         <el-button type="primary" @click="$router.push({name: 'add_task'})">添加任务</el-button>
@@ -34,8 +33,12 @@
       return {
         task: [],
         state1: '',
-        isMenu: false
+        isMenu: false,
+        breadcrumbs: []
       }
+    },
+    watch: {
+        '$route': 'updateBreadcrumbs'
     },
     methods: {
       isShow () {
@@ -73,10 +76,26 @@
       },
       handleSelect (item) {
         console.log(item)
+      },
+      updateBreadcrumbs () {
+        this.breadcrumbs = [];
+        this.$route.matched.forEach(item => {
+          if(!item.parent || this.formatPath(item.parent.path) != this.formatPath(item.path)){
+            this.breadcrumbs.push({path: item.path, title: item.meta.title})
+          }
+        })
+      },
+      formatPath (path) {
+        if(path.charAt(path.length - 1) != '/'){
+          return path + '/';
+        }else{
+          return path;
+        }
       }
     },
     mounted () {
-      this.task = this.loadAll()
+      this.task = this.loadAll(),
+      this.updateBreadcrumbs();
     }
   }
 </script>

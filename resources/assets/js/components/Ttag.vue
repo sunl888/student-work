@@ -48,7 +48,7 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 .user_select_none{
   -webkit-touch-callout: none;
   -webkit-user-select: none;
