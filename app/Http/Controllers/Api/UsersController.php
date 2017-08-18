@@ -26,8 +26,4 @@ class UsersController extends BaseController
         }
         return $this->response->noContent();
     }
-
-    public function getCollegeUsers(){
-        dd(app(UserRepository::class)->usersWithRole('college'));
-    }
 }

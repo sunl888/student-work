@@ -59,7 +59,7 @@ class TaskAudited extends Notification
         return [
             'task_id' => $this->task->id,
             'title' => $this->task->title,
-            //'detail' => $this->task->detail,
+            'detail' => $this->task->detail,
             'created_at' => $this->task->created_at,
         ];
     }
