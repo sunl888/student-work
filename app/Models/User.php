@@ -43,10 +43,6 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         return $this->hasRole('super_admin');
     }
 
-    public function scopeCollege(){
-        return $this->roles()->where('name','college');
-    }
-
     /**
      * 用户角色
      */

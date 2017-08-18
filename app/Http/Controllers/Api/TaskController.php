@@ -52,7 +52,6 @@ class TaskController extends BaseController
         if ($this->allowAuditTask()) {
             if ($this->taskRepository->updateTask($data, $taskId)) {
                 event(new AuditedTask($taskId));
-                //event(new );
             }
         }
     }

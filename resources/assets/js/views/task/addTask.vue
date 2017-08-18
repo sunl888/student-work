@@ -128,6 +128,11 @@
                 type: 'success'
               })
               this.$router.push({path: 'home/taskManage'})
+            }).catch(res => {
+                $message: ({
+                    type: 'error',
+                    message: res.data.message
+                })
             })
           } else {
             return false
