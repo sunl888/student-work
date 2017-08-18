@@ -59,11 +59,11 @@
                      <el-button type="success" size="small" @click="auditing(row.id)">审核</el-button>
                      <el-button type="primary" size="small"  @click="modifyTask(row.id)">修改</el-button>
                      <el-button type="danger" size="small" @click="deleteTask(row.id)">删除</el-button>
-                     <el-button type="primary" size="small" @click="jump('task_detail')">查看</el-button>
+                     <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
                    </el-button-group>
                  </template>
                  <template scope="scope" v-else>
-                   <el-button type="primary" size="small" @click="jump('task_detail')">查看</el-button>
+                   <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
                  </template>
                </el-table-column>
              </el-table>
@@ -128,7 +128,7 @@
                      <el-button type="success" size="small" @click="restoreTask(row.id)">恢复</el-button>
                      <el-button type="primary" size="small"  @click="modifyTask(row.id)">修改</el-button>
                      <el-button type="danger" size="small" @click="deleteTask(row.id)">删除</el-button>
-                     <el-button type="primary" size="small" @click="jump('task_detail')">查看</el-button>
+                     <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
                    </el-button-group>
                </el-table-column>
              </el-table>
@@ -173,10 +173,6 @@ export default{
         });
       });
     },
-    jump (address) {
-      this.$router.push({path: address})
-    },
-
     // 审核任务
     auditing (id) {
       this.$confirm('任务审核后将无法删除, 是否继续?', '提示', {
@@ -198,7 +194,6 @@ export default{
         });
       });
     },
-
     // 恢复任务
     restoreTask (id) {
       this.$confirm('该操T作将恢复该任务。, 是否继续?', '提示', {
@@ -219,6 +214,14 @@ export default{
           message: '已取消恢复'
         });
       });
+    },
+      //查看任务
+    browseTask (id) {
+      this.$router.push({name: 'task_item',
+          params: {
+              id
+          }
+      })
     },
     // 修改任务
     modifyTask (id) {

@@ -47,8 +47,7 @@
                     }).catch(res => {
                         this.$message({
                             type: 'error',
-                            message: res.data.message
-
+                            message: res.message
                         })
                     })
                 } else {
@@ -62,7 +61,7 @@
                     }).catch(res => {
                         this.$message({
                             type: 'error',
-                            message: res.data.message
+                            message: res.message
 
                         })
                     })
@@ -80,11 +79,11 @@
                     this.$message({
                         message: '添加成功',
                         type: 'success'
-                    }).catch(res => {
-                        this.$message({
-                            type: 'error',
-                            message: res.data.message
-                        })
+                    })
+                }).catch(res => {
+                    this.$message({
+                        type: 'error',
+                        message: res.message
                     })
                 })
             },

@@ -56,9 +56,8 @@
 <script>
 export default{
   methods: {
-    jump (address) {
-      this.$router.push({name: address})
-    }
+  },
+  mounted () {
   },
   data () {
     return {
