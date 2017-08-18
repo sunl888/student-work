@@ -127,7 +127,7 @@
                    <el-button-group>
                      <el-button type="success" size="small" @click="restoreTask(row.id)">恢复</el-button>
                      <el-button type="primary" size="small"  @click="modifyTask(row.id)">修改</el-button>
-                     <el-button type="danger" size="small" @click="deleteTask(row.id)">删除</el-button>
+                     <el-button type="danger" size="small" @click="force_delete_task(row.id)">删除</el-button>
                      <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
                    </el-button-group>
                </el-table-column>
@@ -151,10 +151,29 @@ export default{
   mounted () {
   },
   methods: {
-
+    force_delete_task (id) {
+        this.$confirm('此操作将永久删除该任务, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }).then(() => {
+            this.$http.get('force_delete_task/' + id).then(res => {
+                this.$refs['trashed_list'].refresh();
+                this.$message({
+                    type: 'success',
+                    message: '删除成功!'
+                });
+            })
+        }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '已取消删除'
+            });
+        });
+    },
     // 添加任务
     deleteTask (id) {
-      this.$confirm('此操作将永久删除该任务, 是否继续?', '提示', {
+      this.$confirm('此操作将把该任务放入回收站, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
