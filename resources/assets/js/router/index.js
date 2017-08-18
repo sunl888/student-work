@@ -52,12 +52,6 @@ export default new Router({
           component: require('../views/task/unfinishedWork.vue')
         },
         {
-          path: 'task_detail',
-          name: 'task_detail',
-          meta: {title: '任务详情'},
-          component: require('../views/task/taskDetail.vue')
-        },
-        {
           path: 'task_score',
           name: 'task_score',
           meta: {title: '任务操作'},

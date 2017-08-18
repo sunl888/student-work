@@ -13,27 +13,71 @@
                     <div>截止日期：<span>{{ item.end_time }}</span></div>
                     <p class="content"><span>{{ item.detail }}</span></p>
                 </div>
-                <el-button class="btn" ref="draBtn" @click="auditing()" :disabled=isDis type="success">审核任务</el-button>
+                <el-button v-if=isDis class="btn" @click="auditing()" type="success">审核任务</el-button>
+                <div class="taskWatch" v-if=isTab>
+                    <template>
+                        <el-table
+                                border
+                                stripe
+                                height="300"
+                                :data="taskPro"
+                                style="width: 100%">
+                            <el-table-column
+                                    sortable
+                                    prop="college"
+                                    label="学院"
+                                    min-width="200">
+                            </el-table-column>
+                            <el-table-column
+                                    sortable
+                                    label="完成时间"
+                                    min-width="130">
+                                <span>{{taskPro.end_time === null ? '空' : taskPro.end_time }}</span>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="status"
+                                    sortable
+                                    label="任务状态">
+                            </el-table-column>
+                            <el-table-column
+                                    label="操作"
+                                    width="130">
+                                <template scope="scope" class="operaBtn">
+                                    <i size="small" title="审核" @click="jump('task_score')" class="el-icon-check"></i>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                </div>
             </el-card>
         </div>
     </div>
-
 </template>
 <script>
     export default{
         data () {
             return {
                 item: [],
-                isDis: false
+                isDis: true,
+                isTab: false,
+                taskPro: []
             }
         },
         methods: {
+            //获取各学院完成任务进度
+            getTaskPro () {
+                this.$http.get('task_progress/' + this.$route.params.id).then(res => {
+                    this.taskPro = res.data.data
+                    console.log(this.taskPro)
+                })
+            },
             //获取任务详情
             loadItem () {
                 this.$http.get('task/' + this.$route.params.id).then(res => {
                     this.item = res.data.data
                     if(this.item.status !== 'draft'){
-                        this.isDis = true
+                        this.isDis = false
+                        this.isTab = true
                     }
                 })
             },
@@ -61,6 +105,7 @@
         },
         mounted () {
             this.loadItem()
+            this.getTaskPro()
         }
     }
 </script>
@@ -88,7 +133,6 @@
     }
     .text{
         font-size: 14px;
-        margin-bottom:100px;
     }
     .operaBtn i{
         cursor:pointer;
@@ -110,5 +154,8 @@
     }
     .el-card__header{
         padding:5px;
+    }
+    .btn{
+        margin-top:30px;
     }
 </style>
