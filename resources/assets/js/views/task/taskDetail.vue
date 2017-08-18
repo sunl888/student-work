@@ -42,7 +42,7 @@
             label="操作"
             width="130">
             <template scope="scope" class="operaBtn">
-              <i size="small" title="审核" @click="jump('taskScore')" class="el-icon-check"></i>
+              <i size="small" title="审核" @click="jump('task_score')" class="el-icon-check"></i>
             </template>
           </el-table-column>
         </el-table>
@@ -55,9 +55,17 @@
 </template>
 <script>
 export default{
+  mounted () {
+    this.getTaskDetail(this.$route.params.id)
+  },
   methods: {
     jump (address) {
       this.$router.push({name: address})
+    },
+    getTaskDetail (id) {
+      this.$http.get('task/' + id).then(res => {
+          console.log(res.data)
+      })
     }
   },
   data () {
