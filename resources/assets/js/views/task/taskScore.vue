@@ -4,18 +4,18 @@
         <div class="taskDetail">
             <el-card  class="box-card">
                 <div slot="header" class="clearfix">
-                    <p style="line-height: 36px;text-align:center;">{{detail.title}}</p>
+                    <p style="line-height: 36px;text-align:center;">{{item.title}}</p>
                 </div>
                 <div class="text item left el-col-7">
                     <el-collapse v-model="activeNames">
                         <el-collapse-item title="任务详情" name="1">
-                            <p>截止时间：<span>{{ tableData.zip }}</span></p>
-                            <p>任务要求：<span>{{ tableData.item }}</span></p>
+                            <p>截止时间：<span>{{ item.end_time }}</span></p>
+                            <p>任务要求：<span>{{ item.detail }}</span></p>
                         </el-collapse-item>
                         <el-collapse-item title="任务进程" name="2">
-                            <p>负责人：<span>{{ detail.responser }}</span></p>
-                            <p>推迟理由：<span>{{ detail.delayReason }}</span></p>
-                            <p>完成情况：<span>{{ detail.situation   }}</span></p>
+                            <p>负责人：<span>{{ item.responser }}</span></p>
+                            <p>推迟理由：<span>{{ item.delayReason }}</span></p>
+                            <p>完成情况：<span>{{ item.situation   }}</span></p>
                         </el-collapse-item>
                     </el-collapse>
                 </div>
@@ -79,22 +79,6 @@
         data () {
             return {
                 activeNames: '',
-                tableData: {
-                    createDate: '2017-06-21',
-                    name: '暑期留校注意事项',
-                    province: '常规工作',
-                    city: '学生管理',
-                    address: '学院负责人',
-                    zip: '2017-07-06',
-                    addFile: '有',
-                    item: '随后，许江荣和全体党员职工一起学习了习近平总书记在中共中央政治局第三十三次集体学习时发表的重要讲话：严肃党内政治生活净化党内政治生态、为全面从严治党打下重要政治基础。学习了王岐山在贵州检查工作时的讲话：当好党内政治生态“护林员”，以新面貌新气象迎接十九大。会议结合《关于组织开展庆祝中国共产党成立96周年纪念活动的通知》精神，讨论了下一步学习与实践活动计划。 '
-                },
-                detail: {
-                    title: '暑期留校注意事项',
-                    responser: '孙龙',
-                    delayReason: '早上起晚了',
-                    situation: '就暑期留校注意事项开了个大会，详细通知到了各负责老师并落实到每个留校学生'
-                },
                 score: {
                     qutity: '1',
                     question: ''
@@ -105,8 +89,27 @@
                 ],
                 default1: 'metionRecord',
                 value4: null,
-                value5: ''
+                value5: '',
+                item: []
             }
+        },
+        methods: {
+            //获取任务详情
+            loadItem () {
+                this.$http.get('task/' + this.$route.params.id).then(res => {
+                    this.item = res.data.data
+                    if(this.item.status === '未完成'){
+                        this.$router.push({name: 'taskItem', params: {id: this.$route.params.id}})
+                        $message({
+                            type: 'warning',
+                            message: '该学院尚未完成此任务'
+                        })
+                    }
+                })
+            }
+        },
+        mounted () {
+            this.loadItem()
         }
     }
 </script>
