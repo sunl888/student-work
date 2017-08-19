@@ -14,7 +14,7 @@ use App\Repositories\AssessRepository;
 use App\Repositories\CollegeRepository;
 use League\Fractal\TransformerAbstract;
 
-class TaskProgressTransformer extends TransformerAbstract
+class TaskProgressTransformer extends Transformer
 {
     public function transform(TaskProgress $taskProgress)
     {
@@ -35,11 +35,4 @@ class TaskProgressTransformer extends TransformerAbstract
         ];
     }
 
-    public function getLeadOfficial($taskProgress){
-        $user = app(User::class)->find($taskProgress->user_id);
-        if($user){
-            return $user->hasRole('teacher')?$user->name:'全体人员';
-        }
-        return null;
-    }
 }

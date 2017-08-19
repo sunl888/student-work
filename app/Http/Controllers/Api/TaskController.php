@@ -11,14 +11,17 @@ use App\Http\Requests\SubmitTaskRequest;
 use App\Http\Requests\TaskScoreRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use App\Models\TaskProgress;
 use App\Models\User;
 use App\Notifications\NewTask;
 use App\Repositories\TaskProgressRepository;
 use App\Repositories\TaskRepository;
 use App\Repositories\UserRepository;
+use App\Transformers\TaskAndProgressTransformer;
 use App\Transformers\TaskTransformer;
 use Auth;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Notification;
 
 class TaskController extends BaseController
@@ -183,10 +186,26 @@ class TaskController extends BaseController
         return $this->response->noContent();
     }
 
-    public function tasks()
+    public function tasks(Request $request)
     {
+        if(($status = $request->get('status')) != null){
+            return $this->response()->paginator($this->taskRepository->lists($this->perPage(),['status'=>$status]), new TaskTransformer());
+        }
         return $this->response()->paginator($this->taskRepository->lists($this->perPage()), new TaskTransformer());
     }
+
+    /**
+     * 获取学院的任务列表
+     * @param null $collegeId
+     */
+    public function getTasksByCollege($collegeId = null){
+        if ($collegeId == null){
+            $condisions['college_id'] = $this->guard()->user()->college_id;
+        }
+        //dd($this->taskRepository->tasksByCollege($this->perPage(),$condisions));
+        return $this->response()->paginator($this->taskRepository->tasksByCollege($this->perPage(),$condisions), new TaskAndProgressTransformer());
+    }
+
     public function task($taskId)
     {
         return $this->response->item($this->taskRepository->getTask($taskId), new TaskTransformer());

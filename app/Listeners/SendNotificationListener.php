@@ -32,10 +32,9 @@ class SendNotificationListener
     {
         //审核成功
         if ($event instanceof AuditedTask) {
-            $users = app(UserRepository::class)->usersWithRoles(['college']);
-            Notification::send($users, new TaskAudited($event->task));
+            Notification::send($event->users, new TaskAudited($event->task));
         }elseif ($event instanceof TaskAlloted){
-            //指定了责任人
+            //指定了责任人向对应的责任人发送通知
             Notification::send($event->users, new \App\Notifications\TaskAlloted($event->task));
         }
     }

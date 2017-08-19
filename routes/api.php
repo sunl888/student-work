@@ -38,8 +38,10 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('is_delay/{task_id}', 'TaskController@isDelay');
     // 任务评分
     $api->post('task_score/{task_id}', 'TaskController@taskScore');
-    // 任务列表
+    // 任务列表[后面可以加查询条件 如：?status=publish]
     $api->get('tasks', 'TaskController@tasks');
+    //已发布任务列表
+    $api->get('lists', 'TaskController@getTasksByCollege');
     // 已删除的任务列表
     $api->get('trashed_tasks', 'TaskController@getTrashed');
     // 获取工作类型
