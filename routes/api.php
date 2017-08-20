@@ -81,4 +81,9 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
 
     //通知
     $api->get('unread_notifys','UsersController@unreadNotifications');
+
+
+
+    //菜单
+    $api->get('menus', 'MenuController@menus');
 });

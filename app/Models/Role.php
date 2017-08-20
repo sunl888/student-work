@@ -16,4 +16,15 @@ class Role extends BaseModel implements EntrustRoleInterface
     {
         return $this->belongsToMany(User::class);
     }
+
+    /**
+     * 角色菜单
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function menus()
+    {
+        return $this->belongsToMany(Menu::class);
+    }
+
+
 }
