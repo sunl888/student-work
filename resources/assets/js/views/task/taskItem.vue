@@ -29,10 +29,11 @@
                                     min-width="200">
                             </el-table-column>
                             <el-table-column
+                                    inline-template
                                     sortable
                                     label="完成时间"
                                     min-width="130">
-                                <span>{{taskPro.end_time === null ? '空' : taskPro.end_time }}</span>
+                                <span>{{end_time === undefined ? '空' : end_time}}</span>
                             </el-table-column>
                             <el-table-column
                                     prop="status"
@@ -40,10 +41,10 @@
                                     label="任务状态">
                             </el-table-column>
                             <el-table-column
-                                    label="操作"
-                                    width="130">
+                                label="操作"
+                                width="130">
                                 <template scope="scope" class="operaBtn">
-                                    <i size="small" title="审核" @click="jump('task_score')" class="el-icon-check"></i>
+                                    <el-button size="small" :disabled="true" title="审核"  class="el-icon-check"></el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -60,15 +61,19 @@
                 item: [],
                 isDis: true,
                 isTab: false,
+                isBtn: true,
                 taskPro: []
             }
         },
         methods: {
+            //跳转任务评分
+            goScore (x) {
+              this.$router.push({name: 'task_score', params: {id: this.$route.params.id}})
+            },
             //获取各学院完成任务进度
             getTaskPro () {
                 this.$http.get('task_progress/' + this.$route.params.id).then(res => {
                     this.taskPro = res.data.data
-                    console.log(this.taskPro)
                 })
             },
             //获取任务详情

@@ -35,9 +35,10 @@ export default new Router({
           component: require('../views/task/addTask.vue')
         },
         {
-            path: 'task_item/:id',
-            name: 'task_item',
-            component: require('../views/task/taskItem.vue')
+          path: 'task_item/:id',
+          name: 'task_item',
+          meta: {title: '任务详情'},
+          component: require('../views/task/taskItem.vue')
         },
         {
           path: 'going_finish',
@@ -48,13 +49,13 @@ export default new Router({
         {
           path: 'unfinished',
           name: 'unfinished',
-          meta: {title: '未完成任务'},
+          meta: {title: '任务显示'},
           component: require('../views/task/unfinishedWork.vue')
         },
         {
-          path: 'task_score',
+          path: 'task_score/:id',
           name: 'task_score',
-          meta: {title: '任务操作'},
+          meta: {title: '任务评分'},
           component: require('../views/task/taskScore.vue')
         },
         {
@@ -70,16 +71,16 @@ export default new Router({
           component: require('../views/precut/WorkType.vue')
         },
         {
-            path: 'department',
-            name: 'department',
-            meta: {title: '对口科室设置'},
-            component: require('../views/precut/Department.vue')
+          path: 'department',
+          name: 'department',
+          meta: {title: '对口科室设置'},
+          component: require('../views/precut/Department.vue')
         },
         {
-            path: 'access',
-            name: 'access',
-            meta: {title: '考核等级设置'},
-            component: require('../views/precut/gradeExam.vue')
+          path: 'access',
+          name: 'access',
+          meta: {title: '考核等级设置'},
+          component: require('../views/precut/gradeExam.vue')
         }
       ]
     },

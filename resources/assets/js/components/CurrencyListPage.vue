@@ -3,15 +3,20 @@
           <div v-loading="loading" class="main">
               <slot v-if="list.length > 0" :data="list"></slot>
               <template v-else>
-                <div v-if="queryName != 'trashed_tasks'">
+                <div v-if="queryName == 'tasks'">
                   <p>
                     当前还没有任务哦，请单击右侧按钮添加任务&emsp;
                     <el-button type="primary" icon="plus" @click="$router.push({path: 'add_task'})"></el-button>
                   </p>
                 </div>
-                <div v-else>
+                <div v-else-if="queryName == 'trashed_tasks'">
                   <p>
                     当前还没有已删除的任务
+                  </p>
+                </div>
+                <div v-else="queryName == 'lists'">
+                  <p>
+                      当前没有可查看的任务
                   </p>
                 </div>
               </template>
