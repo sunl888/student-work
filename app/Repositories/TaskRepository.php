@@ -83,6 +83,7 @@ class TaskRepository extends Repository
         return $builder->recent()->paginate($limit);
     }
 
+    // 获取这个学院的任务列表
     public function tasksByCollege($limit, array $conditions = null){
         $tasks = $this->model->where('status','publish')->recent()->paginate($limit);
         foreach ($tasks as &$task){

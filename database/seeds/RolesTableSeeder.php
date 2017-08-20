@@ -17,21 +17,21 @@ class RolesTableSeeder extends Seeder
                 [
                     'id' => 1,
                     'name' => 'super_admin',
-                    'display_name' => '超管',
-                    'description' => '超级管理员（学生处）',
+                    'display_name' => '管理员',
+                    'description' => '管理员',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ],
-                [
+                /*[
                     'id' => 2,
                     'name' => 'common_admin',
                     'display_name' => '一般管理员',
                     'description' => '学生处各个对口科室',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
-                ],
+                ],*/
                 [
-                    'id' => 3,
+                    'id' => 2,
                     'name' => 'college',
                     'display_name' => '各学院',
                     'description' => '各学院',
@@ -39,7 +39,7 @@ class RolesTableSeeder extends Seeder
                     'updated_at' => Carbon::now()
                 ],
                 [
-                    'id' => 4,
+                    'id' => 3,
                     'name' => 'teacher',
                     'display_name' => '各学院老师',
                     'description' => '各学院老师',
