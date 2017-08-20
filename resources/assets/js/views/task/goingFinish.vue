@@ -5,15 +5,6 @@
         <!--表单-->
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 
-          <!--责任人-->
-          <el-form-item label="责任人" prop="responser">
-          <el-cascader
-          :options="options"
-          change-on-select
-          class="el-col-6"
-          ></el-cascader>
-          </el-form-item>
-
           <!--任务要求-->
           <el-form-item label="推迟理由" prop="name">
             <el-input v-model="ruleForm.name"></el-input>

@@ -23,38 +23,37 @@
 </template>
 <script>
   export default {
-    data () {
-      return {
-        userName: 'xsc',
-        userPsw: 'xsc2017',
-        wrong: '',
-        isLoading: false
-      }
-    },
-    mounted () {
-    },
-    methods: {
-      login () {
-        this.isLoading = true
-        this.$http.post('login', {
-          name: this.userName,
-          password: this.userPsw
-        }).then(res => {
-              window.localStorage.token = res.token
-              this.isLoading = false
-              if (res.status === 204) {
+      data() {
+          return {
+              userName: 'xsc',
+              userPsw: 'xsc2017',
+              wrong: '',
+              isLoading: false
+          }
+      },
+      mounted() {
+      },
+      methods: {
+          login() {
+              this.isLoading = true
+              this.$http.post('login', {
+                  name: this.userName,
+                  password: this.userPsw
+              }).then(res => {
+                  window.localStorage.token = res.token
+                  this.isLoading = false
                   this.$router.push({name: 'home'})
-              } else {
+              }).catch(res => {
+                  this.isLoading = false
                   this.$message({
                       showClose: true,
                       type: 'error',
                       message: data
                   })
-              }
-          })
-        }
+              })
+          }
       }
-    }
+  }
 </script>
 <style scoped>
   .loginBox{

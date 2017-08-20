@@ -61,10 +61,6 @@
       logout () {
           this.$http.get('logout').then(res => {
               this.$router.push({name: 'login'})
-              this.$message({
-                  type: 'warning',
-                  message: res.data.message
-              })
           })
       },
       loadAll () {

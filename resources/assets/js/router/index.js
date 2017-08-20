@@ -41,14 +41,14 @@ export default new Router({
           component: require('../views/task/taskItem.vue')
         },
         {
-          path: 'going_finish',
+          path: 'going_finish/:id',
           name: 'going_finish',
           meta: {title: '任务完成'},
           component: require('../views/task/goingFinish.vue')
         },
         {
-          path: 'unfinished',
-          name: 'unfinished',
+          path: 'tasks_of_college',
+          name: 'tasks_of_college',
           meta: {title: '任务显示'},
           component: require('../views/task/unfinishedWork.vue')
         },

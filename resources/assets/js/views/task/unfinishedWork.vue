@@ -43,21 +43,21 @@
                         label="状态"
                         width="100"
                 >
-                  <span>{{row.finished_at === undefined ? '空' : '已完成' }}</span>
+                  <span>{{row.finished_at === null ? '未完成' : '已完成' }}</span>
                 </el-table-column>
                 <el-table-column
-                        inline-template
                         label="截止时间"
                         width="120"
                         sortable
+                        prop="end_time"
                 >
-                  <span>{{row.finished_at === undefined ? '空' : row.finished_at }}</span>
                 </el-table-column>
                 <el-table-column
                         label="操作"
+                        inline-template
                 >
-                  <template scope="scope">
-                    <el-button type="primary" size="small" @click="browseTask()">查看</el-button>
+                  <template>
+                    <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -82,7 +82,7 @@
         methods: {
             //查看任务
             browseTask (id) {
-                this.$router.push({name: 'lists',
+                this.$router.push({name: 'task_item',
                     params: {
                         id
                     }
