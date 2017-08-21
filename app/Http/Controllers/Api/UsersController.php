@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\Role;
 use App\Models\User;
 use App\Repositories\UserRepository;
@@ -57,12 +58,45 @@ class UsersController extends BaseController
         }
         $data['picture'] = isset($path)?$path:null;
 
-        //$user = app(User::class)->create($data);
+        $user = app(User::class)->create($data);
         if (!empty($data['role_id'])) {
-            $roleId = app(Role::class)->findOrFail($data['role_id'])->only('id');
-            dd($roleId);
+            //$roleId = app(Role::class)->findOrFail($data['role_id'])->pluck('id');
+            $user->roles()->sync($data['role_id']);
+        }
+        return $this->response->noContent();
+    }
+
+    /**
+     * 更新指定用户
+     *
+     * @param  User              $user
+     * @param  UserUpdateRequest $request
+     * @return \Dingo\Api\Http\Response
+     */
+    public function update(User $user, UserUpdateRequest $request)
+    {
+        $data = $request->all();
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+        $user->update($data);
+        if (!empty($roleId = $request->get('role_id'))) {
             $user->roles()->sync($roleId);
         }
+        return $this->response->noContent();
+    }
+
+    /**
+     * 删除指定用户
+     *
+     * @param  User $user
+     * @return \Dingo\Api\Http\Response
+     */
+    public function destroy(User $user)
+    {
+        dd($user->roles()->sync([]));
+        //$user->pivot->delete();
+        $user->delete();
         return $this->response->noContent();
     }
 }

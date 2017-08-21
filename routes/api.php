@@ -132,9 +132,9 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         // 获取指定用户的信息
         $api->get('user/{user}', 'UsersController@show');
         // 更新用户
-        $api->post('user/{user}', 'UsersController@update');
+        $api->post('update_user/{user}', 'UsersController@update');
         // 删除用户
-        $api->get('user/{user}', 'UsersController@destroy');
+        $api->get('delete_user/{user}', 'UsersController@destroy');
         // 获取用户角色
         $api->get('user/{user}/roles', 'UsersController@roles');
     });
