@@ -12,7 +12,7 @@
           <span class="menu_txt">{{values.name}}</span>
         </template>
         <div v-for="value in values.child">
-          <el-menu-item :index="value.url">{{value.name}}</el-menu-item>
+          <el-menu-item :index=value.name :route="{name: value.url}">{{value.name}}</el-menu-item>
         </div>
       </el-submenu>
     </el-menu>
@@ -39,7 +39,6 @@ export default{
         getMenu () {
           this.$http.get('menus').then(res => {
               this.menus = res.data
-              this.$router.push({name: this.menus[1].child[0].url})
           })
         }
     }

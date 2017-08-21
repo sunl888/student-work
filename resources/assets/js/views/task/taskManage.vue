@@ -127,7 +127,7 @@
                  inline-template>
                    <el-button-group>
                      <el-button type="success" size="small" @click="restoreTask(row.id)">恢复</el-button>
-                     <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
+                     <el-button type="primary" size="small" @click="force_delete_task(row.id)">永久删除</el-button>
                    </el-button-group>
                </el-table-column>
              </el-table>

@@ -32,6 +32,7 @@
           }
       },
       mounted() {
+          menu: ''
       },
       methods: {
           login() {
@@ -40,9 +41,11 @@
                   name: this.userName,
                   password: this.userPsw
               }).then(res => {
-                  window.localStorage.token = res.token
                   this.isLoading = false
-                  this.$router.push({name: 'home'})
+                  this.$http.get('menus').then(res => {
+                      this.menu = res.data[1].child[0].url
+                      this.$router.push('/home/' + this.menu)
+                  })
               }).catch(res => {
                   this.isLoading = false
                   this.$message({
