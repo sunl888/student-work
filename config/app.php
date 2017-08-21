@@ -14,8 +14,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
-    'default_per_page' =>env('STUDENT_DEFAULT_PERPAGE',15),
-    'max_per_page' =>env('STUDENT_MAX_PERPAGE',20),
+    'default_per_page' =>env('STUDENT_DEFAULT_PERPAGE',20),
+    'max_per_page' =>env('STUDENT_MAX_PERPAGE',88),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

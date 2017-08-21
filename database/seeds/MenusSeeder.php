@@ -27,7 +27,7 @@ class MenusSeeder extends Seeder
                 'name' => '任务管理',
                 'parent_id' => 1,
                 'icon' =>'',
-                'url' =>'taskManage',
+                'url' =>'task_manage',
                 'description' =>'任务管理',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
