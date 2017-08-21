@@ -9,6 +9,8 @@ class Role extends BaseModel implements EntrustRoleInterface
 {
     use EntrustRoleTrait;
 
+    protected $fillable = ['name', 'display_name', 'description', 'order'];
+
     /**
      * 角色用户
      */

@@ -38,12 +38,27 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('is_delay/{task_id}', 'TaskController@isDelay');
     // 任务评分
     $api->post('task_score/{task_id}', 'TaskController@taskScore');
+
+    /**
+     * 任务查询相关
+     */
     // 任务列表[后面可以加查询条件 如：?status=publish]
     $api->get('tasks', 'TaskController@tasks');
-    //已发布任务列表
+    // 已发布任务列表
     $api->get('lists', 'TaskController@getTasksByCollege');
     // 已删除的任务列表
     $api->get('trashed_tasks', 'TaskController@getTrashed');
+    // 显示某个任务的进程情况
+    $api->get('task_progress/{task_id}', 'TaskProgressController@show');
+    // 显示某个任务
+    $api->get('task/{taskId}', 'TaskController@task');
+
+    // 根据学院id获取该学院下的所有用户 默认根据当前登陆用户所在学院
+    $api->get('users', 'UsersController@usersWithCollege');
+
+    /**
+     * 预置数据的获取
+     */
     // 获取工作类型
     $api->get('work_types', 'WorkTypeController@lists');
     // 获取考核等级
@@ -52,12 +67,6 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('colleges', 'CollegeController@lists');
     // 获取对口科室
     $api->get('departments', 'DepartmentController@lists');
-    // 根据学院id获取该学院下的所有用户 默认根据当前登陆用户所在学院
-    $api->get('users', 'UsersController@usersWithCollege');
-    // 显示某个任务的进程情况
-    $api->get('task_progress/{task_id}', 'TaskProgressController@show');
-    // 显示某个任务
-    $api->get('task/{taskId}', 'TaskController@task');
 
     /**
      * 预置数据的添加、修改、删除(角色：超级管理员)
@@ -79,21 +88,72 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->post('create_college', 'CollegeController@store');
         $api->post('update_college/{college_id}', 'CollegeController@update');
         $api->get('delete_college/{college_id}', 'CollegeController@delete');
+
+        /**
+         * 角色的操作
+         */
+        // 获取所有角色(不分页 用于添加用户时显示)
+        $api->get('roles/all', 'RoleController@allRoles');
+        // 角色列表
+        $api->get('roles', 'RoleController@lists');
+        // 获取指定角色的信息
+        $api->get('role/{role}', 'RoleController@show');
+        $api->get('role/{role}/permissions', 'RoleController@permissions');
+        // todo 【BUG】这里涉及到新角色可以访问那些菜单的问题
+        // 分析：用户的操作是由权限决定的，而用户菜单的显示和权限之间没有联系导致可能出现用户可以显示某个菜单但没有权限进行菜单内的操作
+        // 解决办法：角色暂时写死，不提供create、update、delete功能
+        // 创建角色
+        //$api->post('create_role', 'RoleController@store');
+        // 更新角色
+        //$api->post('update_role/{role}', 'RoleController@update');
+        // 删除角色
+        //$api->get('delete_role/{role}', 'RoleController@destroy');
+
+        /**
+         * 权限的操作
+         */
+        // 获取所有权限(不分页 用于创建角色时显示)
+        $api->get('permissions/all', 'PermissionsController@allPermissions');
+        //获取指定权限
+        $api->get('permission/{permission}', 'PermissionsController@show');
+        // 创建权限
+        $api->post('create_permission', 'PermissionsController@store');
+        // 更新权限
+        $api->post('update_permission/{permission}', 'PermissionsController@update');
+        //删除指定权限
+        $api->get('delete_permission/{permission}', 'PermissionsController@destroy');
+
+
+        /**
+         * 用户相关
+         */
+        // 创建用户
+        $api->post('user', 'UsersController@store');
+        // 获取指定用户的信息
+        $api->get('user/{user}', 'UsersController@show');
+        // 更新用户
+        $api->post('user/{user}', 'UsersController@update');
+        // 删除用户
+        $api->get('user/{user}', 'UsersController@destroy');
+        // 获取用户角色
+        $api->get('user/{user}/roles', 'UsersController@roles');
     });
 
     /**
      * 通知
      */
     // 所有未读通知
-    $api->get('un_read_notifys','UsersController@unReadNotifications');
+    $api->get('un_read_notifys', 'NotificationController@unReadNotifications');
     // 所有通知
-    $api->get('all_notifys','UsersController@notifications');
+    $api->get('all_notifys', 'NotificationController@notifications');
     // 所有通知设置为已读
-    $api->get('notifys_as_read','UsersController@markNotifysAsRead');
-
+    $api->get('notifys_as_read', 'NotificationController@markNotifysAsRead');
 
     /**
      * 菜单
      */
+    // 获取菜单
     $api->get('menus', 'MenuController@menus');
+
+
 });
