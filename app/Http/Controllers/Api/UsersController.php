@@ -20,6 +20,33 @@ class UsersController extends BaseController
     }
 
     /**
+     * 显示指定用户信息
+     *
+     * @param  User $user
+     * @return \Dingo\Api\Http\Response
+     */
+    public function show(User $user)
+    {
+        $role = $user->roles;
+        return $this->response->item($user, new UserTransformer())
+            ->addMeta('role', $role);
+    }
+
+    /**
+     * 用户列表
+     *
+     * @return \Dingo\Api\Http\Response
+     */
+    public function lists()
+    {
+        $users = User::recent()
+            //->with('roles')
+            ->paginate($this->perPage());
+        return $this->response->paginator($users, new UserTransformer());
+    }
+
+
+    /**
      * 获取当前学院下的所有用户
      * @return \Dingo\Api\Http\Response
      */
@@ -94,8 +121,7 @@ class UsersController extends BaseController
      */
     public function destroy(User $user)
     {
-        dd($user->roles()->sync([]));
-        //$user->pivot->delete();
+        $user->roles()->detach();
         $user->delete();
         return $this->response->noContent();
     }

@@ -127,6 +127,8 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         /**
          * 用户相关
          */
+        // 用户列表
+        $api->get('all_users', 'UsersController@lists');
         // 创建用户
         $api->post('user', 'UsersController@store');
         // 获取指定用户的信息
