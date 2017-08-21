@@ -22,8 +22,8 @@ export default new Router({
         },
       children: [
         {
-          path: 'taskManage',
-          name: 'taskManage',
+          path: 'task_manage',
+          name: 'task_manage',
           meta: {title: '任务管理'},
           component: require('../views/task/taskManage.vue')
         },

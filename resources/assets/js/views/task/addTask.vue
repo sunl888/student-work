@@ -127,7 +127,7 @@
                 message: '添加任务成功',
                 type: 'success'
               })
-              this.$router.push({path: 'home/taskManage'})
+              this.$router.push({name: 'task_manage'})
             }).catch(res => {
                 $message: ({
                     type: 'error',
@@ -148,7 +148,7 @@
                 message: '修改任务成功',
                 type: 'success'
               })
-              this.$router.push({path: 'home/taskManage'})
+              this.$router.push({name: 'task_manage'})
             })
           } else {
             return false
