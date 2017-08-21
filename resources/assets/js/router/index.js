@@ -10,11 +10,16 @@ export default new Router({
       redirect: {name: 'home'}
     },
     {
-      path: '/home',
+      path: '/home:addr?',
       name: 'home',
       meta: {title: '首页'},
       component: require('../views/Home.vue'),
-      redirect: {name: 'taskManage'},
+        redirect: to => {
+          const {params} = to
+          if(params.id){
+              return '/:params.addr'
+          }
+        },
       children: [
         {
           path: 'taskManage',

@@ -14,8 +14,14 @@
 import JHeader from '../components/header.vue'
 import navMenu from '../components/navMenu.vue'
 export default {
+  data () {
+      return {
+      }
+  },
   components: {
     JHeader, navMenu
+  },
+  methods: {
   }
 }
 </script>
