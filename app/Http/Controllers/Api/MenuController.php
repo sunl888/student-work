@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Repositories\MenuRepository;
-use App\Transformers\MenuTransformer;
 
 class MenuController extends BaseController
 {
+    /**
+     * 获取菜单
+     * @return mixed
+     */
     public function menus()
     {
         $user = $this->guard()->user();

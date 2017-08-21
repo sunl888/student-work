@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class Task extends Notification
+class Task extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -35,20 +35,6 @@ class Task extends Notification
     }
 
     /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
-
-    /**
      * 定义数据保存到数据库中的格式
      *
      * @param  mixed  $notifiable
@@ -61,6 +47,8 @@ class Task extends Notification
             'title' => $this->task->title,
             'detail' => $this->task->detail,
             'created_at' => $this->task->created_at,
+            'message' =>'您有一个新任务：'.$this->task->title,
         ];
     }
+
 }

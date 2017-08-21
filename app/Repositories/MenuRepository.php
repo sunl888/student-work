@@ -9,7 +9,6 @@
 namespace App\Repositories;
 
 use App\models\Menu;
-use App\Models\Role;
 use Illuminate\Support\Collection;
 
 class MenuRepository extends Repository

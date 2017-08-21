@@ -59,7 +59,9 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     // 显示某个任务
     $api->get('task/{taskId}', 'TaskController@task');
 
-    // 预置数据的添加、修改、删除(角色：超级管理员)
+    /**
+     * 预置数据的添加、修改、删除(角色：超级管理员)
+     */
     $api->group(['middleware' => ['role:super_admin']], function ($api) {
         // 工作类型
         $api->post('create_work_type', 'WorkTypeController@store');
@@ -79,11 +81,19 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->get('delete_college/{college_id}', 'CollegeController@delete');
     });
 
-    //通知
-    $api->get('unread_notifys','UsersController@unreadNotifications');
+    /**
+     * 通知
+     */
+    // 所有未读通知
+    $api->get('un_read_notifys','UsersController@unReadNotifications');
+    // 所有通知
+    $api->get('all_notifys','UsersController@notifications');
+    // 所有通知设置为已读
+    $api->get('notifys_as_read','UsersController@markNotifysAsRead');
 
 
-
-    //菜单
+    /**
+     * 菜单
+     */
     $api->get('menus', 'MenuController@menus');
 });
