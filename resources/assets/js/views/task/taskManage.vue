@@ -64,6 +64,7 @@
                  </template>
                  <template scope="scope" v-else>
                    <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
+                   <el-button type="danger" size="small" @click="cancelAudit(row.id)">取消审核</el-button>
                  </template>
                </el-table-column>
              </el-table>
@@ -126,8 +127,6 @@
                  inline-template>
                    <el-button-group>
                      <el-button type="success" size="small" @click="restoreTask(row.id)">恢复</el-button>
-                     <el-button type="primary" size="small"  @click="modifyTask(row.id)">修改</el-button>
-                     <el-button type="danger" size="small" @click="force_delete_task(row.id)">删除</el-button>
                      <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
                    </el-button-group>
                </el-table-column>
@@ -151,6 +150,17 @@ export default{
   mounted () {
   },
   methods: {
+    // 取消审核
+      cancelAudit (id) {
+        this.$http.get('cancel_audit/' + id).then(res => {
+            this.$refs['list'].refresh()
+          this.$message({
+              type: 'success',
+              message: '已取消对该任务的审核'
+          })
+        })
+    },
+    // 硬删除任务
     force_delete_task (id) {
         this.$confirm('此操作将永久删除该任务, 是否继续?', '提示', {
             confirmButtonText: '确定',
@@ -171,7 +181,7 @@ export default{
             });
         });
     },
-    // 添加任务
+    // 软删除任务
     deleteTask (id) {
       this.$confirm('此操作将把该任务放入回收站, 是否继续?', '提示', {
         confirmButtonText: '确定',
