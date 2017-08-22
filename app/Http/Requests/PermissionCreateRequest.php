@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Dingo\Api\Http\FormRequest;
 
-class AllotTaskRequest extends FormRequest
+class PermissionCreateRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,18 +25,16 @@ class AllotTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'task_id' => 'required|exists:tasks,id',
-            'user_id' => 'required|alpha_num',
+            'name' => 'required:unique:permissions',
+            'display_name' => 'nullable|string',
+            'description' => 'nullable|string',
         ];
     }
 
     public function messages()
     {
         return [
-            'task_id.required' => '任务ID有误',
-            'task_id.exists' => '该任务不存在',
-            'user_id.required' => '必须指定一名责任人',
-            'user_id.alpha_num' => '请指定责任人(all || id)'
+
         ];
     }
 }

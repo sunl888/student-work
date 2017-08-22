@@ -13,29 +13,148 @@
                     <div>截止日期：<span>{{ item.end_time }}</span></div>
                     <p class="content"><span>{{ item.detail }}</span></p>
                 </div>
-                <el-button class="btn" ref="draBtn" @click="auditing()" :disabled=isDis type="success">审核任务</el-button>
+                <el-button v-if='isDis'  class="btn" @click="auditing()" type="success">审核任务</el-button>
+                <div class="taskWatch" v-else-if="isWat">
+                    <template>
+                        <el-table
+                                border
+                                stripe
+                                height="300"
+                                :data="taskPro"
+                                style="width: 100%">
+                            <el-table-column
+                                    sortable
+                                    prop="college"
+                                    label="学院"
+                                    min-width="200">
+                            </el-table-column>
+                            <el-table-column
+                                    inline-template
+                                    sortable
+                                    label="完成时间"
+                                    min-width="130">
+                                <span>{{end_time === undefined ? '空' : end_time}}</span>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="status"
+                                    sortable
+                                    label="任务状态">
+                            </el-table-column>
+                            <el-table-column
+                                label="操作"
+                                inline-template
+                                width="130">
+                                <template class="operaBtn">
+                                    <el-button size="small" :disabled="row.status === '未完成'" @click="goScore(row.id)" title="审核"  class="el-icon-check"></el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                </div>
+                <div class="appoint" v-else>
+                    <el-button class="appo"  @click="isDia = true" type="success">指定责任人</el-button>
+                    <el-button @click="goSubmit()" type="info">提交任务</el-button>
+                    <el-dialog title="指定责任人" :visible.sync="isDia" top="30%">
+                        <el-form>
+                            <el-form-item label="指定责任人" :label-width="formLabelWidth">
+                                <el-cascader
+                                        @change="current()"
+
+
+                                        v-model="currOption"
+                                >
+                                </el-cascader>
+                            </el-form-item>
+                        </el-form>
+                        <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
+                            <el-button @click="isDia = false">取 消</el-button>
+                            <el-button type="primary" @click="appoint()">确 定</el-button>
+                        </div>
+                    </el-dialog>
+                </div>
+
             </el-card>
         </div>
     </div>
-
 </template>
 <script>
     export default{
         data () {
             return {
                 item: [],
-                isDis: false
+                isDis: true,
+                isWat: true,
+                isDia: false,
+                users: [],
+                taskPro: [],
+                currOption: [],
+                allot: '',
+                formLabelWidth: '210px',
+                options: [
+                    {
+                        name: '全体人员',
+                        id: 'all'
+                    },
+                    {
+                        name: '具体单一',
+                        id: 'all',
+                        children: [
+                        ]
+                    }
+                ],
+                prop: {
+                    label: 'name',
+                    value: 'id'
+                }
             }
         },
         methods: {
+            current () {
+                if (this.currOption[0]){
+                    this.allot = this.currOption[0]
+                } else {
+                    this.allot = this.currOption[1]
+                }
+//                console.log('被选中的是'+this.allot)
+            },
+            //去提交任务
+            goSubmit () {
+                this.$router.push({name: 'going_finish', params: {id: this.$route.params.id}})
+            },
+            //跳转任务评分
+            goScore (x) {
+              this.$router.push({name: 'task_score', params: {id: x}})
+            },
+            //指定责任人
+            appoint () {
+                console.log(this.allot)
+                this.$http.post('create_allot_task', {
+                    task_id: this.$route.params.id,
+                    user_id: this.allot
+                }).then(res => {
+                })
+            },
+            //获取各学院完成任务进度
+            getTaskPro () {
+                this.$http.get('task_progress/' + this.$route.params.id).then(res => {
+                    this.taskPro = res.data.data
+                })
+            },
             //获取任务详情
             loadItem () {
                 this.$http.get('task/' + this.$route.params.id).then(res => {
                     this.item = res.data.data
                     if(this.item.status !== 'draft'){
-                        this.isDis = true
+                        this.isDis = false
+                        this.isTab = true
                     }
                 })
+            },
+            //获取学院所有用户
+            getUsers () {
+              this.$http.get('users').then(res => {
+                  this.options[1].children = res.data.users
+              })
             },
             // 审核任务
             auditing () {
@@ -57,10 +176,20 @@
                         message: '已取消审核'
                     });
                 });
+            },
+            getMe () {
+                this.$http.get('me').then(res => {
+                    if(!res.data.data.is_super_admin){
+                        this.isWat = false
+                    }
+                })
             }
         },
         mounted () {
             this.loadItem()
+            this.getTaskPro()
+            this.getMe()
+            this.getUsers()
         }
     }
 </script>
@@ -88,7 +217,6 @@
     }
     .text{
         font-size: 14px;
-        margin-bottom:100px;
     }
     .operaBtn i{
         cursor:pointer;
@@ -110,5 +238,14 @@
     }
     .el-card__header{
         padding:5px;
+    }
+    .appoint{
+        margin-top:50px;
+    }
+    .appo{
+        margin-right:100px;
+    }
+    .el-cascader{
+        margin-left:-200px;
     }
 </style>

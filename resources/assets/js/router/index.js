@@ -10,15 +10,20 @@ export default new Router({
       redirect: {name: 'home'}
     },
     {
-      path: '/home',
+      path: '/home:addr?',
       name: 'home',
       meta: {title: '首页'},
       component: require('../views/Home.vue'),
-      redirect: {name: 'taskManage'},
+        redirect: to => {
+          const {params} = to
+          if(params.id){
+              return '/:params.addr'
+          }
+        },
       children: [
         {
-          path: 'taskManage',
-          component: parentComponent,
+          path: 'task_manage',
+          name: 'task_manage',
           meta: {title: '任务管理'},
           children: [
             {
@@ -41,27 +46,27 @@ export default new Router({
           ]
         },
         {
-            path: 'task_item/:id',
-            name: 'task_item',
-            meta: {title: '任务详情'},
-            component: require('../views/task/taskItem.vue')
+          path: 'task_item/:id',
+          name: 'task_item',
+          meta: {title: '任务详情'},
+          component: require('../views/task/taskItem.vue')
         },
         {
-          path: 'going_finish',
+          path: 'going_finish/:id',
           name: 'going_finish',
           meta: {title: '任务完成'},
           component: require('../views/task/goingFinish.vue')
         },
         {
-          path: 'unfinished',
-          name: 'unfinished',
-          meta: {title: '未完成任务'},
+          path: 'tasks_of_college',
+          name: 'tasks_of_college',
+          meta: {title: '任务显示'},
           component: require('../views/task/unfinishedWork.vue')
         },
         {
-          path: 'task_score',
+          path: 'task_score/:id',
           name: 'task_score',
-          meta: {title: '任务操作'},
+          meta: {title: '任务评分'},
           component: require('../views/task/taskScore.vue')
         },
         {
@@ -77,16 +82,16 @@ export default new Router({
           component: require('../views/precut/WorkType.vue')
         },
         {
-            path: 'department',
-            name: 'department',
-            meta: {title: '对口科室设置'},
-            component: require('../views/precut/Department.vue')
+          path: 'department',
+          name: 'department',
+          meta: {title: '对口科室设置'},
+          component: require('../views/precut/Department.vue')
         },
         {
-            path: 'access',
-            name: 'access',
-            meta: {title: '考核等级设置'},
-            component: require('../views/precut/gradeExam.vue')
+          path: 'access',
+          name: 'access',
+          meta: {title: '考核等级设置'},
+          component: require('../views/precut/gradeExam.vue')
         }
       ]
     },

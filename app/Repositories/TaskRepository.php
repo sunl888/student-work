@@ -9,6 +9,7 @@
 namespace App\Repositories;
 
 use App\Models\Task;
+use App\Models\TaskProgress;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TaskRepository extends Repository
@@ -74,8 +75,22 @@ class TaskRepository extends Repository
         return $this->model->findOrFail($taskId)->isDelay();
     }
 
-    public function lists($limit){
-        return $this->model->recent()->paginate($limit);
+    public function lists($limit, array $condition = null){
+        $builder = $this->model;
+        if($condition){
+            $builder = $builder->where($condition);
+        }
+        return $builder->recent()->paginate($limit);
+    }
+
+    // 获取这个学院的任务列表
+    public function tasksByCollege($limit, array $conditions = null){
+        $tasks = $this->model->where('status','publish')->recent()->paginate($limit);
+        foreach ($tasks as &$task){
+            $conditions['task_id'] = $task->id;
+            $task['task_progress'] = app(TaskProgress::class)->where($conditions)->first();
+        }
+        return $tasks;
     }
 
     public function getTask($taskId){
@@ -83,7 +98,9 @@ class TaskRepository extends Repository
     }
 
     public function getTrashed($limit){
-        return $this->model->onlyTrashed()->recent()->paginate($limit);
+        return $this->model->onlyTrashed()
+            ->recent()
+            ->paginate($limit);
     }
 
     public function reStore($id){

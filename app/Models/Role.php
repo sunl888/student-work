@@ -9,6 +9,8 @@ class Role extends BaseModel implements EntrustRoleInterface
 {
     use EntrustRoleTrait;
 
+    protected $fillable = ['name', 'display_name', 'description', 'order'];
+
     /**
      * 角色用户
      */
@@ -16,4 +18,15 @@ class Role extends BaseModel implements EntrustRoleInterface
     {
         return $this->belongsToMany(User::class);
     }
+
+    /**
+     * 角色菜单
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function menus()
+    {
+        return $this->belongsToMany(Menu::class);
+    }
+
+
 }

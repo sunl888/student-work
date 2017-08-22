@@ -19,11 +19,6 @@ class BaseModel extends Model
         return $query->orderBy('created_at', 'asc');
     }
 
-    public function scopeOrdered($query)
-    {
-        return $query->orderBy('order', 'desc');
-    }
-
     public function scopeOrderByKey($query)
     {
         return $query->orderBy($this->getKeyName(), 'ASC');

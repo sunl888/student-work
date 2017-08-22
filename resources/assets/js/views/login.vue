@@ -23,85 +23,86 @@
 </template>
 <script>
   export default {
-    data () {
-      return {
-        userName: 'xsc',
-        userPsw: 'xsc2017',
-        wrong: '',
-        isLoading: false
-      }
-    },
-    mounted () {
-    },
-    methods: {
-      login () {
-        this.isLoading = true
-        this.$http.post('login', {
-          name: this.userName,
-          password: this.userPsw,
-          remember: 1
-        }).then(res => {
-              window.localStorage.token = res.token
-              this.isLoading = false
-              if (res.status === 204) {
-                  this.$router.push({name: 'home'})
-              } else {
+      data() {
+          return {
+              userName: 'xsc',
+              userPsw: 'xsc2017',
+              wrong: '',
+              isLoading: false
+          }
+      },
+      mounted() {
+          menu: ''
+      },
+      methods: {
+          login() {
+              this.isLoading = true
+              this.$http.post('login', {
+                  name: this.userName,
+                  password: this.userPsw
+              }).then(res => {
+                  this.isLoading = false
+                  this.$http.get('menus').then(res => {
+                      this.menu = res.data[1].child[0].url
+                      this.$router.push('/home/' + this.menu)
+                  })
+              }).catch(res => {
+                  this.isLoading = false
                   this.$message({
                       showClose: true,
                       type: 'error',
                       message: data
                   })
-              }
-          })
-        }
+              })
+          }
       }
-    }
+  }
 </script>
 <style scoped>
-  .login{
-    position:absolute;
-    margin:auto;
-    top:0;
-    bottom:100px;
-    left:0;
-    right:0;
-    min-width:400px;
-    overflow:hidden;
-    height:280px;
-    background:white;
-    border-radius: 10px;
-  }
-  .login h3{
-    margin: 40px 0;
-    font-size: 22px;
-    color: #444;
-  }
-  .el-col{
-    margin-bottom:15px;
-  }
-  .el-button{
-    margin-top:15px;
-  }
+.login{
+  position:absolute;
+  margin:auto;
+  top:0;
+  bottom:100px;
+  left:0;
+  right:0;
+  min-width:400px;
+  overflow:hidden;
+  height:280px;
+  background:white;
+  border-radius: 10px;
+}
+.login h3{
+  margin: 40px 0;
+  font-size: 22px;
+  color: #444;
+}
+.el-col{
+  margin-bottom:15px;
+}
+.el-button{
+  margin-top:15px;
+}
 
-  @keyframes animatedBackground {
-    from { background-position: 0 0; }
-    to { background-position: 100% 0; }
-  }
-  @-webkit-keyframes animatedBackground {
-    from { background-position: 0 0; }
-    to { background-position: 100% 0; }
-  }
-  .loginBox{
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-color: #c0deed;
-    background-image: url(../assets/images/login_bg.jpg);
-    background-position: 0px 0px;
-    background-repeat: repeat-x;
-    animation: animatedBackground 40s linear infinite;
-    -ms-animation: animatedBackground 40s linear infinite;
-    -moz-animation: animatedBackground 40s linear infinite;
-    -webkit-animation: animatedBackground 40s linear infinite;
-  }
+@keyframes animatedBackground {
+  from { background-position: 0 0; }
+  to { background-position: 100% 0; }
+}
+@-webkit-keyframes animatedBackground {
+  from { background-position: 0 0; }
+  to { background-position: 100% 0; }
+}
+.loginBox{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #c0deed;
+  background-image: url(../assets/images/login_bg.jpg);
+  background-position: 0px 0px;
+  background-repeat: repeat-x;
+  animation: animatedBackground 40s linear infinite;
+  -ms-animation: animatedBackground 40s linear infinite;
+  -moz-animation: animatedBackground 40s linear infinite;
+  -webkit-animation: animatedBackground 40s linear infinite;
+}
 </style>

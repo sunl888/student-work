@@ -26,7 +26,8 @@ class UserTransformer extends TransformerAbstract
             'picture' => $user->picture,
             'is_super_admin' => $user->isSuperAdmin(),
             'created_at' => $user->created_at->toDateTimeString(),
-            'updated_at' => $user->updated_at->toDateTimeString()
+            'updated_at' => $user->updated_at->toDateTimeString(),
+            'roles' => $user->roles
         ];
     }
 

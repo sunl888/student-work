@@ -10,22 +10,8 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class TaskSaved
+class TaskSaved extends Task
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $task;
-
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
-    public function __construct($task)
-    {
-        $this->task = $task;
-    }
-
     /**
      * Get the channels the event should broadcast on.
      *

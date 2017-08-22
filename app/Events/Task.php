@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Repositories\TaskRepository;
-use App\Repositories\UserRepository;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -12,16 +11,24 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class AuditedTask extends Task
+class Task
 {
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $users = null;
+    public $task;
 
+    /**
+     * Create a new event instance.
+     *
+     * @return void
+     */
     public function __construct($task)
     {
-        parent::__construct($task);
-        //获取所有的二级学院用户
-        $this->users = app(UserRepository::class)->usersWithRoles(['college']);
+        if ($task && !($task instanceof Task)) {
+            $this->task = app(TaskRepository::class)->find($task);
+        } else {
+            $this->task = $task;
+        }
     }
 
     /**

@@ -27,6 +27,11 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\CreateTaskProgressListener',
             //发送通知
             'App\Listeners\SendNotificationListener'
+        ],
+        //责任人分配完毕
+        'App\Events\TaskAlloted' => [
+            //发送通知
+            'App\Listeners\SendNotificationListener'
         ]
     ];
 

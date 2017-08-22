@@ -3,9 +3,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserUpdateRequest;
+use App\Models\Role;
 use App\Models\User;
 use App\Repositories\UserRepository;
+use App\Transformers\RoleTransformer;
 use App\Transformers\UserTransformer;
+use Hash;
 
 class UsersController extends BaseController
 {
@@ -15,15 +20,109 @@ class UsersController extends BaseController
     }
 
     /**
-     * 获取学院下的所有用户
+     * 显示指定用户信息
+     *
+     * @param  User $user
      * @return \Dingo\Api\Http\Response
      */
-    public function usersWithCollege()
+    public function show(User $user)
     {
-        $users = app(User::class)->where(['college_id' => $this->guard()->user()->college_id])->get();
-        if ($users->count() > 0) {
-            return $this->response->collection($users->except($this->guard()->user()->id), new UserTransformer());
+        $role = $user->roles;
+        return $this->response->item($user, new UserTransformer())
+            ->addMeta('role', $role);
+    }
+
+    /**
+     * 用户列表
+     *
+     * @return \Dingo\Api\Http\Response
+     */
+    public function lists()
+    {
+        $users = User::recent()
+            //->with('roles')
+            ->paginate($this->perPage());
+        return $this->response->paginator($users, new UserTransformer());
+    }
+
+
+    /**
+     * 获取当前学院下的所有用户
+     * @return \Dingo\Api\Http\Response
+     */
+    public function usersWithCollege($collegeId = null)
+    {
+        return $this->response->item(app(UserRepository::class)->usersWithCollege($collegeId), new UserTransformer());
+    }
+
+    /**
+     * 获取用户的角色
+     *
+     * @param  User $user
+     * @return \Dingo\Api\Http\Response
+     */
+    public function roles(User $user)
+    {
+        return $this->response->collection($user->roles, new RoleTransformer());
+    }
+
+    /**
+     * 创建用户
+     *
+     * @param  UserCreateRequest $request
+     * @return \Dingo\Api\Http\Response
+     */
+    public function store(UserCreateRequest $request)
+    {
+        $data = $request->all();
+        if (empty($data['password'])) {
+            unset($data['password']);
+        } else {
+            $data['password'] = Hash::make($data['password']);
         }
+        if($request->hasFile('picture')){
+            $path = $request->file('picture')->store('pictures');
+        }
+        $data['picture'] = isset($path)?$path:null;
+
+        $user = app(User::class)->create($data);
+        if (!empty($data['role_id'])) {
+            //$roleId = app(Role::class)->findOrFail($data['role_id'])->pluck('id');
+            $user->roles()->sync($data['role_id']);
+        }
+        return $this->response->noContent();
+    }
+
+    /**
+     * 更新指定用户
+     *
+     * @param  User              $user
+     * @param  UserUpdateRequest $request
+     * @return \Dingo\Api\Http\Response
+     */
+    public function update(User $user, UserUpdateRequest $request)
+    {
+        $data = $request->all();
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+        $user->update($data);
+        if (!empty($roleId = $request->get('role_id'))) {
+            $user->roles()->sync($roleId);
+        }
+        return $this->response->noContent();
+    }
+
+    /**
+     * 删除指定用户
+     *
+     * @param  User $user
+     * @return \Dingo\Api\Http\Response
+     */
+    public function destroy(User $user)
+    {
+        $user->roles()->detach();
+        $user->delete();
         return $this->response->noContent();
     }
 }
