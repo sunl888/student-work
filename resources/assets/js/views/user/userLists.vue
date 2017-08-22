@@ -36,7 +36,11 @@
                                         inline-template
                                 >
                                     <template>
-                                        <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
+                                        <el-button-group>
+                                            <el-button type="primary" size="small" @click="browseUser(row.id)">查看</el-button>
+                                            <el-button type="success" size="small" @click="modifyUser(row.id)">修改</el-button>
+                                            <el-button type="danger" size="small" @click="deleteUser(row.id)">删除</el-button>
+                                        </el-button-group>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -59,9 +63,32 @@
         mounted () {
         },
         methods: {
-            //查看任务
-            browseTask (id) {
-                this.$router.push({name: 'task_item',
+            //删除用户
+            deleteUser (id) {
+                this.$confirm('该操作将恢复此用户, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$http.get('delete_user/' + id).then(res => {
+                        this.$refs['list'].refresh();
+                        this.$message.success('删除成功')
+                    })
+                }).catch(() => {
+                    this.$message.info('已取消删除')
+                })
+            },
+            //查看用户信息
+            browseUser (id) {
+                this.$router.push({name: 'user_item',
+                    params: {
+                        id
+                    }
+                })
+            },
+            //修改用户信息
+            modifyUser (id) {
+                this.$router.push({name: 'edit_user',
                     params: {
                         id
                     }
