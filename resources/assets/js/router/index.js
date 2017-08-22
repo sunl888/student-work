@@ -25,6 +25,7 @@ export default new Router({
           path: 'task_manage',
           name: 'task_manage',
           meta: {title: '任务管理'},
+          component: parentComponent,
           children: [
             {
               path: '',
@@ -80,6 +81,18 @@ export default new Router({
             name: 'add_user',
             meta: {title: '添加用户'},
             component: require('../views/user/addUser.vue')
+        },
+        {
+            path: 'edit_user/:id',
+            name: 'edit_user',
+            meta: {title: '修改任务'},
+            component: require('../views/user/addUser.vue')
+        },
+        {
+            path: 'user_item/:id',
+            name: 'user_item',
+            meta: {title: '用户信息'},
+            component: require('../views/user/userItem.vue')
         },
         {
           path: 'colleges',

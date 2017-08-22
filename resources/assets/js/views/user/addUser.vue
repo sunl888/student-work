@@ -1,25 +1,9 @@
 <template>
     <div class="addTask">
         <div class="item_add">
-            <div class="left el-col-18 el-col-offset-1">
+            <div class="left el-col-10 el-col-offset-1">
                 <!--表单-->
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-                    <!--用户名-->
-                    <el-form-item label="用户名" prop="name">
-                        <el-input v-model="ruleForm.name" placeholder="请输入内容"></el-input>
-                    </el-form-item>
-                    <!--密码-->
-                    <el-form-item label="密码" prop="password">
-                        <el-input v-model="ruleForm.password" type="password" placeholder="请输入内容"></el-input>
-                    </el-form-item>
-                    <!--性别-->
-                    <el-form-item label="性别" prop="gender">
-                        <el-radio v-for="item in genders" :key=item.id class="radio" v-model="ruleForm.gender" :label=item.value>{{item.gender}}</el-radio>
-                    </el-form-item>
-                    <!--邮箱-->
-                    <el-form-item label="邮箱" prop="email">
-                        <el-input v-model="ruleForm.email" type="email" placeholder="请输入内容"></el-input>
-                    </el-form-item>
                     <!--所属学院-->
                     <el-form-item label="所属学院" prop="college_id">
                         <el-select v-model="ruleForm.college_id" class="optionBox">
@@ -39,6 +23,37 @@
                                     :label="item.description"
                                     :value="item.id"></el-option>
                         </el-select>
+                    </el-form-item>
+                    <!--性别-->
+                    <el-form-item label="性别" prop="gender">
+                        <el-radio v-for="item in genders" :key=item.id class="radio" v-model="ruleForm.gender" :label=item.value>{{item.gender}}</el-radio>
+                    </el-form-item>
+                    <!--用户名-->
+                    <el-form-item label="用户名" prop="name">
+                        <el-input v-model="ruleForm.name" placeholder="请输入用户名"></el-input>
+                    </el-form-item>
+                    <!--密码-->
+                    <el-form-item label="密码" prop="password">
+                        <el-input v-model="ruleForm.password" type="password" placeholder="请输入密码"></el-input>
+                    </el-form-item>
+                    <!--确认密码-->
+                    <el-form-item label="确认密码" prop="password_confirmation">
+                        <el-input v-model="ruleForm.password_confirmation" type="password" placeholder="请输入确认密码"></el-input>
+                    </el-form-item>
+                    <!--邮箱-->
+                    <el-form-item label="邮箱" prop="email">
+                        <el-input v-model="ruleForm.email" type="email" placeholder="请输入邮箱"></el-input>
+                    </el-form-item>
+                    <!--上传头像-->
+                    <el-form-item label="上传头像" prop="picture">
+                        <el-upload
+                                action="http://localhost/api/upload"
+                                :on-preview="handlePictureCardPreview">
+                            <el-button type="primary">点击上传</el-button>
+                        </el-upload>
+                        <el-dialog v-model="dialogVisible" size="tiny">
+                            <img width="100%" :src="ruleForm.picture" alt="">
+                        </el-dialog>
                     </el-form-item>
                     <!--按钮组-->
                     <el-form-item>
@@ -67,6 +82,7 @@
                     {gender: '男', value: false, id: 0},
                     {gender: '女', value: true, id: 1}
                 ],
+                dialogVisible: false,
                 ruleForm: {
                     name: '',
                     email: '',
@@ -74,6 +90,7 @@
                     picture: '',
                     gender: '',
                     password: '',
+                    password_confirmation: '',
                     role_id: ''
                 },
                 rules: {
@@ -86,17 +103,17 @@
                     college_id: [
                         { type: 'number', required: true, message: '请选择所属学院', trigger: 'change' }
                     ],
-                    picture: [
-                        { required: true, message: '请上传图片', trigger: 'change' }
-                    ],
                     gender: [
-                        { type: 'Boolean', required: true, message: '请选择性别', trigger: 'blur' }
+                        {type: 'boolean', required: true, message: '请选择性别', trigger: 'blur' }
                     ],
                     password: [
                         { required: true, message: '请输入密码', trigger: 'blur' }
                     ],
+                    password_confirmation: [
+                        { required: true, message: '请输入确认密码', trigger: 'blur' }
+                    ],
                     role_id: [
-                        { required: true, message: '请选择用户角色', trigger: 'blur' }
+                        { type: 'number', required: true, message: '请选择用户角色', trigger: 'blur' }
                     ]
                 }
             }
@@ -108,7 +125,7 @@
                     email: '',
                     college_id: '',
                     picture: '',
-                    gender: '',
+                    gender: false,
                     password: '',
                     role_id: ''
                 }
@@ -122,8 +139,8 @@
             if(this.$route.name === 'edit_user'){
                 this.isEdit = true
                 this.$http.get('user/' + this.$route.params.id).then(res => {
-                    res.data.data.end_time = new Date(res.data.data.end_time);
                     this.ruleForm = res.data.data
+                    console.log(this.ruleForm)
                     this.$diff.save(this.ruleForm);
                 })
             }else{
@@ -137,14 +154,14 @@
                     if (valid) {
                         this.$http.post('user',this.ruleForm).then(res => {
                             this.$message({
-                                message: '添加任务成功',
+                                message: '添加用户成功',
                                 type: 'success'
                             })
                             this.$router.push({name: 'user_lists'})
                         }).catch(res => {
                             $message: ({
                                 type: 'error',
-                                message: res.data.message
+                                message: res.message
                             })
                         })
                     } else {
@@ -158,7 +175,7 @@
                     if (valid) {
                         this.$http.post('update_user/' + this.$route.params.id, this.$diff.diff(this.ruleForm)).then(res => {
                             this.$message({
-                                message: '修改任务成功',
+                                message: '修改用户成功',
                                 type: 'success'
                             })
                             this.$router.push({name: 'user_lists'})
@@ -183,6 +200,11 @@
                 this.$http.get('colleges').then(res => {
                     this.collegesList = res.data.data
                 })
+            },
+            handlePictureCardPreview(file) {
+                this.ruleForm.picture = file.url
+                console.log(this.ruleForm.picture)
+                this.dialogVisible = true
             }
         }
     }
@@ -200,5 +222,11 @@
     }
     .addTask{
         height:100%;
+    }
+    .radio{
+        margin-left:-280px;
+    }
+    .el-upload>.el-button{
+        margin-left:-300px;
     }
 </style>

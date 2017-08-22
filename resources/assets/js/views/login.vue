@@ -26,7 +26,7 @@
       data() {
           return {
               userName: 'xsc',
-              userPsw: 'xsc2017',
+              userPsw: 'xsc',
               wrong: '',
               isLoading: false
           }
