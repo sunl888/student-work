@@ -19,6 +19,11 @@
                       当前没有可查看的任务
                   </p>
                 </div>
+              <div v-else="queryName == 'users'">
+                  <p>
+                      当前没有已创建的用户
+                  </p>
+              </div>
               </template>
           </div>
           <div v-if="list.length > 0" class="footer">

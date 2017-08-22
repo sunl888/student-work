@@ -73,10 +73,10 @@
         },
         rules: {
           work_type_id: [
-            { type: 'number', required: true, message: '请选择活动区域1', trigger: 'change' }
+            { type: 'number', required: true, message: '请选择工作类型', trigger: 'change' }
           ],
           department_id: [
-            { type: 'number', required: true, message: '请选择活动区域', trigger: 'change' }
+            { type: 'number', required: true, message: '请选择对口科室', trigger: 'change' }
           ],
           end_time: [
             { type: 'date', required: true, message: '请选择日期', trigger: 'change' }

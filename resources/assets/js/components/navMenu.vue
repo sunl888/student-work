@@ -4,7 +4,7 @@
       <div class="mine">
         <i style="color:white;" class="material-icons">account_circle</i>
         <p>{{me.college}}</p>
-        <p>{{'您好，' +  me.name + '老师'}}</p>
+        <p>{{'您好，' + me.name + '老师'}}</p>
       </div>
       <el-submenu v-for="(values, index) in menus" :index=index :key="values.id">
         <template slot="title" >
