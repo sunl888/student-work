@@ -7,6 +7,24 @@
 </template>
 
 <script>
+  export default{
+      data () {
+          return{
+              menu: ''
+          }
+      },
+      methods: {
+          whichHome () {
+            this.$http.get('menus').then(res => {
+                this.menu = res.data[1].child[0].url
+                this.$router.push('/home/' + this.menu)
+            })
+          }
+      },
+      mounted () {
+          this.whichHome()
+      }
+  }
 </script>
 
 <style>
