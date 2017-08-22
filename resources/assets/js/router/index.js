@@ -16,7 +16,7 @@ export default new Router({
       component: require('../views/Home.vue'),
         redirect: to => {
           const {params} = to
-          if(params.id){
+          if(params.addr){
               return '/:params.addr'
           }
         },
@@ -68,6 +68,18 @@ export default new Router({
           name: 'task_score',
           meta: {title: '任务评分'},
           component: require('../views/task/taskScore.vue')
+        },
+        {
+          path: 'user_lists',
+          name: 'user_lists',
+          meta: {title: '用户列表'},
+          component: require('../views/user/userLists.vue')
+        },
+        {
+            path: 'add_user',
+            name: 'add_user',
+            meta: {title: '添加用户'},
+            component: require('../views/user/addUser.vue')
         },
         {
           path: 'colleges',
