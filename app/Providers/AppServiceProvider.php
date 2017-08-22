@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use HttpException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -94,10 +95,6 @@ class AppServiceProvider extends ServiceProvider
                     ], 422
                 );
             }
-        /*function (ValidationException $exception) {
-            dd($exception->validator->errors()->toArray());
-            throw new ValidationHttpException($exception->validator->errors());
-        }*/
         );
         $apiHandler->register(
             function (QueryException $exception) {

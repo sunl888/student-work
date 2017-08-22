@@ -38,12 +38,13 @@ class UserRepository extends Repository
      * 获取学院下的所有用户
      * @return \Dingo\Api\Http\Response
      */
-    public function usersWithCollege($collegeId = null)
+    public function usersWithCollege($collegeId = null, $containCollege = false)
     {
         if (null == $collegeId){
             $collegeId = \Auth::guard()->user()->college_id;
         }
-        $users = $this->usersWithRoles(['teacher'])->where('college_id',$collegeId);
+        $containCollege? $data = ['teacher','college']: $data = ['teacher'];
+        $users = $this->usersWithRoles($data)->where('college_id',$collegeId);
         return $users;
     }
 
