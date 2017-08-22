@@ -36,7 +36,8 @@ class MenuRepository extends Repository
                 $new_menus[$menu['id']] = $menu;
             }
         }
-        return $new_menus;
+        // 使用array_values() 将数组重新索引，因为如果数组不是从0开始的则会返回给前端时变成对象
+        return array_values($new_menus);
     }
 
 }
