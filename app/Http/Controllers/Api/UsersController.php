@@ -5,15 +5,18 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
-use App\Models\Role;
 use App\Models\User;
 use App\Repositories\UserRepository;
+use App\Service\FileUpload;
 use App\Transformers\RoleTransformer;
 use App\Transformers\UserTransformer;
 use Hash;
+use Request;
 
 class UsersController extends BaseController
 {
+    use FileUpload;
+
     public function me()
     {
         return $this->response->item($this->guard()->user(), new UserTransformer());
@@ -44,7 +47,6 @@ class UsersController extends BaseController
             ->paginate($this->perPage());
         return $this->response->paginator($users, new UserTransformer());
     }
-
 
     /**
      * 获取当前学院下的所有用户
@@ -80,14 +82,8 @@ class UsersController extends BaseController
         } else {
             $data['password'] = Hash::make($data['password']);
         }
-        if($request->hasFile('picture')){
-            $path = $request->file('picture')->store('pictures');
-        }
-        $data['picture'] = isset($path)?$path:null;
-
         $user = app(User::class)->create($data);
         if (!empty($data['role_id'])) {
-            //$roleId = app(Role::class)->findOrFail($data['role_id'])->pluck('id');
             $user->roles()->sync($data['role_id']);
         }
         return $this->response->noContent();
