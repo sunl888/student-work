@@ -38,6 +38,8 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('is_delay/{task_id}', 'TaskController@isDelay');
     // 任务评分
     $api->post('task_score/{task_id}', 'TaskController@taskScore');
+    // 任务提醒
+    $api->post('remind/{task}/{college}', 'TaskController@remind');
 
     /**
      * 任务查询相关

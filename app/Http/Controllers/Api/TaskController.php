@@ -14,6 +14,7 @@ use App\Models\Task;
 use App\Models\TaskProgress;
 use App\Models\User;
 use App\Notifications\NewTask;
+use App\Notifications\TaskRemind;
 use App\Repositories\TaskProgressRepository;
 use App\Repositories\TaskRepository;
 use App\Repositories\UserRepository;
@@ -21,6 +22,8 @@ use App\Transformers\TaskAndProgressTransformer;
 use App\Transformers\TaskTransformer;
 use Auth;
 use Carbon\Carbon;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Notification;
 
@@ -202,7 +205,6 @@ class TaskController extends BaseController
         if ($collegeId == null){
             $condisions['college_id'] = $this->guard()->user()->college_id;
         }
-        //dd($this->taskRepository->tasksByCollege($this->perPage(),$condisions));
         return $this->response()->paginator($this->taskRepository->tasksByCollege($this->perPage(),$condisions), new TaskAndProgressTransformer());
     }
 
@@ -218,6 +220,35 @@ class TaskController extends BaseController
 
     public function reStore($id){
         return $this->taskRepository->reStore($id);
+    }
+
+    /**
+     * 催交
+     * @param Task $task
+     * @param $collegeId
+     * @throws AuthorizationException
+     */
+    public function remind(Task $task, $collegeId)
+    {
+        if ($this->guard()->user()->hasRole('super_admin')){
+            //判断有没有责任人，如果没有则只向该学院发送提醒通知
+            //判断责任人是不是所有人(all)，如果是则向该学院所有人发送通知
+            $task_progress = $task->task_progresses()->where(['college_id'=>$collegeId])->first();
+            $users = new Collection();
+            if (isset($task_progress->user_id)){
+                //全体人员
+                if($task_progress->user_id == TaskProgress::$personnelSign){
+                    $users = app(UserRepository::class)->usersWithCollege($collegeId,true);
+                }else{
+                    $users = $users->merge(app(UserRepository::class)->find(['id',$task_progress->user_id]));
+                }
+            }
+            $users = $users->merge(app(UserRepository::class)->usersWithRoles(['college'])->where('college_id',$collegeId)->all());
+            //发送任务提醒通知
+            Notification::send($users, new TaskRemind($users, $task));
+        }else{
+            throw new AuthorizationException("没有操作权限");
+        }
     }
 
 }
