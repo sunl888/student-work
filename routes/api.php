@@ -136,7 +136,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         // 获取指定用户的信息
         $api->get('user/{user}', 'UsersController@show');
 
-        $api->post('upload', 'UsersController@uploadFile');
+
         // 更新用户
         $api->post('update_user/{user}', 'UsersController@update');
         // 删除用户
@@ -163,3 +163,4 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
 
 
 });
+$api->post('upload', 'UsersController@uploadFile');

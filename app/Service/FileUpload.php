@@ -8,38 +8,23 @@
 
 namespace App\Service;
 
-
 use Dingo\Api\Http\Request;
-use Dingo\Api\Exception\StoreResourceFailedException;
-use Storage;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait FileUpload
 {
-    public function uploadFile(Request $request) {
-        if (!$request->hasFile('file')) {
-            return response()->json(['message'=> '无法获取上传文件','status'=> 500], 500);
+    public function uploadFile(Request $request)
+    {
+        $hasFile = $request->hasFile('file');
+        if (!$hasFile || !($file = $request->file('file'))->isValid()) {
+            throw new HttpException(500, '图片上传出错');
         }
-        $file = $request->file('file');
-
-        if ($file->isValid()) {
-            // 获取文件相关信息
-            $originalName = $file->getClientOriginalName(); // 文件原名
-            $ext = $file->getClientOriginalExtension();   // 扩展名
-            $realPath = $file->getRealPath();  //临时文件的绝对路径
-            $type = $file->getClientMimeType();   // image/jpeg
-
-            // 上传文件
-            $filename = date('Ymd/His');
-            // 使用我们新建的uploads本地存储空间（目录）
-            $path = $file->store($filename, 'uploads');
-            return response()->json([
-                'status_code' => 200,
-                'message' => 'success',
-                'photo' => $path,
-                'name' => $originalName,
-            ]);
-        } else {
-            return response()->json([], 500, '文件未通过验证');
-        }
+        $path = date('Y/m/d');
+        // 指定磁盘为uploads
+        $url = $file->store($path,'uploads');
+        return response()->json([
+            'path' =>'uploads/'.$url,
+            'asset_path' => asset('uploads/'.$url)
+        ]);
     }
 }
