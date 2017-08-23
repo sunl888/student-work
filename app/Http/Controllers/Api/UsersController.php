@@ -76,7 +76,7 @@ class UsersController extends BaseController
      */
     public function store(UserCreateRequest $request)
     {
-        $data = $request->all();
+        $data = $request->all();;
         if (empty($data['password'])) {
             unset($data['password']);
         } else {

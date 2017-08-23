@@ -25,13 +25,10 @@ class TaskAndProgressTransformer extends Transformer
             'id' => $task->id,
             'title' => $task->title,
             'detail' => $task->detail,
-            //'work_type_id' => $task->work_type_id,
             'work_type' => app(WorkType::class)->find($task->work_type_id)['title'],
-            //'department_id' => $task->department_id,
             'department' => app(Department::class)->find($task->department_id)['title'],
             'created_at' => $task->created_at->toDateString(),
             'end_time' => Carbon::parse($task->end_time)->toDateString(),
-            //'status' =>$task->status,
             //完成状态
             'finished_at' =>$task->task_progress->status,
             //责任人

@@ -44,10 +44,10 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     /**
      * 任务查询相关
      */
-    // 任务列表[后面可以加查询条件 如：?status=publish]
+    // 任务列表[后面可以加查询条件 如：?status=publish&q=]
     $api->get('tasks', 'TaskController@tasks');
-    // 已发布任务列表
-    $api->get('lists', 'TaskController@getTasksByCollege');
+    // 某个学院的任务列表
+    $api->get('lists/{college?}', 'TaskController@getTasksByCollege');
     // 已删除的任务列表
     $api->get('trashed_tasks', 'TaskController@getTrashed');
     // 显示某个任务的进程情况

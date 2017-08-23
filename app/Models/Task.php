@@ -3,18 +3,22 @@
 namespace App\Models;
 
 
+use App\Models\Traits\Listable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Task extends BaseModel
 {
-    use SoftDeletes;
+    use SoftDeletes,Listable;
 
     protected $fillable = ['title', 'detail', 'work_type_id', 'department_id', 'end_time','status'];
 
     protected $hasDefaultValuesFields = ['status'];
 
     public static $allowUpdateFields = ['title', 'detail', 'work_type_id', 'department_id', 'end_time'];
+
+    protected static $allowSearchFields = ['title', 'detail'];
+    protected static $allowSortFields = ['created_at', 'end_time'];
 
     public $timestamps = true;
 

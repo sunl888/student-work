@@ -76,7 +76,7 @@ class TaskRepository extends Repository
     }
 
     public function lists($limit, array $condition = null){
-        $builder = $this->model;
+        $builder = $this->model->withSimpleSearch();
         if($condition){
             $builder = $builder->where($condition);
         }
