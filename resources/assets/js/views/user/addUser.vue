@@ -47,9 +47,13 @@
                     <!--上传头像-->
                     <el-form-item label="上传头像" prop="picture">
                         <el-upload
-                                action="http://localhost/api/upload"
-                                :on-preview="handlePictureCardPreview">
-                            <el-button type="primary">点击上传</el-button>
+                                class="upload-demo"
+                                action="gitapi/upload"
+                                :on-preview="handlePreview"
+                                :on-remove="handleRemove"
+                                >
+                            <el-button size="small" type="primary">点击上传</el-button>
+                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                         </el-upload>
                         <el-dialog v-model="dialogVisible" size="tiny">
                             <img width="100%" :src="ruleForm.picture" alt="">
@@ -201,10 +205,13 @@
                     this.collegesList = res.data.data
                 })
             },
-            handlePictureCardPreview(file) {
+            handlePreview(file) {
                 this.ruleForm.picture = file.url
                 console.log(this.ruleForm.picture)
                 this.dialogVisible = true
+            },
+            handleRemove(file){
+                console.log(file)
             }
         }
     }

@@ -14,7 +14,7 @@
       methods: {
           whichHome () {
             this.$http.get('menus').then(res => {
-                this.menu = res.data[1].child[0].url
+                this.menu = res.data[0].child[0].url
                 this.$router.push('/home/' + this.menu)
             })
           }
