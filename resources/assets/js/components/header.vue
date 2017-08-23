@@ -19,7 +19,7 @@
       </el-breadcrumb>
       <div class="operation">
         <el-button type="primary" @click="$router.push({name: 'add_task'})">添加任务</el-button>
-        <el-badge :value="3" class="item">
+        <el-badge :value=unread class="item">
           <el-button>最新通知</el-button>
         </el-badge>
       </div>
@@ -33,7 +33,7 @@
       return {
         task: [],
         state1: '',
-        isMenu: false,
+        unread: null,
         breadcrumbs: []
       }
     },
@@ -41,11 +41,12 @@
         '$route': 'updateBreadcrumbs'
     },
     methods: {
-      isShow () {
-        this.isMenu = !this.isMenu
-      },
-      jump (x) {
-        this.$router.push({name: x})
+      //获取未读通知
+      unreadNotify () {
+        this.$http.get('un_read_notifys').then(res => {
+          this.unread = res.notifications
+            console.log(this.unread)
+        })
       },
       querySearch (queryString, cb) {
         var task = this.task
@@ -92,6 +93,7 @@
     mounted () {
       this.task = this.loadAll(),
       this.updateBreadcrumbs();
+      this.unreadNotify()
     }
   }
 </script>
