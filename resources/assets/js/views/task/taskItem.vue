@@ -36,6 +36,14 @@
                                 <span>{{end_time === undefined ? '空' : end_time}}</span>
                             </el-table-column>
                             <el-table-column
+                                    inline-template
+                                    sortable
+                                    label="责任人"
+                                    min-width="130">
+                                <span>{{row.leading_official === null ? '尚未指定' : row.leading_official}}</span>
+                            </el-table-column>
+
+                            <el-table-column
                                     prop="status"
                                     sortable
                                     label="任务状态">
@@ -52,16 +60,16 @@
                     </template>
                 </div>
                 <div class="appoint" v-else>
-                    <el-button class="appo"  @click="isDia = true" type="success">指定责任人</el-button>
-                    <el-button @click="goSubmit()" type="info">提交任务</el-button>
+                    <el-button class="appo" :disabled="isAllot" @click="isDia = true" type="success">指定责任人</el-button>
+                    <el-button @click="goSubmit()" :disabled="!isAllot" type="info">提交任务</el-button>
                     <el-dialog title="指定责任人" :visible.sync="isDia" top="30%">
                         <el-form>
                             <el-form-item label="指定责任人" :label-width="formLabelWidth">
                                 <el-cascader
                                         @change="current()"
-
-
+                                        :options="options"
                                         v-model="currOption"
+                                        :props="prop"
                                 >
                                 </el-cascader>
                             </el-form-item>
@@ -87,17 +95,16 @@
                 isDia: false,
                 users: [],
                 taskPro: [],
+                isAllot: false,
                 currOption: [],
-                allot: '',
+                allot: null,
                 formLabelWidth: '210px',
                 options: [
                     {
-                        name: '全体人员',
-                        id: 'all'
+                        name: '全体人员', id: 'all'
                     },
                     {
-                        name: '具体单一',
-                        id: 'all',
+                        name: '具体单一', id: 'only',
                         children: [
                         ]
                     }
@@ -109,13 +116,12 @@
             }
         },
         methods: {
-            current () {
-                if (this.currOption[0]){
-                    this.allot = this.currOption[0]
-                } else {
-                    this.allot = this.currOption[1]
-                }
-//                console.log('被选中的是'+this.allot)
+            current(){
+              if(this.currOption[1]){
+                  this.allot = this.currOption[1]
+              } else {
+                  this.allot = this.currOption[0]
+              }
             },
             //去提交任务
             goSubmit () {
@@ -127,11 +133,15 @@
             },
             //指定责任人
             appoint () {
-                console.log(this.allot)
                 this.$http.post('create_allot_task', {
                     task_id: this.$route.params.id,
                     user_id: this.allot
                 }).then(res => {
+                    this.isAllot = true
+                    this.isDia = false
+                    this.$message.success('指定成功')
+                }).catch(res => {
+                    this.$message.error(res.data.message)
                 })
             },
             //获取各学院完成任务进度

@@ -89,12 +89,6 @@ export default new Router({
             component: require('../views/user/addUser.vue')
         },
         {
-            path: 'user_item/:id',
-            name: 'user_item',
-            meta: {title: '用户信息'},
-            component: require('../views/user/userItem.vue')
-        },
-        {
           path: 'colleges',
           name: 'colleges',
           meta: {title: '学院名称设置'},
