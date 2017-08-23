@@ -2,15 +2,7 @@
     <div class="taskDetail">
         <div class="current">
             <el-card class="box-card">
-                <div class="personList el-col-16 el-col-push-4">
-                    <div class="pic">
-                        <img v-if="item.picture" :src="item.picture" alt="">
-                        <!--<h3>没有头像</h3>-->
-                    </div>
-                    <div class="list">
-                        <p>{{'用户名: ' + item.name}}</p>
-                        p
-                    </div>
+                <div slot="header" class="clearfix card_head">
                 </div>
             </el-card>
         </div>
@@ -37,17 +29,6 @@
     }
 </script>
 <style scoped>
-    .pic{
-        width:150px;
-        height:150px;
-        float:right;
-        border:2px dashed #9d9d9d;
-    }
-    .personList{
-        margin-top:30px;
-    }
-    .list{
-    }
     .box-card{
         margin-top:20px;
         min-height:450px;
@@ -90,8 +71,8 @@
     .text>div span,.text>p span{
         color:#333;
     }
-    .el-card__header{
-        padding:5px;
+    .el-card{
+       background:url('../../assets/images/item_bg.jpg') 100% 100%;
     }
     .appoint{
         margin-top:50px;
@@ -101,5 +82,9 @@
     }
     .el-cascader{
         margin-left:-200px;
+    }
+    .card_head{
+        height:200px;
+        backgound:grey;
     }
 </style>

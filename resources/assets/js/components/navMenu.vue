@@ -6,7 +6,7 @@
         <p>{{me.college}}</p>
         <p>{{'您好，' + me.name + '老师'}}</p>
       </div>
-      <el-submenu v-for="(values, index) in menus" :index=index :key="values.id">
+      <el-submenu v-for="values in menus" :index=values.name :key="values.id">
         <template slot="title" >
           <i class="material-icons newIcon">{{values.icon}}</i>
           <span class="menu_txt">{{values.name}}</span>

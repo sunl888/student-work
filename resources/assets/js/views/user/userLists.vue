@@ -37,7 +37,7 @@
                                 >
                                     <template>
                                         <el-button-group>
-                                            <el-button type="primary" size="small" @click="browseUser(row.id)">查看</el-button>
+                                            <el-button type="primary" size="small" @click="browserUser(row.id)">查看</el-button>
                                             <el-button type="success" size="small" @click="modifyUser(row.id)">修改</el-button>
                                             <el-button type="danger" size="small" @click="deleteUser(row.id)">删除</el-button>
                                         </el-button-group>
@@ -49,6 +49,19 @@
                 </div>
             </el-tab-pane>
         </el-tabs>
+        <el-card v-if="isProfile" class="proCard el-col-5">
+            <div class="head">
+                <i class="el-icon-close" style="position:absolute;right:20px;" @click="isProfile =false"></i>
+                <img src="../../assets/images/picture.jpg" alt="">
+            </div>
+            <div class="profile el-col-20 el-col-push-2">
+                <p><span>用户名：</span>{{item.name}}</p>
+                <p><span>性&emsp;别：</span>{{item.gender_str}}</p>
+                <p><span>用户角色：</span>{{item.roles[0].description}}</p>
+                <p><span>所属学院：</span>{{item.college.title}}</p>
+                <p><span>用户创建时间：</span>{{item.created_at}}</p>
+            </div>
+        </el-card>
     </div>
 </template>
 <script>
@@ -57,7 +70,9 @@
         components: {CurrencyListPage},
         data () {
             return {
-                activeName: 'list'
+                activeName: 'list',
+                isProfile: false,
+                item: []
             }
         },
         mounted () {
@@ -65,7 +80,7 @@
         methods: {
             //删除用户
             deleteUser (id) {
-                this.$confirm('该操作将恢复此用户, 是否继续?', '提示', {
+                this.$confirm('该操作将删除此用户, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
@@ -79,11 +94,10 @@
                 })
             },
             //查看用户信息
-            browseUser (id) {
-                this.$router.push({name: 'user_item',
-                    params: {
-                        id
-                    }
+            browserUser (id) {
+                this.isProfile = !this.isProfile
+                this.$http.get('user/' + id).then(res => {
+                    this.item = res.data.data
                 })
             },
             //修改用户信息
@@ -107,5 +121,46 @@
     }
     .page{
         margin-top: 30px;
+    }
+    .proCard{
+        max-height:400px;
+        position:absolute;
+        position:fixed;
+        margin:auto;
+        left:0;
+        right:0;
+        top:0;
+        min-width:280px;
+        bottom:0;
+        z-index:2000;
+    }
+    .head{
+        height:60px;
+        border-bottom:1px solid #eee;
+    }
+    .head>img{
+        width:105px;
+        height:105px;
+        box-shadow:2px 2px 10px #ccc,
+                    -2px -2px 10px #ccc;
+    }
+    .head>i:hover{
+        color:red;
+    }
+    .head>i{
+        cursor:pointer;
+    }
+    .profile{
+        margin-top:75px;
+    }
+    .profile>p {
+        text-align:left;
+        margin-bottom:5px;
+        color:#444;
+    }
+    .profile>p>span{
+        margin-right:5px;
+        color:#777;
+        font-size:14px;
     }
 </style>

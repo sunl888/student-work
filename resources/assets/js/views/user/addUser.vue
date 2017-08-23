@@ -48,7 +48,7 @@
                     <el-form-item label="上传头像" prop="picture">
                         <el-upload
                                 class="upload-demo"
-                                action="gitapi/upload"
+                                action="api/upload"
                                 :on-preview="handlePreview"
                                 :on-remove="handleRemove"
                                 >
@@ -207,7 +207,7 @@
             },
             handlePreview(file) {
                 this.ruleForm.picture = file.url
-                console.log(this.ruleForm.picture)
+                console.log(this.ruleForm.picture, file.url)
                 this.dialogVisible = true
             },
             handleRemove(file){
