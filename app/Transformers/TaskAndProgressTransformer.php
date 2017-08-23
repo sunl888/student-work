@@ -32,7 +32,7 @@ class TaskAndProgressTransformer extends Transformer
             //完成状态
             'finished_at' =>$task->task_progress->status,
             //责任人
-            'user' => $task->task_progress->user_id == TaskProgress::$personnelSign?'全体人员': app(User::class)->find(1)['name'],
+            'user' => $task->task_progress->user_id == TaskProgress::$personnelSign?'全体人员': app(User::class)->find($task->task_progress->user_id)['name'],
             //等级
             'assess' =>!empty($task->task_progress->assess_id)?app(Assess::class)->find($task->task_progress->assess_id)['title']:null,
             //完成质量

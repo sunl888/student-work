@@ -8,15 +8,20 @@
 
 namespace App\Transformers;
 
+use App\Models\TaskProgress;
 use App\Models\User;
 use League\Fractal\TransformerAbstract;
 
 class Transformer extends TransformerAbstract
 {
     public function getLeadOfficial($taskProgress){
-        $user = app(User::class)->find($taskProgress->user_id);
-        if($user){
-            return $user->hasRole('teacher')?$user->name:'全体人员';
+        //$user = app(User::class)->find($taskProgress->user_id);
+        if ($taskProgress->user_id){
+            if($taskProgress->user_id == TaskProgress::$personnelSign){
+                return '全体人员';
+            }else{
+                return app(User::class)->find($taskProgress->user_id)['name'];
+            }
         }
         return null;
     }
