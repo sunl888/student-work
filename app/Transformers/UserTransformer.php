@@ -20,6 +20,7 @@ class UserTransformer extends TransformerAbstract
             'gender' => $user->gender,
             'gender_str' => $user->gender ? '女' : '男',
             'college_id' => $user->college_id,
+            'email' => $user->email,
             'college' => app(CollegeRepository::class)->find($user->college_id, ['title']),
             'department_id' => $user->department_id,
             'department' => app(DepartmentRepository::class)->find($user->department_id, ['title']),

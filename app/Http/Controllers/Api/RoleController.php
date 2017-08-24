@@ -14,13 +14,14 @@ use App\Http\Controllers\Controller;
 class RoleController extends BaseController
 {
     /**
-     * 获取所有角色(不分页 用于添加用户时显示)
+     * 获取所有角色(不分页 用于添加用户时显示 除了超级管理员角色)
      *
      * @return \Dingo\Api\Http\Response
      */
     public function allRoles()
     {
-        $roles = Role::recent()->get();
+        $roles = app(Role::class)->recent()->get();
+        //->where('name','<>','super_admin')
         return $this->response()->collection($roles, new RoleTransformer());
     }
 
