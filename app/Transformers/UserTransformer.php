@@ -18,8 +18,8 @@ class UserTransformer extends TransformerAbstract
         return [
             'id' => $user->id,
             'name' => $user->name,
-            'gender' => $user->gender?'男': '女',
-            'gender_id' => (int)$user->gender,
+            'gender_str' => $user->gender?'男': '女',
+            'gender' => $user->gender,
             'college_id' => (int)$user->college_id,
             'email' => $user->email,
             'college' => app(CollegeRepository::class)->find($user->college_id, ['title']),
