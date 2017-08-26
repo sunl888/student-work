@@ -60,8 +60,8 @@
                     </template>
                 </div>
                 <div class="appoint" v-else>
-                    <el-button class="appo" :disabled="isAllot" @click="isDia = true" type="success">指定责任人</el-button>
-                    <el-button @click="goSubmit()" :disabled="!isAllot" type="info">提交任务</el-button>
+                    <el-button class="appo" @click="isDia = true" type="success">指定责任人</el-button>
+                    <el-button @click="goSubmit()" type="info">提交任务</el-button>
                     <el-dialog title="指定责任人" :visible.sync="isDia" top="30%">
                         <el-form>
                             <el-form-item label="指定责任人" :label-width="formLabelWidth">

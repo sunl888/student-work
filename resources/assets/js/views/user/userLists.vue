@@ -28,7 +28,7 @@
                                         label="用户角色"
                                         sortable
                                 >
-                                    <span>{{row.roles[0].description}}</span>
+                                    <span>{{row.role_dispname}}</span>
                                 </el-table-column>
                                 <el-table-column
                                         max-width="200"
@@ -55,11 +55,12 @@
                 <img src="../../assets/images/picture.jpg" alt="">
             </div>
             <div class="profile el-col-20 el-col-push-2">
-                <p><span>用户名：</span>{{item.name}}</p>
-                <p><span>性&emsp;别：</span>{{item.gender_str}}</p>
-                <p><span>用户角色：</span>{{item.roles[0].description}}</p>
-                <p><span>所属学院：</span>{{item.college.title}}</p>
-                <p><span>用户创建时间：</span>{{item.created_at}}</p>
+                <p>用户名：<span>{{item.name}}</span></p>
+                <p>性&emsp;别：<span>{{item.gender_str}}</span></p>
+                <p>用户邮箱：<span>{{item.email}}</span></p>
+                <p>用户角色：<span v-for="value in item.roles">{{value.description}}</span></p>
+                <p v-if="item.college != undefined">所属学院：<span>{{item.college.title}}</span></p>
+                <p>用户创建时间：<span>{{item.created_at | dateFilter}}</span></p>
             </div>
         </el-card>
     </div>
@@ -74,6 +75,13 @@
                 isProfile: false,
                 item: []
             }
+        },
+        filters: {
+          dateFilter (val) {
+              var tempStr = new Array()
+              tempStr = (val || '').split(' ')
+              return tempStr[0]
+          }
         },
         mounted () {
         },
@@ -156,11 +164,12 @@
     .profile>p {
         text-align:left;
         margin-bottom:5px;
-        color:#444;
-    }
-    .profile>p>span{
-        margin-right:5px;
         color:#777;
         font-size:14px;
+    }
+    .profile>p>span{
+        color:#444;
+        font-size:16px;
+        display:inline-block;
     }
 </style>

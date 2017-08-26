@@ -21,20 +21,21 @@
         <el-button type="primary" @click="$router.push({name: 'add_task'})">添加任务</el-button>
         <el-popover
                 ref="unreadBox"
-                placement="top"
+                placement="bottom-start"
                 width="160"
                 v-model="visible">
-          <router-link :to="{name: 'task_item', params: {id: value.data.task_id}}" :key="value.id" v-for="value in unreadData">
-            {{value.data.message}}
-          </router-link>
-          <div style="text-align: right; margin: 0">
-            <button class="more">
-              显示更多通知&emsp;>>
-            </button>
-          </div>
+            <router-link :title="value.data.message" :to="{name: 'task_item', params: {id: value.data.task_id}}" :key="value.id" v-for="value in unreadData">
+              {{value.data.message}}
+            </router-link>
+            <p v-if=isTips style="line-height:40px;font-size:14px;text-align:center">暂时还没有通知哦</p>
+            <div style="text-align: right; margin: 0">
+              <button class="more" @click="$router.push({name: 'notify'})">
+                查看更多通知&emsp;>>
+              </button>
+            </div>
         </el-popover>
         <el-badge :value=unread class="item">
-          <el-button v-popover:unreadBox>最新通知</el-button>
+          <el-button v-popover:unreadBox @click="setAlread">最新通知</el-button>
         </el-badge>
       </div>
     </el-col>
@@ -50,22 +51,36 @@
         unread: null,
         breadcrumbs: [],
         visible: false,
-        unreadData: []
+        unreadData: [],
+        isTips: false
       }
     },
     watch: {
-        '$route': 'updateBreadcrumbs',
+        '$route': 'updateBreadcrumbs'
     },
     methods: {
+      //设为已读
+      setAlread () {
+        this.$http.get('notifys_as_read').then(
+            this.unread = null
+        ).then(res => {
+            if(this.visible === false) {
+                this.unreadData = null
+                this.isTips = true
+            }
+        })
+      },
       //获取未读通知
       unreadNotify () {
         this.$http.get('un_read_notifys').then(res => {
             if(res.data.length === 0){
                 this.unread = null
+                this.isTips = true
             } else {
+                this.isTips = false
                 this.unread = res.data.notifications.length
                 this.unreadData = res.data.notifications
-                console.log(this.unreadData)
+                console.log(this.unread, this.unreadData)
             }
         })
       },
@@ -93,7 +108,6 @@
         ]
       },
       handleSelect (item) {
-        console.log(item)
       },
       updateBreadcrumbs () {
         this.breadcrumbs = [];
@@ -167,10 +181,15 @@
 .el-submenu .el-menu-item{
   min-width: 150px;
 }
+.el-popover{
+    max-height:148px;
+}
 .el-popover>a{
   height:30px;
   color:#444;
+  overflow: hidden;
   text-overflow:ellipsis;
+  white-space: nowrap;
   line-height:30px;
   display:block;
   border-bottom:1px dashed #eee;
@@ -182,7 +201,7 @@
   width:100%;
   background:transparent;
   border:none;
-  margin-top:20px;
+  margin-top:5px;
   border:1px solid #bbb;
   font-size:12px;
   color:#bbb;

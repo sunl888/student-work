@@ -4,8 +4,19 @@
             <div class="left el-col-10 el-col-offset-1">
                 <!--表单-->
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                    <!--用户角色-->
+                    <el-form-item label="用户角色" prop="role_id">
+                        <el-select v-model="ruleForm.role_id" class="optionBox" @change="isCollege = ruleForm.role_id != 1">
+                            <el-option
+                                    v-for="item in rolesList"
+                                    :key="item.id"
+                                    :label="item.description"
+                                    :value="item.id"
+                            ></el-option>
+                        </el-select>
+                    </el-form-item>
                     <!--所属学院-->
-                    <el-form-item label="所属学院" prop="college_id">
+                    <el-form-item v-if="isCollege" label="所属学院" prop="college_id">
                         <el-select v-model="ruleForm.college_id" class="optionBox">
                             <el-option
                                     v-for="item in collegesList"
@@ -14,19 +25,9 @@
                                     :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
-                    <!--用户角色-->
-                    <el-form-item label="用户角色" prop="role_id">
-                        <el-select v-model="ruleForm.role_id" class="optionBox">
-                            <el-option
-                                    v-for="item in rolesList"
-                                    :key="item.id"
-                                    :label="item.description"
-                                    :value="item.id"></el-option>
-                        </el-select>
-                    </el-form-item>
                     <!--性别-->
                     <el-form-item label="性别" prop="gender">
-                        <el-radio v-for="item in genders" :key=item.id class="radio" v-model="ruleForm.gender" :label=item.value>{{item.gender}}</el-radio>
+                        <el-radio v-for="item in genders" :key=item.id class="radio" v-model="ruleForm.gender" :label=item.gender>{{item.gender_str}}</el-radio>
                     </el-form-item>
                     <!--用户名-->
                     <el-form-item label="用户名" prop="name">
@@ -51,12 +52,13 @@
                                 action="api/upload"
                                 :on-preview="handlePreview"
                                 :on-remove="handleRemove"
+                                :on-success="handleSuccess"
                                 >
                             <el-button size="small" type="primary">点击上传</el-button>
                             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                         </el-upload>
                         <el-dialog v-model="dialogVisible" size="tiny">
-                            <img width="100%" :src="ruleForm.picture" alt="">
+                            <img width="100%" :src="ruleForm.picture">
                         </el-dialog>
                     </el-form-item>
                     <!--按钮组-->
@@ -75,6 +77,7 @@
     export default{
         data () {
             return {
+                isCollege: false,
                 // 是否是修改
                 isEdit: false,
                 // 学院列表
@@ -83,19 +86,19 @@
                 rolesList: [],
                 // 性别
                 genders: [
-                    {gender: '男', value: false, id: 0},
-                    {gender: '女', value: true, id: 1}
+                    {gender_str: '男', gender: false, id: 0},
+                    {gender_str: '女', gender: true, id: 1}
                 ],
                 dialogVisible: false,
                 ruleForm: {
                     name: '',
                     email: '',
-                    college_id: '',
+                    college_id: null,
                     picture: '',
-                    gender: '',
+                    gender: null,
                     password: '',
                     password_confirmation: '',
-                    role_id: ''
+                    role_id: null
                 },
                 rules: {
                     name: [
@@ -124,14 +127,37 @@
         },
         watch: {
             '$route' () {
-                this.ruleForm =  {
+                this.ruleForm = {
                     name: '',
                     email: '',
-                    college_id: '',
+                    college_id: null,
                     picture: '',
                     gender: false,
                     password: '',
-                    role_id: ''
+                    role_id: null
+                },
+                this.rules = {
+                    name: [
+                        { type: 'string', required: true, message: '请填写用户名', trigger: 'change' }
+                    ],
+                        email: [
+                        { type: 'string', required: true, message: '请填写邮箱', trigger: 'change' }
+                    ],
+                        college_id: [
+                        { type: 'number', required: true, message: '请选择所属学院', trigger: 'change' }
+                    ],
+                        gender: [
+                        {type: 'boolean', required: true, message: '请选择性别', trigger: 'blur' }
+                    ],
+                        password: [
+                        { message: '请输入密码', trigger: 'blur' }
+                    ],
+                        password_confirmation: [
+                        { message: '请输入确认密码', trigger: 'blur' }
+                    ],
+                        role_id: [
+                        { type: 'number', required: true, message: '请选择用户角色', trigger: 'blur' }
+                    ]
                 }
                 this.$route.name === 'editUser' ? this.isEdit = true : this.isEdit = false
             }
@@ -157,6 +183,7 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.$http.post('user',this.ruleForm).then(res => {
+                            console.log(this.ruleForm)
                             this.$message({
                                 message: '添加用户成功',
                                 type: 'success'
@@ -165,7 +192,7 @@
                         }).catch(res => {
                             $message: ({
                                 type: 'error',
-                                message: res.message
+                                message: res.errors.message
                             })
                         })
                     } else {
@@ -212,6 +239,9 @@
             },
             handleRemove(file){
                 console.log(file)
+            },
+            handleSuccess(response){
+                this.ruleForm.picture = response.path
             }
         }
     }

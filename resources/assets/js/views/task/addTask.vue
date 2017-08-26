@@ -110,7 +110,9 @@
         this.isEdit = true
         this.$http.get('task/' + this.$route.params.id).then(res => {
           res.data.data.end_time = new Date(res.data.data.end_time);
+
           this.ruleForm = res.data.data
+            console.log(this.ruleForm)
           this.$diff.save(this.ruleForm);
         })
       }else{
@@ -123,6 +125,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.$http.post('create_task',this.ruleForm).then(res => {
+                console.log(this.ruleForm)
               this.$message({
                 message: '添加任务成功',
                 type: 'success'
@@ -144,7 +147,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.$http.post('update_task/' + this.$route.params.id, this.$diff.diff(this.ruleForm)).then(res => {
-              this.$message({
+                this.$message({
                 message: '修改任务成功',
                 type: 'success'
               })

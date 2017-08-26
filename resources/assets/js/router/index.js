@@ -89,6 +89,12 @@ export default new Router({
             component: require('../views/user/addUser.vue')
         },
         {
+            path: 'notify',
+            name: 'notify',
+            meta: {title: '工作通知'},
+            component: require('../views/workNotify.vue')
+        },
+        {
           path: 'colleges',
           name: 'colleges',
           meta: {title: '学院名称设置'},

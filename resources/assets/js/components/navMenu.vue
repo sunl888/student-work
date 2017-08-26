@@ -3,8 +3,8 @@
     <el-menu router unique-opened theme="dark" default-active="1" >
       <div class="mine">
         <i style="color:white;" class="material-icons">account_circle</i>
-        <p>{{me.college}}</p>
         <p>{{'您好，' + me.name + '老师'}}</p>
+        <p v-if="me.college!=undefined">{{me.college.title}}</p>
       </div>
       <el-submenu v-for="values in menus" :index=values.name :key="values.id">
         <template slot="title" >
