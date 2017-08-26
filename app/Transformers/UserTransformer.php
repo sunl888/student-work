@@ -14,12 +14,12 @@ class UserTransformer extends TransformerAbstract
 
     public function transform(User $user)
     {
-        //dd($user->gender);
+        //dd($user);
         return [
             'id' => $user->id,
             'name' => $user->name,
-            'gender' => $user->gender,
-            //'gender_str' => $user->gender ? '女' : '男',
+            'gender' => $user->gender?'男': '女',
+            'gender_id' => (int)$user->gender,
             'college_id' => (int)$user->college_id,
             'email' => $user->email,
             'college' => app(CollegeRepository::class)->find($user->college_id, ['title']),

@@ -29,6 +29,10 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         'name', 'email', 'password', 'avatar', 'gender', 'college_id', 'department_id', 'picture'
     ];
 
+    protected $casts = [
+        'gender' => 'boolean',
+    ];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -38,10 +42,10 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         'password', 'remember_token'
     ];
 
-    public function getGenderAttribute ($value)
+    /*public function getGenderAttribute($value)
     {
-        return $this->attributes['gender'] = $value==0? '女': '男';
-    }
+        return $this->attributes['gender'] = $value?'男':'女';
+    }*/
 
     public function isSuperAdmin()
     {
