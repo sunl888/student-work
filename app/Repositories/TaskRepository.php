@@ -93,6 +93,12 @@ class TaskRepository extends Repository
         return $tasks;
     }
 
+    public function taskAndPregress($conditions){
+        $task = $this->model->where('status','publish')->where('id', array_get($conditions, 'task_id'))->first();
+        $task['task_progress'] = app(TaskProgress::class)->where($conditions)->first();
+        return $task;
+    }
+
     public function getTask($taskId){
         return $this->model->find($taskId);
     }

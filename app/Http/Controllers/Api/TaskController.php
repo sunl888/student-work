@@ -166,15 +166,6 @@ class TaskController extends BaseController
     }
 
     /**
-     * // 判断指定的任务是否过了截止日期
-     * @param $taskId
-     */
-    public function isDelay($taskId)
-    {
-        return $this->response()->array(['isDelay' => app(TaskRepository::class)->isDelay($taskId)]);
-    }
-
-    /**
      * 任务评分
      * @param $taskId
      * @param TaskScoreRequest $request
@@ -187,6 +178,15 @@ class TaskController extends BaseController
             app(TaskProgressRepository::class)->submitTask($request->all());
         }
         return $this->response->noContent();
+    }
+
+    /**
+     * // 判断指定的任务是否过了截止日期
+     * @param $taskId
+     */
+    public function isDelay($taskId)
+    {
+        return $this->response()->array(['isDelay' => app(TaskRepository::class)->isDelay($taskId)]);
     }
 
     public function tasks(Request $request)
@@ -210,9 +210,17 @@ class TaskController extends BaseController
         return $this->response()->paginator($this->taskRepository->tasksByCollege($this->perPage(),$condisions), new TaskAndProgressTransformer());
     }
 
+
     public function task($taskId)
     {
         return $this->response->item($this->taskRepository->getTask($taskId), new TaskTransformer());
+    }
+
+    //学院和老师角色需要任务的责任人等信息
+    public function getTaskDetail($taskId){
+        $conditions = ['task_id'=>$taskId, 'college_id'=>Auth::guard()->user()->college_id];
+        return $this->response()->item($this->taskRepository->taskAndPregress($conditions), new TaskAndProgressTransformer());
+
     }
 
     public function getTrashed()

@@ -30,18 +30,18 @@ class TaskAndProgressTransformer extends Transformer
             'created_at' => $task->created_at->toDateString(),
             'end_time' => Carbon::parse($task->end_time)->toDateString(),
             //完成状态
-            'finished_at' =>$task->task_progress->status,
+            'finished_at' => $task->task_progress->status,
             //责任人
-            'user' => $task->task_progress->user_id == TaskProgress::$personnelSign?'全体人员': app(User::class)->find($task->task_progress->user_id)['name'],
+            'user' => $task->task_progress->user_id == TaskProgress::$personnelSign ? '全体人员' : app(User::class)->find($task->task_progress->user_id)['name'],
             //等级
-            'assess' =>!empty($task->task_progress->assess_id)?app(Assess::class)->find($task->task_progress->assess_id)['title']:null,
+            'assess' => !empty($task->task_progress->assess_id) ? app(Assess::class)->find($task->task_progress->assess_id)['title'] : null,
             //完成质量
-            'quality' =>$task->task_progress->quality,
+            'quality' => $task->task_progress->quality,
             //备注
-            'remark' =>$task->task_progress->remark,
+            'remark' => $task->task_progress->remark,
             //推迟理由
-            'delay' =>$task->task_progress->delay,
-            ];
+            'delay' => $task->task_progress->delay,
+        ];
     }
 
 }
