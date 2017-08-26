@@ -1,7 +1,7 @@
 <template>
     <div class="taskManage item">
         <el-tabs v-model="activeName" @tab-click="request" >
-            <el-tab-pane label="任务列表" name="list">
+            <el-tab-pane label="用户列表" name="list">
                 <div class="table">
                     <currency-list-page ref="list" queryName="all_users">
                         <template scope="list">
@@ -52,13 +52,14 @@
         <el-card v-if="isProfile" class="proCard el-col-5">
             <div class="head">
                 <i class="el-icon-close" style="position:absolute;right:20px;" @click="isProfile =false"></i>
-                <img src="../../assets/images/picture.jpg" alt="">
+                <img v-if="item.picture" :src="item.picture">
+                <img v-else src="../../assets/images/picture.jpg" alt="">
             </div>
             <div class="profile el-col-20 el-col-push-2">
                 <p>用户名：<span>{{item.name}}</span></p>
                 <p>性&emsp;别：<span>{{item.gender_str}}</span></p>
                 <p>用户邮箱：<span>{{item.email}}</span></p>
-                <p>用户角色：<span v-for="value in item.roles">{{value.description}}</span></p>
+                <p>用户角色：<span>{{item.role_dispname}}</span></p>
                 <p v-if="item.college != undefined">所属学院：<span>{{item.college.title}}</span></p>
                 <p>用户创建时间：<span>{{item.created_at | dateFilter}}</span></p>
             </div>
