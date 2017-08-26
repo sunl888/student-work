@@ -25,26 +25,24 @@ class UserUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        $user = $this->route()->parameter('user');
+        //$user = $this->route()->parameter('user');
         return [
-            'name' => [Rule::unique('users')->ignore($user->id)],
+            //'name' => [Rule::unique('users')->ignore($user->id)],
             'email' => 'nullable|email',// email
-            'college_id' => 'nullable|exists:colleges,id',// 学院id
-            'picture' => 'nullable|image',// 头像
+            //'college_id' => 'nullable',// 学院id
+            'picture' => 'nullable',// 头像
             'gender' => 'nullable|boolean', // 性别
             'password' => 'nullable|confirmed',// 密码
-            'role_id' => 'nullable|exists:roles,id', // 角色id
+            //'role_id' => 'nullable', // 角色id
         ];
     }
 
     public function messages()
     {
         return [
-            'name.unique' =>'用户名已存在',
-            'college_id.exists' =>'该学院不存在',
-            'picture.image' =>'头像格式不正确',
-            'role_id.exists' =>'该角色不存在',
-            'password.confirmed' =>'两次密码不一致(注意传password_confirmation字段)',
+            //'name.unique' =>'用户名已存在',
+            //'role_id.exists' =>'该角色不存在',
+            'password.confirmed' =>'两次密码不一致',
         ];
     }
 }

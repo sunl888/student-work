@@ -27,7 +27,7 @@ class UserCreateRequest extends FormRequest
             'name' => 'required|unique:users,name',// 用户名
             'email' => 'required|email',// email
             'college_id' => 'nullable|exists:colleges,id',// 学院id
-            'picture' => 'nullable|image',// 头像
+            'picture' => 'nullable',// 头像
             'gender' => 'required|boolean', // 性别
             'password' => 'required|confirmed',// 密码
             'role_id' => 'required|exists:roles,id', // 角色id
@@ -41,7 +41,7 @@ class UserCreateRequest extends FormRequest
             'name.unique' =>'用户名已存在',
             'email.required' =>'email必须填写',
             'college_id.exists' =>'该学院不存在',
-            'picture.image' =>'头像格式不正确',
+            //'picture.image' =>'头像格式不正确',
             'gender.required' =>'性别必须选择',
             'gender.boolean' =>'性别必须是bool型(true:女 false:男)',
             'password.required' =>'密码必须填写',
