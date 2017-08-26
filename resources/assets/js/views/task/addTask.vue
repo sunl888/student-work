@@ -131,7 +131,7 @@
                 type: 'success'
               })
               this.$router.push({name: 'task_manage'})
-            })git
+            })
           } else {
             return false
           }
