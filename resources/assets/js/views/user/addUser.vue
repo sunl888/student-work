@@ -6,7 +6,7 @@
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                     <!--用户角色-->
                     <el-form-item label="用户角色" prop="role_id">
-                        <el-select v-model="ruleForm.role_id" class="optionBox" @change="isCollege = ruleForm.role_id != 1">
+                        <el-select :disabled='isEdit' v-model="ruleForm.role_id" class="optionBox" @change="isColloeges()">
                             <el-option
                                     v-for="item in rolesList"
                                     :key="item.id"
@@ -17,7 +17,7 @@
                     </el-form-item>
                     <!--所属学院-->
                     <el-form-item v-if="isCollege" label="所属学院" prop="college_id">
-                        <el-select v-model="ruleForm.college_id" class="optionBox">
+                        <el-select :disabled='isEdit' v-model="ruleForm.college_id" class="optionBox">
                             <el-option
                                     v-for="item in collegesList"
                                     :key="item.id"
@@ -25,25 +25,13 @@
                                     :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
+                    <!--用户名-->
+                    <el-form-item label="用户名" prop="name">
+                        <el-input :disabled='isEdit' v-model="ruleForm.name" placeholder="请输入用户名"></el-input>
+                    </el-form-item>
                     <!--性别-->
                     <el-form-item label="性别" prop="gender">
                         <el-radio v-for="item in genders" :key=item.id class="radio" v-model="ruleForm.gender" :label=item.gender>{{item.gender_str}}</el-radio>
-                    </el-form-item>
-                    <!--用户名-->
-                    <el-form-item label="用户名" prop="name">
-                        <el-input v-model="ruleForm.name" placeholder="请输入用户名"></el-input>
-                    </el-form-item>
-                    <!--密码-->
-                    <el-form-item label="密码" prop="password">
-                        <el-input v-model="ruleForm.password" type="password" placeholder="请输入密码"></el-input>
-                    </el-form-item>
-                    <!--确认密码-->
-                    <el-form-item label="确认密码" prop="password_confirmation">
-                        <el-input v-model="ruleForm.password_confirmation" type="password" placeholder="请输入确认密码"></el-input>
-                    </el-form-item>
-                    <!--邮箱-->
-                    <el-form-item label="邮箱" prop="email">
-                        <el-input v-model="ruleForm.email" type="email" placeholder="请输入邮箱"></el-input>
                     </el-form-item>
                     <!--上传头像-->
                     <el-form-item label="上传头像" prop="picture">
@@ -54,15 +42,29 @@
                                 :on-remove="handleRemove"
                                 :on-success="handleSuccess"
                                 >
-                            <el-button size="small" type="primary">点击上传</el-button>
-                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                            <el-button v-if="!ruleForm.picture" size="small" type="primary">点击上传头像</el-button>
+                            <el-button v-else size="small" type="primary">点击修改头像</el-button>
                         </el-upload>
-                        <el-dialog v-model="dialogVisible" size="tiny">
-                            <img width="100%" :src="ruleForm.picture">
-                        </el-dialog>
+                        <img v-if="ruleForm.picture" style="width:50px;margin-top:20px;height:50px;margin-left:-300px;" width="100%" :src="ruleForm.picture">
+                        <span v-else-if="isEdit">您还没有上传过头像哦</span>
                     </el-form-item>
+                    <!--邮箱-->
+                    <el-form-item label="邮箱" prop="email">
+                        <el-input v-model="ruleForm.email" type="email" placeholder="请输入邮箱"></el-input>
+                    </el-form-item>
+                    <!--是否修改密码按钮-->
+                    <button class="isPass el-icon-arrow-down" v-if="!isPass" @click="isPass = true">&emsp;修改密码</button>
+                    <!--密码-->
+                    <el-form-item label="密码" prop="password" v-if="isPass">
+                        <el-input v-model="ruleForm.password" type="password" placeholder="请输入密码"></el-input>
+                    </el-form-item>
+                    <!--确认密码-->
+                    <el-form-item label="确认密码" prop="password_confirmation" v-if="isPass">
+                        <el-input v-model="ruleForm.password_confirmation" type="password" placeholder="请输入确认密码"></el-input>
+                    </el-form-item>
+
                     <!--按钮组-->
-                    <el-form-item>
+                    <el-form-item class="btnGroup">
                         <el-button v-if="isEdit" type="primary" @click="editUser('ruleForm')">立即修改</el-button>
                         <el-button v-else type="primary" @click="createUser('ruleForm')">立即创建</el-button>
                         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -77,6 +79,9 @@
     export default{
         data () {
             return {
+                // 是否显示修改密码
+                isPass: true,
+                // 是否显示学院选项
                 isCollege: false,
                 // 是否是修改
                 isEdit: false,
@@ -134,29 +139,15 @@
                     picture: '',
                     gender: false,
                     password: '',
+                    password_confirmation: '',
                     role_id: null
                 },
                 this.rules = {
-                    name: [
-                        { type: 'string', required: true, message: '请填写用户名', trigger: 'change' }
-                    ],
-                        email: [
+                    email: [
                         { type: 'string', required: true, message: '请填写邮箱', trigger: 'change' }
                     ],
-                        college_id: [
-                        { type: 'number', required: true, message: '请选择所属学院', trigger: 'change' }
-                    ],
-                        gender: [
+                    gender: [
                         {type: 'boolean', required: true, message: '请选择性别', trigger: 'blur' }
-                    ],
-                        password: [
-                        { message: '请输入密码', trigger: 'blur' }
-                    ],
-                        password_confirmation: [
-                        { message: '请输入确认密码', trigger: 'blur' }
-                    ],
-                        role_id: [
-                        { type: 'number', required: true, message: '请选择用户角色', trigger: 'blur' }
                     ]
                 }
                 this.$route.name === 'editUser' ? this.isEdit = true : this.isEdit = false
@@ -168,13 +159,15 @@
             // 修改任务
             if(this.$route.name === 'edit_user'){
                 this.isEdit = true
+                this.isPass = false
                 this.$http.get('user/' + this.$route.params.id).then(res => {
                     this.ruleForm = res.data.data
                     console.log(this.ruleForm)
                     this.$diff.save(this.ruleForm);
                 })
-            }else{
+            }else if(this.$route.name === 'add_user'){
                 this.isEdit = false
+                this.isPass = true
             }
         },
         methods: {
@@ -192,13 +185,22 @@
                         }).catch(res => {
                             $message: ({
                                 type: 'error',
-                                message: res.errors.message
+                                message: res
                             })
                         })
                     } else {
                         return false
                     }
                 })
+            },
+            //判断是否为管理员
+            isColloeges(){
+                if(this.ruleForm.role_id === 1){
+                    this.ruleForm.college_id = null
+                    this.isCollege = false
+                } else {
+                    this.isCollege = true
+                }
             },
             // 修改任务
             editUser (formName) {
@@ -234,11 +236,7 @@
             },
             handlePreview(file) {
                 this.ruleForm.picture = file.url
-                console.log(this.ruleForm.picture, file.url)
                 this.dialogVisible = true
-            },
-            handleRemove(file){
-                console.log(file)
             },
             handleSuccess(response){
                 this.ruleForm.picture = response.path
@@ -264,6 +262,23 @@
         margin-left:-280px;
     }
     .el-upload>.el-button{
-        margin-left:-300px;
+        margin-left:-280px;
+    }
+    .btnGroup{
+        margin-top:20px;
+        margin-left:-100px;
+    }
+    .btnGroup>button{
+        margin-right:30px;
+    }
+    .isPass{
+        width:200px;
+        cursor:pointer;
+        height:30px;
+        border:1px solid #1D8CE0;
+        background:transparent;
+        border-radius:3px;
+        color:#1D8CE0;
+
     }
 </style>

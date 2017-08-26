@@ -9,9 +9,9 @@
                     <div>发布日期：<span>{{ item.created_at }}</span></div>
                     <div>工作类型：<span>{{ item.work_type }}</span></div>
                     <div> 对口科室：<span>{{ item.department }}</span></div>
-                    <!--<div> 负责人：<span>{{  }}</span></div>-->
                     <div>截止日期：<span>{{ item.end_time }}</span></div>
-                    <p class="content"><span>{{ item.detail }}</span></p>
+                    <div v-if="!isWat">责任人：<span>{{ sortCollege.leading_official ? sortCollege.leading_official : '尚未指定' }}</span></div>
+                    <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>
                 <el-button v-if='isDis'  class="btn" @click="auditing()" type="success">审核任务</el-button>
                 <div class="taskWatch" v-else-if="isWat">
@@ -59,9 +59,11 @@
                         </el-table>
                     </template>
                 </div>
-                <div class="appoint" v-else>
-                    <el-button class="appo" @click="isDia = true" type="success">指定责任人</el-button>
-                    <el-button @click="goSubmit()" type="info">提交任务</el-button>
+                <div class="appoint" v-else-if="sortCollege.status === '未完成'">
+                    <el-button v-if="!sortCollege.leading_official" class="appo" @click="isDia = true" type="success">指定责任人</el-button>
+                    <el-button v-else class="appo" @click="isDia = true" type="success">修改责任人</el-button>
+                    <el-button :disabled='!sortCollege.leading_official'  @click="goSubmit()" type="info">提交任务</el-button>
+                    <!--指定责任人-->
                     <el-dialog title="指定责任人" :visible.sync="isDia" top="30%">
                         <el-form>
                             <el-form-item label="指定责任人" :label-width="formLabelWidth">
@@ -79,8 +81,22 @@
                             <el-button type="primary" @click="appoint()">确 定</el-button>
                         </div>
                     </el-dialog>
+                    <!--填写推迟理由-->
+                    <el-dialog title="推迟理由" :visible.sync="delay.isDelay" top="30%">
+                        <el-form>
+                            <el-form-item label="推迟理由" :label-width="formLabelWidth2">
+                                <el-input type="textarea" placeholder="请填写推迟理由" v-model="delay.delayReson"></el-input>
+                            </el-form-item>
+                        </el-form>
+                        <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
+                            <el-button @click="delay.isDelay = false">取 消</el-button>
+                            <el-button type="primary" @click="isSubmit(delay.delayReson)" required>确 定</el-button>
+                        </div>
+                    </el-dialog>
                 </div>
-
+                <div class="seal" v-else>
+                    <span>已完成</span>
+                </div>
             </el-card>
         </div>
     </div>
@@ -98,7 +114,14 @@
                 isAllot: false,
                 currOption: [],
                 allot: null,
+                sortCollege: '',
+                delay: {
+                    delayReson: '',
+                    isDelay: false
+                },
+                me: 0,
                 formLabelWidth: '210px',
+                formLabelWidth2: '100px',
                 options: [
                     {
                         name: '全体人员', id: 'all'
@@ -125,7 +148,23 @@
             },
             //去提交任务
             goSubmit () {
-                this.$router.push({name: 'going_finish', params: {id: this.$route.params.id}})
+                this.$http.get('is_delay/' + this.$route.params.id).then(res => {
+                    if(res.data.isDelay){
+                        this.delay.isDelay = true
+                    } else {
+                        this.isSubmit()
+                    }
+                })
+            },
+            isSubmit(val){
+                this.$http.post('submit_task/' + this.$route.params.id,{
+                    delay: val
+                }).then(res=>{
+                    this.$message.success('提交成功,此任务已完成!')
+                    this.$router.push({name: 'tasks_of_college'})
+                }).catch(res => {
+                    this.$message.error(res.message)
+                })
             },
             //跳转任务评分
             goScore (x) {
@@ -140,14 +179,17 @@
                     this.isAllot = true
                     this.isDia = false
                     this.$message.success('指定成功')
+                    this.getTaskPro()
                 }).catch(res => {
-                    this.$message.error(res.data.message)
+                    this.$message.error('指定失败,请重新操作')
                 })
             },
             //获取各学院完成任务进度
             getTaskPro () {
                 this.$http.get('task_progress/' + this.$route.params.id).then(res => {
                     this.taskPro = res.data.data
+                    this.sortCollege = this.taskPro[this.me]
+                    console.log(this.sortCollege)
                 })
             },
             //获取任务详情
@@ -179,6 +221,7 @@
                             type: 'success',
                             message: '审核成功!'
                         });
+                        this.$refs['boxCard'].refresh()
                     })
                 }).catch(() => {
                     this.$message({
@@ -189,6 +232,7 @@
             },
             getMe () {
                 this.$http.get('me').then(res => {
+                    this.me = res.data.data.college_id - 1
                     if(!res.data.data.is_super_admin){
                         this.isWat = false
                     }
@@ -208,6 +252,7 @@
         margin-top:20px;
         min-height:450px;
         padding-bottom:30px;
+        position:relative;
     }
     .current p{
         margin-top:10px;
@@ -255,7 +300,34 @@
     .appo{
         margin-right:100px;
     }
-    .el-cascader{
+    .el-cascader,.el-input{
         margin-left:-200px;
+    }
+    .seal>span{
+        position:absolute;
+        margin:auto;
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
+        display:block;
+        width:150px;
+        height:60px;
+        line-height:60px;
+        border:10px solid #FF4949;
+        font-size:45px;
+        color:#FF4949;
+        font-weight:bold;
+        transform: rotate(25deg);
+        animation: play 0.5s ease;
+    }
+    @keyframes play{
+        from{
+            transform:scale(5,5);
+        }
+        to {
+            transform:none;
+            transform: rotate(25deg);
+        }
     }
 </style>
