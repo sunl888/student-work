@@ -29,7 +29,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // pattern 过滤器
+        Route::pattern('task_id', '[0-9]+');
 
         parent::boot();
     }
@@ -71,10 +72,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        /*Route::prefix('api')
-             ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));*/
         $api = app('Dingo\Api\Routing\Router');
         $api->version(
             'v1', [

@@ -38,6 +38,11 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         'password', 'remember_token'
     ];
 
+    public function getGenderAttribute ($value)
+    {
+        return $this->attributes['gender'] = $value==0? '女': '男';
+    }
+
     public function isSuperAdmin()
     {
         return $this->hasRole('super_admin');

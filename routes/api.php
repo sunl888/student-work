@@ -53,7 +53,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     // 显示某个任务的进程情况
     $api->get('task_progress/{task_id}', 'TaskProgressController@show');
     // 显示某个任务
-    $api->get('task/{taskId}', 'TaskController@task');
+    $api->get('task/{task_id}', 'TaskController@task');
 
     // 根据学院id获取该学院下的所有用户 默认根据当前登陆用户所在学院
     $api->get('users', 'UsersController@usersWithCollege');
@@ -160,6 +160,10 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     // 获取菜单
     $api->get('menus', 'MenuController@menus');
 
-
 });
+
 $api->post('upload', 'UsersController@uploadFile');
+//一分钟一次请求
+$api->get('test', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' => 1, function () {
+    return 'hello world';
+}]);

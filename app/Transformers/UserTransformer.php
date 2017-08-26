@@ -14,12 +14,13 @@ class UserTransformer extends TransformerAbstract
 
     public function transform(User $user)
     {
+        //dd($user->gender);
         return [
             'id' => $user->id,
             'name' => $user->name,
             'gender' => $user->gender,
-            'gender_str' => $user->gender ? '女' : '男',
-            'college_id' => $user->college_id,
+            //'gender_str' => $user->gender ? '女' : '男',
+            'college_id' => (int)$user->college_id,
             'email' => $user->email,
             'college' => app(CollegeRepository::class)->find($user->college_id, ['title']),
             'department_id' => $user->department_id,
@@ -28,7 +29,9 @@ class UserTransformer extends TransformerAbstract
             'is_super_admin' => $user->isSuperAdmin(),
             'created_at' => $user->created_at->toDateTimeString(),
             'updated_at' => $user->updated_at->toDateTimeString(),
-            'roles' => $user->roles
+            'role_id' => $user->roles->first()->id,
+            'role_name' => $user->roles->first()->name,
+            'role_dispname' => $user->roles->first()->display_name,
         ];
     }
 
