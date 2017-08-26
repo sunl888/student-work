@@ -131,12 +131,7 @@
                 type: 'success'
               })
               this.$router.push({name: 'task_manage'})
-            }).catch(res => {
-                $message: ({
-                    type: 'error',
-                    message: res.data.message
-                })
-            })
+            })git
           } else {
             return false
           }

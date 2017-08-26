@@ -42,11 +42,11 @@
                                 :on-remove="handleRemove"
                                 :on-success="handleSuccess"
                                 >
-                            <el-button size="small" type="primary">点击上传</el-button>
+                            <el-button v-if="!ruleForm.picture" size="small" type="primary">点击上传头像</el-button>
+                            <el-button v-else size="small" type="primary">点击修改头像</el-button>
                         </el-upload>
-                        <el-dialog v-model="dialogVisible" size="tiny">
-                            <img width="100%" :src="ruleForm.picture">
-                        </el-dialog>
+                        <img v-if="ruleForm.picture" style="width:50px;margin-top:20px;height:50px;margin-left:-300px;" width="100%" :src="ruleForm.picture">
+                        <span v-else-if="isEdit">您还没有上传过头像哦</span>
                     </el-form-item>
                     <!--邮箱-->
                     <el-form-item label="邮箱" prop="email">
@@ -80,7 +80,7 @@
         data () {
             return {
                 // 是否显示修改密码
-                isPass: false,
+                isPass: true,
                 // 是否显示学院选项
                 isCollege: false,
                 // 是否是修改
@@ -159,12 +159,13 @@
             // 修改任务
             if(this.$route.name === 'edit_user'){
                 this.isEdit = true
+                this.isPass = false
                 this.$http.get('user/' + this.$route.params.id).then(res => {
                     this.ruleForm = res.data.data
                     console.log(this.ruleForm)
                     this.$diff.save(this.ruleForm);
                 })
-            }else{
+            }else if(this.$route.name === 'add_user'){
                 this.isEdit = false
                 this.isPass = true
             }
@@ -235,11 +236,7 @@
             },
             handlePreview(file) {
                 this.ruleForm.picture = file.url
-                console.log(this.ruleForm.picture, file.url)
                 this.dialogVisible = true
-            },
-            handleRemove(file){
-                console.log(file)
             },
             handleSuccess(response){
                 this.ruleForm.picture = response.path
@@ -265,11 +262,14 @@
         margin-left:-280px;
     }
     .el-upload>.el-button{
-        margin-left:-300px;
+        margin-left:-280px;
     }
     .btnGroup{
         margin-top:20px;
-        margin-left:-50px;
+        margin-left:-100px;
+    }
+    .btnGroup>button{
+        margin-right:30px;
     }
     .isPass{
         width:200px;
