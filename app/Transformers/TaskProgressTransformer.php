@@ -28,7 +28,7 @@ class TaskProgressTransformer extends Transformer
             'end_time' => $taskProgress->status,//完成时间
             'quality' => $taskProgress->quality,//完成质量
             'remark' => $taskProgress->remark,//备注
-            'delay' => $taskProgress->remind,//推迟理由
+            'delay' => $taskProgress->delay,//推迟理由
             'remind' => $taskProgress->remind,//推迟记录
         ];
     }
