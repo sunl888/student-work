@@ -82,7 +82,7 @@
         methods: {
             //查看任务
             browseTask (id) {
-                this.$router.push({name: 'task_item',
+                this.$router.push({name: 'task_detail',
                     params: {
                         id
                     }

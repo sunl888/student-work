@@ -47,10 +47,18 @@ export default new Router({
           ]
         },
         {
+          //管理员
           path: 'task_item/:id',
           name: 'task_item',
           meta: {title: '任务详情'},
           component: require('../views/task/taskItem.vue')
+        },
+        {
+          //各学院
+            path: 'task_detail/:id',
+            name: 'task_detail',
+            meta: {title: '任务详情'},
+            component: require('../views/task/taskDetail.vue')
         },
         {
           path: 'going_finish/:id',
