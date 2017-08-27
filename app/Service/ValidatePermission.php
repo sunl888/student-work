@@ -12,6 +12,11 @@ use Illuminate\Auth\Access\AuthorizationException;
  */
 trait ValidatePermission
 {
+    protected function allowCreateTask()
+    {
+        return $this->validatePermission('admin.create_task');
+    }
+
     protected function validatePermission($permissions)
     {
         if (!$this->guard()->check() || !$this->guard()->user()->may($permissions)) {
@@ -20,24 +25,19 @@ trait ValidatePermission
         return true;
     }
 
-    protected function allowCreateTask()
-    {
-        return $this->validatePermission('admin.create_task');
-    }
-
     protected function allowAuditTask()
     {
         return $this->validatePermission('admin.audit_task');
     }
 
-    protected function allowDeleteTask()
-    {
-        return $this->validatePermission('admin.delete_task');
-    }
-
     protected function allowRestoreTask()
     {
         return $this->allowDeleteTask();
+    }
+
+    protected function allowDeleteTask()
+    {
+        return $this->validatePermission('admin.delete_task');
     }
 
     protected function allowAllotTask()

@@ -27,13 +27,28 @@ class LoginController extends BaseController
     }
 
     /**
-     * Get the login username to be used by the controller.
+     * Log the user out of the application.
      *
-     * @return string
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
      */
-    public function username()
+    public function logout(Request $request)
     {
-        return 'name';
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        return $this->response->noContent();
+    }
+
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     */
+    protected function guard()
+    {
+        return Auth::guard('web');
     }
 
     /**
@@ -48,6 +63,16 @@ class LoginController extends BaseController
             $this->username() => ['required', 'string'],
             'password' => ['required', 'string'],
         ]);
+    }
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'name';
     }
 
     /**
@@ -71,30 +96,5 @@ class LoginController extends BaseController
     protected function sendFailedLoginResponse(Request $request)
     {
         throw new LoginFailed('登录失败！请检查用户名和密码是否输入正确。');
-    }
-
-    /**
-     * Get the guard to be used during authentication.
-     *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
-     */
-    protected function guard()
-    {
-        return Auth::guard('web');
-    }
-
-    /**
-     * Log the user out of the application.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function logout(Request $request)
-    {
-        $this->guard()->logout();
-
-        $request->session()->invalidate();
-
-        return $this->response->noContent();
     }
 }

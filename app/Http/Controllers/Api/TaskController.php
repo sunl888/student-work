@@ -10,6 +10,7 @@ use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\SubmitTaskRequest;
 use App\Http\Requests\TaskScoreRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Models\Remind;
 use App\Models\Task;
 use App\Models\TaskProgress;
 use App\Models\User;
@@ -226,13 +227,25 @@ class TaskController extends BaseController
         return $this->response()->array($res->forPage(request('page') ?: 1, $this->perPage())->toArray());
     }
 
+    public function getLeadOfficial($taskProgress)
+    {
+        if ($taskProgress->user_id) {
+            if ($taskProgress->user_id == TaskProgress::$personnelSign) {
+                return '全体人员';
+            } else {
+                return app(User::class)->find($taskProgress->user_id)['name'];
+            }
+        }
+        return null;
+    }
+
+    //学院和老师角色需要任务的责任人等信息
 
     public function task($taskId)
     {
         return $this->response->item($this->taskRepository->getTask($taskId), new TaskTransformer());
     }
 
-    //学院和老师角色需要任务的责任人等信息
     public function getTaskDetail($taskId)
     {
         $conditions = ['task_id' => $taskId, 'college_id' => Auth::guard()->user()->college_id];
@@ -272,23 +285,22 @@ class TaskController extends BaseController
                 }
             }
             $users = $users->merge(app(UserRepository::class)->usersWithRoles(['college'])->where('college_id', $collegeId)->all());
+            $data = [
+                'task_id' => $task->id,
+                'college_id' => $collegeId
+            ];
             //发送任务提醒通知
             Notification::send($users, new TaskRemind($users, $task));
+            app(Remind::class)->create($data);
         } else {
             throw new AuthorizationException("没有操作权限");
         }
     }
 
-    public function getLeadOfficial($taskProgress)
+    public function getReminds($task_id, $college_id)
     {
-        if ($taskProgress->user_id) {
-            if ($taskProgress->user_id == TaskProgress::$personnelSign) {
-                return '全体人员';
-            } else {
-                return app(User::class)->find($taskProgress->user_id)['name'];
-            }
-        }
-        return null;
+        $conditions = ['task_id' => $task_id, 'college_id' => $college_id];
+        return $this->response->array(app(Remind::class)->where($conditions)->get()->toArray());
     }
 
 }

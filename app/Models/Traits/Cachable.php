@@ -4,8 +4,6 @@ namespace App\Models\Traits;
 
 trait Cachable
 {
-    abstract protected function clearCache();
-
     public function save(array $options = [])
     {
         if (!parent::save($options)) {
@@ -14,6 +12,8 @@ trait Cachable
         $this->clearCache();
         return true;
     }
+
+    abstract protected function clearCache();
 
     public function delete(array $options = [])
     {

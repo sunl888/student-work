@@ -46,7 +46,7 @@ class UsersTableSeeder extends Seeder
                 'gender' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
-            ],[
+            ], [
                 'id' => 4,
                 'name' => 'mks',
                 'password' => bcrypt('mks'),

@@ -29,6 +29,19 @@ class TaskProgressRepository extends Repository
     }
 
     /**
+     * 判断任务有没有被审核
+     * @param $taskId
+     * @return mixed
+     */
+    public function isAutided($taskId)
+    {
+        if (app(Task::class)->findOrFail($taskId)->isPublish()) {
+            return true;
+        }
+        throw new ModelNotFoundException('任务还没有被上级审核，暂时不能操作');
+    }
+
+    /**
      * 添加责任人
      * @param $data
      */
@@ -53,19 +66,6 @@ class TaskProgressRepository extends Repository
             return $task->update(array_except($data, ['task_id', 'college_id']));
         }
         throw new ModelNotFoundException('提交任务失败，该任务不存在');
-    }
-
-    /**
-     * 判断任务有没有被审核
-     * @param $taskId
-     * @return mixed
-     */
-    public function isAutided($taskId)
-    {
-        if (app(Task::class)->findOrFail($taskId)->isPublish()) {
-            return true;
-        }
-        throw new ModelNotFoundException('任务还没有被上级审核，暂时不能操作');
     }
 
     public function show(array $conditions)

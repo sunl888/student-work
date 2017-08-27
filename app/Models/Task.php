@@ -11,16 +11,12 @@ class Task extends BaseModel
 {
     use SoftDeletes, Listable;
 
-    protected $fillable = ['title', 'detail', 'work_type_id', 'department_id', 'end_time', 'status'];
-
-    protected $hasDefaultValuesFields = ['status'];
-
     public static $allowUpdateFields = ['title', 'detail', 'work_type_id', 'department_id', 'end_time'];
-
     protected static $allowSearchFields = ['title', 'detail'];
     protected static $allowSortFields = ['created_at', 'end_time'];
-
     public $timestamps = true;
+    protected $fillable = ['title', 'detail', 'work_type_id', 'department_id', 'end_time', 'status'];
+    protected $hasDefaultValuesFields = ['status'];
 
     /**
      * 一个任务可以有多个执行者

@@ -72,6 +72,8 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->post('task_score/{task_id}', 'TaskController@taskScore');
         // 任务提醒
         $api->post('remind/{task}/{college}', 'TaskController@remind');
+        // 获取任务的催交记录
+        $api->get('reminds/{task}/{college}', 'TaskController@getReminds');
         // 已删除的任务列表
         $api->get('trashed_tasks', 'TaskController@getTrashed');
         // 任务列表[后面可以加查询条件 如：?status=publish&q=]
@@ -138,6 +140,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->get('all_users', 'UsersController@lists');
         // 获取用户角色
         $api->get('user/{user}/roles', 'UsersController@roles');
+
     });
 });
 
