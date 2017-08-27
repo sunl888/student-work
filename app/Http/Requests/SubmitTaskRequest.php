@@ -24,14 +24,14 @@ class SubmitTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'delay' =>'string'
+            'delay' => 'string'
         ];
     }
 
     public function messages()
     {
         return [
-            'delay.string' =>'推迟理由必须是字符串'
+            'delay.string' => '推迟理由必须是字符串'
         ];
     }
 }

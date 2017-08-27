@@ -8,8 +8,6 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Transformers\PermissionTransformer;
 use App\Transformers\RoleTransformer;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class RoleController extends BaseController
 {

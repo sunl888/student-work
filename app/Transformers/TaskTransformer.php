@@ -28,7 +28,7 @@ class TaskTransformer extends TransformerAbstract
             'department' => app(Department::class)->find($task->department_id)['title'],
             'created_at' => $task->created_at->toDateString(),
             'end_time' => Carbon::parse($task->end_time)->toDateString(),
-            'status' =>$task->status
+            'status' => $task->status
         ];
     }
 }

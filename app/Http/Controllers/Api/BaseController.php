@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Service\ValidatePermission;
-use Dingo\Api\Routing\Helpers;
 use App\Http\Controllers\Controller;
-use Illuminate\Auth\Access\AuthorizationException;
+use App\Service\ValidatePermission;
 use Auth;
+use Dingo\Api\Routing\Helpers;
 
 class BaseController extends Controller
 {
-    use Helpers,ValidatePermission;
+    use Helpers, ValidatePermission;
 
     /**
      * Get the guard to be used during authentication.

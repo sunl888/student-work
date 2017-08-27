@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use Lang;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class LoginFailed extends HttpException

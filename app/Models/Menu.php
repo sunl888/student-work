@@ -2,11 +2,9 @@
 
 namespace App\models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class Menu extends BaseModel
 {
-    protected $guarded  = [];
+    protected $guarded = [];
 
 
     public function roles()

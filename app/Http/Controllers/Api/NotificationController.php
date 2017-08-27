@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use Carbon\Carbon;
-use Illuminate\Foundation\Auth\User;
 
 class NotificationController extends BaseController
 {

@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Traits\Update;
 use Dingo\Api\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UserUpdateRequest extends FormRequest
 {
@@ -42,7 +41,7 @@ class UserUpdateRequest extends FormRequest
         return [
             //'name.unique' =>'用户名已存在',
             //'role_id.exists' =>'该角色不存在',
-            'password.confirmed' =>'两次密码不一致',
+            'password.confirmed' => '两次密码不一致',
         ];
     }
 }

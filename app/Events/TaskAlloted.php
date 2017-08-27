@@ -5,12 +5,7 @@ namespace App\Events;
 use App\Models\TaskProgress;
 use App\Repositories\UserRepository;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class TaskAlloted extends Task
 {
@@ -21,9 +16,9 @@ class TaskAlloted extends Task
 
         parent::__construct($request->task_id);
 
-        if($request->user_id == TaskProgress::$personnelSign){
+        if ($request->user_id == TaskProgress::$personnelSign) {
             $this->users = app(UserRepository::class)->usersWithCollege($request->college_id);
-        }else{
+        } else {
             $this->users = app(UserRepository::class)->find($request->user_id);
         }
     }

@@ -3,11 +3,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Permission;
 use App\Http\Requests\PermissionCreateRequest;
 use App\Http\Requests\PermissionUpdateRequest;
+use App\Models\Permission;
 use App\Transformers\PermissionTransformer;
-use Illuminate\Http\Request;
 
 class PermissionsController extends BaseController
 {
@@ -49,7 +48,7 @@ class PermissionsController extends BaseController
     /**
      * 更新权限
      *
-     * @param  Permission         $permission
+     * @param  Permission $permission
      * @param  PermissionUpdateRequest $request
      * @return \Dingo\Api\Http\Response
      */

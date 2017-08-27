@@ -9,8 +9,6 @@
 namespace App\Repositories;
 
 use App\Repositories\Contracts\RepositoryContract;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Container\Container as Application;
 
 abstract class Repository implements RepositoryContract
 {

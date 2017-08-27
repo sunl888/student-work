@@ -24,13 +24,14 @@ class CreateDepartmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' =>'required',
+            'title' => 'required',
         ];
     }
 
-    public function messages(){
+    public function messages()
+    {
         return [
-            'title.required' =>'对口科室名称必须要填写',
+            'title.required' => '对口科室名称必须要填写',
         ];
     }
 }

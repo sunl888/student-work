@@ -24,10 +24,11 @@ class UserRepository extends Repository
      * @param array $roles
      * @return Collection|static
      */
-    public function usersWithRoles(array $roles){
-        $roles = app(Role::class)->whereIn('name',$roles)->get();
+    public function usersWithRoles(array $roles)
+    {
+        $roles = app(Role::class)->whereIn('name', $roles)->get();
         $users = new \Illuminate\Database\Eloquent\Collection();
-        foreach ($roles as $role){
+        foreach ($roles as $role) {
             $temp = $role->users()->get();
             $users = $users->merge($temp);
         }
@@ -40,11 +41,11 @@ class UserRepository extends Repository
      */
     public function usersWithCollege($collegeId = null, $containCollege = false)
     {
-        if (null == $collegeId){
+        if (null == $collegeId) {
             $collegeId = \Auth::guard()->user()->college_id;
         }
-        $containCollege? $data = ['teacher','college']: $data = ['teacher'];
-        $users = $this->usersWithRoles($data)->where('college_id',$collegeId);
+        $containCollege ? $data = ['teacher', 'college'] : $data = ['teacher'];
+        $users = $this->usersWithRoles($data)->where('college_id', $collegeId);
         return $users;
     }
 

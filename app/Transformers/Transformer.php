@@ -14,12 +14,12 @@ use League\Fractal\TransformerAbstract;
 
 class Transformer extends TransformerAbstract
 {
-    public function getLeadOfficial($taskProgress){
-        //$user = app(User::class)->find($taskProgress->user_id);
-        if ($taskProgress->user_id){
-            if($taskProgress->user_id == TaskProgress::$personnelSign){
+    public function getLeadOfficial($taskProgress)
+    {
+        if ($taskProgress->user_id) {
+            if ($taskProgress->user_id == TaskProgress::$personnelSign) {
                 return '全体人员';
-            }else{
+            } else {
                 return app(User::class)->find($taskProgress->user_id)['name'];
             }
         }

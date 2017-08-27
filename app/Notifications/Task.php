@@ -3,9 +3,8 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class Task extends Notification implements ShouldQueue
 {
@@ -26,7 +25,7 @@ class Task extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -37,7 +36,7 @@ class Task extends Notification implements ShouldQueue
     /**
      * 定义数据保存到数据库中的格式
      *
-     * @param  mixed  $notifiable
+     * @param  mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)
@@ -47,7 +46,7 @@ class Task extends Notification implements ShouldQueue
             'title' => $this->task->title,
             'detail' => $this->task->detail,
             'created_at' => $this->task->created_at,
-            'message' =>'您有一个新任务：'.$this->task->title,
+            'message' => '您有一个新任务：' . $this->task->title,
         ];
     }
 

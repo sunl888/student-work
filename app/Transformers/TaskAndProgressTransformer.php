@@ -15,7 +15,6 @@ use App\Models\TaskProgress;
 use App\Models\User;
 use App\Models\WorkType;
 use Carbon\Carbon;
-use League\Fractal\TransformerAbstract;
 
 class TaskAndProgressTransformer extends Transformer
 {

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models\Traits;
 
 trait Listable
@@ -9,7 +10,7 @@ trait Listable
      * 或者 orders=id-asc,user_name-desc 不推荐
      *
      * @param  $query
-     * @param  null  $order
+     * @param  null $order
      * @return mixed
      */
     public function scopeWithSort($query, $orders = null)
@@ -40,11 +41,12 @@ trait Listable
     }
 
     //protected static $allowSearchFields = [];
+
     /**
      * 例子：?q=ty
      *
      * @param  $query
-     * @param  null  $keywords
+     * @param  null $keywords
      * @return mixed
      */
     public function scopeWithSimpleSearch($query, $keywords = null)

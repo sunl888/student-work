@@ -1,15 +1,15 @@
 <?php
+
 namespace App\Service;
 
 use Illuminate\Auth\Access\AuthorizationException;
-use Auth;
+
 /**
  * Created by PhpStorm.
  * User: 孙龙
  * Date: 2017/8/13
  * Time: 14:21
  */
-
 trait ValidatePermission
 {
     protected function validatePermission($permissions)

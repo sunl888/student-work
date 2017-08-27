@@ -13,7 +13,6 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 use App\Models\TaskProgress;
 use App\Models\User;
-use App\Notifications\NewTask;
 use App\Notifications\TaskRemind;
 use App\Repositories\TaskProgressRepository;
 use App\Repositories\TaskRepository;
@@ -72,7 +71,7 @@ class TaskController extends BaseController
     {
         $data['status'] = 'draft';
         if ($this->allowAuditTask()) {
-            $this->taskRepository->update($data, ['id'=>$taskId]);
+            $this->taskRepository->update($data, ['id' => $taskId]);
         }
     }
 
@@ -191,8 +190,8 @@ class TaskController extends BaseController
 
     public function tasks(Request $request)
     {
-        if(($status = $request->get('status')) != null){
-            return $this->response()->paginator($this->taskRepository->lists($this->perPage(),['status'=>$status]), new TaskTransformer());
+        if (($status = $request->get('status')) != null) {
+            return $this->response()->paginator($this->taskRepository->lists($this->perPage(), ['status' => $status]), new TaskTransformer());
         }
         return $this->response()->paginator($this->taskRepository->lists($this->perPage()), new TaskTransformer());
     }
@@ -201,13 +200,30 @@ class TaskController extends BaseController
      * 获取某个学院的任务列表
      * @param null $collegeId
      */
-    public function getTasksByCollege($collegeId = null){
-        if ($collegeId == null){
+    public function getTasksByCollege($collegeId = null)
+    {
+        if ($collegeId == null) {
             $condisions['college_id'] = $this->guard()->user()->college_id;
-        }else{
+        } else {
             $condisions['college_id'] = $collegeId;
         }
-        return $this->response()->paginator($this->taskRepository->tasksByCollege($this->perPage(),$condisions), new TaskAndProgressTransformer());
+        return $this->response()->paginator($this->taskRepository->tasksByCollege($this->perPage(), $condisions), new TaskAndProgressTransformer());
+    }
+
+    public function getTasksByTeacher()
+    {
+        $condisions['user_id'] = $this->guard()->id();
+        $condisions['college_id'] = $this->guard()->user()->college_id;
+        $tasks = app(TaskProgress::class)->where(['user_id' => 'all'])->orWhere($condisions)->get()->load('task');
+        $res = new Collection();
+        foreach ($tasks as $task) {
+            $tmp = $task->task()->where(['status' => 'publish'])->first();
+            $task->user = $this->getLeadOfficial($task);
+            if ($tmp) {
+                $res->push($task);
+            }
+        }
+        return $this->response()->array($res->forPage(request('page') ?: 1, $this->perPage())->toArray());
     }
 
 
@@ -217,8 +233,9 @@ class TaskController extends BaseController
     }
 
     //学院和老师角色需要任务的责任人等信息
-    public function getTaskDetail($taskId){
-        $conditions = ['task_id'=>$taskId, 'college_id'=>Auth::guard()->user()->college_id];
+    public function getTaskDetail($taskId)
+    {
+        $conditions = ['task_id' => $taskId, 'college_id' => Auth::guard()->user()->college_id];
         return $this->response()->item($this->taskRepository->taskAndPregress($conditions), new TaskAndProgressTransformer());
 
     }
@@ -228,7 +245,8 @@ class TaskController extends BaseController
         return $this->response()->paginator($this->taskRepository->getTrashed($this->perPage()), new TaskTransformer());
     }
 
-    public function reStore($id){
+    public function reStore($id)
+    {
         return $this->taskRepository->reStore($id);
     }
 
@@ -240,25 +258,37 @@ class TaskController extends BaseController
      */
     public function remind(Task $task, $collegeId)
     {
-        if ($this->guard()->user()->hasRole('super_admin')){
+        if ($this->guard()->user()->hasRole('super_admin')) {
             //判断有没有责任人，如果没有则只向该学院发送提醒通知
             //判断责任人是不是所有人(all)，如果是则向该学院所有人发送通知
-            $task_progress = $task->task_progresses()->where(['college_id'=>$collegeId])->first();
+            $task_progress = $task->task_progresses()->where(['college_id' => $collegeId])->first();
             $users = new Collection();
-            if (isset($task_progress->user_id)){
+            if (isset($task_progress->user_id)) {
                 //全体人员
-                if($task_progress->user_id == TaskProgress::$personnelSign){
-                    $users = app(UserRepository::class)->usersWithCollege($collegeId,true);
-                }else{
-                    $users = $users->merge(app(UserRepository::class)->find(['id',$task_progress->user_id]));
+                if ($task_progress->user_id == TaskProgress::$personnelSign) {
+                    $users = app(UserRepository::class)->usersWithCollege($collegeId, true);
+                } else {
+                    $users = $users->merge(app(UserRepository::class)->find(['id', $task_progress->user_id]));
                 }
             }
-            $users = $users->merge(app(UserRepository::class)->usersWithRoles(['college'])->where('college_id',$collegeId)->all());
+            $users = $users->merge(app(UserRepository::class)->usersWithRoles(['college'])->where('college_id', $collegeId)->all());
             //发送任务提醒通知
             Notification::send($users, new TaskRemind($users, $task));
-        }else{
+        } else {
             throw new AuthorizationException("没有操作权限");
         }
+    }
+
+    public function getLeadOfficial($taskProgress)
+    {
+        if ($taskProgress->user_id) {
+            if ($taskProgress->user_id == TaskProgress::$personnelSign) {
+                return '全体人员';
+            } else {
+                return app(User::class)->find($taskProgress->user_id)['name'];
+            }
+        }
+        return null;
     }
 
 }

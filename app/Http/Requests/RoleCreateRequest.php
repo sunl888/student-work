@@ -35,12 +35,12 @@ class RoleCreateRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' =>'角色名必须填写',
-            'name.alpha_dash' =>'角色名必须是字母和数字或下划线',
-            'name.unique' =>'该角色已存在',
-            'display_name.string' =>'角色显示的名称必须是字符串',
-            'permission_ids.string' =>'角色显示的名称必须是字符串',
-            'permission_ids.array' =>'角色显示的名称必须是整形的数组',
+            'name.required' => '角色名必须填写',
+            'name.alpha_dash' => '角色名必须是字母和数字或下划线',
+            'name.unique' => '该角色已存在',
+            'display_name.string' => '角色显示的名称必须是字符串',
+            'permission_ids.string' => '角色显示的名称必须是字符串',
+            'permission_ids.array' => '角色显示的名称必须是整形的数组',
         ];
     }
 }

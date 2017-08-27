@@ -21,10 +21,10 @@ trait FileUpload
         }
         $path = date('Y/m/d');
         // 指定磁盘为uploads
-        $url = $file->store($path,'uploads');
+        $url = $file->store($path, 'uploads');
         return response()->json([
-            'path' =>'uploads/'.$url,
-            'asset_path' => asset('uploads/'.$url)
+            'path' => 'uploads/' . $url,
+            'asset_path' => asset('uploads/' . $url)
         ]);
     }
 }

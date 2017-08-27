@@ -14,16 +14,19 @@ class WorkTypeController extends BaseController
         return $this->response->collection(app(WorkTypeRepository::class)->all(), new WorkTypeTransformer());
     }
 
-    public function store(CreateWorkTypeRequest $request){
-        return $this->response->item(app(WorkTypeRepository::class)->create($request->only('title')),new WorkTypeTransformer());
+    public function store(CreateWorkTypeRequest $request)
+    {
+        return $this->response->item(app(WorkTypeRepository::class)->create($request->only('title')), new WorkTypeTransformer());
     }
 
-    public function update(UpdateWorkTypeRequest $request, $workId){
-        app(WorkTypeRepository::class)->update($request->only('title'),['id'=>$workId]);
+    public function update(UpdateWorkTypeRequest $request, $workId)
+    {
+        app(WorkTypeRepository::class)->update($request->only('title'), ['id' => $workId]);
         return $this->response->noContent();
     }
 
-    public function delete($workId){
+    public function delete($workId)
+    {
         app(WorkTypeRepository::class)->delete($workId);
         return $this->response->noContent();
     }

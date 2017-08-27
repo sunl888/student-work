@@ -24,13 +24,14 @@ class CreateWorkTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' =>'required',
+            'title' => 'required',
         ];
     }
 
-    public function messages(){
+    public function messages()
+    {
         return [
-            'title.required' =>'标题必须填写',
+            'title.required' => '标题必须填写',
         ];
     }
 }

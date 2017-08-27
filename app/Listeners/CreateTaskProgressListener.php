@@ -6,8 +6,6 @@ use App\Events\AuditedTask;
 use App\Repositories\CollegeRepository;
 use App\Repositories\TaskProgressRepository;
 use Carbon\Carbon;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class CreateTaskProgressListener
 {

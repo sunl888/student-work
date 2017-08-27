@@ -11,7 +11,6 @@ use App\Service\FileUpload;
 use App\Transformers\RoleTransformer;
 use App\Transformers\UserTransformer;
 use Hash;
-use Request;
 
 class UsersController extends BaseController
 {
@@ -92,7 +91,7 @@ class UsersController extends BaseController
     /**
      * 更新指定用户
      *
-     * @param  User              $user
+     * @param  User $user
      * @param  UserUpdateRequest $request
      * @return \Dingo\Api\Http\Response
      */

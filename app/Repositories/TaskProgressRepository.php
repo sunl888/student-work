@@ -9,7 +9,6 @@
 namespace App\Repositories;
 
 use App\Http\Requests\AllotTaskRequest;
-use App\Http\Requests\TaskScoreRequest;
 use App\Models\Task;
 use App\Models\TaskProgress;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -69,8 +68,10 @@ class TaskProgressRepository extends Repository
         throw new ModelNotFoundException('任务还没有被上级审核，暂时不能操作');
     }
 
-    public function show(array $conditions){
+    public function show(array $conditions)
+    {
 
         return $this->model->where($conditions)->get();
     }
+
 }

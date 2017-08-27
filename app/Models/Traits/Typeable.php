@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models\Traits;
 
 use App\Models\Type;

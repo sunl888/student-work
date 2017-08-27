@@ -42,12 +42,13 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->get('is_delay/{task_id}', 'TaskController@isDelay');
         // 学院显示的任务列表
         $api->get('lists/{college?}', 'TaskController@getTasksByCollege');
-        $api->get('task_detail/{task}', 'TaskController@getTaskDetail');
     });
-
+    // 任务详情
+    $api->get('task_detail/{task}', 'TaskController@getTaskDetail');
     //老师
     $api->group(['middleware' => ['role:teacher']], function ($api) {
-
+        // 学院显示的任务列表
+        $api->get('tasks_of_teacher', 'TaskController@getTasksByTeacher');
     });
     // 显示某个任务
     $api->get('task/{task_id}', 'TaskController@task');

@@ -13,6 +13,7 @@ class DepartmentController extends BaseController
     {
         return $this->response->collection(app(DepartmentRepository::class)->all(), new DepartmentTransformer());
     }
+
     public function store(CreateDepartmentRequest $request)
     {
         return $this->response->item(app(DepartmentRepository::class)->create($request->only('title')), new DepartmentTransformer());

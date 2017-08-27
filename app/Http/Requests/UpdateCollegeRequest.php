@@ -24,13 +24,14 @@ class UpdateCollegeRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' =>'required',
+            'title' => 'required',
         ];
     }
 
-    public function messages(){
+    public function messages()
+    {
         return [
-            'title.required' =>'学院名称必须要填写',
+            'title.required' => '学院名称必须要填写',
         ];
     }
 }
