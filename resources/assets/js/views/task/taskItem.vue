@@ -53,7 +53,7 @@
                                 width="130">
                                 <template class="operaBtn">
                                     <el-button-group>
-                                        <el-button size="small" type="info" :disabled="row.status === '未完成'" @click="goScore()" title="评分">评分</el-button>
+                                        <el-button size="small" type="info" :disabled="row.status === '未完成'" @click="goScore(row.college_id)" title="评分">评分</el-button>
                                         <el-button size="small" type="danger" :disabled="row.status === '已完成'" @click="reminders(row.college_id)" title="催交">催交</el-button>
                                     </el-button-group>
                                 </template>
@@ -103,8 +103,8 @@
                 })
             },
             // 跳转任务评分
-            goScore () {
-                this.$router.push({name: 'task_score', params: {id: this.$route.params.id}})
+            goScore (x) {
+                this.$router.push({name: 'task_score', params: {id: this.$route.params.id, college_id: x}})
             },
             // 审核任务
             auditing () {

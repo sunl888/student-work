@@ -4,7 +4,7 @@
         <div class="taskDetail">
             <el-card  class="box-card">
                 <div slot="header" class="clearfix">
-                    <p style="line-height: 36px;text-align:center;">{{item.title}}</p>
+                    <p style="line-height: 36px;text-align:center;">{{'任务名称' + item.title}}</p>
                 </div>
                 <div class="text item left el-col-7">
                     <el-collapse v-model="activeNames">
@@ -13,9 +13,10 @@
                             <p>任务要求：<span>{{ item.detail }}</span></p>
                         </el-collapse-item>
                         <el-collapse-item title="任务进程" name="2">
-                            <p>负责人：<span>{{ item.responser }}</span></p>
-                            <p>推迟理由：<span>{{ item.delayReason }}</span></p>
-                            <p>完成情况：<span>{{ item.situation   }}</span></p>
+                            <p>负责人：<span>{{ taskPro.leading_official }}</span></p>
+                            <p>所属学院：<span>{{ taskPro.college }}</span></p>
+                            <p>完成时间：<span>{{ taskPro.end_time}}</span></p>
+                            <p>推迟理由：<span>{{ taskPro.delay  }}</span></p>
                         </el-collapse-item>
                     </el-collapse>
                 </div>
@@ -90,7 +91,8 @@
                 default1: 'metionRecord',
                 value4: null,
                 value5: '',
-                item: []
+                item: [],
+                taskPro: []
             }
         },
         methods: {
@@ -98,18 +100,18 @@
             loadItem () {
                 this.$http.get('task/' + this.$route.params.id).then(res => {
                     this.item = res.data.data
-                    if(this.item.status === '未完成'){
-                        this.$router.push({name: 'taskItem', params: {id: this.$route.params.id}})
-                        $message({
-                            type: 'warning',
-                            message: '该学院尚未完成此任务'
-                        })
-                    }
+                })
+            },
+            //获取任务进程
+            getTaskPro () {
+                this.$http.get('task_progress/' + this.$route.params.id).then(res => {
+                    this.taskPro = res.data.data[this.$route.params.college_id-1]
                 })
             }
         },
         mounted () {
             this.loadItem()
+            this.getTaskPro()
         }
     }
 </script>

@@ -73,7 +73,7 @@ export default new Router({
           component: require('../views/task/unfinishedWork.vue')
         },
         {
-          path: 'task_score/:id',
+          path: 'task_score/:id/:college_id?',
           name: 'task_score',
           meta: {title: '任务评分'},
           component: require('../views/task/taskScore.vue')
