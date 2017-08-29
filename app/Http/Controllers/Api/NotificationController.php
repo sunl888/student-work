@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Repositories\NotificationRepository;
+use App\Transformers\NotificationTransformer;
 use Carbon\Carbon;
 
 class NotificationController extends BaseController
@@ -12,9 +14,7 @@ class NotificationController extends BaseController
     public function unReadNotifications()
     {
         $user = $this->guard()->user();
-        $notifys = $user->unReadNotifications;
-        return $this->response->array($notifys);
-        //return $this->response->item($notifys, new NotificationTransformer());
+        return $this->response()->paginator(app(NotificationRepository::class)->notifications($user, $this->perPage(), true), new NotificationTransformer());
     }
 
     /**
@@ -24,8 +24,7 @@ class NotificationController extends BaseController
     public function notifications()
     {
         $user = $this->guard()->user();
-        $notifys = $user->notifications;
-        return $this->response->array($notifys);
+        return $this->response()->paginator(app(NotificationRepository::class)->notifications($user, $this->perPage()), new NotificationTransformer());
     }
 
     /**
