@@ -10,6 +10,7 @@ use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\SubmitTaskRequest;
 use App\Http\Requests\TaskScoreRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Models\Assess;
 use App\Models\Department;
 use App\Models\Remind;
 use App\Models\Task;
@@ -224,6 +225,7 @@ class TaskController extends BaseController
             $task->user = $this->getLeadOfficial($task);
             $task->work_type = WorkType::find($tmp->work_type_id)['title'];
             $task->department = Department::find($tmp->department_id)['title'];
+            $task->assess = !empty($task->assess_id) ? app(Assess::class)->find($task->assess_id)['title'] : null;
             if ($tmp) {
                 $res->push($task);
             }

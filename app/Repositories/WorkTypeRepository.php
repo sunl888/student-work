@@ -9,22 +9,19 @@
 namespace App\Repositories;
 
 use App\Models\WorkType;
+use Cache;
 
 class WorkTypeRepository extends Repository
 {
-    /*public function model()
-    {
-        return 'App\Models\WorkType';
-    }*/
-
     public function __construct()
     {
         $this->model = app(WorkType::class);
     }
 
-    /*public function delete($id)
+    public function all($columns = array('*'))
     {
-        //删除模型  destroy(array)
-        return $this->model->where(['id'=>$id])->delete();
-    }*/
+        return Cache::remember('work_types', config('app.cache_ttl'), function() {
+            return $this->model->all();
+        });
+    }
 }

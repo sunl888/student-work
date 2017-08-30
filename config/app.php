@@ -16,6 +16,7 @@ return [
 
     'default_per_page' => env('STUDENT_DEFAULT_PERPAGE', 20),
     'max_per_page' => env('STUDENT_MAX_PERPAGE', 88),
+    'cache_ttl' =>env('CACHE_TTL', 60*60),
     /*
     |--------------------------------------------------------------------------
     | Application Environment
