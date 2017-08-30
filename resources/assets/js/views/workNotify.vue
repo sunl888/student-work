@@ -1,21 +1,26 @@
 <template>
     <div class="panel el-col-24">
-        <div v-if="notify != null">
+        <div v-if="notify.length != 0">
             <ul class="tag-left">
                 <li class="notifyBox el-col-22 el-col-push-1" v-for="value in notify">
                     您有一个新任务:&emsp;
-                    <router-link :to="{name: 'task_item', params: {id: value.data.task_id}}">
+                    <router-link :to="{name: 'task_detail', params: {id: value.data.task_id}}">
                         {{value.data.title}}
                     </router-link>
                     <p>
                         <i class="material-icons">av_timer</i>
-                        <span>{{'&nbsp;发布时间&emsp;' + value.created_at | dateFilter}}</span>
+                        <span>{{'&nbsp;发布时间&emsp;' + value.data.created_at.date | dateFilter}}</span>
                     </p>
                 </li>
             </ul>
-
-
-
+            <el-pagination
+                    class="page"
+                    layout="prev, pager, next"
+                    :total="total"
+                    :current-page="currentPage"
+                    :page-size="perPage"
+                    @current-change="change">
+            </el-pagination>
         </div>
         <p v-else>当前没有新通知</p>
     </div>
@@ -25,10 +30,17 @@
         data () {
             return {
                 notify: [],
-                perPage: 5
+                perPage: 5,
+                currentPage: 1,
+                total: 0
             }
         },
         methods: {
+            refresh () {
+                this.$nextTick(() => {
+                    this.getNotify(this.currentPage);
+                })
+            },
             getNotify (page=1,sort) {
                 this.$http.get('all_notifys',{
                     params: {
@@ -36,10 +48,13 @@
                         page
                     }
                 }).then(res => {
-                    this.notify = res.data.notifications
-                    this.total = res.data.meta.pagination.total;
+                    this.notify = res.data.data
+                    this.total = res.data.meta.pagination.total
                 })
 
+            },
+            change (currentPage) {
+                this.getNotify(currentPage);
             }
         },
         filters: {
@@ -51,13 +66,11 @@
         },
         mounted () {
             this.getNotify()
+            this.getNotify();
         }
     }
 </script>
 <style scoped>
-    .panel{
-        margin-top:10px;
-    }
     .panel>p {
         position:absolute;
         top:50%;
@@ -66,12 +79,11 @@
         display:block;
     }
     .panel>div{
-        min-height: 480px;
     }
     .tag-left{
         margin: 20px;
         padding: 5px;
-        min-height:480px;
+        min-height:500px;
         border:2px solid #fff;
         position:relative;
         background-color:#FFF;
@@ -132,6 +144,9 @@
         font-size:14px;
         text-align:left;
         color:#5e5e5e;
+    }
+    .notifyBox:last-child{
+        border-bottom:none;
     }
     .notifyBox>a{
         color:#444;

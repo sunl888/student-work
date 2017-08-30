@@ -160,8 +160,7 @@
                 this.isPass = false
                 this.$http.get('user/' + this.$route.params.id).then(res => {
                     this.ruleForm = res.data.data
-                    console.log(this.ruleForm)
-                    this.$diff.save(this.ruleForm);
+                    this.$diff.save(this.ruleForm)
                 })
             }else if(this.$route.name === 'add_user'){
                 this.isEdit = false

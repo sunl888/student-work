@@ -44,7 +44,7 @@
                                         label="状态"
                                         width="100"
                                 >
-                                    <span>{{row.finished_at === null ? '未完成' : '已完成' }}</span>
+                                    <span>{{row.status === null ? '未完成' : '已完成' }}</span>
                                 </el-table-column>
                                 <el-table-column
                                         label="截止时间"
@@ -67,7 +67,7 @@
                                         inline-template
                                 >
                                     <template>
-                                        <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
+                                        <el-button type="primary" size="small" @click="browseTask(row.task.id)">查看</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
