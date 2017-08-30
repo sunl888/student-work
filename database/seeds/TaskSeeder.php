@@ -33,13 +33,13 @@ class TaskSeeder extends Seeder
 （三）加强应急后勤保障工作。相关部门应加强应急值守的后勤保障工作，保证突发事件发生时，公务用车及各种应急物品能及时到位，便于应急处置。
 请各部门、各二级学院将全校值班安排情况通知到相关人员，请保卫处、后勤部门及各二级学院将本学期晚间值班安排表于9月2日前通过电子政务平台报校办应急管理中心王康阔收。
     特此通知',
-                'work_type_id' =>1,
-                'department_id' =>1,
+                'work_type_id' => 1,
+                'department_id' => 1,
                 'created_at' => Carbon::now(),
                 'end_time' => Carbon::tomorrow(),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
-            ],[
+            ], [
                 'title' => '关于召开淮南师范学院2017秋季扶贫顶岗支教工作动员大会的通知',
                 'detail' => '各有关单位：
         经研究决定召开淮南师范学院2017秋期扶贫顶岗支教工作动员大会，现将有关事项通知如下：
@@ -59,13 +59,13 @@ class TaskSeeder extends Seeder
         6、曹杰旺院长讲话。
    
     2017年8月29上午8点启程安排（炎刘40人，带队：应力）（宁老庄61人，带队：曹灯明）（凤台62人，带队：朱其永）',
-                'work_type_id' =>1,
-                'department_id' =>1,
+                'work_type_id' => 1,
+                'department_id' => 1,
                 'created_at' => Carbon::now(),
                 'end_time' => Carbon::tomorrow(),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
-            ],[
+            ], [
                 'title' => '关于班车恢复运行的通知',
                 'detail' => ' 
 广大教职工：
@@ -76,24 +76,24 @@ class TaskSeeder extends Seeder
  
                                                       办公室
                                                    2017年8月27日',
-                'work_type_id' =>1,
-                'department_id' =>1,
+                'work_type_id' => 1,
+                'department_id' => 1,
                 'created_at' => Carbon::now(),
                 'end_time' => Carbon::tomorrow(),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
-            ],[
+            ], [
                 'title' => '淮南师范学院关于申请新增硕士单位及硕士学位授权点的公示',
                 'detail' => '根据《安徽省人民政府学位委员会关于开展2017年博士硕士学位授予权审核工作的通知》（皖学位秘[2017]1号），淮南师范学院开展了新增硕士学位授予单位及硕士学位授权点申报和审核工作。经相关单位组织申报、审核推荐，校学位评定委员会评议通过，决定淮南师范学院申请新增硕士学位授予单位，“化学”、“工商管理”2个一级学科申报硕士学位授权点。
 现将评议结果及相关申请材料向社会公示，公示期为2017年7月25日至7月31日。公示期内，任何单位或个人，如对公示内容有异议，请以电话或邮件方式，实名向学校纪委办公室（监察处）或科技处（学科建设办公室）反映。
 纪委办公室（监察处）：电话0554-6863597，邮箱jweib@hnnu.edu.cn；科技处（学科建设办公室）：电话0554-6863587，邮箱kychu@hnnu.edu.cn。',
-                'work_type_id' =>1,
-                'department_id' =>1,
+                'work_type_id' => 1,
+                'department_id' => 1,
                 'created_at' => Carbon::now(),
                 'end_time' => Carbon::tomorrow(),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
-            ],[
+            ], [
                 'title' => '关于做好2017—2018学年第一学期泉山校区值班工作的通知',
                 'detail' => '各单位、各部门：
     为进一步加强学校安全稳定工作，发挥值班工作在全面建设和谐平安校园中的作用，经研究决定，学校在泉山校区继续安排夜间值班，现将有关事宜通知如下，请遵照执行。
@@ -112,13 +112,13 @@ class TaskSeeder extends Seeder
 （三）加强应急后勤保障工作。相关部门应加强应急值守的后勤保障工作，保证突发事件发生时，公务用车及各种应急物品能及时到位，便于应急处置。
 请各部门、各二级学院将全校值班安排情况通知到相关人员，请保卫处、后勤部门及各二级学院将本学期晚间值班安排表于9月2日前通过电子政务平台报校办应急管理中心王康阔收。
     特此通知',
-                'work_type_id' =>1,
-                'department_id' =>1,
+                'work_type_id' => 1,
+                'department_id' => 1,
                 'created_at' => Carbon::now(),
                 'end_time' => Carbon::tomorrow(),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
-            ],[
+            ], [
                 'title' => '关于暑期班车运行时间安排的通知',
                 'detail' => '广大教职工：
 根据学校工作安排，班车本周继续运行，7月19日（周三）至21日（周五），班车运行时间调整为：发车时间8:30、14:40；返回时间：11:40、17:50；7月22日停止运行，8月28日恢复运行。
@@ -128,13 +128,13 @@ class TaskSeeder extends Seeder
  
 办公室
   2017年7月17日',
-                'work_type_id' =>1,
-                'department_id' =>1,
+                'work_type_id' => 1,
+                'department_id' => 1,
                 'created_at' => Carbon::now(),
                 'end_time' => Carbon::tomorrow(),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
-            ],[
+            ], [
                 'title' => '关于召开审核评估工作专题培训会的通知',
                 'detail' => '各二级学院、各相关部门：
 为切实推进学校本科教学审核评估各项建设工作，确保教学文件及档案材料的整理归档务实、有效，经学校研究，决定召开淮南师范学院审核评估工作专题培训会议，现将有关事项通知如下：
@@ -148,13 +148,13 @@ class TaskSeeder extends Seeder
 4、校评估办公室秘书。
 请各单位通知本部门成员准时参会。
 特此通知',
-                'work_type_id' =>1,
-                'department_id' =>1,
+                'work_type_id' => 1,
+                'department_id' => 1,
                 'created_at' => Carbon::now(),
                 'end_time' => Carbon::tomorrow(),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
-            ],[
+            ], [
                 'title' => '2017年淮南师范学院第三批人才引进及教师招聘人员基本情况公示',
                 'detail' => '根据2017年7月12日院长办公会议研究审定，我校拟录、聘用姜成等5位同志来校从事教学科研工作。现将拟聘人员基本情况予以公示（2017年人员招聘第三批）。
 公示期自7月13日至7月18日。如有异议，请来函来电。
@@ -162,13 +162,13 @@ class TaskSeeder extends Seeder
 联系电话：（0554）6863593，（0554）6863597。
 邮箱：rske@hnnu.edu.cn；jweib@hnnu.edu.cn
 邮编：232038。',
-                'work_type_id' =>1,
-                'department_id' =>1,
+                'work_type_id' => 1,
+                'department_id' => 1,
                 'created_at' => Carbon::now(),
                 'end_time' => Carbon::tomorrow(),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
-            ],[
+            ], [
                 'title' => '关于召开全校党员干部“讲政治、重规矩、作表率”专题警示教育动员大会的通知',
                 'detail' => '各二级学院党委（党总支、直属党支部）、机关各党支部：
 经学校党委研究，决定召开全校党员干部“讲政治、重规矩、作表率”专题警示教育动员大会，有关事宜通知如下：
@@ -185,13 +185,13 @@ class TaskSeeder extends Seeder
  
                                     党委组织部
                                   2017年7月6日',
-                'work_type_id' =>1,
-                'department_id' =>1,
+                'work_type_id' => 1,
+                'department_id' => 1,
                 'created_at' => Carbon::now(),
                 'end_time' => Carbon::tomorrow(),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
-            ],[
+            ], [
                 'title' => '关于报送暑期重点工作安排的通知',
                 'detail' => '各部门、各二级学院：
 根据学校领导要求，请各部门、各二级学院结合学校2017年度党政工作要点及工作实际，于本周五（7月7日）上午下班前将本单位暑期重点工作安排电子版通过电子政务报送至办公室缪保爱。
@@ -200,13 +200,13 @@ class TaskSeeder extends Seeder
  
                                                     校办公室
                                                        2017年7月6日',
-                'work_type_id' =>1,
-                'department_id' =>1,
+                'work_type_id' => 1,
+                'department_id' => 1,
                 'created_at' => Carbon::now(),
                 'end_time' => Carbon::tomorrow(),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
             ],
-            ]);
+        ]);
     }
 }

@@ -13,11 +13,18 @@ trait Cachable
         return true;
     }
 
-    abstract protected function clearCache();
+    public function update(array $datas = [], array $conditions = [])
+    {
+        if (!parent::where($conditions)->update($datas)) {
+            return false;
+        }
+        $this->clearCache();
+        return true;
+    }
 
     public function delete(array $options = [])
     {
-        if (!parent::delete($options)) {
+        if (!parent::where($options)->delete()) {
             return false;
         }
         $this->clearCache();
@@ -32,4 +39,6 @@ trait Cachable
         $this->clearCache();
         return true;
     }
+
+    abstract protected function clearCache();
 }

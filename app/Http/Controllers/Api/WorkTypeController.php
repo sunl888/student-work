@@ -16,7 +16,8 @@ class WorkTypeController extends BaseController
 
     public function store(CreateWorkTypeRequest $request)
     {
-        return $this->response->item(app(WorkTypeRepository::class)->create($request->only('title')), new WorkTypeTransformer());
+        app(WorkTypeRepository::class)->create($request->only('title'));
+        return $this->response->noContent();
     }
 
     public function update(UpdateWorkTypeRequest $request, $workId)

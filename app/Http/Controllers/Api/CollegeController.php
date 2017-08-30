@@ -9,10 +9,6 @@ use App\Transformers\CollegeTransformer;
 
 class CollegeController extends BaseController
 {
-    /*public function __construct()
-    {
-        $this->middleware('role:super_admin');
-    }*/
 
     public function lists()
     {
@@ -21,7 +17,8 @@ class CollegeController extends BaseController
 
     public function store(CreateCollegeRequest $request)
     {
-        return $this->response->item(app(CollegeRepository::class)->create($request->only('title')), new CollegeTransformer());
+        app(CollegeRepository::class)->create($request->only('title'));
+        return $this->response->noContent();
     }
 
     public function update(UpdateCollegeRequest $request, $CollegeId)

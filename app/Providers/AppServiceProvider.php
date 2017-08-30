@@ -79,7 +79,6 @@ class AppServiceProvider extends ServiceProvider
                     [
                         'status_code' => 404,
                         'code' => 404,
-                        //todo 这里的错误显示需要处理
                         'message' => $exception->getMessage()
                     ], 404
                 );
@@ -100,12 +99,21 @@ class AppServiceProvider extends ServiceProvider
         $apiHandler->register(
             function (QueryException $exception) {
                 if ($this->app->environment() !== 'production') {
-                    //throw new HttpException(500, $exception->getSql());
                     throw $exception;
                 } else {
-                    // todo log
                     throw new HttpException(500);
                 }
+            }
+        );
+        $apiHandler->register(
+        // Zizaco/entrust没有权限会抛出这个异常
+            function (\Symfony\Component\HttpKernel\Exception\HttpException $exception) {
+                return response([
+                    'status_code' => 403,
+                    'code' => 403,
+                    'message' => '对不起，你没有操作权限'
+                ], 403);
+
             }
         );
     }

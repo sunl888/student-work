@@ -16,7 +16,8 @@ class DepartmentController extends BaseController
 
     public function store(CreateDepartmentRequest $request)
     {
-        return $this->response->item(app(DepartmentRepository::class)->create($request->only('title')), new DepartmentTransformer());
+        app(DepartmentRepository::class)->create($request->only('title'));
+        return $this->response->noContent();
     }
 
     public function update(UpdateDepartmentRequest $request, $DepartmentId)

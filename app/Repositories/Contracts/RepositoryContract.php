@@ -10,7 +10,7 @@ namespace App\Repositories\Contracts;
 
 interface RepositoryContract
 {
-    public function all($columns = array('*'));
+    /*public function all($columns = array('*'));
 
     public function paginate($perPage = 15, $columns = array('*'));
 
@@ -22,5 +22,5 @@ interface RepositoryContract
 
     public function find($id, $columns = array('*'));
 
-    public function findBy($field, $value, $columns = array('*'));
+    public function findBy($field, $value, $columns = array('*'));*/
 }

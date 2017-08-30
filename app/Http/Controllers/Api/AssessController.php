@@ -16,7 +16,8 @@ class AssessController extends BaseController
 
     public function store(CreateAssessRequest $request)
     {
-        return $this->response->item(app(AssessRepository::class)->create($request->only('title', 'score')), new AssessTransformer());
+        app(AssessRepository::class)->create($request->only('title', 'score'));
+        return $this->response->noContent();
     }
 
     public function update(UpdateAssessRequest $request, $assessId)

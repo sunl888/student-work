@@ -9,7 +9,7 @@
 namespace App\Service;
 
 use Dingo\Api\Http\Request;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use HttpException;
 
 trait FileUpload
 {

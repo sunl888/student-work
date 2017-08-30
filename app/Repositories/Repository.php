@@ -12,22 +12,7 @@ use App\Repositories\Contracts\RepositoryContract;
 
 abstract class Repository implements RepositoryContract
 {
-    //protected $app;
-
     protected $model;
-
-    /*public function __construct(Application $app)
-    {
-        $this->app = $app;
-        $this->makeModel();
-    }*/
-
-    /**
-     * model的名字
-     * @return mixed
-     */
-    //abstract function model();
-
 
     public function hasRecord(array $conditions)
     {
@@ -35,7 +20,6 @@ abstract class Repository implements RepositoryContract
             return $this->model->where($conditions)->first();
         }
     }
-
 
     public function all($columns = array('*'))
     {
@@ -72,11 +56,4 @@ abstract class Repository implements RepositoryContract
         return $this->model->where($attribute, '=', $value)->first($columns);
     }
 
-    /*public function makeModel()
-    {
-        $model = $this->app->make($this->model());
-        if (!$model instanceof Model)
-            throw new \Exception("Class {$this->model()} must be an instance of Illuminate\\Database\\Eloquent\\Model");
-        return $this->model = $model->newQuery();
-    }*/
 }
