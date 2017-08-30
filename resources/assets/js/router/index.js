@@ -28,7 +28,6 @@ export default new Router({
           component: parentComponent,
           children: [
             {
-                //管理员首页
               path: '',
               name: 'taskManage',
               component: require('../views/task/taskManage.vue')
@@ -111,6 +110,18 @@ export default new Router({
             name: 'add_user',
             meta: {title: '添加用户'},
             component: require('../views/user/addUser.vue')
+        },
+        {
+              path: 'user_roles',
+              name: 'user_roles',
+              meta: {title: '角色管理'},
+              component: require('../views/user/roles.vue')
+        },
+        {
+              path: 'roles_item',
+              name: 'roles_item',
+              meta: {title: '修改角色'},
+              component: require('../views/user/roleItem.vue')
         },
         {
             path: 'edit_user/:id',

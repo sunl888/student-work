@@ -35,7 +35,7 @@
                             <div v-else>
                                 <p v-for="value in remind">{{value.created_at + '&emsp;催交一次'}}</p>
                                 <p v-if="isExpend" v-for="value in modRemind">{{value.created_at + '&emsp;催交一次'}}</p>
-                                <a class="expendRecord" @click="isExpend=!isExpend">{{ isExpend ? '收起' + this.remindCount + '条记录' : '展开剩余' + this.remindCount + '条记录'}}</a>
+                                <a v-if="remindCount" class="expendRecord" @click="isExpend=!isExpend">{{ isExpend ? '收起' + this.remindCount + '条记录' : '展开剩余' + this.remindCount + '条记录'}}</a>
                             </div>
                         </el-form-item>
                         <el-form-item prop="access_id"  label="考核打分">
@@ -64,8 +64,8 @@
                             <p v-if=!remind.length>没有催交记录</p>
                             <div v-else>
                                 <p v-for="value in remind">{{value.created_at + '&emsp;催交一次'}}</p>
-                                <a class="expendRecord" @click="isExpend=!isExpend">{{ isExpend ? '收起' + this.remindCount + '条记录' : '展开剩余' + this.remindCount + '条记录'}}</a>
                                 <p v-if="isExpend" v-for="value in modRemind">{{value.created_at + '&emsp;催交一次'}}</p>
+                                <a v-if="modRemind.length!==0" class="expendRecord" @click="isExpend=!isExpend">{{ isExpend ? '收起' + this.remindCount + '条记录' : '展开剩余' + this.remindCount + '条记录'}}</a>
                             </div>
                         </el-form-item>
                         <el-form-item prop="access_id"  label="考核打分">

@@ -18,13 +18,13 @@
         <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="index" :to="{ path: item.path }">{{item.title}}</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="operation">
-        <el-button type="primary" @click="$router.push({name: 'add_task'})">添加任务</el-button>
+        <el-button :disabled=!me.is_super_admin type="primary" @click="$router.push({name: 'add_task'})">添加任务</el-button>
         <el-popover
                 ref="unreadBox"
                 placement="bottom-start"
                 width="160"
                 v-model="visible">
-            <router-link :title="value.data.message" :to="{name: 'task_item', params: {id: value.data.task_id}}" :key="value.id" v-for="value in unreadData">
+            <router-link :title="value.data.message" :to="{name: 'task_detail', params: {id: value.data.task_id}}" :key="value.id" v-for="value in unreadData">
               {{value.data.message}}
             </router-link>
             <p v-if=isTips style="line-height:40px;font-size:14px;text-align:center">暂时还没有通知哦</p>
@@ -52,6 +52,7 @@
         breadcrumbs: [],
         visible: false,
         unreadData: [],
+        me: [],
         isTips: false
       }
     },
@@ -59,6 +60,12 @@
         '$route': 'updateBreadcrumbs'
     },
     methods: {
+        getMe () {
+            this.$http.get('me').then(res => {
+                this.me = res.data.data
+                console.log(this.me)
+            })
+        },
       //设为已读
       setAlread () {
         this.$http.get('notifys_as_read').then(
@@ -73,14 +80,14 @@
       //获取未读通知
       unreadNotify () {
         this.$http.get('un_read_notifys').then(res => {
-            if(res.data.length === 0){
+            if(res.data == null){
                 this.unread = null
                 this.isTips = true
             } else {
+                console.log(res)
                 this.isTips = false
-                this.unread = res.data.notifications.length
-                this.unreadData = res.data.notifications
-                console.log(this.unread, this.unreadData)
+                this.unread = res.data.data.length
+                this.unreadData = res.data.data
             }
         })
       },
@@ -129,6 +136,7 @@
       this.task = this.loadAll(),
       this.updateBreadcrumbs(),
       this.unreadNotify()
+      this.getMe()
     }
   }
 </script>
