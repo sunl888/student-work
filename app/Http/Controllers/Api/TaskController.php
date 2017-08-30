@@ -10,10 +10,12 @@ use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\SubmitTaskRequest;
 use App\Http\Requests\TaskScoreRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Models\Department;
 use App\Models\Remind;
 use App\Models\Task;
 use App\Models\TaskProgress;
 use App\Models\User;
+use App\Models\WorkType;
 use App\Notifications\TaskRemind;
 use App\Repositories\TaskProgressRepository;
 use App\Repositories\TaskRepository;
@@ -220,6 +222,8 @@ class TaskController extends BaseController
         foreach ($tasks as $task) {
             $tmp = $task->task()->where(['status' => 'publish'])->first();
             $task->user = $this->getLeadOfficial($task);
+            $task->work_type = WorkType::find($tmp->work_type_id)['title'];
+            $task->department = Department::find($tmp->department_id)['title'];
             if ($tmp) {
                 $res->push($task);
             }
