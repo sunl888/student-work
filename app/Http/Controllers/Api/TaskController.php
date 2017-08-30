@@ -240,7 +240,6 @@ class TaskController extends BaseController
     }
 
     //学院和老师角色需要任务的责任人等信息
-
     public function task($taskId)
     {
         return $this->response->item($this->taskRepository->getTask($taskId), new TaskTransformer());
@@ -250,17 +249,25 @@ class TaskController extends BaseController
     {
         $conditions = ['task_id' => $taskId, 'college_id' => Auth::guard()->user()->college_id];
         return $this->response()->item($this->taskRepository->taskAndPregress($conditions), new TaskAndProgressTransformer());
-
     }
 
-    public function getTrashed()
+    /**
+     * 获取删除的任务列表
+     * @return \Dingo\Api\Http\Response
+     */
+    public function deleteds()
     {
         return $this->response()->paginator($this->taskRepository->getTrashed($this->perPage()), new TaskTransformer());
     }
 
-    public function reStore($id)
+    /**
+     * 恢复任务
+     * @param $id
+     * @return mixed
+     */
+    public function reStore($task_id)
     {
-        return $this->taskRepository->reStore($id);
+        return $this->taskRepository->reStore($task_id);
     }
 
     /**

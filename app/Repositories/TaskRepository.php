@@ -98,7 +98,7 @@ class TaskRepository extends Repository
 
     public function tasksByTeacher($limit, array $conditions = null)
     {
-        $tasks = $this->model->where('status', 'publish')->recent();
+        $tasks = $this->model->where('status', 'publish')->recent()->paginate($limit);
         foreach ($tasks as &$task) {
             $conditions['task_id'] = $task->id;
             $task['task_progress'] = app(TaskProgress::class)->where($conditions)->first();

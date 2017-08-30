@@ -75,8 +75,8 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         // 获取任务的催交记录
         $api->get('reminds/{task}/{college}', 'TaskController@getReminds');
         // 已删除的任务列表
-        $api->get('trashed_tasks', 'TaskController@getTrashed');
-        // 任务列表[后面可以加查询条件 如：?status=publish&q=]
+        $api->get('trashed_tasks', 'TaskController@deleteds');
+        // 任务列表
         $api->get('tasks', 'TaskController@tasks');
 
         // 显示某个任务的进程情况
