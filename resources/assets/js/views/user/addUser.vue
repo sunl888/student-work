@@ -38,8 +38,6 @@
                         <el-upload
                                 class="upload-demo"
                                 action="api/upload"
-                                :on-preview="handlePreview"
-                                :on-remove="handleRemove"
                                 :on-success="handleSuccess"
                                 >
                             <el-button v-if="!ruleForm.picture" size="small" type="primary">点击上传头像</el-button>

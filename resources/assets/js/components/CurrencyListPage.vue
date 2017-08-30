@@ -92,7 +92,11 @@
                         }
                     }).then(res => {
                         this.loading = false;
-                        this.list = res.data.data;
+                        if(this.queryName === 'tasks_of_teacher') {
+                            this.list = res.data;
+                        } else {
+                            this.list = res.data.data;
+                        }
                         this.total = res.data.meta.pagination.total;
                         // this.perPage = res.data.meta.pagination.per_page
                     }).catch(err => {

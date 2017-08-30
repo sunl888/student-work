@@ -25,20 +25,19 @@
                                     sortable
                                     prop="college"
                                     label="学院"
-                                    min-width="200">
+                                    min-width="150">
                             </el-table-column>
                             <el-table-column
                                     inline-template
                                     sortable
                                     label="完成时间"
-                                    min-width="130">
+                                    min-width="100">
                                 <span>{{row.end_time === null ? '空' : row.end_time}}</span>
                             </el-table-column>
                             <el-table-column
                                     inline-template
                                     sortable
-                                    label="责任人"
-                                    min-width="130">
+                                    label="责任人">
                                 <span>{{row.leading_official === null ? '尚未指定' : row.leading_official}}</span>
                             </el-table-column>
 
@@ -48,13 +47,21 @@
                                     label="任务状态">
                             </el-table-column>
                             <el-table-column
+                                    prop="status"
+                                    sortable
+                                    inline-template
+                                    label="评分结果">
+                                <span>{{row.assess === null ? '尚未评分' : row.assess}}</span>
+                            </el-table-column>
+                            <el-table-column
                                 label="操作"
                                 inline-template
-                                width="130">
+                                min-width="150">
                                 <template class="operaBtn">
                                     <el-button-group>
-                                        <el-button size="small" type="info" :disabled="row.status === '未完成'" @click="goScore(row.college_id)" title="评分">评分</el-button>
                                         <el-button size="small" type="danger" :disabled="row.status === '已完成'" @click="reminders(row.college_id)" title="催交">催交</el-button>
+                                        <el-button size="small" type="info" :disabled="row.status === '未完成' || row.assess!==null" @click="goScore(row.college_id)" title="评分">评分</el-button>
+                                        <el-button size="small" type="success" :disabled="!row.assess" @click="browse(row.college_id)" title="评分">查看</el-button>
                                     </el-button-group>
                                 </template>
                             </el-table-column>
@@ -72,7 +79,9 @@
                 //任务详情
                 item: [],
                 //各学院任务进度
-                taskPro: []
+                taskPro: [],
+                //催交记录
+                remind: []
             }
         },
         methods: {
@@ -90,21 +99,32 @@
             },
             // 催交
             reminders (x) {
-                this.$confirm('催交后将无法取消, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.$http.post('remind/' + this.$route.params.id + '/' + x).then(res => {
-                        this.$message.success('催交成功！')
+                //获取任务的催交情况
+                this.$http.get('reminds/' + this.$route.params.id + '/' + x).then(res => {
+                    this.remind = res.data.length + 1
+                    if (res.data !== null) {
+                        var boxMessage = '这是您第' + this.remind + '次催交此任务，确认后将无法撤销此操作，是否继续?'
+                    }
+                    this.$confirm(boxMessage, '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.$http.post('remind/' + this.$route.params.id + '/' + x).then(res => {
+                            this.$message.success('催交成功！')
+                        })
+                    }).catch(() => {
+                        this.$message.info('取消催交')
                     })
-                }).catch(() => {
-                    this.$message.info('取消催交')
                 })
             },
             // 跳转任务评分
             goScore (x) {
                 this.$router.push({name: 'task_score', params: {id: this.$route.params.id, college_id: x}})
+            },
+            //查看评分结果
+            browse(x){
+                this.$router.push({name: 'browse_score',params: {id: this.$route.params.id, college_id: x}})
             },
             // 审核任务
             auditing () {

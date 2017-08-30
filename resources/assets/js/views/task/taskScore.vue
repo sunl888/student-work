@@ -4,7 +4,7 @@
         <div class="taskDetail">
             <el-card  class="box-card">
                 <div slot="header" class="clearfix">
-                    <p style="line-height: 36px;text-align:center;">{{'任务名称' + item.title}}</p>
+                    <p style="line-height: 36px;text-align:center;">{{'任务名称：&emsp;' + item.title}}</p>
                 </div>
                 <div class="text item left el-col-7">
                     <el-collapse v-model="activeNames">
@@ -16,62 +16,69 @@
                             <p>负责人：<span>{{ taskPro.leading_official }}</span></p>
                             <p>所属学院：<span>{{ taskPro.college }}</span></p>
                             <p>完成时间：<span>{{ taskPro.end_time}}</span></p>
-                            <p>推迟理由：<span>{{ taskPro.delay  }}</span></p>
+                            <p v-if="taskPro.delay">推迟理由：<span>{{ taskPro.delay  }}</span></p>
                         </el-collapse-item>
                     </el-collapse>
                 </div>
                 <div class="text item right el-col-17">
-                    <el-form>
-                        <el-form-item label="完成质量">
-                            <el-radio class="radio" v-model="score.qutity" label="1">很差</el-radio>
-                            <el-radio class="radio" v-model="score.qutity" label="2">一般</el-radio>
-                            <el-radio class="radio" v-model="score.qutity" label="3">良好</el-radio>
-                            <el-radio class="radio" v-model="score.qutity" label="4">优秀</el-radio>
-                        </el-form-item>
-                        <el-form-item label="存在问题">
+                    <el-form v-if="isScores" label-position="right"  label-width="80px" :rules="rules" :model="formData">
+                        <el-form-item prop="quality" label="完成质量">
                             <el-input
-                                    class="el-col-20"
                                     type="textarea"
                                     :rows="2"
-                                    placeholder="请简述任务存在问题"
-                                    v-model="score.question">
+                                    placeholder="请简述任务的完成质量"
+                                    v-model="formData.quality">
                             </el-input>
                         </el-form-item>
-                        <el-form-item label="工作提醒">
-                            <el-select v-model="default1">
-                                <el-option
-                                    v-for="value in option"
-                                    :value="value.value"
-                                    :key="value.value"
-                                    :label="value.title"
-                                ></el-option>
-                            </el-select>
+                        <el-form-item class="remind" label="催交情况">
+                            <p v-if=!remind.length>没有催交记录</p>
+                            <div v-else>
+                                <p v-for="value in remind">{{value.created_at + '&emsp;催交一次'}}</p>
+                                <p v-if="isExpend" v-for="value in modRemind">{{value.created_at + '&emsp;催交一次'}}</p>
+                                <a class="expendRecord" @click="isExpend=!isExpend">{{ isExpend ? '收起' + this.remindCount + '条记录' : '展开剩余' + this.remindCount + '条记录'}}</a>
+                            </div>
                         </el-form-item>
-                        <el-form-item class="cuijiao" label="催交情况">
-                            <p>2017-5-30 15:30:54 催交一次</p>
-                            <p>2017-6-7 8:15:30 催交一次</p>
-                            <p>2017-6-20 12:21:02 催交一次</p>
-                            <p>2017-8-2 17:28:21 催交一次</p>
-                        </el-form-item>
-                        <el-form-item label="考核打分">
-                            <el-radio-group v-model="value5">
-                                <el-radio-button label="很差"></el-radio-button>
-                                <el-radio-button label="一般"></el-radio-button>
-                                <el-radio-button label="良好"></el-radio-button>
-                                <el-radio-button label="优秀"></el-radio-button>
+                        <el-form-item prop="access_id"  label="考核打分">
+                            <el-radio-group v-model="formData.access_id">
+                                <el-radio-button v-for="value in access" :key=value.id :label=value.id>{{value.title}}</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
+                        <el-form-item label='备注'>
+                            <el-input
+                                    class="el-col-19"
+                                    type="textarea"
+                                    :rows="1"
+                                    v-model="formData.remark">
+                            </el-input>
+                        </el-form-item>
                         <el-form-item class="el-col-push-2">
-                            <el-button type="info">提交</el-button>
+                            <el-button type="info" @click="goScore()">提交</el-button>
                             <el-button :plain="true" type="info" class="el-col-push-1">重置</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <el-form v-else label-position="right"  label-width="80px" :rules="rules" :model="formData">
+                        <el-form-item prop="quality" label="完成质量">
+                            <p>{{taskPro.quality}}</p>
+                        </el-form-item>
+                        <el-form-item class="remind" label="催交情况">
+                            <p v-if=!remind.length>没有催交记录</p>
+                            <div v-else>
+                                <p v-for="value in remind">{{value.created_at + '&emsp;催交一次'}}</p>
+                                <a class="expendRecord" @click="isExpend=!isExpend">{{ isExpend ? '收起' + this.remindCount + '条记录' : '展开剩余' + this.remindCount + '条记录'}}</a>
+                                <p v-if="isExpend" v-for="value in modRemind">{{value.created_at + '&emsp;催交一次'}}</p>
+                            </div>
+                        </el-form-item>
+                        <el-form-item prop="access_id"  label="考核打分">
+                            <p>{{taskPro.assess}}</p>
+                        </el-form-item>
+                        <el-form-item label='备注'>
+                            <p>{{taskPro.remark}}</p>
                         </el-form-item>
                     </el-form>
                 </div>
             </el-card>
         </div>
-
     </div>
-
 </div>
 </template>
 
@@ -80,22 +87,45 @@
         data () {
             return {
                 activeNames: '',
-                score: {
-                    qutity: '1',
-                    question: ''
-                },
-                option: [
-                    {value: 'metionRecord', title: '提醒记录'},
-                    {value: 'metionList', title: '预警通知单'}
-                ],
-                default1: 'metionRecord',
-                value4: null,
-                value5: '',
+                // 任务详情
                 item: [],
-                taskPro: []
+                // 任务进程
+                taskPro: [],
+                // 获取考核等级
+                access: [],
+                // 催交情况
+                remind: [],
+                remindCount: 0,
+                //是否展开
+                isExpend: false,
+                //未展开的记录
+                modRemind: [],
+                // 表单数据
+                formData: {
+                    quality: '',
+                    access_id: null,
+                    remark: ''
+                },
+                //判断页面内容
+                isScores: true,
+                //表单规则
+                rules: {
+                    quality: [
+                        { type: 'string', required: true, message: '请输入完成质量', trigger: 'blur' }
+                    ],
+                    access_id: [
+                        { type: 'number', required: true, message: '请选择考核等级', trigger: 'blur' }
+                    ]
+                }
             }
         },
         methods: {
+            //判断页面内容
+            isScore () {
+              if(this.$route.name === 'browse_score'){
+                  this.isScores = false
+              }
+            },
             //获取任务详情
             loadItem () {
                 this.$http.get('task/' + this.$route.params.id).then(res => {
@@ -107,11 +137,43 @@
                 this.$http.get('task_progress/' + this.$route.params.id).then(res => {
                     this.taskPro = res.data.data[this.$route.params.college_id-1]
                 })
+            },
+            //获取此任务的催交情况
+            getRemind () {
+                this.$http.get('reminds/' + this.$route.params.id + '/' + this.$route.params.college_id).then(res => {
+                    let temp = res.data.reverse()
+                    this.remind = temp.slice(0,3)
+                    this.modRemind = temp.slice(3)
+                    this.remindCount = temp.length - 3
+                })
+            },
+            //任务评分
+            goScore () {
+                this.$http.post('task_score/' + this.$route.params.id,{
+                    college_id: this.$route.params.college_id,
+                    assess_id: this.formData.access_id,
+                    quality: this.formData.quality,
+                    remark: this.formData.remark
+                }).then(res => {
+                    this.$message.success('成功评分！')
+                    this.$router.back()
+                }).catch(res => {
+                    this.$message.error(res)
+                })
+            },
+            //获取考核等级
+            getAccess () {
+                this.$http.get('appraises').then( res=> {
+                    this.access = res.data.data
+                })
             }
         },
         mounted () {
             this.loadItem()
             this.getTaskPro()
+            this.getRemind()
+            this.getAccess()
+            this.isScore()
         }
     }
 </script>
@@ -128,7 +190,6 @@
     }
     .taskScore,.score,.box{
         min-height:470px;
-        height:100%;
     }
     .text {
         font-size: 14px;
@@ -147,8 +208,8 @@
     .item {
         margin-top:20px;
     }
-    .cuijiao p{
-        margin-left:2em;
+    .remind p{
+        /*margin-left:6em;*/
     }
     .clearfix:before,
     .clearfix:after {
@@ -163,19 +224,25 @@
     }
     .right{
         padding-left:35px;
+        border-left:1px solid lightgray;
     }
     .left{
         min-height:500px;
-        border-right:1px solid lightgray;
         padding:0px 35px;
     }
     .el-textarea{
-        width:90%;
+        width:80%;
     }
     .el-collapse-item__content{
         color:#888;
     }
     .el-collapse-item>p span{
         color:#333;
+    }
+    .expendRecord{
+        cursor:pointer;
+    }
+    .expendRecord:hover{
+        color:#1D8CE0;
     }
 </style>

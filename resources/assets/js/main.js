@@ -7,7 +7,6 @@ import axios from 'axios'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 
-
 Vue.prototype.$http = axios.create({
     baseURL: '/api/',
     timeout: 5000,
@@ -42,6 +41,12 @@ Vue.prototype.$http.interceptors.response.use((response) => {
     }
     return Promise.reject(error);
 });
+
+// Vue.filter('dateFilter', (val) => {
+//     var tempStr = new Array()
+//     tempStr = (val || '').split(' ')
+//     return tempStr[0]
+// })
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)

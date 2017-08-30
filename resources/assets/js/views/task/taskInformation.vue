@@ -16,44 +16,7 @@
                     <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>
                 <!--操作按钮-->
-                <div class="appoint" v-if=!item.finished_at>
-                        <el-button v-if="!item.user" class="appo" @click="isDia = true" type="success">指定责任人</el-button>
-                        <el-button v-else class="appo" @click="isDia = true" type="success">修改责任人</el-button>
-                        <el-button :disabled='!item.user'  @click="goSubmit()" type="info">提交任务</el-button>
-                    <!--指定责任人-->
-                    <el-dialog title="指定责任人" :visible.sync="isDia" top="30%">
-                        <el-form>
-                            <el-form-item label="指定责任人" :label-width="formLabelWidth">
-                                <el-cascader
-                                        @change="current()"
-                                        :options="options"
-                                        v-model="currOption"
-                                        :props="prop"
-                                >
-                                </el-cascader>
-                            </el-form-item>
-                        </el-form>
-                        <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
-                            <el-button @click="isDia = false">取 消</el-button>
-                            <el-button type="primary" @click="appoint()">确 定</el-button>
-                        </div>
-                    </el-dialog>
-                    <!--填写推迟理由-->
-                    <el-dialog title="推迟理由" :visible.sync="delay.isDelay" top="30%">
-                        <p class='delayMessage'>{{delay.delayMessage}}</p>
-                        <el-form>
-                            <el-form-item label="推迟理由" :label-width="formLabelWidth2">
-                                <el-input type="textarea" placeholder="请填写推迟理由" v-model="delay.delayReson"></el-input>
-                            </el-form-item>
-                        </el-form>
-                        <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
-                            <el-button @click="delay.isDelay = false">取 消</el-button>
-                            <el-button type="primary" @click="isSubmit(delay.delayReson)" required>确 定</el-button>
-                        </div>
-                    </el-dialog>
-                </div>
-                <div class="seal" v-else>
-                    <span>已完成</span>
+                <div class="seal">
                     <el-button :disabled="!item.assess" @click="isScores = true" type="info">查看评分结果</el-button>
                     <el-dialog title="评分结果" :visible.sync="isScores" class="scoreBox el-col-16 el-col-offset-4">
                         <el-form :label-width="formLabelWidth2" label-position="right">

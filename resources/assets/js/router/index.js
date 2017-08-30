@@ -28,6 +28,7 @@ export default new Router({
           component: parentComponent,
           children: [
             {
+                //管理员首页
               path: '',
               name: 'taskManage',
               component: require('../views/task/taskManage.vue')
@@ -61,22 +62,43 @@ export default new Router({
             component: require('../views/task/taskDetail.vue')
         },
         {
+          //各学院老师
+          path: 'task_information/:id',
+          name: 'task_information',
+          meta: {title: '任务详情'},
+          component: require('../views/task/taskInformation.vue')
+        },
+        {
           path: 'going_finish/:id',
           name: 'going_finish',
           meta: {title: '任务完成'},
           component: require('../views/task/goingFinish.vue')
         },
         {
+          //各学院首页
           path: 'tasks_of_college',
           name: 'tasks_of_college',
           meta: {title: '任务显示'},
           component: require('../views/task/unfinishedWork.vue')
         },
         {
+            //各学院老师首页
+            path: 'tasks_of_teacher',
+            name: 'tasks_of_teacher',
+            meta: {title: '任务显示'},
+            component: require('../views/task/tasksOfTeacher.vue')
+        },
+        {
           path: 'task_score/:id/:college_id?',
           name: 'task_score',
           meta: {title: '任务评分'},
           component: require('../views/task/taskScore.vue')
+        },
+        {
+            path: 'browse_score/:id/:college_id?',
+            name: 'browse_score',
+            meta: {title: '查看评分结果'},
+            component: require('../views/task/taskScore.vue')
         },
         {
           path: 'user_lists',
