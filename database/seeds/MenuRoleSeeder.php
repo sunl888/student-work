@@ -87,6 +87,9 @@ class MenuRoleSeeder extends Seeder
             ], [//老师显示的任务列表
                 'menu_id' => 17,
                 'role_id' => 3,
+            ], [//角色管理
+                'menu_id' => 18,
+                'role_id' => 1,
             ]
         ]);
     }

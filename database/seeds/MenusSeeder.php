@@ -166,6 +166,15 @@ class MenusSeeder extends Seeder
                 'description' => '老师显示的任务列表',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+            ],[
+                'id' => 18,
+                'name' => '角色管理',
+                'parent_id' => 5,
+                'icon' => '',
+                'url' => 'role_manager',
+                'description' => '角色管理',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
         ]);
     }
