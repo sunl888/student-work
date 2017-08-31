@@ -143,8 +143,3 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
 
     });
 });
-
-//一分钟限制100次请求
-$api->get('test', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' => 1, function () {
-    return 'hello world';
-}]);

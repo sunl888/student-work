@@ -23,14 +23,10 @@ class MenuRepository extends Repository
     public function getMenus($user)
     {
         // todo 这里如果用户属于多个角色就会出现权限错乱的问题(这是由于角色的权限写死的原因。。)
-        $roles = Cache::rememberForever('roles', function () use ($user) {
-            return $user->roles()->get();
-        });
+        $roles = $user->roles()->get();
         $menus = new Collection();
         foreach ($roles as $role) {
-            $menu = Cache::rememberForever('menu', function () use ($role) {
-                return $role->menus()->get();
-            });
+            $menu = $role->menus()->get();
             $menus = $menus->merge($menu->toArray());
         }
         $menus = $menus->toArray();
