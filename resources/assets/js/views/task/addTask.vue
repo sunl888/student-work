@@ -110,9 +110,7 @@
         this.isEdit = true
         this.$http.get('task/' + this.$route.params.id).then(res => {
           res.data.data.end_time = new Date(res.data.data.end_time);
-
           this.ruleForm = res.data.data
-            console.log(this.ruleForm)
           this.$diff.save(this.ruleForm);
         })
       }else{

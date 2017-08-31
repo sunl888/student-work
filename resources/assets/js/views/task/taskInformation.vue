@@ -17,7 +17,7 @@
                 </div>
                 <!--操作按钮-->
                 <div class="seal">
-                    <span>已完成</span>
+                    <span v-if="item.assess">已完成</span>
                     <el-button :disabled="!item.assess" @click="isScores = true" type="info">查看评分结果</el-button>
                     <el-dialog title="评分结果" :visible.sync="isScores" class="scoreBox el-col-16 el-col-offset-4">
                         <el-form :label-width="formLabelWidth2" label-position="right">

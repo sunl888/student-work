@@ -59,7 +59,7 @@
                                 min-width="150">
                                 <template class="operaBtn">
                                     <el-button-group>
-                                        <el-button size="small" type="danger" :disabled="row.status === '已完成'" @click="reminders(row.college_id)" title="催交">催交</el-button>
+                                        <el-button size="small" type="danger" :disabled="isRemind " @click="reminders(row)" title="催交">催交</el-button>
                                         <el-button size="small" type="info" :disabled="row.status === '未完成' || row.assess!==null" @click="goScore(row.college_id)" title="评分">评分</el-button>
                                         <el-button size="small" type="success" :disabled="!row.assess" @click="browse(row.college_id)" title="评分">查看</el-button>
                                     </el-button-group>
@@ -81,7 +81,9 @@
                 //各学院任务进度
                 taskPro: [],
                 //催交记录
-                remind: []
+                remind: [],
+                //催交按钮是否可用
+                isRemind: false
             }
         },
         methods: {
@@ -100,7 +102,7 @@
             // 催交
             reminders (x) {
                 //获取任务的催交情况
-                this.$http.get('reminds/' + this.$route.params.id + '/' + x).then(res => {
+                this.$http.get('reminds/' + this.$route.params.id + '/' + x.college_id).then(res => {
                     this.remind = res.data.length + 1
                     if (res.data !== null) {
                         var boxMessage = '这是您第' + this.remind + '次催交此任务，确认后将无法撤销此操作，是否继续?'
@@ -112,6 +114,12 @@
                     }).then(() => {
                         this.$http.post('remind/' + this.$route.params.id + '/' + x).then(res => {
                             this.$message.success('催交成功！')
+                            if(x.status === '未完成'){
+                                this.isRemind = true
+                            }
+                            window.setTimeout(() => {
+                                this.isRemind = false
+                            },300000)
                         })
                     }).catch(() => {
                         this.$message.info('取消催交')

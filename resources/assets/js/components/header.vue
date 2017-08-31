@@ -63,7 +63,6 @@
         getMe () {
             this.$http.get('me').then(res => {
                 this.me = res.data.data
-                console.log(this.me)
             })
         },
       //设为已读
@@ -84,7 +83,6 @@
                 this.unread = null
                 this.isTips = true
             } else {
-                console.log(res)
                 this.isTips = false
                 this.unread = res.data.data.length
                 this.unreadData = res.data.data

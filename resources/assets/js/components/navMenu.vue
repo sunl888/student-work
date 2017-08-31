@@ -15,7 +15,6 @@
         <div v-for="value in values.child">
           <el-menu-item :index=value.name :route="{name: value.url}">{{value.name}}</el-menu-item>
         </div>
-        <!--<el-menu-item index="1" :route="{name: 'user_roles'}">用户管理</el-menu-item>-->
       </el-submenu>
     </el-menu>
   </div>
