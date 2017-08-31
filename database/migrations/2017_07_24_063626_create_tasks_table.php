@@ -17,7 +17,7 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $blueprint) {
             $blueprint->increments('id');
             $blueprint->string('title', 50)->comment('任务标题');
-            $blueprint->string('detail')->nullable()->comment('任务详情');
+            $blueprint->text('detail')->nullable()->comment('任务详情');
             $blueprint->integer('work_type_id')->comment('工作类型');
             $blueprint->integer('department_id')->comment('对口科室');
             $blueprint->timestamps();

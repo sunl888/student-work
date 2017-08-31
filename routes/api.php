@@ -31,6 +31,10 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->post('upload', 'UsersController@uploadFile');
     // 根据学院id获取该学院下的所有用户 默认根据当前登陆用户所在学院
     $api->get('users', 'UsersController@usersWithCollege');
+    // 任务详情
+    $api->get('task_detail/{task}', 'TaskController@getTaskDetail');
+    // 显示某个任务
+    $api->get('task/{task_id}', 'TaskController@task');
 
     //学院
     $api->group(['middleware' => ['role:college']], function ($api) {
@@ -43,15 +47,13 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         // 学院显示的任务列表
         $api->get('lists/{college?}', 'TaskController@getTasksByCollege');
     });
-    // 任务详情
-    $api->get('task_detail/{task}', 'TaskController@getTaskDetail');
+
     //老师
     $api->group(['middleware' => ['role:teacher']], function ($api) {
         // 学院显示的任务列表
         $api->get('tasks_of_teacher', 'TaskController@getTasksByTeacher');
     });
-    // 显示某个任务
-    $api->get('task/{task_id}', 'TaskController@task');
+
     //管理员
     $api->group(['middleware' => ['role:super_admin']], function ($api) {
         // 创建任务
@@ -78,7 +80,6 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->get('trashed_tasks', 'TaskController@deleteds');
         // 任务列表
         $api->get('tasks', 'TaskController@tasks');
-
         // 显示某个任务的进程情况
         $api->get('task_progress/{task_id}', 'TaskProgressController@show');
         // 获取工作类型
@@ -140,6 +141,5 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->get('all_users', 'UsersController@lists');
         // 获取用户角色
         $api->get('user/{user}/roles', 'UsersController@roles');
-
     });
 });
