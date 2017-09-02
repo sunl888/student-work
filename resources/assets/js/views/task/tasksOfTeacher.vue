@@ -6,14 +6,15 @@
                     <currency-list-page ref="list" queryName="tasks_of_teacher">
                         <template scope="list">
                             <el-table
-                                    :default-sort = "{prop: 'date', order: 'descending'}"
+                                    :default-sort="{prop: 'created_at', order: 'descending'}"
                                     :data="list.data"
                                     stripe
+                                    filters
                                     border
                                     style="width: 100%">
                                 <el-table-column
-                                        inline-template
                                         sortable
+                                        inline-template
                                         label="发布日期"
                                         width="120">
                                     <span>{{row.created_at | dataFilter}}</span>
@@ -43,6 +44,7 @@
                                         sortable
                                         label="状态"
                                         width="100"
+                                        slot="empty"
                                 >
                                     <span>{{row.status === null ? '未完成' : '已完成' }}</span>
                                 </el-table-column>
@@ -88,11 +90,11 @@
             }
         },
         filters: {
-          dataFilter (val, row) {
-              let stringA = new Array()
-              stringA = (val || '').split(' ')
-              return stringA[0]
-          }
+            dataFilter (val) {
+                let stringA = new Array()
+                stringA = (val || '').split(' ')
+                return stringA[0]
+            }
         },
         methods: {
             //查看任务

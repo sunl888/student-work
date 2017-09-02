@@ -6,7 +6,7 @@
          <currency-list-page ref="list" queryName="tasks">
            <template scope="list">
              <el-table
-               :default-sort = "{prop: 'date', order: 'descending'}"
+               :default-sort = "{prop: 'created_at', order: 'descending'}"
                :data="list.data"
                stripe
                border
