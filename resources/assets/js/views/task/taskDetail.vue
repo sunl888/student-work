@@ -86,8 +86,6 @@
                 isAllot: false,
                 //是否显示评分结果
                 isScores: false,
-                //催交情况
-                remind: 0,
                 //当前选中一级菜单
                 currOption: [],
                 //当前选中责任人ID
@@ -248,7 +246,7 @@
         color:#FF4949;
         text-align:center;
         font-size:12px;
-        padding:10px 0;
+        padding-bottom:10px;
     }
     .appoint{
         /*margin-top:50px;*/

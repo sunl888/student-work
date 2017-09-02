@@ -3,7 +3,7 @@
         <div class="item_add">
             <div class="left el-col-13 el-col-offset-1">
                 <!--表单-->
-                <el-form v-if="router.name === ''" :rules="rules" label-width="150px" class="demo-ruleForm">
+                <el-form v-if="isEdit" :rules="rules" label-width="150px" class="demo-ruleForm">
                     <!--用户角色-->
                     <el-form-item label="角色名（后台）" prop="name">
                         <el-input v-model="role.name"></el-input>
@@ -19,7 +19,7 @@
                     <!--权限选择-->
                      <el-form-item label="权限选择">
                          <template>
-                             <el-checkbox-group v-model="rolePer">
+                             <el-checkbox-group v-model="rolePer_id">
                                  <el-checkbox v-for="value in permissions" :label="value.id" :key="value.id">{{value.display_name}}</el-checkbox>
                              </el-checkbox-group>
                          </template>
@@ -27,6 +27,29 @@
                     <!--按钮组-->
                     <el-form-item class="btnGroup">
                         <el-button type="primary" @click="editRole()">立即修改</el-button>
+                    </el-form-item>
+                </el-form>
+
+                <el-form v-else :rules="rules" label-width="150px" class="demo-ruleForm">
+                    <!--用户角色-->
+                    <el-form-item label="角色名（后台）" prop="name">
+                        <span>{{role.name}}</span>
+                    </el-form-item>
+                    <!--用户角色-->
+                    <el-form-item label="角色名（显示）">
+                        <p>{{role.display_name}}</p>
+                    </el-form-item>
+                    <!--用户角色-->
+                    <el-form-item label="角色描述">
+                        <p>{{role.description}}</p>
+                    </el-form-item>
+                    <!--权限选择-->
+                    <el-form-item label="角色所有权限">
+                        <label style="margin-right:20px" v-for="value in rolePer">{{value.display_name}}</label>
+                    </el-form-item>
+                    <!--按钮组-->
+                    <el-form-item class="btnGroup">
+                        <el-button type="primary" @click="goEdit()">去修改</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -49,31 +72,45 @@
                     display_name: '',
                     description: ''
                 },
+                isEdit: false,
                 rules: {
-                    name: [
-                        { type: 'string', required: true, message: '请填写角色名', trigger: 'blur'}
-                    ]
                 }
             }
+        },
+        watch: {
+            '$route': 'isBrowser'
         },
         mounted () {
             this.getRole()
             this.getRolePer()
             this.getPermissions()
             // 修改任务
-            if(this.$route.name === 'edit_user'){
+            if(this.$route.name === 'edit_roles'){
                 this.isEdit = true
-                this.isPass = false
-                this.$http.get('user/' + this.$route.params.id).then(res => {
-                    this.ruleForm = res.data.data
-                    this.$diff.save(this.ruleForm)
-                })
-            }else if(this.$route.name === 'add_user'){
+                this.rules = {
+                    name: [
+                        { type: 'string', required: true, message: '请填写角色名', trigger: 'blur'}
+                    ]
+                }
+            }else if(this.$route.name === 'browser_roles'){
                 this.isEdit = false
-                this.isPass = true
             }
         },
         methods: {
+            //判断当前页面
+            isBrowser(){
+                if(this.$route.name === 'edit_roles'){
+                    this.isEdit = true
+                    this.rules = {
+                        name: [
+                            { type: 'string', required: true, message: '请填写角色名', trigger: 'blur'}
+                        ]
+                    }
+                }else if(this.$route.name === 'browser_roles'){
+                    this.isEdit = false
+                    this.rules = null
+                }
+            },
             //获取角色信息
             getRole () {
                 this.$http.get('role/' + this.$route.params.id).then(res => {
@@ -83,10 +120,14 @@
             //获取角色所有权限
             getRolePer () {
                 this.$http.get('role/' + this.$route.params.id + '/permissions').then(res => {
+                    this.rolePer = res.data.data
                     for(let x in res.data.data){
-                        this.rolePer[x] = res.data.data[x].id
+                        this.rolePer_id[x] = res.data.data[x].id
                     }
                 })
+            },
+            goEdit(){
+                this.$router.push({name: 'edit_roles'})
             },
             //修改角色
             editRole () {
@@ -104,9 +145,6 @@
                 this.$http.get('permissions/all').then(res => {
                     this.permissions = res.data.data
                 })
-            },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
             }
         }
     }

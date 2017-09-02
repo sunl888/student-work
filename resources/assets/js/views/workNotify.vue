@@ -52,7 +52,6 @@
             getMe () {
                 this.$http.get('me').then(res => {
                     this.me = res.data.data
-                    console.log(this.me)
                 })
             },
             getNotify (page=1,sort) {

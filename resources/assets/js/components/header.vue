@@ -85,7 +85,7 @@
             } else {
                 this.isTips = false
                 this.unread = res.data.data.length
-                this.unreadData = res.data.data
+                this.unreadData = res.data.data.reverse().splice(0,3)
             }
         })
       },

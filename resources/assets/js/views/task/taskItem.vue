@@ -18,7 +18,7 @@
                         <el-table
                                 border
                                 stripe
-                                height="300"
+                                height="500"
                                 :data="taskPro"
                                 style="width: 100%">
                             <el-table-column
@@ -59,8 +59,8 @@
                                 min-width="150">
                                 <template class="operaBtn">
                                     <el-button-group>
-                                        <el-button size="small" type="danger" :disabled="isRemind " @click="reminders(row)" title="催交">催交</el-button>
-                                        <el-button size="small" type="info" :disabled="row.status === '未完成' || row.assess!==null" @click="goScore(row.college_id)" title="评分">评分</el-button>
+                                        <el-button size="small" type="danger" :disabled="row.status !== '未完成'" @click="reminders(row)" title="催交">催交</el-button>
+                                        <el-button size="small" type="info" :disabled="row.status !== '已完成' || row.assess!==null" @click="goScore(row.college_id)" title="评分">评分</el-button>
                                         <el-button size="small" type="success" :disabled="!row.assess" @click="browse(row.college_id)" title="评分">查看</el-button>
                                     </el-button-group>
                                 </template>
@@ -83,7 +83,7 @@
                 //催交记录
                 remind: [],
                 //催交按钮是否可用
-                isRemind: false
+                isRemind: []
             }
         },
         methods: {
@@ -112,15 +112,13 @@
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
-                        this.$http.post('remind/' + this.$route.params.id + '/' + x).then(res => {
+                        this.$http.post('remind/' + this.$route.params.id + '/' + x.college_id).then(res => {
                             this.$message.success('催交成功！')
-                            if(x.status === '未完成'){
-                                this.isRemind = true
-                            }
-                            window.setTimeout(() => {
-                                this.isRemind = false
-                            },300000)
-                        })
+                        }),
+                        x.status = '催交成功！请稍后...',
+                        window.setTimeout(() => {
+                            x.status =  '未完成'
+                        },10000)
                     }).catch(() => {
                         this.$message.info('取消催交')
                     })

@@ -1,7 +1,7 @@
 <template>
     <div class="taskManage item">
         <el-tabs v-model="activeName" @tab-click="request" >
-            <el-tab-pane label="任务列表" name="list">
+            <el-tab-pane label="角色列表" name="list">
                 <div class="table">
                     <currency-list-page ref="list" queryName="roles">
                         <template scope="list">
@@ -34,7 +34,7 @@
                                     <template>
                                         <el-button-group>
                                             <el-button type="primary" size="small" @click="browseRoles(row.id)">查看</el-button>
-                                            <el-button type="success" size="small" @click="browseRoles(row.id)">修改</el-button>
+                                            <el-button type="success" size="small" @click="editRoles(row.id)">修改</el-button>
                                             <el-button type="danger" size="small" @click="browseRoles(row.id)">删除</el-button>
                                         </el-button-group>
                                     </template>
@@ -69,7 +69,10 @@
                 this.$refs[tab.name].refresh();
             },
             browseRoles (id) {
-                this.$router.push({name: 'roles_item', params: {id: id}})
+                this.$router.push({name: 'browser_roles', params: {id: id}})
+            },
+            editRoles (id) {
+                this.$router.push({name: 'edit_roles', params: {id: id}})
             }
         }
     }

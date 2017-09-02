@@ -118,11 +118,17 @@ export default new Router({
               component: require('../views/user/roles.vue')
         },
         {
-              path: 'roles_item/:id',
-              name: 'roles_item',
+              path: 'browser_roles/:id',
+              name: 'browser_roles',
               meta: {title: '修改角色'},
               component: require('../views/user/roleItem.vue')
         },
+        {
+              path: 'edit_roles/:id',
+              name: 'edit_roles',
+              meta: {title: '修改角色'},
+              component: require('../views/user/roleItem.vue')
+            },
         {
             path: 'edit_user/:id',
             name: 'edit_user',
