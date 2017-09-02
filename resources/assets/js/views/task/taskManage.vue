@@ -225,7 +225,7 @@ export default{
     },
     // 恢复任务
     restoreTask (id) {
-      this.$confirm('该操T作将恢复该任务。, 是否继续?', '提示', {
+      this.$confirm('该操作将恢复该任务。, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
