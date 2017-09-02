@@ -35,7 +35,7 @@
                                         <el-button-group>
                                             <el-button type="primary" size="small" @click="browseRoles(row.id)">查看</el-button>
                                             <el-button type="success" size="small" @click="editRoles(row.id)">修改</el-button>
-                                            <el-button type="danger" size="small" @click="browseRoles(row.id)">删除</el-button>
+                                            <el-button type="danger" size="small" @click="deleteRoles(row.id)">删除</el-button>
                                         </el-button-group>
                                     </template>
                                 </el-table-column>
@@ -73,6 +73,13 @@
             },
             editRoles (id) {
                 this.$router.push({name: 'edit_roles', params: {id: id}})
+            },
+            deleteRoles (id) {
+                this.$http.get('delete_role/' + id).then(res => {
+                    this.$message.success('成功删除角色！')
+                }).catch(res => {
+                    this.$message.error(res)
+                })
             }
         }
     }

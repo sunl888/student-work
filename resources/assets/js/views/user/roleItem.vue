@@ -30,26 +30,26 @@
                     </el-form-item>
                 </el-form>
 
-                <el-form v-else :rules="rules" label-width="150px" class="demo-ruleForm">
+                <el-form v-else :rules="rules" label-width="150px" class="demo-ruleForm el-col-20">
                     <!--用户角色-->
                     <el-form-item label="角色名（后台）" prop="name">
-                        <span>{{role.name}}</span>
+                        <p style="text-align:left;padding-left:20px">{{role.name}}</p>
                     </el-form-item>
                     <!--用户角色-->
                     <el-form-item label="角色名（显示）">
-                        <p>{{role.display_name}}</p>
+                        <p style="text-align:left;padding-left:20px">{{role.display_name}}</p>
                     </el-form-item>
                     <!--用户角色-->
                     <el-form-item label="角色描述">
-                        <p>{{role.description}}</p>
+                        <p style="text-align:left;padding-left:20px">{{role.description}}</p>
                     </el-form-item>
                     <!--权限选择-->
                     <el-form-item label="角色所有权限">
-                        <label style="margin-right:20px" v-for="value in rolePer">{{value.display_name}}</label>
+                        <el-tag  style="text-align:left;margin-right:20px;" :type=color[index] v-for="(value, index) in rolePer" :key="value.id">{{value.display_name}}</el-tag>
                     </el-form-item>
                     <!--按钮组-->
                     <el-form-item class="btnGroup">
-                        <el-button type="primary" @click="goEdit()">去修改</el-button>
+                        <el-button @click="goEdit()" type="primary">去修改</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -72,6 +72,8 @@
                     display_name: '',
                     description: ''
                 },
+                //标签颜色
+                color: [],
                 isEdit: false,
                 rules: {
                 }
@@ -84,6 +86,7 @@
             this.getRole()
             this.getRolePer()
             this.getPermissions()
+            this.isColor()
             // 修改任务
             if(this.$route.name === 'edit_roles'){
                 this.isEdit = true
@@ -97,6 +100,14 @@
             }
         },
         methods: {
+            //随机生成颜色
+            isColor () {
+                var color = [
+                        'success','warning', 'primary', 'danger', 'gray', 'success','warning', 'primary', 'danger', 'gray']
+                for(var i = 0; i < color.length; i++){
+                    this.color[i] = color[Math.floor(Math.random()*10)]
+                }
+            },
             //判断当前页面
             isBrowser(){
                 if(this.$route.name === 'edit_roles'){

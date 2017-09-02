@@ -120,7 +120,7 @@ export default new Router({
         {
               path: 'browser_roles/:id',
               name: 'browser_roles',
-              meta: {title: '修改角色'},
+              meta: {title: '查看角色'},
               component: require('../views/user/roleItem.vue')
         },
         {
