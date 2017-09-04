@@ -4,7 +4,7 @@
             <ul class="tag-left">
                 <li class="notifyBox el-col-22 el-col-push-1" v-for="value in notify">
                     您有一个新任务:&emsp;
-                    <router-link v-if="me.role_id == 3" :to="{name: 'task_item', params: {id: value.data.task_id}}">
+                    <router-link v-if="me.role_id == 1" :to="{name: 'task_item', params: {id: value.data.task_id}}">
                         {{value.data.title}}
                     </router-link>
                     <router-link v-else-if="me.role_id == 2" :to="{name: 'task_detail', params: {id: value.data.task_id}}">
