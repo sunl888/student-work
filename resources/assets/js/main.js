@@ -6,7 +6,7 @@ import router from './router'
 import axios from 'axios'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-
+import store from './vuex/store';
 Vue.prototype.$http = axios.create({
     baseURL: '/api/',
     timeout: 5000,
@@ -48,6 +48,24 @@ Vue.prototype.$http.interceptors.response.use((response) => {
 //     return tempStr[0]
 // })
 
+function getMenu(next) {
+    if(store.state.menus === null){
+        Vue.prototype.$http.get('menus').then(res => {
+            store.commit('UPDATE_MENUS', res.data);
+            if(next) {
+                next({ name: store.state.menus[0].child[0].url });
+            }
+        });
+    }
+}
+router.beforeEach((to, from, next) => {
+    if (to.name === 'home') {
+        getMenu(next);
+    } else {
+        getMenu();
+        next();
+    }
+})
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 
@@ -56,6 +74,7 @@ Vue.prototype.$diff = require('./utils/diff');
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
   template: '<App/>',
   components: { App }

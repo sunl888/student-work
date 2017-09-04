@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 Vue.use(Router)
 const parentComponent = {template: '<router-view></router-view>'}
 export default new Router({
@@ -10,26 +9,19 @@ export default new Router({
       redirect: {name: 'home'}
     },
     {
-      path: '/home:addr?',
+      path: '/home',
       name: 'home',
       meta: {title: '首页'},
       component: require('../views/Home.vue'),
-        redirect: to => {
-          const {params} = to
-          if(params.addr){
-              return '/:params.addr'
-          }
-        },
       children: [
         {
           path: 'task_manage',
-          name: 'task_manage',
           meta: {title: '任务管理'},
           component: parentComponent,
           children: [
             {
               path: '',
-              name: 'taskManage',
+              name: 'task_manage',
               component: require('../views/task/taskManage.vue')
             },
             {
@@ -174,3 +166,4 @@ export default new Router({
     }
   ]
 })
+

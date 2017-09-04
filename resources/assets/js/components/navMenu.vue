@@ -20,27 +20,25 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default{
     data () {
       return {
-          me: '',
-          menus: []
+          me: ''
       }
     },
+    computed: mapState({
+        // 箭头函数可使代码更简练
+        menus: state => state.menus
+    }),
     mounted () {
       this.getMe()
-      this.getMenu()
     },
     methods: {
         getMe () {
           this.$http.get('me').then(res => {
               this.me = res.data.data
 
-          })
-        },
-        getMenu () {
-          this.$http.get('menus').then(res => {
-              this.menus = res.data
           })
         }
     }
