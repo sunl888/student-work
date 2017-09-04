@@ -63,6 +63,7 @@
                 //所有权限
                 permissions: [],
                 //当前角色所有的权限
+                rolePer: [],
                 rolePer_id: [],
                 //当前角色信息
                 role: {
@@ -100,7 +101,8 @@
         methods: {
             //随机生成颜色
             isColor () {
-                var color = ['success','warning', 'primary', 'danger', 'gray', 'success','warning', 'primary', 'danger', 'gray']
+                var color = [
+                        'success','warning', 'primary', 'danger', 'gray', 'success','warning', 'primary', 'danger', 'gray']
                 for(var i = 0; i < color.length; i++){
                     this.color[i] = color[Math.floor(Math.random()*10)]
                 }
@@ -128,10 +130,12 @@
             //获取角色所有权限
             getRolePer () {
                 this.$http.get('role/' + this.$route.params.id + '/permissions').then(res => {
+                    this.rolePer = res.data.data
                     for(let x in res.data.data){
-                        this.rolePer_id = res.data.data.map(item => {
-                            return item.id;
-                        })
+//                        this.rolePer_id = res.data.data.map(item => {
+//                            return item.id;
+//                        })
+                        this.rolePer_id[x] = res.data.data[x].id
                     }
                 })
             },
