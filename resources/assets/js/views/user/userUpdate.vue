@@ -9,7 +9,7 @@
                         <el-input disabled v-model="me.role_dispname"></el-input>
                     </el-form-item>
                     <!--所属学院-->
-                    <el-form-item label="所属学院" prop="college_id">
+                    <el-form-item v-if="me.college_name === null" label="所属学院" prop="college_id">
                         <el-input disabled v-model="me.college_name"></el-input>
                     </el-form-item>
                     <!--用户名-->
