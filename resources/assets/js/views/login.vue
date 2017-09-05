@@ -22,6 +22,7 @@
   </div>
 </template>
 <script>
+  import { mapState } from 'vuex'
   export default {
       data() {
           return {
@@ -31,9 +32,6 @@
               isLoading: false
           }
       },
-      mounted() {
-          menu: ''
-      },
       methods: {
           login() {
               this.isLoading = true
@@ -42,16 +40,13 @@
                   password: this.userPsw
               }).then(res => {
                   this.isLoading = false
-                  this.$http.get('menus').then(res => {
-                      this.menu = res.data[0].child[0].url
-                      this.$router.push('/home/' + this.menu)
-                  })
+                  this.$router.push({name: 'home'})
               }).catch(res => {
                   this.isLoading = false
                   this.$message({
                       showClose: true,
                       type: 'error',
-                      message: data
+                      message: res
                   })
               })
           }

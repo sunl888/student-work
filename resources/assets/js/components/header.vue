@@ -39,10 +39,10 @@
         </el-badge>
       </div>
     </el-col>
-
   </div>
 </template>
 <script>
+  import { mapState } from 'vuex'
   export default {
     data () {
       return {
