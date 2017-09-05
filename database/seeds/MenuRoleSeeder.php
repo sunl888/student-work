@@ -33,6 +33,12 @@ class MenuRoleSeeder extends Seeder
             ], [//用户管理
                 'menu_id' => 5,
                 'role_id' => 1,
+            ],[//用户管理
+                'menu_id' => 5,
+                'role_id' => 2,
+            ],[//用户管理
+                'menu_id' => 5,
+                'role_id' => 3,
             ], [//用户列表
                 'menu_id' => 6,
                 'role_id' => 1,
