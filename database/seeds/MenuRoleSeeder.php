@@ -39,6 +39,15 @@ class MenuRoleSeeder extends Seeder
             ], [//添加用户
                 'menu_id' => 7,
                 'role_id' => 1,
+            ],[//修改用户信息
+                'menu_id' => 19,
+                'role_id' => 1,
+            ],[
+                'menu_id' => 19,
+                'role_id' => 2,
+            ],[
+                'menu_id' => 19,
+                'role_id' => 3,
             ], [//工作通知
                 'menu_id' => 8,
                 'role_id' => 1,

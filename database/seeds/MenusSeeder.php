@@ -193,6 +193,16 @@ class MenusSeeder extends Seeder
                 'is_nav' => false,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+            ], [
+                'id' => 19,
+                'name' => '用户信息修改',
+                'parent_id' => 5,
+                'icon' => '',
+                'url' => 'user_update',
+                'description' => '用户信息修改',
+                'is_nav' => true,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
         ]);
     }
