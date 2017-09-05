@@ -14,10 +14,9 @@
                                     style="width: 100%">
                                 <el-table-column
                                         sortable
-                                        inline-template
+                                        prop="created_at"
                                         label="发布日期"
                                         width="120">
-                                    <span>{{row.created_at | dataFilter}}</span>
                                 </el-table-column>
                                 <el-table-column
                                         prop="task.title"
@@ -40,29 +39,25 @@
                                 >
                                 </el-table-column>
                                 <el-table-column
-                                        inline-template
-                                        sortable
+                                        prop="status"
                                         label="状态"
                                         width="100"
                                         slot="empty"
                                 >
-                                    <span>{{row.status === null ? '未完成' : '已完成' }}</span>
                                 </el-table-column>
                                 <el-table-column
                                         label="截止时间"
                                         width="120"
+                                        prop="task.end_time"
                                         sortable
-                                        inline-template
                                 >
-                                    <span>{{row.task.end_time | dataFilter}}</span>
                                 </el-table-column>
                                 <el-table-column
                                         label="任务评分"
                                         width="120"
                                         sortable
-                                        inline-template
+                                        prop="assess"
                                 >
-                                    <span>{{ !row.assess ? '尚未评分' : row.assess}}</span>
                                 </el-table-column>
                                 <el-table-column
                                         label="操作"
@@ -87,13 +82,6 @@
         data () {
             return {
                 activeName: 'list'
-            }
-        },
-        filters: {
-            dataFilter (val) {
-                let stringA = new Array()
-                stringA = (val || '').split(' ')
-                return stringA[0]
             }
         },
         methods: {

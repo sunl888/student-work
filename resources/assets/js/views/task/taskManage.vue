@@ -39,7 +39,6 @@
                </el-table-column>
                <el-table-column
                  inline-template
-                 sortable
                  label="状态"
                  width="100"
                >

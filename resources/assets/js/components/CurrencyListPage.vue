@@ -87,6 +87,11 @@
                   this.getList(this.currentPage);
               })
             },
+            dataFilter (val) {
+                let stringA = new Array()
+                stringA = (val || '').split(' ')
+                return stringA[0]
+            },
             getList (page = 1, sort) {
                 if(this.queryName){
                     this.loading = true;
@@ -99,6 +104,11 @@
                         this.loading = false;
                         if(this.queryName === 'tasks_of_teacher') {
                             this.list = res.data;
+                            for(let x in this.list){
+                                this.list[x].created_at = this.dataFilter(this.list[x].created_at)
+                                this.list[x].task.end_time = this.dataFilter(this.list[x].task.end_time)
+                                if(this.list[x].assess === null)this.list[x].assess = '尚未评分'
+                            }
                         } else {
                             this.list = res.data.data;
                         }

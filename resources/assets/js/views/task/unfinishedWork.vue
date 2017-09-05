@@ -49,13 +49,11 @@
                         width="100"
                         label="责任人"
                         inline-template
-                        sortable
                 >
                   <span>{{row.user ? row.user : '尚未指定'}}</span>
                 </el-table-column>
                 <el-table-column
                         inline-template
-                        sortable
                         label="状态"
                         width="100"
                 >
@@ -64,7 +62,6 @@
                 <el-table-column
                         label="任务评分"
                         width="100"
-                        sortable
                         inline-template
                 >
                   <span>{{ !row.assess ? '尚未评分' : row.assess}}</span>

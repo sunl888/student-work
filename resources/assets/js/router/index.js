@@ -124,9 +124,15 @@ export default new Router({
         {
             path: 'edit_user/:id',
             name: 'edit_user',
-            meta: {title: '修改任务'},
+            meta: {title: '修改用户信息'},
             component: require('../views/user/addUser.vue')
         },
+          {
+              path: 'user_update',
+              name: 'user_update',
+              meta: {title: '修改个人信息'},
+              component: require('../views/user/userUpdate.vue')
+          },
         {
             path: 'notify',
             name: 'notify',
