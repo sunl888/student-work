@@ -9,7 +9,6 @@
 namespace App\Repositories;
 
 use App\models\Menu;
-use Cache;
 use Illuminate\Support\Collection;
 
 class MenuRepository extends Repository
@@ -26,7 +25,7 @@ class MenuRepository extends Repository
         $roles = $user->roles()->get();
         $menus = new Collection();
         foreach ($roles as $role) {
-            $menu = $role->menus()->get();
+            $menu = $role->menus()->withNav()->get();
             $menus = $menus->merge($menu->toArray());
         }
         $menus = $menus->toArray();

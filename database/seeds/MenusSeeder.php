@@ -20,6 +20,7 @@ class MenusSeeder extends Seeder
                 'icon' => 'dashboard',
                 'url' => '',
                 'description' => '任务管理',
+                'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -29,6 +30,7 @@ class MenusSeeder extends Seeder
                 'icon' => '',
                 'url' => 'task_manage',
                 'description' => '任务管理',
+                'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -38,6 +40,7 @@ class MenusSeeder extends Seeder
                 'icon' => '',
                 'url' => 'add_task',
                 'description' => '添加任务',
+                'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -47,6 +50,7 @@ class MenusSeeder extends Seeder
                 'icon' => '',
                 'url' => 'task_collect',
                 'description' => '任务考核汇总',
+                'is_nav' => false,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -56,6 +60,7 @@ class MenusSeeder extends Seeder
                 'icon' => 'account_box',
                 'url' => '',
                 'description' => '用户管理',
+                'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -65,6 +70,7 @@ class MenusSeeder extends Seeder
                 'icon' => '',
                 'url' => 'user_lists',
                 'description' => '用户列表',
+                'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -74,6 +80,7 @@ class MenusSeeder extends Seeder
                 'icon' => '',
                 'url' => 'add_user',
                 'description' => '添加用户',
+                'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -83,6 +90,7 @@ class MenusSeeder extends Seeder
                 'icon' => 'message',
                 'url' => '',
                 'description' => '工作通知',
+                'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -92,6 +100,7 @@ class MenusSeeder extends Seeder
                 'icon' => '',
                 'url' => 'notify',
                 'description' => '通知公告',
+                'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -101,6 +110,7 @@ class MenusSeeder extends Seeder
                 'icon' => '',
                 'url' => 'notify',
                 'description' => '工作讨论',
+                'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -110,6 +120,7 @@ class MenusSeeder extends Seeder
                 'icon' => 'multiline_chart',
                 'url' => '',
                 'description' => '预置数据',
+                'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -119,6 +130,7 @@ class MenusSeeder extends Seeder
                 'icon' => '',
                 'url' => 'colleges',
                 'description' => '学院名称设置',
+                'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -128,6 +140,7 @@ class MenusSeeder extends Seeder
                 'icon' => '',
                 'url' => 'work_type',
                 'description' => '工作类型设置',
+                'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -137,6 +150,7 @@ class MenusSeeder extends Seeder
                 'icon' => '',
                 'url' => 'department',
                 'description' => '对口科室设置',
+                'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -146,6 +160,7 @@ class MenusSeeder extends Seeder
                 'icon' => '',
                 'url' => 'access',
                 'description' => '考核等级设置',
+                'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -155,6 +170,7 @@ class MenusSeeder extends Seeder
                 'icon' => '',
                 'url' => 'tasks_of_college',
                 'description' => '学院显示的任务列表',
+                'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -164,15 +180,17 @@ class MenusSeeder extends Seeder
                 'icon' => '',
                 'url' => 'tasks_of_teacher',
                 'description' => '老师显示的任务列表',
+                'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ],[
+            ], [
                 'id' => 18,
                 'name' => '角色管理',
                 'parent_id' => 5,
                 'icon' => '',
                 'url' => 'role_manager',
                 'description' => '角色管理',
+                'is_nav' => false,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

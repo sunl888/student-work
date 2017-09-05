@@ -21,4 +21,9 @@ class Menu extends BaseModel
     {
         Cache::forget('menus');
     }
+
+    public function scopeWithNav($query)
+    {
+        return $query->where('is_nav', true);
+    }
 }
