@@ -60,7 +60,7 @@
                         page
                     }
                 }).then(res => {
-                    this.notify = res.data.data
+                    this.notify = res.data.data.reverse()
                     this.total = res.data.meta.pagination.total
                 })
 
