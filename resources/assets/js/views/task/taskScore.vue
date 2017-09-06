@@ -68,7 +68,7 @@
                                 <a v-if="remindCount>0" class="expendRecord" @click="isExpend=!isExpend">{{ isExpend ? '收起' + this.remindCount + '条记录' : '展开剩余' + this.remindCount + '条记录'}}</a>
                             </div>
                         </el-form-item>
-                        <el-form-item prop="access_id"  label="考核打分">git
+                        <el-form-item prop="access_id"  label="考核打分">
                             <el-tag type="success">{{taskPro.assess}}</el-tag>
                         </el-form-item>
                         <el-form-item label='备注'>
