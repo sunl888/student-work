@@ -111,6 +111,9 @@
                             }
                         } else {
                             this.list = res.data.data;
+                            for(let x in this.list){
+                                this.list[x].created_at = this.dataFilter(this.list[x].created_at)
+                            }
                         }
                         this.total = res.data.meta.pagination.total;
                         // this.perPage = res.data.meta.pagination.per_page

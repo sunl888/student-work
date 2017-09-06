@@ -11,7 +11,7 @@
         placeholder="请输入内容"
         @select="handleSelect"
       ></el-autocomplete>
-      <el-button @click="logout()" class="btn el-col-2 el-col-push-3">退出登录</el-button>
+      <el-button @click="logout()" class="btn el-col-2 el-col-push-3">切换账号</el-button>
     </div>
     <el-col class="local">
       <el-breadcrumb separator="/">
@@ -57,7 +57,7 @@
       }
     },
     watch: {
-//        '$route': 'goItem'
+        '$route': 'updateBreadcrumbs'
     },
     methods: {
         getMe () {

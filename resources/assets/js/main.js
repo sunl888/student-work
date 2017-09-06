@@ -49,7 +49,6 @@ Vue.prototype.$http.interceptors.response.use((response) => {
 // })
 
 function getMenu(next) {
-    store.state.menus = null
     if(store.state.menus === null) {
         Vue.prototype.$http.get('menus').then(res => {
             store.commit('UPDATE_MENUS', res.data);
@@ -57,12 +56,17 @@ function getMenu(next) {
                 next({name: store.state.menus[0].child[0].url});
             }
         });
+    } else {
+        if (next) {
+            next({name: store.state.menus[0].child[0].url});
+        }
     }
 }
 router.beforeEach((to, from, next) => {
     if (to.name === 'home') {
         getMenu(next);
     } else if(to.name === 'login'){
+        store.state.menus = null;
         next();
     } else {
         getMenu();

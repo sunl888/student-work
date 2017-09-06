@@ -111,7 +111,7 @@
                 this.$http.get('reminds/' + this.$route.params.id + '/' + x.college_id).then(res => {
                     this.remind = res.data.length + 1
                     if (res.data !== null) {
-                        var boxMessage = '这是您第' + this.remind + '次催交此任务，确认后将无法撤销此操作，是否继续?'
+                        var boxMessage = '这是您第' + this.remind + '次催交此任务，确认操作后无法撤销，是否继续?'
                     }
                     this.$confirm(boxMessage, '提示', {
                         confirmButtonText: '确定',
@@ -119,7 +119,7 @@
                         type: 'warning'
                     }).then(() => {
                         this.$http.post('remind/' + this.$route.params.id + '/' + x.college_id).then(res => {
-                            this.$message.success('催交成功！')
+                            this.$message.success('催交成功！十秒后可再次催交')
                         }),
                         x.status = '催交成功！请稍后...',
                         window.setTimeout(() => {

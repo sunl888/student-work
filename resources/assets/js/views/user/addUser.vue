@@ -108,22 +108,22 @@
                         { type: 'string', required: true, message: '请填写用户名', trigger: 'change' }
                     ],
                     email: [
-                        { type: 'string', required: true, message: '请填写邮箱', trigger: 'change' }
+                        { type: 'string', required: true, message: '请填写邮箱', trigger: 'blur' }
                     ],
                     college_id: [
                         { type: 'number', required: true, message: '请选择所属学院', trigger: 'change' }
                     ],
                     gender: [
-                        {type: 'boolean', required: true, message: '请选择性别', trigger: 'blur' }
-                    ],
-                    password: [
-                        { required: true, message: '请输入密码', trigger: 'blur' }
-                    ],
-                    password_confirmation: [
-                        { required: true, message: '请输入确认密码', trigger: 'blur' }
+                        {type: 'boolean', required: true, message: '请选择性别', trigger: 'change' }
                     ],
                     role_id: [
                         { type: 'number', required: true, message: '请选择用户角色', trigger: 'blur' }
+                    ],
+                    password: [
+                        { type: 'string', required: true, message: '请填写密码', trigger: 'blur' }
+                    ],
+                    password_confirmation: [
+                        { type: 'string', required: true, message: '请填写确认密码', trigger: 'blur' }
                     ]
                 }
             }
@@ -139,16 +139,9 @@
                     password: '',
                     password_confirmation: '',
                     role_id: null
-                },
-                this.rules = {
-                    email: [
-                        { type: 'string', required: true, message: '请填写邮箱', trigger: 'change' }
-                    ],
-                    gender: [
-                        {type: 'boolean', required: true, message: '请选择性别', trigger: 'blur' }
-                    ]
                 }
-                this.$route.name === 'editUser' ? this.isEdit = true : this.isEdit = false
+                this.$route.name === 'edit_user' ? this.isPass = false : this.isPass = true
+                this.$route.name === 'edit_user' ? this.isEdit = true : this.isEdit = false
             }
         },
         mounted () {
@@ -161,6 +154,21 @@
                 this.$http.get('user/' + this.$route.params.id).then(res => {
                     this.ruleForm = res.data.data
                     this.$diff.save(this.ruleForm)
+                    this.rules = {
+                        email: [
+                            { type: 'string', required: true, message: '请填写邮箱', trigger: 'blur' }
+                        ],
+                        gender: [
+                            {type: 'boolean', required: true, message: '请选择性别', trigger: 'change' }
+                        ],
+                        password: [
+                            { type: 'string', required: true, message: '请填写密码', trigger: 'blur' }
+                        ],
+                        password_confirmation: [
+                            { type: 'string', required: true, message: '请填写确认密码', trigger: 'blur' }
+                        ]
+
+                    }
                 })
             }else if(this.$route.name === 'add_user'){
                 this.isEdit = false
@@ -173,7 +181,6 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.$http.post('user',this.ruleForm).then(res => {
-                            console.log(this.ruleForm)
                             this.$message({
                                 message: '添加用户成功',
                                 type: 'success'

@@ -35,7 +35,7 @@
                             <div v-else>
                                 <p v-for="value in remind">{{value.created_at + '&emsp;催交一次'}}</p>
                                 <p v-if="isExpend" v-for="value in modRemind">{{value.created_at + '&emsp;催交一次'}}</p>
-                                <a v-if="remindCount" class="expendRecord" @click="isExpend=!isExpend">{{ isExpend ? '收起' + this.remindCount + '条记录' : '展开剩余' + this.remindCount + '条记录'}}</a>
+                                <a v-if="remindCount>0" class="expendRecord" @click="isExpend=!isExpend">{{ isExpend ? '收起' + this.remindCount + '条记录' : '展开剩余' + this.remindCount + '条记录'}}</a>
                             </div>
                         </el-form-item>
                         <el-form-item prop="access_id"  label="考核打分">
@@ -65,11 +65,11 @@
                             <div v-else>
                                 <p v-for="value in remind">{{value.created_at + '&emsp;催交一次'}}</p>
                                 <p v-if="isExpend" v-for="value in modRemind">{{value.created_at + '&emsp;催交一次'}}</p>
-                                <a v-if="modRemind.length!==0" class="expendRecord" @click="isExpend=!isExpend">{{ isExpend ? '收起' + this.remindCount + '条记录' : '展开剩余' + this.remindCount + '条记录'}}</a>
+                                <a v-if="remindCount>0" class="expendRecord" @click="isExpend=!isExpend">{{ isExpend ? '收起' + this.remindCount + '条记录' : '展开剩余' + this.remindCount + '条记录'}}</a>
                             </div>
                         </el-form-item>
-                        <el-form-item prop="access_id"  label="考核打分">
-                            <p>{{taskPro.assess}}</p>
+                        <el-form-item prop="access_id"  label="考核打分">git
+                            <el-tag type="success">{{taskPro.assess}}</el-tag>
                         </el-form-item>
                         <el-form-item label='备注'>
                             <p>{{taskPro.remark}}</p>
@@ -227,7 +227,7 @@
         border-left:1px solid lightgray;
     }
     .left{
-        min-height:500px;
+        min-height:350px;
         padding:0px 35px;
     }
     .el-textarea{
