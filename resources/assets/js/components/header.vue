@@ -28,9 +28,9 @@
               {{value.data.message}}
             </a>
             <p v-if=isTips style="line-height:40px;font-size:14px;text-align:center">暂时还没有通知哦</p>
-            <div style="text-align: right; margin: 0">
+            <div v-else style="text-align: right; margin: 0">
               <button class="more" @click="$router.push({name: 'notify'})">
-                查看更多通知&emsp;>>
+                查看剩余通知
               </button>
             </div>
         </el-popover>
@@ -85,7 +85,7 @@
             } else {
                 this.isTips = false
                 this.unread = res.data.data.length
-                this.unreadData = res.data.data.reverse().splice(0,3)
+                this.unreadData = res.data.data.splice(0,3)
             }
         })
       },
