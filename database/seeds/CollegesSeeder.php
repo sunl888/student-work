@@ -67,7 +67,7 @@ class CollegesSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
-                'title' => '音乐与舞蹈学院（少儿舞蹈艺术学院）',
+                'title' => '音乐与舞蹈学院',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [

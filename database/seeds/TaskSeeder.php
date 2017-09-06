@@ -36,7 +36,7 @@ class TaskSeeder extends Seeder
                 'work_type_id' => 1,
                 'department_id' => 1,
                 'created_at' => Carbon::now(),
-                'end_time' => Carbon::tomorrow(),
+                'end_time' => Carbon::tomorrow()->addDays(10),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
             ], [
@@ -62,7 +62,7 @@ class TaskSeeder extends Seeder
                 'work_type_id' => 1,
                 'department_id' => 1,
                 'created_at' => Carbon::now(),
-                'end_time' => Carbon::tomorrow(),
+                'end_time' => Carbon::tomorrow()->addDays(10),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
             ], [
@@ -79,7 +79,7 @@ class TaskSeeder extends Seeder
                 'work_type_id' => 1,
                 'department_id' => 1,
                 'created_at' => Carbon::now(),
-                'end_time' => Carbon::tomorrow(),
+                'end_time' => Carbon::tomorrow()->addDays(10),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
             ], [
@@ -90,7 +90,7 @@ class TaskSeeder extends Seeder
                 'work_type_id' => 1,
                 'department_id' => 1,
                 'created_at' => Carbon::now(),
-                'end_time' => Carbon::tomorrow(),
+                'end_time' => Carbon::tomorrow()->addDays(10),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
             ], [
@@ -115,7 +115,7 @@ class TaskSeeder extends Seeder
                 'work_type_id' => 1,
                 'department_id' => 1,
                 'created_at' => Carbon::now(),
-                'end_time' => Carbon::tomorrow(),
+                'end_time' => Carbon::tomorrow()->addDays(10),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
             ], [
@@ -131,7 +131,7 @@ class TaskSeeder extends Seeder
                 'work_type_id' => 1,
                 'department_id' => 1,
                 'created_at' => Carbon::now(),
-                'end_time' => Carbon::tomorrow(),
+                'end_time' => Carbon::tomorrow()->addDays(10),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
             ], [
@@ -151,7 +151,7 @@ class TaskSeeder extends Seeder
                 'work_type_id' => 1,
                 'department_id' => 1,
                 'created_at' => Carbon::now(),
-                'end_time' => Carbon::tomorrow(),
+                'end_time' => Carbon::tomorrow()->addDays(10),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
             ], [
@@ -165,7 +165,7 @@ class TaskSeeder extends Seeder
                 'work_type_id' => 1,
                 'department_id' => 1,
                 'created_at' => Carbon::now(),
-                'end_time' => Carbon::tomorrow(),
+                'end_time' => Carbon::tomorrow()->addDays(10),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
             ], [
@@ -188,7 +188,7 @@ class TaskSeeder extends Seeder
                 'work_type_id' => 1,
                 'department_id' => 1,
                 'created_at' => Carbon::now(),
-                'end_time' => Carbon::tomorrow(),
+                'end_time' => Carbon::tomorrow()->addDays(10),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
             ], [
@@ -203,7 +203,7 @@ class TaskSeeder extends Seeder
                 'work_type_id' => 1,
                 'department_id' => 1,
                 'created_at' => Carbon::now(),
-                'end_time' => Carbon::tomorrow(),
+                'end_time' => Carbon::tomorrow()->addDays(10),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
             ],
