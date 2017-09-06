@@ -25,7 +25,7 @@ class NotificationRepository extends Repository
         if ($isReaded) {
             $builder = $builder->whereNull('read_at');
         }
-        return $builder->paginate($limit);
+        return $builder->recent()->paginate($limit);
     }
 
 }
