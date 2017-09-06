@@ -9,7 +9,8 @@
 namespace App\Service;
 
 use Dingo\Api\Http\Request;
-use HttpException;
+use Symfony\Component\HttpFoundation\File\Exception\UploadException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 trait FileUpload
 {
@@ -17,7 +18,7 @@ trait FileUpload
     {
         $hasFile = $request->hasFile('file');
         if (!$hasFile || !($file = $request->file('file'))->isValid()) {
-            throw new HttpException(500, '图片上传出错');
+            throw new UploadException('图片上传出错', 500);
         }
         $path = date('Y/m/d');
         // 指定磁盘为uploads
