@@ -23,8 +23,8 @@ class UserTransformer extends TransformerAbstract
             'college_id' => (int)$user->college_id,
             'email' => $user->email,
             'college' => app(CollegeRepository::class)->find($user->college_id, ['title']),
-            'department_id' => $user->department_id,
-            'department' => app(DepartmentRepository::class)->find($user->department_id, ['title']),
+            /*'department_id' => $user->department_id,
+            'department' => app(DepartmentRepository::class)->find($user->department_id, ['title']),*/
             'picture' => $user->picture,
             'is_super_admin' => $user->isSuperAdmin(),
             'created_at' => $user->created_at->toDateTimeString(),
