@@ -62,6 +62,8 @@ function getMenu(next) {
 router.beforeEach((to, from, next) => {
     if (to.name === 'home') {
         getMenu(next);
+    } else if(to.name === 'login'){
+        next();
     } else {
         getMenu();
         next();

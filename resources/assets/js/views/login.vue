@@ -46,7 +46,7 @@
                   this.$message({
                       showClose: true,
                       type: 'error',
-                      message: res
+                      message: message
                   })
               })
           }

@@ -40,11 +40,11 @@
                     <button class="isPass el-icon-arrow-down" v-if="!isPass" @click="isPass = true">&emsp;修改密码</button>
                     <!--密码-->
                     <el-form-item label="密码" prop="password" v-if="isPass">
-                        <el-input v-model="ruleForm.password" type="password" placeholder="请输入密码"></el-input>
+                        <el-input v-model="me.password" type="password" placeholder="请输入密码"></el-input>
                     </el-form-item>
                     <!--确认密码-->
                     <el-form-item label="确认密码" prop="password_confirmation" v-if="isPass">
-                        <el-input v-model="ruleForm.password_confirmation" type="password" placeholder="请输入确认密码"></el-input>
+                        <el-input v-model="me.password_confirmation" type="password" placeholder="请输入确认密码"></el-input>
                     </el-form-item>
 
                     <!--按钮组-->
@@ -80,37 +80,27 @@
                     {gender_str: '女', gender: true, id: 1}
                 ],
                 dialogVisible: false,
-                ruleForm: {
-                    name: '',
-                    email: '',
-                    college_id: null,
-                    picture: '',
-                    gender: null,
-                    password: '',
-                    password_confirmation: '',
-                    role_id: null
-                },
                 rules: {
                     name: [
                         { type: 'string', required: true, message: '请填写用户名', trigger: 'change' }
                     ],
                     email: [
-                        { type: 'string', required: true, message: '请填写邮箱', trigger: 'change' }
+                        { type: 'string', required: true, message: '请填写邮箱', trigger: 'blur' }
                     ],
                     college_id: [
                         { type: 'number', required: true, message: '请选择所属学院', trigger: 'change' }
                     ],
                     gender: [
-                        {type: 'boolean', required: true, message: '请选择性别', trigger: 'blur' }
-                    ],
-                    password: [
-                        { required: true, message: '请输入密码', trigger: 'blur' }
-                    ],
-                    password_confirmation: [
-                        { required: true, message: '请输入确认密码', trigger: 'blur' }
+                        {type: 'boolean', required: true, message: '请选择性别', trigger: 'change' }
                     ],
                     role_id: [
                         { type: 'number', required: true, message: '请选择用户角色', trigger: 'blur' }
+                    ],
+                    password: [
+                        { type: 'string', required: true, message: '请填写密码', trigger: 'blur' }
+                    ],
+                    password_confirmation: [
+                        { type: 'string', required: true, message: '请填写确认密码', trigger: 'blur' }
                     ]
                 }
             }
