@@ -59,6 +59,7 @@
     </div>
 </template>
 <script>
+    import { mapState } from 'vuex'
     export default{
         data () {
             return {
@@ -72,8 +73,6 @@
                 collegesList: [],
                 // 角色列表
                 rolesList: [],
-                //个人信息
-                me: {},
                 // 性别
                 genders: [
                     {gender_str: '男', gender: false, id: 0},
@@ -105,9 +104,11 @@
                 }
             }
         },
-        mounted () {
-            this.getMe()
-        },
+        mounted () {},
+        computed: mapState({
+            // 箭头函数可使代码更简练
+            me: state => state.me
+        }),
         methods: {
             // 修改任务
             editUser (formName) {
@@ -128,14 +129,6 @@
             // 重置
             resetForm (formName) {
                 this.$refs[formName].resetFields()
-            },
-            getMe () {
-                this.$http.get('me').then(res => {
-                    this.me = res.data.data
-                    if(this.me.college !== null) {
-                        this.me.college_name = this.me.college.title
-                    }
-                })
             },
             handlePreview(file) {
                 this.me.picture = file.url

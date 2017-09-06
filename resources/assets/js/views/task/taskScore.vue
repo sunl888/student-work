@@ -69,7 +69,7 @@
                             </div>
                         </el-form-item>
                         <el-form-item prop="access_id"  label="考核打分">
-                            <el-tag type="success">{{taskPro.assess}}</el-tag>
+                            <el-tag :type="color">{{taskPro.assess}}</el-tag>
                         </el-form-item>
                         <el-form-item label='备注'>
                             <p>{{taskPro.remark}}</p>
@@ -98,6 +98,8 @@
                 remindCount: 0,
                 //是否展开
                 isExpend: false,
+                //随机生成颜色
+                color: '',
                 //未展开的记录
                 modRemind: [],
                 // 表单数据
@@ -120,6 +122,12 @@
             }
         },
         methods: {
+            //随机生成颜色
+            isColor () {
+                var color = [
+                    'success','warning', 'primary', 'danger', 'success','warning', 'primary', 'danger', 'warning', 'success']
+                this.color = color[Math.floor(Math.random()*10)]
+            },
             //判断页面内容
             isScore () {
               if(this.$route.name === 'browse_score'){
@@ -174,6 +182,7 @@
             this.getRemind()
             this.getAccess()
             this.isScore()
+
         }
     }
 </script>

@@ -105,7 +105,7 @@ export default new Router({
                   {
                       path: 'add_user',
                       name: 'add_user',
-                      meta: {title: '添加用户'},
+                      meta: {title: '创建用户'},
                       component: require('../views/user/addUser.vue')
                   },
                   {

@@ -31,6 +31,7 @@
     </div>
 </template>
 <script>
+    import { mapState } from 'vuex'
     export default {
         data () {
             return {
@@ -38,19 +39,17 @@
                 perPage: 5,
                 currentPage: 1,
                 total: 0,
-                itemUrl: '',
-                me: []
+                itemUrl: ''
             }
         },
+        computed: mapState({
+            // 箭头函数可使代码更简练
+            me: state => state.me
+        }),
         methods: {
             refresh () {
                 this.$nextTick(() => {
                     this.getNotify(this.currentPage);
-                })
-            },
-            getMe () {
-                this.$http.get('me').then(res => {
-                    this.me = res.data.data
                 })
             },
             getNotify (page=1,sort) {
@@ -78,7 +77,6 @@
         },
         mounted () {
             this.getNotify()
-            this.getMe()
         }
     }
 </script>

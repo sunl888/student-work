@@ -240,6 +240,7 @@
             getUsers () {
                 this.$http.get('users').then(res => {
                     this.options[1].children = res.data.users
+                    console.log(this.options[1].children)
                 })
             }
         }

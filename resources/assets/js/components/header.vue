@@ -42,7 +42,6 @@
   </div>
 </template>
 <script>
-  import { mapState } from 'vuex'
   export default {
     data () {
       return {
@@ -103,6 +102,7 @@
       logout () {
           this.$http.get('logout').then(res => {
               this.$router.push({name: 'login'})
+              console.log(this.$store.state.menus)
           })
       },
       loadAll () {

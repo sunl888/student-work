@@ -48,6 +48,12 @@ Vue.prototype.$http.interceptors.response.use((response) => {
 //     return tempStr[0]
 // })
 
+function getMe() {
+    Vue.prototype.$http.get('me').then(res => {
+        store.commit('UPDATE_ME', res.data.data);
+    });
+}
+
 function getMenu(next) {
     if(store.state.menus === null) {
         Vue.prototype.$http.get('menus').then(res => {
@@ -67,9 +73,11 @@ router.beforeEach((to, from, next) => {
         getMenu(next);
     } else if(to.name === 'login'){
         store.state.menus = null;
+        store.state.me = null;
         next();
     } else {
         getMenu();
+        getMe();
         next();
     }
 })

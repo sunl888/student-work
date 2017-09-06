@@ -61,7 +61,7 @@
                                 <p class="scoreRes">{{item.quality}}</p>
                             </el-form-item>
                             <el-form-item label="考核等级">
-                                <p class="scoreRes">{{item.assess}}</p>
+                                <el-tag :type="color">{{item.assess}}</el-tag>
                             </el-form-item>
                             <el-form-item label="备注">
                                 <p class="scoreRes">{{item.remark}}</p>
@@ -77,6 +77,7 @@
     export default{
         data () {
             return {
+                color: '',
                 //任务详情
                 item: [],
                 //获取各学院可选责任人
@@ -116,6 +117,12 @@
             }
         },
         methods: {
+            //随机生成颜色
+            isColor () {
+                var color = [
+                    'success','warning', 'primary', 'danger', 'success','warning', 'primary', 'danger', 'warning', 'success']
+                this.color = color[Math.floor(Math.random()*10)]
+            },
             //获取当前选项
             current(){
                 if(this.currOption[1]){
@@ -189,6 +196,7 @@
         mounted () {
             this.loadItem()
             this.getUsers()
+            this.isColor()
         }
     }
 </script>
@@ -214,6 +222,10 @@
     }
     .clearfix:after {
         clear: both
+    }
+    .scoreBox{
+        position:fixed;
+        overflow-y:hidden;
     }
     .text{
         min-height:200px;
