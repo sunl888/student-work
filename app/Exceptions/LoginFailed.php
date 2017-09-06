@@ -2,13 +2,13 @@
 
 namespace App\Exceptions;
 
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Validation\UnauthorizedException;
 
-class LoginFailed extends HttpException
+class LoginFailed extends UnauthorizedException
 {
 
-    public function __construct($message, $statusCode = 403)
+    public function __construct($message = "", $code = 0, $previous = null)
     {
-        parent::__construct($statusCode, $message, null, [], $statusCode);
+        parent::__construct($message, $code, $previous);
     }
 }
