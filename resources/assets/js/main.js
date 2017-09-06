@@ -49,12 +49,15 @@ Vue.prototype.$http.interceptors.response.use((response) => {
 // })
 
 function getMenu(next) {
-    Vue.prototype.$http.get('menus').then(res => {
-        store.commit('UPDATE_MENUS', res.data);
-        if(next) {
-            next({ name: store.state.menus[0].child[0].url });
-        }
-    });
+    store.state.menus = null
+    if(store.state.menus === null) {
+        Vue.prototype.$http.get('menus').then(res => {
+            store.commit('UPDATE_MENUS', res.data);
+            if (next) {
+                next({name: store.state.menus[0].child[0].url});
+            }
+        });
+    }
 }
 router.beforeEach((to, from, next) => {
     if (to.name === 'home') {

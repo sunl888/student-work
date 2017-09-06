@@ -147,6 +147,11 @@
                 })
             }
         },
+        beforeRouteUpdate (to, from, next) {
+            next();
+            this.loadItem()
+            this.getUsers()
+        },
         mounted () {
             this.loadItem()
             this.getUsers()

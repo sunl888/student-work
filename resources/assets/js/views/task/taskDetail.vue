@@ -172,6 +172,7 @@
             loadItem () {
                 this.$http.get('task_detail/' + this.$route.params.id).then(res => {
                     this.item = res.data.data
+                    console.log(this.item, this.$route.params.id)
                 })
             },
             //获取学院所有用户
@@ -180,6 +181,11 @@
                     this.options[1].children = res.data.users
                 })
             }
+        },
+        beforeRouteUpdate (to, from, next) {
+            next();
+            this.loadItem()
+            this.getUsers()
         },
         mounted () {
             this.loadItem()

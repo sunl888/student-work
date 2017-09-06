@@ -24,9 +24,9 @@
                 placement="bottom-start"
                 width="160"
                 v-model="visible">
-            <router-link :title="value.data.message" :to="{name: 'task_detail', params: {id: value.data.task_id}}" :key="value.id" v-for="value in unreadData">
+            <a :title="value.data.task_id" @click="goItem(value.data.task_id)" :key="value.id" v-for="value in unreadData">
               {{value.data.message}}
-            </router-link>
+            </a>
             <p v-if=isTips style="line-height:40px;font-size:14px;text-align:center">暂时还没有通知哦</p>
             <div style="text-align: right; margin: 0">
               <button class="more" @click="$router.push({name: 'notify'})">
@@ -57,7 +57,7 @@
       }
     },
     watch: {
-        '$route': 'updateBreadcrumbs'
+//        '$route': 'goItem'
     },
     methods: {
         getMe () {
@@ -111,6 +111,15 @@
           {'value': '考前动员大会'},
           {'value': '学院招生'}
         ]
+      },
+      goItem (x) {
+        if(this.me.role_id === 2){
+            this.$router.push({name: 'task_detail', params:{id: x}})
+        } else if(this.me.role_id === 3) {
+            this.$router.push({name: 'task_information', params:{id: x}})
+        } else {
+            this.$router.push({name: 'task_item', params:{id: x}})
+        }
       },
       handleSelect (item) {
       },
@@ -191,6 +200,7 @@
     max-height:148px;
 }
 .el-popover>a{
+  cursor:pointer;
   height:30px;
   color:#444;
   overflow: hidden;
