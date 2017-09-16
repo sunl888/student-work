@@ -56,7 +56,7 @@ class AppServiceProvider extends ServiceProvider
                     [
                         'status_code' => 401,
                         'code' => 401.1,
-                        'message' => trans('auth.please_login_first')
+                        'message' => '请先登陆'
                     ], 401
                 );
             }
@@ -68,7 +68,7 @@ class AppServiceProvider extends ServiceProvider
                         'status_code' => 401,
                         'code' => 401.3,
                         'message' => $exception->getMessage() == 'This action is unauthorized.' || empty($exception->getMessage())
-                            ? trans('auth.no_permission') : $exception->getMessage()
+                            ? '没有权限' : $exception->getMessage()
                     ], 401
                 );
             }
@@ -94,15 +94,6 @@ class AppServiceProvider extends ServiceProvider
                         'message' => $exception->validator->errors()
                     ], 422
                 );
-            }
-        );
-        $apiHandler->register(
-            function (QueryException $exception) {
-                if ($this->app->environment() !== 'production') {
-                    throw $exception;
-                } else {
-                    throw new HttpException(500);
-                }
             }
         );
         $apiHandler->register(

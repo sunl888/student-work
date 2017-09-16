@@ -24,8 +24,8 @@ class UpdateAssessRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'string',
-            'score' => 'numeric|between:1,100',
+            'title' => 'nullable|string',
+            'score' => 'nullable|numeric|between:1,100',
         ];
     }
 

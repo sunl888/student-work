@@ -2,6 +2,11 @@
 
 namespace App\Models\Traits;
 
+/**
+ * 清除缓存
+ * Trait Cachable
+ * @package App\Models\Traits
+ */
 trait Cachable
 {
     public function save(array $options = [])
