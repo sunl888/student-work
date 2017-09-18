@@ -157,7 +157,7 @@ class TaskController extends BaseController
      * @param null $college_id 学院id
      * @return \Dingo\Api\Http\Response
      */
-    /*public function submitTask($taskId, SubmitTaskRequest $request)
+    public function submitTask($taskId, SubmitTaskRequest $request)
     {
         if ($this->allowSubmitTask()) {
             $request->offsetSet('college_id', Auth::user()->college_id);
@@ -166,7 +166,7 @@ class TaskController extends BaseController
             app(TaskProgressRepository::class)->submitTask($request->all());
         }
         return $this->response->noContent();
-    }*/
+    }
 
     /**
      * 任务评分

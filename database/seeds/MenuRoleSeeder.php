@@ -105,6 +105,12 @@ class MenuRoleSeeder extends Seeder
             ], [//角色管理
                 'menu_id' => 18,
                 'role_id' => 1,
+            ], [
+                'menu_id' => 20,
+                'role_id' => 1,
+            ], [
+                'menu_id' => 21,
+                'role_id' => 1,
             ]
         ]);
     }

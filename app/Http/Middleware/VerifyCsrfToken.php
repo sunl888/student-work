@@ -12,6 +12,6 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-        '*'// api路由不需要验证csrfToken的
+        'api/*'// api路由不需要验证csrfToken的
     ];
 }

@@ -22,7 +22,6 @@ class TaskProgressRepository extends Repository
 
     public function createTaskProgress(array $data, $taskId)
     {
-        //todo bug
         if ($this->isAutided($taskId)) {
             return $this->model->insert($data);
         }
@@ -70,7 +69,6 @@ class TaskProgressRepository extends Repository
 
     public function show(array $conditions)
     {
-
         return $this->model->where($conditions)->get();
     }
 
