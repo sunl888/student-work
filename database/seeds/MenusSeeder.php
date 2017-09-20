@@ -207,7 +207,7 @@ class MenusSeeder extends Seeder
                 'id' => 20,
                 'name' => '会议管理',
                 'parent_id' => 0,
-                'icon' => 'el-icon-date',
+                'icon' => 'multiline_chart',
                 'url' => '',
                 'description' => '会议管理',
                 'is_nav' => true,

@@ -24,14 +24,23 @@ class SubmitTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'delay' => 'string'
+            'assess_id' => 'bail|required|exists:assess,id', // 考核等级
+            'status' => 'date',// 完成时间
+            'quality' =>'nullable|max:255',// 完成质量
+            'remark' => 'nullable|max:255',// 备注
+            'delay' => 'nullable|max:255'// 推迟理由
         ];
     }
 
     public function messages()
     {
         return [
-            'delay.string' => '推迟理由必须是字符串'
+            'assess_id.required' =>'考核等级必须填写.',
+            'assess_id.exists' =>'该等级不存在.',
+            'quality.max' =>'完成质量最多255个字符.',
+            'remark.max' =>'备注最多255个字符.',
+            'delay.max' =>'推迟理由最多255个字符.',
+            'status.date' =>'请填写正确的日期.'
         ];
     }
 }

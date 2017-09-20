@@ -10,6 +10,7 @@ use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\SubmitTaskRequest;
 use App\Http\Requests\TaskScoreRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Models\College;
 use App\Models\Remind;
 use App\Models\Task;
 use App\Models\TaskProgress;
@@ -157,12 +158,28 @@ class TaskController extends BaseController
      * @param null $college_id 学院id
      * @return \Dingo\Api\Http\Response
      */
-    public function submitTask($taskId, SubmitTaskRequest $request)
+    /*public function submitTask($taskId, SubmitTaskRequest $request)
     {
         if ($this->allowSubmitTask()) {
             $request->offsetSet('college_id', Auth::user()->college_id);
             $request->offsetSet('status', Carbon::now());
             $request->offsetSet('task_id', $taskId);
+            app(TaskProgressRepository::class)->submitTask($request->all());
+        }
+        return $this->response->noContent();
+    }*/
+
+    /**
+     * @version 1.0
+     * @param $taskId
+     * @param SubmitTaskRequest $request
+     * @return \Dingo\Api\Http\Response
+     */
+    public function submitTask(Task $task, College $college, SubmitTaskRequest $request)
+    {
+        if ($this->allowSubmitTask()) {
+            $request->offsetSet('task_id', $task->id);
+            $request->offsetSet('college_id', $college->id);
             app(TaskProgressRepository::class)->submitTask($request->all());
         }
         return $this->response->noContent();

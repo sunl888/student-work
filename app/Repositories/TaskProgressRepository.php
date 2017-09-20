@@ -37,7 +37,7 @@ class TaskProgressRepository extends Repository
         if (app(Task::class)->findOrFail($taskId)->isPublish()) {
             return true;
         }
-        throw new ModelNotFoundException('任务还没有被上级审核，暂时不能操作');
+        throw new ModelNotFoundException('任务还没有被审核，暂时不能操作');
     }
 
     /**

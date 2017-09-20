@@ -40,10 +40,8 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->group(['middleware' => ['role:college']], function ($api) {
         // 添加责任人
         $api->post('create_allot_task', 'TaskController@allotTask');
-        // 完成任务 如果该任务过了截止日期需要填写推迟理由字段（delay）
-        $api->post('submit_task/{task_id}', 'TaskController@submitTask');
         // 判断指定的任务是否过了截止日期 return bool
-        $api->get('is_delay/{task_id}', 'TaskController@isDelay');
+        //$api->get('is_delay/{task_id}', 'TaskController@isDelay');
         // 学院显示的任务列表
         $api->get('lists/{college?}', 'TaskController@getTasksByCollege');
     });
@@ -60,6 +58,8 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->post('create_task', 'TaskController@createTask');
         // 修改任务
         $api->post('update_task/{task_id}', 'TaskController@updateTask');
+        // 完成任务
+        $api->post('submit_task/{task}/{college}', 'TaskController@submitTask');
         // 软删除任务
         $api->get('delete_task/{task_id}', 'TaskController@deleteTask');
         // 恢复任务
