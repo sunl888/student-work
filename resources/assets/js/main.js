@@ -42,12 +42,6 @@ Vue.prototype.$http.interceptors.response.use((response) => {
     return Promise.reject(error);
 });
 
-// Vue.filter('dateFilter', (val) => {
-//     var tempStr = new Array()
-//     tempStr = (val || '').split(' ')
-//     return tempStr[0]
-// })
-
 function getMe() {
     Vue.prototype.$http.get('me').then(res => {
         store.commit('UPDATE_ME', res.data.data);
@@ -71,6 +65,7 @@ function getMenu(next) {
 router.beforeEach((to, from, next) => {
     if (to.name === 'home') {
         getMenu(next);
+        getMe();
     } else if(to.name === 'login'){
         store.state.menus = null;
         store.state.me = null;

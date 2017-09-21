@@ -19,7 +19,6 @@
                 <div class="appoint" v-if=!item.finished_at>
                         <el-button v-if="!item.user" class="appo" @click="isDia = true" type="success">指定责任人</el-button>
                         <el-button v-else class="appo" @click="isDia = true" type="success">修改责任人</el-button>
-                        <el-button :disabled='!item.user'  @click="goSubmit()" type="info">提交任务</el-button>
                     <!--指定责任人-->
                     <el-dialog title="指定责任人" :visible.sync="isDia" top="30%">
                         <el-form>
@@ -53,7 +52,7 @@
                     </el-dialog>
                 </div>
                 <div class="seal" v-else>
-                    <span>已完成</span>
+                <!--     <span>已完成</span> -->
                     <el-button :disabled="!item.assess" @click="isScores = true" type="info">查看评分结果</el-button>
                     <el-dialog title="评分结果" :visible.sync="isScores" class="scoreBox el-col-16 el-col-offset-4">
                         <el-form :label-width="formLabelWidth2" label-position="right">
@@ -267,9 +266,6 @@
     }
     .appoint{
         /*margin-top:50px;*/
-    }
-    .appo{
-        margin-right:100px;
     }
     .el-cascader,.el-input{
         margin-left:-200px;

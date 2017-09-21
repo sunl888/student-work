@@ -74,7 +74,6 @@
                     <el-button-group>
                         <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
                         <el-button :disabled='row.finished_at!==null' type="success" size="small" @click="isAppoints(true, row)">{{!row.user ? '指定责任人' : '修改责任人'}}</el-button>
-                        <el-button :disabled='row.finished_at!==null' type="danger" size="small" @click="goSubmit(row)">提交</el-button>
                     </el-button-group>
                   </template>
                 </el-table-column>

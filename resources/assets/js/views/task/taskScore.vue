@@ -22,6 +22,23 @@
                 </div>
                 <div class="text item right el-col-17">
                     <el-form v-if="isScores" label-position="right"  label-width="80px" :rules="rules" :model="formData">
+                        <el-form-item prop="finishedDate" label="完成日期">
+                            <el-date-picker
+                              v-model="formData.finishedDate"
+                              align="right"
+                              type="date"
+                              @change="isDelays()"
+                              placeholder="选择完成日期">
+                            </el-date-picker>
+                        </el-form-item>
+                         <el-form-item prop="delayReson" v-if="isDelay" label='推迟理由'>
+                            <el-input
+                                    class="el-col-19"
+                                    type="textarea"
+                                    :rows="1"
+                                    v-model="formData.delayReson">
+                            </el-input>
+                        </el-form-item>
                         <el-form-item prop="quality" label="完成质量">
                             <el-input
                                     type="textarea"
@@ -40,7 +57,7 @@
                         </el-form-item>
                         <el-form-item prop="access_id"  label="考核打分">
                             <el-radio-group v-model="formData.access_id">
-                                <el-radio-button v-for="value in access" :key=value.id :label=value.id>{{value.title}}</el-radio-button>
+                                <el-radio-button v-for="value in access" :key="value.id" :label="value.id">{{value.title}}</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item label='备注'>
@@ -102,8 +119,11 @@
                 color: '',
                 //未展开的记录
                 modRemind: [],
+                isDelay: false,
                 // 表单数据
                 formData: {
+                    finishedDate: null,
+                    delayReson: null,
                     quality: '',
                     access_id: null,
                     remark: ''
@@ -117,6 +137,12 @@
                     ],
                     access_id: [
                         { type: 'number', required: true, message: '请选择考核等级', trigger: 'blur' }
+                    ],
+                    finishedDate: [
+                        { type: 'date', required: true, message: '请选择完成日期', trigger: 'blur' }
+                    ],
+                    delayReson: [
+                        { type: 'string', required: true, message: '请填写推迟理由', trigger: 'blur' }
                     ]
                 }
             }
@@ -125,14 +151,17 @@
             //随机生成颜色
             isColor () {
                 var color = [
-                    'success','warning', 'primary', 'danger', 'success','warning', 'primary', 'danger', 'warning', 'success']
-                this.color = color[Math.floor(Math.random()*10)]
+                    'success','warning', 'primary', 'danger']
+                this.color = color[Math.floor(Math.random()*4)]
             },
             //判断页面内容
             isScore () {
               if(this.$route.name === 'browse_score'){
                   this.isScores = false
               }
+            },
+            isDelays(){
+
             },
             //获取任务详情
             loadItem () {

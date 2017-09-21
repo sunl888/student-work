@@ -58,6 +58,13 @@ export default new Router({
                   component: require('../views/task/taskInformation.vue')
               },
               {
+                  //各学院老师
+                  path: 'task_collect',
+                  name: 'task_collect',
+                  meta: {title: '任务考核汇总'},
+                  component: require('../views/task/taskCollect.vue')
+              },
+              {
                   path: 'going_finish/:id',
                   name: 'going_finish',
                   meta: {title: '任务完成'},
@@ -90,6 +97,18 @@ export default new Router({
                   component: require('../views/task/taskScore.vue')
               }
           ]
+        },
+        {
+          path: 'cahier_create',
+          meta: {title: '会议管理'},
+          component: parentComponent,
+          children: [
+          {
+            path: 'cahier_create',
+            name: 'cahier_create',
+            meta: {title: '会议记录'},
+            component: require('../views/cahier/cahierCreate.vue')
+          }]
         },
         {
               path: 'user_lists',

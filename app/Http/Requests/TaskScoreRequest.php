@@ -27,7 +27,7 @@ class TaskScoreRequest extends FormRequest
             'college_id' => 'required|exists:colleges,id',
             'assess_id' => 'required|exists:assess,id',
             'quality' => 'required',
-            'remark' => 'string',
+            'remark' => 'string'
         ];
     }
 
