@@ -8,14 +8,11 @@
 
 namespace App\Transformers;
 
-use App\Models\College;
 use App\Models\Task;
-use App\Models\TaskProgress;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\WorkTypeRepository;
 use Carbon\Carbon;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Validation\Validator;
 use League\Fractal\TransformerAbstract;
 
 class TaskTransformer extends TransformerAbstract
@@ -37,22 +34,23 @@ class TaskTransformer extends TransformerAbstract
             'status' => $task->status
         ];
     }
+
     public function includeTaskProgresses(Task $task)
     {
         $college = request()->only('college');
-        $college = \Validator::make($college,[
-            'college' =>'nullable|exists:colleges,id'
-        ],[
-            'college.exists' =>'学院id有误.'
+        $validate = \Validator::make($college, [
+            'college' => 'nullable|exists:colleges,id'
+        ], [
+            'college.exists' => '学院id有误.'
         ]);
-        if($college->fails()){
-            throw new ValidationException("");
-        }
-
-        if(isset($college)){
-            //
+        if ($validate->fails()) {
+            throw new ValidationException($validate);
         }
         $task_progress = $task->task_progresses();
+        if (isset($college)) {
+            $task_progress = $task_progress->where(['college_id' =>$college]);
+        }
+
         if (is_null($task_progress)) {
             return $this->null();
         } else {

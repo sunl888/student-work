@@ -33,7 +33,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('users', 'UsersController@usersWithCollege');
     // 任务详情
     //$api->get('task_detail/{task}', 'TaskController@getTaskDetail');
-    // 显示某个任务详情  ?include=task_progresses  显示各个学院的完成情况
+    // 显示某个任务详情  ?include=task_progresses ?college=1  显示各个学院的完成情况
     $api->get('task/{task}', 'TaskController@task');
 
     //学院
