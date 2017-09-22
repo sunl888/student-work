@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Listable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TaskProgress extends BaseModel
 {
-    use SoftDeletes;
+    use SoftDeletes, Listable;
 
     /**
      * 全体人员的标志

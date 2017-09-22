@@ -4,6 +4,11 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ *
+ * Class TaskScoreRequest
+ * @package App\Http\Requests
+ */
 class TaskScoreRequest extends FormRequest
 {
     /**

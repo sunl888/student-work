@@ -76,14 +76,14 @@ class TaskRepository extends Repository
         return $this->model->findOrFail($taskId)->isDelay();
     }
 
-    public function lists($limit, array $condition = null)
+    /*public function lists($limit, array $condition = null)
     {
         $builder = $this->model->withSimpleSearch();
         if ($condition) {
             $builder = $builder->where($condition);
         }
         return $builder->recent()->paginate($limit);
-    }
+    }*/
 
     // 获取这个学院的任务列表
     public function tasksByCollege($limit, array $conditions = null)
@@ -122,12 +122,12 @@ class TaskRepository extends Repository
         return $this->model->find($taskId);
     }
 
-    public function getTrashed($limit)
+    /*public function getTrashed($limit)
     {
         return $this->model->onlyTrashed()
             ->recent()
             ->paginate($limit);
-    }
+    }*/
 
     public function reStore($id)
     {

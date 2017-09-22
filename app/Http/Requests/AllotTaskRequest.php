@@ -24,18 +24,14 @@ class AllotTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'task_id' => 'required|exists:tasks,id',
-            'user_id' => 'required|alpha_num',
+            'user_id' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'task_id.required' => '任务ID有误',
-            'task_id.exists' => '该任务不存在',
-            'user_id.required' => '必须指定一名责任人',
-            'user_id.alpha_num' => '请指定责任人(all || id)'
+            'user_id.required' => '请指定责任人',
         ];
     }
 }

@@ -32,16 +32,14 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     // 根据学院id获取该学院下的所有用户 默认根据当前登陆用户所在学院
     $api->get('users', 'UsersController@usersWithCollege');
     // 任务详情
-    $api->get('task_detail/{task}', 'TaskController@getTaskDetail');
-    // 显示某个任务
-    $api->get('task/{task_id}', 'TaskController@task');
+    //$api->get('task_detail/{task}', 'TaskController@getTaskDetail');
+    // 显示某个任务详情  ?include=task_progresses  显示各个学院的完成情况
+    $api->get('task/{task}', 'TaskController@task');
 
     //学院
     $api->group(['middleware' => ['role:college']], function ($api) {
         // 添加责任人
-        $api->post('create_allot_task', 'TaskController@allotTask');
-        // 判断指定的任务是否过了截止日期 return bool
-        //$api->get('is_delay/{task_id}', 'TaskController@isDelay');
+        $api->post('create_allot_task/{task}/{college}', 'TaskProgressController@allotTask');
         // 学院显示的任务列表
         $api->get('lists/{college?}', 'TaskController@getTasksByCollege');
     });
@@ -58,7 +56,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->post('create_task', 'TaskController@createTask');
         // 修改任务
         $api->post('update_task/{task_id}', 'TaskController@updateTask');
-        // 完成任务
+        // 提交任务
         $api->post('submit_task/{task}/{college}', 'TaskController@submitTask');
         // 软删除任务
         $api->get('delete_task/{task_id}', 'TaskController@deleteTask');
@@ -71,14 +69,12 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         //取消审核
         $api->get('cancel_audit/{task_id}', 'TaskController@cancelAuditTask');
         // 任务评分
-        $api->post('task_score/{task_id}', 'TaskController@taskScore');
+        //$api->post('task_score/{task_id}', 'TaskController@taskScore');
         // 任务提醒
         $api->post('remind/{task}/{college}', 'TaskController@remind');
         // 获取任务的催交记录
         $api->get('reminds/{task}/{college}', 'TaskController@getReminds');
-        // 已删除的任务列表
-        $api->get('trashed_tasks', 'TaskController@deleteds');
-        // 任务列表
+        // 任务列表 ?only_trashed=0|1  ?status=draft|publish
         $api->get('tasks', 'TaskController@tasks');
         // 显示某个任务的进程情况
         $api->get('task_progress/{task_id}', 'TaskProgressController@show');
@@ -121,22 +117,22 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->get('role/{role}/permissions', 'RoleController@permissions');
         // todo 封印的功能
         // 创建角色
-        //$api->post('create_role', 'RoleController@store');
+        $api->post('create_role', 'RoleController@store');
         // 更新角色
-        //$api->post('update_role/{role}', 'RoleController@update');
+        $api->post('update_role/{role}', 'RoleController@update');
         // 删除角色
-        //$api->get('delete_role/{role}', 'RoleController@destroy');
+        $api->get('delete_role/{role}', 'RoleController@destroy');
         // 获取所有权限(不分页 用于创建角色时显示)
         $api->get('permissions/all', 'PermissionsController@allPermissions');
         //获取指定权限
         $api->get('permission/{permission}', 'PermissionsController@show');
         // todo 封印的功能
         // 创建权限
-        //$api->post('create_permission', 'PermissionsController@store');
+        $api->post('create_permission', 'PermissionsController@store');
         // 更新权限
-        //$api->post('update_permission/{permission}', 'PermissionsController@update');
+        $api->post('update_permission/{permission}', 'PermissionsController@update');
         //删除指定权限
-        //$api->get('delete_permission/{permission}', 'PermissionsController@destroy');
+        $api->get('delete_permission/{permission}', 'PermissionsController@destroy');
         // 用户列表
         $api->get('all_users', 'UsersController@lists');
         // 获取用户角色

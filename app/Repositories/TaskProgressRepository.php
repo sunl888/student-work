@@ -8,7 +8,6 @@
 
 namespace App\Repositories;
 
-use App\Http\Requests\AllotTaskRequest;
 use App\Models\Task;
 use App\Models\TaskProgress;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -46,9 +45,7 @@ class TaskProgressRepository extends Repository
      */
     public function allotTask($data)
     {
-        if ($data instanceof AllotTaskRequest) {
-            $data = $data->toArray();
-        }
+        $data = $data->toArray();
         if ($this->isAutided($data['task_id'])) {
             $conditions = ['task_id' => $data['task_id'], 'college_id' => $data['college_id']];
             $affectRows = $this->update($data, $conditions);
