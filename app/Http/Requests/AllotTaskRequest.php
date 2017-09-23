@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class AllotTaskRequest extends FormRequest
 {
@@ -24,7 +25,7 @@ class AllotTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
+            'user_id' => ['required','users'],  //user_id=all  |  1,2,3  |1
         ];
     }
 
@@ -32,6 +33,7 @@ class AllotTaskRequest extends FormRequest
     {
         return [
             'user_id.required' => '请指定责任人',
+            'user_id.users' =>'用户id有误'
         ];
     }
 }

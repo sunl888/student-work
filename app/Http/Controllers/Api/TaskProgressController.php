@@ -23,6 +23,7 @@ class TaskProgressController extends BaseController
      */
     public function allotTask(Task $task, College $college, AllotTaskRequest $request)
     {
+        dd($request->all());
         if ($this->allowAllotTask()) {
             $request->offsetSet('college_id', $college->id);
             $request->offsetSet('task_id', $task->id);

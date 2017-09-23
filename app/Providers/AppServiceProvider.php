@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\TaskProgress;
+use App\Models\User;
 use HttpException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\ValidationException;
 
@@ -31,6 +34,25 @@ class AppServiceProvider extends ServiceProvider
         );
         \Carbon\Carbon::setLocale('zh');
         Schema::defaultStringLength(191);
+
+        // 验证用户是否存在
+        Validator::extend('users', function ($attribute, $value, $parameters, $validator) {
+             $validate = explode(',' , $value);
+             if(array_first($validate) == TaskProgress::$personnelSign){
+                 return true;
+             }elseif (count($validate) ==1){
+                 $user = User::find(array_first($validate));
+                 if($user){
+                     return  true;
+                 }
+             }elseif (count($validate) >1){
+                 $users = User::whereIn('id', $validate)->get();
+                if($users->count() == count($validate)){
+                    return true;
+                }
+             }
+             return false;
+        });
     }
 
     /**
@@ -96,7 +118,7 @@ class AppServiceProvider extends ServiceProvider
                 );
             }
         );
-        $apiHandler->register(
+       /* $apiHandler->register(
         // Zizaco/entrust没有权限会抛出这个异常
             function (\Symfony\Component\HttpKernel\Exception\HttpException $exception) {
                 return response([
@@ -106,6 +128,6 @@ class AppServiceProvider extends ServiceProvider
                 ], 403);
 
             }
-        );
+        );*/
     }
 }

@@ -21,7 +21,6 @@ use App\Repositories\UserRepository;
 use App\Repositories\WorkTypeRepository;
 use App\Transformers\TaskAndProgressTransformer;
 use App\Transformers\TaskTransformer;
-use Auth;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -174,7 +173,7 @@ class TaskController extends BaseController
     {
         $condisions['user_id'] = $this->guard()->id();
         $condisions['college_id'] = $this->guard()->user()->college_id;
-        $tasks = app(TaskProgress::class)->where(['user_id' => 'all'])->orWhere($condisions)->get()->load('task');
+        $tasks = app(TaskProgress::class)->where(['user_id' => TaskProgress::$personnelSign])->orWhere($condisions)->get()->load('task');
         $res = new Collection();
         foreach ($tasks as $task) {
             $tmp = $task->task()->where(['status' => 'publish'])->first();
