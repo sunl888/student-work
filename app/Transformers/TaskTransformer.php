@@ -47,7 +47,7 @@ class TaskTransformer extends TransformerAbstract
             throw new ValidationException($validate);
         }
         $task_progress = $task->task_progresses();
-        if (isset($college)) {
+        if (!($college['college'] == null) ) {
             $task_progress = $task_progress->where(['college_id' =>$college]);
         }
 

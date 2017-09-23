@@ -33,7 +33,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('users', 'UsersController@usersWithCollege');
     // 任务详情
     //$api->get('task_detail/{task}', 'TaskController@getTaskDetail');
-    // 显示某个任务详情  ?include=task_progresses ?college=1  显示各个学院的完成情况
+    // 显示任务详情  ?include=task_progresses ?college=1  显示各个学院的完成情况
     $api->get('task/{task}', 'TaskController@task');
 
     //学院
@@ -77,7 +77,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         // 任务列表 ?only_trashed=0|1  ?status=draft|publish
         $api->get('tasks', 'TaskController@tasks');
         // 显示某个任务的进程情况
-        $api->get('task_progress/{task_id}', 'TaskProgressController@show');
+        //$api->get('task_progress/{task_id}', 'TaskProgressController@show');
         // 获取工作类型
         $api->get('work_types', 'WorkTypeController@lists');
         // 获取考核等级

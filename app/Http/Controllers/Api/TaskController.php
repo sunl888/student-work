@@ -203,14 +203,14 @@ class TaskController extends BaseController
 
     public function task(Task $task)
     {
-        return $this->response->item(Task::find($task->id), new TaskTransformer());
+        return $this->response->item(Task::findOrFail($task->id), new TaskTransformer());
     }
 
-    public function getTaskDetail($taskId)
+    /*public function getTaskDetail($taskId)
     {
         $conditions = ['task_id' => $taskId, 'college_id' => Auth::guard()->user()->college_id];
         return $this->response()->item($this->taskRepository->taskAndPregress($conditions), new TaskAndProgressTransformer());
-    }
+    }*/
 
     /**
      * 恢复任务
@@ -256,6 +256,12 @@ class TaskController extends BaseController
         }
     }
 
+    /**
+     * 获取催交记录
+     * @param $task_id
+     * @param $college_id
+     * @return mixed
+     */
     public function getReminds($task_id, $college_id)
     {
         $conditions = ['task_id' => $task_id, 'college_id' => $college_id];
