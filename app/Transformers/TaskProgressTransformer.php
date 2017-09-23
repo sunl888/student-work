@@ -14,8 +14,6 @@ use App\Repositories\CollegeRepository;
 
 class TaskProgressTransformer extends Transformer
 {
-    //public $availableIncludes = ['users'];
-
     public function transform(TaskProgress $taskProgress)
     {
         return [
@@ -34,9 +32,5 @@ class TaskProgressTransformer extends Transformer
             'remind' => $taskProgress->remind,//推迟记录
         ];
     }
-
-    /*public function includeUsers(TaskProgress $taskProgress){
-        return $this->getLeadOfficial($taskProgress);
-    }*/
 
 }

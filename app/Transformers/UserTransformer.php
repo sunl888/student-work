@@ -5,7 +5,6 @@ namespace App\Transformers;
 
 use App\Models\User;
 use App\Repositories\CollegeRepository;
-use App\Repositories\DepartmentRepository;
 use League\Fractal\TransformerAbstract;
 
 class UserTransformer extends TransformerAbstract

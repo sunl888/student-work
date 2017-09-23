@@ -21,16 +21,16 @@ class Transformer extends TransformerAbstract
      */
     public function getLeadOfficial($taskProgress)
     {
-        $userIds = explode(',',$taskProgress->user_id);
-        if (array_first($userIds) !=null) {
+        $userIds = explode(',', $taskProgress->user_id);
+        if (array_first($userIds) != null) {
             if (strtolower(array_first($userIds)) == TaskProgress::$personnelSign) {
                 return '全体人员';
-            } elseif (count($userIds) ==1) {
-                return User::find(array_first($userIds), ['id','name']);
-            }elseif (count($userIds) >1){
-                return User::whereIn('id', $userIds)->get(['id','name']);
+            } elseif (count($userIds) == 1) {
+                return User::find(array_first($userIds), ['id', 'name']);
+            } elseif (count($userIds) > 1) {
+                return User::whereIn('id', $userIds)->get(['id', 'name']);
             }
-        }else{
+        } else {
             return null;
         }
     }

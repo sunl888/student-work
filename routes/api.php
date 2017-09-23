@@ -31,8 +31,6 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->post('upload', 'UsersController@uploadFile');
     // 根据学院id获取该学院下的所有用户 默认根据当前登陆用户所在学院
     $api->get('users', 'UsersController@usersWithCollege');
-    // 任务详情
-    //$api->get('task_detail/{task}', 'TaskController@getTaskDetail');
     // 显示任务详情  ?include=task_progresses ?college=1  显示各个学院的完成情况
     $api->get('task/{task}', 'TaskController@task');
 
@@ -68,16 +66,12 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->get('audit_task/{task_id}', 'TaskController@auditTask');
         //取消审核
         $api->get('cancel_audit/{task_id}', 'TaskController@cancelAuditTask');
-        // 任务评分
-        //$api->post('task_score/{task_id}', 'TaskController@taskScore');
         // 任务提醒
         $api->post('remind/{task}/{college}', 'TaskController@remind');
         // 获取任务的催交记录
         $api->get('reminds/{task}/{college}', 'TaskController@getReminds');
         // 任务列表 ?only_trashed=0|1  ?status=draft|publish
         $api->get('tasks', 'TaskController@tasks');
-        // 显示某个任务的进程情况
-        //$api->get('task_progress/{task_id}', 'TaskProgressController@show');
         // 获取工作类型
         $api->get('work_types', 'WorkTypeController@lists');
         // 获取考核等级

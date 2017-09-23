@@ -6,6 +6,34 @@ trait Listable
 {
     //protected static $allowSortFields = [];
     /**
+     * @return array
+     */
+    public static function getAllowSortFields()
+    {
+        return static::$allowSortFields;
+    }
+
+    //protected static $allowSearchFields = [];
+
+    /**
+     * @return array
+     */
+    public static function getAllowSearchFields()
+    {
+        return static::$allowSearchFields;
+    }
+
+    public static function getAllowSortFieldsMeta()
+    {
+        return ['allow_sort_fields' => static::$allowSortFields];
+    }
+
+    public static function getAllowSearchFieldsMeta()
+    {
+        return ['allow_search_fields' => static::$allowSearchFields];
+    }
+
+    /**
      * 例子: ?orders[0][field]=id&orders[0][dir]=asc&orders[1][field]=user_name&orders[1][dir]=desc
      * 或者 orders=id-asc,user_name-desc 不推荐
      *
@@ -40,8 +68,6 @@ trait Listable
         return $query;
     }
 
-    //protected static $allowSearchFields = [];
-
     /**
      * 例子：?keywords=ty&
      * @param $query
@@ -71,31 +97,5 @@ trait Listable
             );
         }
         return $query;
-    }
-
-    /**
-     * @return array
-     */
-    public static function getAllowSortFields()
-    {
-        return static::$allowSortFields;
-    }
-
-    /**
-     * @return array
-     */
-    public static function getAllowSearchFields()
-    {
-        return static::$allowSearchFields;
-    }
-
-    public static function getAllowSortFieldsMeta()
-    {
-        return ['allow_sort_fields' => static::$allowSortFields];
-    }
-
-    public static function getAllowSearchFieldsMeta()
-    {
-        return ['allow_search_fields' => static::$allowSearchFields];
     }
 }

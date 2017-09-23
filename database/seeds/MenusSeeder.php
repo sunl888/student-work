@@ -203,7 +203,7 @@ class MenusSeeder extends Seeder
                 'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ],[
+            ], [
                 'id' => 20,
                 'name' => '会议管理',
                 'parent_id' => 0,
@@ -213,7 +213,7 @@ class MenusSeeder extends Seeder
                 'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ],[
+            ], [
                 'id' => 21,
                 'name' => '会议记录',
                 'parent_id' => 20,

@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use App\Models\TaskProgress;
 use App\Models\User;
-use HttpException;
-use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
@@ -37,21 +35,21 @@ class AppServiceProvider extends ServiceProvider
 
         // 验证用户是否存在
         Validator::extend('users', function ($attribute, $value, $parameters, $validator) {
-             $validate = explode(',' , $value);
-             if(array_first($validate) == TaskProgress::$personnelSign){
-                 return true;
-             }elseif (count($validate) ==1){
-                 $user = User::find(array_first($validate));
-                 if($user){
-                     return  true;
-                 }
-             }elseif (count($validate) >1){
-                 $users = User::whereIn('id', $validate)->get();
-                if($users->count() == count($validate)){
+            $validate = explode(',', $value);
+            if (array_first($validate) == TaskProgress::$personnelSign) {
+                return true;
+            } elseif (count($validate) == 1) {
+                $user = User::find(array_first($validate));
+                if ($user) {
                     return true;
                 }
-             }
-             return false;
+            } elseif (count($validate) > 1) {
+                $users = User::whereIn('id', $validate)->get();
+                if ($users->count() == count($validate)) {
+                    return true;
+                }
+            }
+            return false;
         });
     }
 
@@ -118,16 +116,16 @@ class AppServiceProvider extends ServiceProvider
                 );
             }
         );
-       /* $apiHandler->register(
-        // Zizaco/entrust没有权限会抛出这个异常
-            function (\Symfony\Component\HttpKernel\Exception\HttpException $exception) {
-                return response([
-                    'status_code' => 403,
-                    'code' => 403,
-                    'message' => '对不起，你没有操作权限'
-                ], 403);
+        /* $apiHandler->register(
+         // Zizaco/entrust没有权限会抛出这个异常
+             function (\Symfony\Component\HttpKernel\Exception\HttpException $exception) {
+                 return response([
+                     'status_code' => 403,
+                     'code' => 403,
+                     'message' => '对不起，你没有操作权限'
+                 ], 403);
 
-            }
-        );*/
+             }
+         );*/
     }
 }

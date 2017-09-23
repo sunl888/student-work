@@ -4,7 +4,6 @@ namespace App\Models;
 
 
 use App\Models\Traits\Listable;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Task extends BaseModel
@@ -53,7 +52,9 @@ class Task extends BaseModel
     {
         return $query->where('status', 'draft');
     }
-    public function scopePublishAndDraft($query){
+
+    public function scopePublishAndDraft($query)
+    {
         return $query->where('status', static::STATUS_DRAFT)->orWhere('status', static::STATUS_PUBLISH);
     }
 

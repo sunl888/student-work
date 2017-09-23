@@ -12,7 +12,6 @@ use App\Models\Task;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\WorkTypeRepository;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use League\Fractal\TransformerAbstract;
 
@@ -40,8 +39,8 @@ class TaskTransformer extends TransformerAbstract
     {
         $college = $this->validated();
         $task_progress = $task->task_progresses();
-        if (!($college['college'] == null) ) {
-            $task_progress = $task_progress->where(['college_id' =>$college]);
+        if (!($college['college'] == null)) {
+            $task_progress = $task_progress->where(['college_id' => $college]);
         }
 
         if (is_null($task_progress)) {
@@ -51,7 +50,8 @@ class TaskTransformer extends TransformerAbstract
         }
     }
 
-    public function validated(){
+    public function validated()
+    {
         $college = request()->only('college');
 
         $validate = \Validator::make($college, [
