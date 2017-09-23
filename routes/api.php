@@ -39,7 +39,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         // 添加责任人
         $api->post('create_allot_task/{task}/{college}', 'TaskProgressController@allotTask');
         // 学院显示的任务列表
-        $api->get('lists/{college?}', 'TaskController@getTasksByCollege');
+        $api->get('lists/{college}', 'TaskController@getTasksByCollege');
     });
 
     //老师
