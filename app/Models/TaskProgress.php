@@ -32,4 +32,13 @@ class TaskProgress extends BaseModel
     {
         return ucfirst($key);
     }*/
+
+    public function scopeAsUsers($query, $user){
+        //todo 这里贼恶心
+        return $query->where('user_id' , static::$personnelSign)
+            ->orWhere('user_id', $user)
+            ->orWhere('user_id', 'like' , '%'.",$user,".'%')
+            ->orWhere('user_id', 'like' , '%'."$user,".'%')
+            ->orWhere('user_id', 'like' , '%'.",$user".'%');
+    }
 }

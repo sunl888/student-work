@@ -21,6 +21,7 @@ use App\Repositories\UserRepository;
 use App\Repositories\WorkTypeRepository;
 use App\Transformers\TaskAndProgressTransformer;
 use App\Transformers\TaskTransformer;
+use Dingo\Api\Auth\Auth;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -171,9 +172,7 @@ class TaskController extends BaseController
 
     public function getTasksByTeacher()
     {
-        $condisions['user_id'] = $this->guard()->id();
-        $condisions['college_id'] = $this->guard()->user()->college_id;
-        $tasks = app(TaskProgress::class)->where(['user_id' => TaskProgress::$personnelSign])->orWhere($condisions)->get()->load('task');
+        $tasks = app(TaskProgress::class)->asUsers($this->guard()->id())->get()->load('task');
         $res = new Collection();
         foreach ($tasks as $task) {
             $tmp = $task->task()->where(['status' => 'publish'])->first();
@@ -188,16 +187,25 @@ class TaskController extends BaseController
         return $this->response()->array($res->forPage(request('page') ?: 1, $this->perPage())->toArray());
     }
 
+    /**
+     * 获取责任人
+     * @param $taskProgress
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|string|static|static[]
+     */
     public function getLeadOfficial($taskProgress)
     {
-        if ($taskProgress->user_id) {
-            if ($taskProgress->user_id == TaskProgress::$personnelSign) {
+        $userIds = explode(',', $taskProgress->user_id);
+        if (array_first($userIds) != null) {
+            if (strtolower(array_first($userIds)) == TaskProgress::$personnelSign) {
                 return '全体人员';
-            } else {
-                return app(User::class)->find($taskProgress->user_id)['name'];
+            } elseif (count($userIds) == 1) {
+                return User::find(array_first($userIds), ['id', 'name']);
+            } elseif (count($userIds) > 1) {
+                return User::whereIn('id', $userIds)->get(['id', 'name']);
             }
+        } else {
+            return null;
         }
-        return null;
     }
 
     public function task(Task $task)
