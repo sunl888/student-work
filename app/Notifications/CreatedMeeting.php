@@ -1,25 +1,32 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: 孙龙
+ * Date: 2017/9/24
+ * Time: 9:40
+ */
 
 namespace App\Notifications;
 
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Notification;
 
-class Task extends Notification implements ShouldQueue
+class CreatedMeeting extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected $task;
+    protected $metting;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($task)
+    public function __construct($metting)
     {
-        $this->task = $task;
+        $this->metting = $metting;
     }
 
     /**
@@ -42,11 +49,11 @@ class Task extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'task_id' => $this->task->id,
-            'title' => $this->task->title,
-            'detail' => $this->task->detail,
-            'created_at' => $this->task->created_at,
-            'message' => '任务通知：您有一个新任务：' . $this->task->title,
+            'id' =>$this->metting->id,
+            'title' => $this->metting->title,
+            'detail' => $this->metting->detail,
+            'created_at' => $this->metting->created_at,
+            'message' => '会议通知：您有一个新会议：' . $this->metting->title,
         ];
     }
 

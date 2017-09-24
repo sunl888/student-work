@@ -131,5 +131,9 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->get('all_users', 'UsersController@lists');
         // 获取用户角色
         $api->get('user/{user}/roles', 'UsersController@roles');
+        //创建会议
+        $api->post('metting', 'MettingController@store');
+        //获取会议
+        $api->get('mettings', 'MettingController@lists');
     });
 });

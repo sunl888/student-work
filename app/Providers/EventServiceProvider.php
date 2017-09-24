@@ -31,7 +31,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\TaskAlloted' => [
             //发送通知
             'App\Listeners\SendNotificationListener'
-        ]
+        ],
+        'App\Events\CreatedMeeting' =>[
+            'App\Listeners\SendNotificationListener'
+        ],
     ];
 
     /**

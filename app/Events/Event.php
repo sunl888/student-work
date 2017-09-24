@@ -2,6 +2,8 @@
 
 namespace App\Events;
 
+use App\Models\TaskProgress;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -30,5 +32,21 @@ class Event
     public function broadcastOn()
     {
         return new PrivateChannel('channel-name');
+    }
+
+    public function getLeadOfficial($users)
+    {
+        $userIds = explode(',', $users);
+        if (array_first($userIds) != null) {
+            if (strtolower(array_first($userIds)) == TaskProgress::$personnelSign) {
+                return '全体人员';
+            } elseif (count($userIds) == 1) {
+                return User::find(array_first($userIds), ['id', 'name']);
+            } elseif (count($userIds) > 1) {
+                return User::whereIn('id', $userIds)->get(['id', 'name']);
+            }
+        } else {
+            return null;
+        }
     }
 }
