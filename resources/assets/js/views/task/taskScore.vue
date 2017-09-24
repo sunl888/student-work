@@ -186,10 +186,10 @@
             },
             //任务评分
             goScore () {
-                this.$http.post('task_score/' + this.$route.params.id,{
-                    college_id: this.$route.params.college_id,
+                this.$http.post('submit_task/' + this.$route.params.id + '/' + this.$route.params.college_id,{
                     assess_id: this.formData.access_id,
                     quality: this.formData.quality,
+                    status: this.formData.finishedDate,
                     remark: this.formData.remark
                 }).then(res => {
                     this.$message.success('成功评分！')

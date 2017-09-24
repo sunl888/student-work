@@ -42,7 +42,7 @@ Vue.prototype.$http.interceptors.response.use((response) => {
     return Promise.reject(error);
 });
 
-function getMe() {
+function getMe(next) {
     Vue.prototype.$http.get('me').then(res => {
         store.commit('UPDATE_ME', res.data.data);
     });
@@ -63,16 +63,13 @@ function getMenu(next) {
     }
 }
 router.beforeEach((to, from, next) => {
-    if (to.name === 'home') {
-        getMenu(next);
-        getMe();
-    } else if(to.name === 'login'){
+    if(to.name === 'login'){
         store.state.menus = null;
         store.state.me = null;
         next();
     } else {
-        getMenu();
         getMe();
+        getMenu(next);
         next();
     }
 })

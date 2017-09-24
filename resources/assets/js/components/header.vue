@@ -101,8 +101,7 @@
       },
       logout () {
           this.$http.get('logout').then(res => {
-              this.$router.push({name: 'login'})
-              console.log(this.$store.state.menus)
+              this.$router.push({name: 'login'});
           })
       },
       loadAll () {
