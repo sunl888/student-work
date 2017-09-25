@@ -166,9 +166,11 @@ class TaskController extends BaseController
      */
     public function getTasksByCollege($college = null)
     {
-        $condisions = [];
+
         if($college instanceof College){
             $condisions['college_id'] = $college;
+        }else{
+            $condisions['college_id'] = $this->guard()->id();
         }
         return $this->response()->paginator($this->taskRepository->tasksByCollege($this->perPage(), $condisions), new TaskAndProgressTransformer());
     }
