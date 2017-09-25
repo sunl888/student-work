@@ -84,8 +84,8 @@
         methods: {
             // 获取各学院完成任务进度
             getTaskPro () {
-                this.$http.get('task_progress/' + this.$route.params.id).then(res => {
-                    this.taskPro = res.data.data
+                this.$http.get('task/' + this.$route.params.id + '?include=task_progresses').then(res => {
+                    this.taskPro = res.data.data.task_progresses.data
                     for(let x in this.taskPro){
                         if(this.taskPro[x].end_time === null){
                             this.taskPro[x].end_time = '尚未完成'

@@ -44,7 +44,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
 
     //老师
     $api->group(['middleware' => ['role:teacher']], function ($api) {
-        // 学院显示的任务列表
+        // 老师显示的任务列表
         $api->get('tasks_of_teacher', 'TaskController@getTasksByTeacher');
     });
 

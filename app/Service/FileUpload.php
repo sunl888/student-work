@@ -16,7 +16,7 @@ trait FileUpload
     public function uploadFile(Request $request)
     {
         $hasFile = $request->hasFile('file');
-        if (!$hasFile || !($file = $request->file('file'))->isValid()) {
+        if (!$hasFile || !($file = $request->file('file')->isValid())) {
             throw new UploadException('图片上传出错', 500);
         }
         $path = date('Y/m/d');

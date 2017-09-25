@@ -41,7 +41,13 @@ Vue.prototype.$http.interceptors.response.use((response) => {
     }
     return Promise.reject(error);
 });
-
+function getMe() {
+    if(store.state.me === null) {
+        Vue.prototype.$http.get('me').then(res => {
+            store.commit('UPDATE_ME', res.data.data);
+        });
+    }
+}
 function getMenu(next) {
     if(store.state.menus === null) {
         Vue.prototype.$http.get('menus').then(res => {
@@ -58,13 +64,15 @@ function getMenu(next) {
 }
 router.beforeEach((to, from, next) => {
     if(to.name === 'home'){
+        getMe();
         getMenu(next);
-        next();
     } else if(to.name === 'login'){
         store.state.menus = null;
+        store.state.me = null;
         next();
     } else {
-        getMenu(next);
+        getMenu();
+        getMe();
         next();
     }
 })

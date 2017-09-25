@@ -73,7 +73,7 @@
      </el-tab-pane>
      <el-tab-pane label="回收站" name="trashed_list">
        <div class="table">
-         <currency-list-page :autoRequest="false" ref="trashed_list" queryName="trashed_tasks">
+         <currency-list-page :autoRequest="false" ref="trashed_list" queryName="tasks?only_trashed=1">
            <template scope="list">
              <el-table
                :default-sort = "{prop: 'date', order: 'descending'}"
