@@ -39,7 +39,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         // 添加责任人
         $api->post('create_allot_task/{task}/{college}', 'TaskProgressController@allotTask');
         // 学院显示的任务列表
-        $api->get('lists/{college}', 'TaskController@getTasksByCollege');
+        $api->get('lists/{college?}', 'TaskController@getTasksByCollege');
     });
 
     //老师
@@ -137,5 +137,9 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->get('mettings', 'MeetingController@lists');
         //获取会议 meeting_id
         $api->get('metting/{meeting}', 'MeetingController@show');
+
+        //echart
+        //lists
+        $api->get('echart/lists', 'ChartController@lists');
     });
 });

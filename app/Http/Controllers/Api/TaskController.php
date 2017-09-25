@@ -164,9 +164,12 @@ class TaskController extends BaseController
      * 获取某个学院的任务列表
      * @param null $collegeId
      */
-    public function getTasksByCollege(College $college)
+    public function getTasksByCollege($college = null)
     {
-        $condisions['college_id'] = $college->id;
+        $condisions = [];
+        if($college instanceof College){
+            $condisions['college_id'] = $college;
+        }
         return $this->response()->paginator($this->taskRepository->tasksByCollege($this->perPage(), $condisions), new TaskAndProgressTransformer());
     }
 
