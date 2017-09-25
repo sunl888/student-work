@@ -49,7 +49,7 @@ class CreatedMeeting extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'id' =>$this->metting->id,
+            'id' => $this->metting->id,
             'title' => $this->metting->title,
             'detail' => $this->metting->detail,
             'created_at' => $this->metting->created_at,

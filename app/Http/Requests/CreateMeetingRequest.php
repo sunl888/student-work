@@ -24,10 +24,10 @@ class CreateMeetingRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' =>'required|max:255',
-            'detail' =>'reuqired',
-            'users' =>'required|users',
-            'start_time' =>'required|date',
+            'title' => 'required|max:255',
+            'detail' => 'reuqired',
+            'users' => 'required|users',
+            'start_time' => 'required|date',
         ];
     }
 

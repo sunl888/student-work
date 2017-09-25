@@ -13,8 +13,8 @@ class MeetingTransformer extends Transformer
         return [
             'id' => $meeting->id,
             'title' => $meeting->title,
-            'users' =>$this->getLeadOfficial($meeting->users),
-            'detail' =>$meeting->detail,
+            'users' => $this->getLeadOfficial($meeting->users),
+            'detail' => $meeting->detail,
             'created_at' => $meeting->created_at->toDateTimeString(),
             'updated_at' => $meeting->updated_at->toDateTimeString()
         ];

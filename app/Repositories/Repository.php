@@ -56,7 +56,8 @@ abstract class Repository implements RepositoryContract
         return $this->model->where($attribute, '=', $value)->first($columns);
     }
 
-    public function where($conditions){
+    public function where($conditions)
+    {
         return $this->model->where($conditions);
     }
 

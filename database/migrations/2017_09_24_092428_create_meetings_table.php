@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateMeetingsTable extends Migration
 {
@@ -14,13 +14,13 @@ class CreateMeetingsTable extends Migration
     public function up()
     {
         Schema::create('meetings', function (Blueprint $table) {
-           $table->increments('id');
-           $table->string('title');
-           $table->string('detail');
-           $table->string('users');
-           $table->dateTime('start_time');
-           //$table->dateTime('end_time')->nullable();
-           $table->timestamps();
+            $table->increments('id');
+            $table->string('title');
+            $table->string('detail');
+            $table->string('users');
+            $table->dateTime('start_time');
+            //$table->dateTime('end_time')->nullable();
+            $table->timestamps();
         });
     }
 

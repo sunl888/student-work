@@ -72,7 +72,7 @@ trait Listable
      * 例子：?keywords=ty&
      * @param $query
      * @param null $keywords
-     * @param null $searchScope  查询的字段范围
+     * @param null $searchScope 查询的字段范围
      * @return mixed
      */
     public function scopeWithSimpleSearch($query, $keywords = null, $searchScope = [])

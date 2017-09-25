@@ -21,7 +21,6 @@ use App\Repositories\UserRepository;
 use App\Repositories\WorkTypeRepository;
 use App\Transformers\TaskAndProgressTransformer;
 use App\Transformers\TaskTransformer;
-use Dingo\Api\Auth\Auth;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -167,9 +166,9 @@ class TaskController extends BaseController
     public function getTasksByCollege($college = null)
     {
 
-        if($college instanceof College){
+        if ($college instanceof College) {
             $condisions['college_id'] = $college;
-        }else{
+        } else {
             $condisions['college_id'] = $this->guard()->id();
         }
         return $this->response()->paginator($this->taskRepository->tasksByCollege($this->perPage(), $condisions), new TaskAndProgressTransformer());

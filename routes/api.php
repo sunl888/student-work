@@ -33,6 +33,10 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('users', 'UsersController@usersWithCollege');
     // 显示任务详情  ?include=task_progresses ?college=1  显示各个学院的完成情况
     $api->get('task/{task}', 'TaskController@task');
+    //获取所有会议 ?user=1 ?title=  ?detail=
+    $api->get('mettings', 'MeetingController@lists');
+    //获取会议 meeting_id
+    $api->get('metting/{meeting}', 'MeetingController@show');
 
     //学院
     $api->group(['middleware' => ['role:college']], function ($api) {
@@ -133,10 +137,6 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->get('user/{user}/roles', 'UsersController@roles');
         //创建会议
         $api->post('metting', 'MeetingController@store');
-        //获取所有会议
-        $api->get('mettings', 'MeetingController@lists');
-        //获取会议 meeting_id
-        $api->get('metting/{meeting}', 'MeetingController@show');
 
         //echart
         //lists

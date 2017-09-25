@@ -21,8 +21,8 @@ class UsersTableSeeder extends Seeder
                 'college_id' => null,
                 'picture' => null,
                 'gender' => true,
-                'created_at' => Carbon::now()->addMinutes(random_int(1,59)),
-                'updated_at' => Carbon::now()->addMinutes(random_int(1,59))
+                'created_at' => Carbon::now()->addMinutes(random_int(1, 59)),
+                'updated_at' => Carbon::now()->addMinutes(random_int(1, 59))
             ], [
                 'id' => 2,
                 'name' => 'jsj',
@@ -31,8 +31,8 @@ class UsersTableSeeder extends Seeder
                 'college_id' => 9,
                 'picture' => null,
                 'gender' => true,
-                'created_at' => Carbon::now()->addMinutes(random_int(1,59)),
-                'updated_at' => Carbon::now()->addMinutes(random_int(1,59))
+                'created_at' => Carbon::now()->addMinutes(random_int(1, 59)),
+                'updated_at' => Carbon::now()->addMinutes(random_int(1, 59))
             ], [
                 'id' => 3,
                 'name' => 'fxy',
@@ -41,8 +41,8 @@ class UsersTableSeeder extends Seeder
                 'college_id' => 6,
                 'picture' => null,
                 'gender' => true,
-                'created_at' => Carbon::now()->addMinutes(random_int(1,59)),
-                'updated_at' => Carbon::now()->addMinutes(random_int(1,59))
+                'created_at' => Carbon::now()->addMinutes(random_int(1, 59)),
+                'updated_at' => Carbon::now()->addMinutes(random_int(1, 59))
             ], [
                 'id' => 4,
                 'name' => 'mks',
@@ -51,8 +51,8 @@ class UsersTableSeeder extends Seeder
                 'college_id' => 8,
                 'picture' => null,
                 'gender' => true,
-                'created_at' => Carbon::now()->addMinutes(random_int(1,59)),
-                'updated_at' => Carbon::now()->addMinutes(random_int(1,59))
+                'created_at' => Carbon::now()->addMinutes(random_int(1, 59)),
+                'updated_at' => Carbon::now()->addMinutes(random_int(1, 59))
             ], [
                 'id' => 5,
                 'name' => 'sunlong',
@@ -61,8 +61,8 @@ class UsersTableSeeder extends Seeder
                 'college_id' => 9,
                 'picture' => null,
                 'gender' => true,
-                'created_at' => Carbon::now()->addMinutes(random_int(1,59)),
-                'updated_at' => Carbon::now()->addMinutes(random_int(1,59))
+                'created_at' => Carbon::now()->addMinutes(random_int(1, 59)),
+                'updated_at' => Carbon::now()->addMinutes(random_int(1, 59))
             ], [
                 'id' => 6,
                 'name' => 'wqer',
@@ -71,8 +71,8 @@ class UsersTableSeeder extends Seeder
                 'college_id' => 9,
                 'picture' => null,
                 'gender' => true,
-                'created_at' => Carbon::now()->addMinutes(random_int(1,59)),
-                'updated_at' => Carbon::now()->addMinutes(random_int(1,59))
+                'created_at' => Carbon::now()->addMinutes(random_int(1, 59)),
+                'updated_at' => Carbon::now()->addMinutes(random_int(1, 59))
             ], [
                 'id' => 7,
                 'name' => 'lisi',
@@ -81,8 +81,8 @@ class UsersTableSeeder extends Seeder
                 'college_id' => 8,
                 'picture' => null,
                 'gender' => true,
-                'created_at' => Carbon::now()->addMinutes(random_int(1,59)),
-                'updated_at' => Carbon::now()->addMinutes(random_int(1,59))
+                'created_at' => Carbon::now()->addMinutes(random_int(1, 59)),
+                'updated_at' => Carbon::now()->addMinutes(random_int(1, 59))
             ], [
                 'id' => 8,
                 'name' => 'wangwu',
@@ -91,8 +91,8 @@ class UsersTableSeeder extends Seeder
                 'college_id' => 8,
                 'picture' => null,
                 'gender' => true,
-                'created_at' => Carbon::now()->addMinutes(random_int(1,59)),
-                'updated_at' => Carbon::now()->addMinutes(random_int(1,59))
+                'created_at' => Carbon::now()->addMinutes(random_int(1, 59)),
+                'updated_at' => Carbon::now()->addMinutes(random_int(1, 59))
             ], [
                 'id' => 9,
                 'name' => 'lili',
@@ -101,8 +101,8 @@ class UsersTableSeeder extends Seeder
                 'college_id' => 6,
                 'picture' => null,
                 'gender' => true,
-                'created_at' => Carbon::now()->addMinutes(random_int(1,59)),
-                'updated_at' => Carbon::now()->addMinutes(random_int(1,59))
+                'created_at' => Carbon::now()->addMinutes(random_int(1, 59)),
+                'updated_at' => Carbon::now()->addMinutes(random_int(1, 59))
             ], [
                 'id' => 10,
                 'name' => 'zz',
@@ -111,8 +111,8 @@ class UsersTableSeeder extends Seeder
                 'college_id' => 6,
                 'picture' => null,
                 'gender' => true,
-                'created_at' => Carbon::now()->addMinutes(random_int(1,59)),
-                'updated_at' => Carbon::now()->addMinutes(random_int(1,59))
+                'created_at' => Carbon::now()->addMinutes(random_int(1, 59)),
+                'updated_at' => Carbon::now()->addMinutes(random_int(1, 59))
             ]
         ]);
     }

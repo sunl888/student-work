@@ -32,7 +32,7 @@ class EventServiceProvider extends ServiceProvider
             //发送通知
             'App\Listeners\SendNotificationListener'
         ],
-        'App\Events\CreatedMeeting' =>[
+        'App\Events\CreatedMeeting' => [
             'App\Listeners\SendNotificationListener'
         ],
     ];

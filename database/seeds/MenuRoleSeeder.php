@@ -33,10 +33,10 @@ class MenuRoleSeeder extends Seeder
             ], [//用户管理
                 'menu_id' => 5,
                 'role_id' => 1,
-            ],[//用户管理
+            ], [//用户管理
                 'menu_id' => 5,
                 'role_id' => 2,
-            ],[//用户管理
+            ], [//用户管理
                 'menu_id' => 5,
                 'role_id' => 3,
             ], [//用户列表
@@ -45,13 +45,13 @@ class MenuRoleSeeder extends Seeder
             ], [//添加用户
                 'menu_id' => 7,
                 'role_id' => 1,
-            ],[//修改用户信息
+            ], [//修改用户信息
                 'menu_id' => 19,
                 'role_id' => 1,
-            ],[
+            ], [
                 'menu_id' => 19,
                 'role_id' => 2,
-            ],[
+            ], [
                 'menu_id' => 19,
                 'role_id' => 3,
             ], [//工作通知
@@ -111,6 +111,18 @@ class MenuRoleSeeder extends Seeder
             ], [
                 'menu_id' => 21,
                 'role_id' => 1,
+            ], [
+                'menu_id' => 20,
+                'role_id' => 2,
+            ], [
+                'menu_id' => 21,
+                'role_id' => 2,
+            ], [
+                'menu_id' => 20,
+                'role_id' => 3,
+            ], [
+                'menu_id' => 21,
+                'role_id' => 3,
             ]
         ]);
     }

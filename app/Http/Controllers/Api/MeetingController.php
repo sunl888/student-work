@@ -6,6 +6,7 @@ use App\Events\CreatedMeeting;
 use App\Http\Requests\CreateMeetingRequest;
 use App\Models\Meeting;
 use App\Transformers\MeetingTransformer;
+use Illuminate\Http\Request;
 
 class MeetingController extends BaseController
 {
@@ -16,11 +17,13 @@ class MeetingController extends BaseController
         return $this->response()->noContent();
     }
 
-    public function lists(){
-        return $this->response()->collection(Meeting::all(), new MeetingTransformer());
+    public function lists(Request $request)
+    {
+        return $this->response()->collection(Meeting::applyFilter($request)->get(), new MeetingTransformer());
     }
 
-    public function show(Meeting $meeting){
+    public function show(Meeting $meeting)
+    {
         return $this->response()->item($meeting, new MeetingTransformer());
     }
 }
