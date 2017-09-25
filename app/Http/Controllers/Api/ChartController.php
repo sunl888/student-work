@@ -29,6 +29,6 @@ class ChartController extends Controller
                 }
             }
         }
-        dd($data);
+        return response()->json($data);
     }
 }

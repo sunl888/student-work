@@ -34,9 +34,10 @@
                                     min-width="100">
                             </el-table-column>
                             <el-table-column
-                                    prop="leading_official"
+                                    inline-template
                                     sortable
                                     label="责任人">
+                                    <span>{{row.leading_official ? row.leading_official.name : '尚未指定'}}</span>
                             </el-table-column>
 
                             <el-table-column
@@ -55,7 +56,7 @@
                                 <template class="operaBtn">
                                     <el-button-group>
                                         <el-button size="small" type="danger" :disabled="row.status !== '未完成'" @click="reminders(row)" title="催交">催交</el-button>
-                                        <el-button size="small" type="info" :disabled="row.assess !=='尚未评分' || row.leading_official === '尚未指定'" @click="goScore(row.college_id)" title="评分">评分</el-button>
+                                        <el-button size="small" type="info" :disabled="row.assess !=='尚未评分' || !row.leading_official" @click="goScore(row.college_id)" title="评分">评分</el-button>
                                         <el-button size="small" type="success" :disabled="row.assess === '尚未评分'" @click="browse(row.college_id)" title="评分">查看</el-button>
                                     </el-button-group>
                                 </template>
@@ -89,9 +90,6 @@
                     for(let x in this.taskPro){
                         if(this.taskPro[x].end_time === null){
                             this.taskPro[x].end_time = '尚未完成'
-                        }
-                        if(this.taskPro[x].leading_official === null){
-                            this.taskPro[x].leading_official = '尚未指定'
                         }
                         if(this.taskPro[x].assess === null){
                             this.taskPro[x].assess = '尚未评分'

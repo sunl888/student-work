@@ -12,23 +12,23 @@
                     <div>工作类型：<span>{{ item.work_type }}</span></div>
                     <div> 对口科室：<span>{{ item.department }}</span></div>
                     <div>截止日期：<span>{{ item.end_time }}</span></div>
-                    <div>责任人：<span>{{ item.user ? item.user : '尚未指定' }}</span></div>
+                    <div v-if="taskPro.leading_official.name!==undefined">责任人：<span>{{ taskPro.leading_official.name!==undefined ? taskPro.leading_official.name : '尚未指定' }}</span></div>
                     <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>
                 <!--操作按钮-->
                 <div class="seal">
-                    <span v-if="item.finished_at">已完成</span>
-                    <el-button :disabled="!item.assess" @click="isScores = true" type="info">查看评分结果</el-button>
+                    <!-- <span v-if="item.finished_at">已完成</span> -->
+                    <el-button :disabled="!taskPro.assess" @click="isScores = true" type="info">查看评分结果</el-button>
                     <el-dialog title="评分结果" :visible.sync="isScores" class="scoreBox el-col-16 el-col-offset-4">
                         <el-form :label-width="formLabelWidth2" label-position="right">
                             <el-form-item label="完成质量">
-                                <p class="scoreRes">{{item.quality}}</p>
+                                <p class="scoreRes">{{taskPro.quality}}</p>
                             </el-form-item>
                             <el-form-item label="考核等级">
-                                <el-tag :type="color">{{item.assess}}</el-tag>
+                                <el-tag :type="color">{{taskPro.assess}}</el-tag>
                             </el-form-item>
                             <el-form-item label="备注">
-                                <p class="scoreRes">{{item.remark}}</p>
+                                <p class="scoreRes">{{taskPro.remark}}</p>
                             </el-form-item>
                         </el-form>
                     </el-dialog>
@@ -57,6 +57,7 @@
                 currOption: [],
                 //当前选中责任人ID
                 allot: null,
+                taskPro: [],
                 //任务提交时是否过了截止日期
                 delay: {
                     delayReson: '',
@@ -80,6 +81,11 @@
                     label: 'name',
                     value: 'id'
                 }
+            }
+        },
+        computed: {
+            me () {
+                return this.$store.state.me ? this.$store.state.me : {};
             }
         },
         methods: {
@@ -143,9 +149,13 @@
             },
             //获取任务详情()
             loadItem () {
-                this.$http.get('task_detail/' + this.$route.params.id).then(res => {
-                    this.item = res.data.data
-                })
+                window.setTimeout(()=>{
+                    this.$http.get('task/' + this.$route.params.id + '?include=task_progresses&college='+this.me.college_id).then(res => {
+                        this.item = res.data.data
+                        this.taskPro = this.item.task_progresses.data[0];
+
+                    })
+                },1000);
             },
             //获取学院所有用户
             getUsers () {

@@ -2,8 +2,8 @@
   <div class="menuBox">
     <el-menu router unique-opened theme="dark" default-active="1" >
       <div class="mine">
-        <!-- <i v-if=me style="color:white;" class="material-icons">account_circle</i> -->
-        <!-- <img class="photo" v-else :src="me.picture" alt=""> -->
+        <i v-if="me.picture == null" style="color:white;" class="material-icons">account_circle</i>
+        <img class="photo" v-else :src="me.picture" alt="">
         <p>{{'您好，' + me.name}}</p>
         <p v-if="me.college!=undefined">{{me.college.title}}</p>
       </div>
@@ -22,11 +22,14 @@
 <script>
 import { mapState } from 'vuex'
 export default{
-    computed: mapState({
-        // 箭头函数可使代码更简练
-        menus: state => state.menus,
-        me: state => state.me
-    })
+  computed:{
+    me () {
+      return this.$store.state.me ? this.$store.state.me : {};
+    },
+    menus () {
+      return this.$store.state.menus ? this.$store.state.menus : {}; 
+    }
+  }
 }
 </script>
 <style scoped>

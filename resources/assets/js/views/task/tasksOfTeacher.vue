@@ -32,7 +32,7 @@
                                 >
                                 </el-table-column>
                                 <el-table-column
-                                        prop="departdata nt"
+                                        prop="department"
                                         label="对口科室"
                                         width="120"
                                         sortable

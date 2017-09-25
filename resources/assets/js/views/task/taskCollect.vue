@@ -1,63 +1,197 @@
 <template>
-	<div id="main">
-		
-	</div>
+<div>
+  <div class="query">
+    <el-date-picker
+      v-model="query.range"
+      type="daterange"
+      placeholder="在日期范围内汇总任务">
+    </el-date-picker>
+    <el-select v-model="query.work_type" placeholder="按工作类型汇总任务">
+        <el-option
+                v-for="item in workTypeList"
+                :key="item.id"
+                :label="item.title"
+                :value="item.id"></el-option>
+    </el-select>
+    <el-select v-model="query.department" placeholder="按对口科室汇总任务">
+        <el-option
+                v-for="item in departmentList"
+                :key="item.id"
+                :label="item.title"
+                :value="item.id"></el-option>
+    </el-select>
+    <el-select v-model="query.college" placeholder="按学院汇总任务">
+        <el-option
+                v-for="item in collegesList"
+                :key="item.id"
+                :label="item.title"
+                :value="item.id"></el-option>
+    </el-select>
+  </div>
+  <div id="main">
+  </div>
+  <div v-if="isTable" class="table">
+    <el-table
+    :data="tableData"
+    stripe
+    border
+    style="width: 100%">
+    <el-table-column
+      prop="title"
+      label="任务名称"
+      >
+    </el-table-column>
+    <el-table-column
+      prop="work_type"
+      label="工作类型"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="department"
+      label="对口科室">
+    </el-table-column>
+    <el-table-column
+      prop="status"
+      label="任务状态">
+    </el-table-column>
+    <el-table-column
+      prop="status"
+      inline-template
+      label="操作">
+      <template>
+        <el-button-group>
+          <el-button @click="jump(row)" type="primary">查看</el-button>
+        </el-button-group>
+      </template>
+    </el-table-column>
+  </el-table>
+  </div>
+</div>
+
 </template>
 <script>
 import echarts from 'echarts'
+import ecConfig from 'echarts';  
 export default{
+  data () {
+    return {
+      isTable:false,
+      finished: [],
+      unfinished: [],
+      college:[],
+      tableData:[],
+      workTypeList: [],
+      departmentList: [],
+      collegesList: [],
+      query: {
+        range: null,
+        work_type: null,
+        department: null,
+        college:null
+      },
+      option:{
+         tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            legend: {
+                data:['已完成','未完成']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis : [
+                {
+                    clickable : true,
+                    type : 'category',
+                    data : ['化工',' 文化', '生工', ' 教育', '电工', '法学院',' 机电', '马克思','计算机','外国语', '经管', '体育','金融', '音乐','美院']
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    clickable : true,
+                    name:'已完成',
+                    stack: '已完成',
+                    type:'bar'
+                },
+                {
+                    clickable : true,
+                    name:'未完成',
+                    type:'bar',
+                    stack: '未完成'
+                }
+            ]   
+      }
+    }
+  },
 	mounted () {
-      // 基于准备好的dom，初始化echarts实例
-      var myChart = echarts.init(document.getElementById('main'));
-      // 绘制图表
-      myChart.setOption({
-              title : {
-                  text: '最近一个月任务情况'
-                  // subtext: '数据来自网络'
-              },
-              tooltip : {
-                  trigger: 'axis'
-              },
-              legend: {
-                  data : ['完成情况', '质量评分'],
-              },
-              toolbox: {
-                  show : true,
-                  feature : {
-                      mark : {show: true},
-                      dataView : {show: true, readOnly: false},
-                      magicType: {show: true, type: ['line', 'bar']},
-                      restore : {show: true},
-                      saveAsImage : {show: true}
-                  }
-              },
-              calculable : true,
-              xAxis : [
-                  {
-                      type : 'value',
-                      boundaryGap : [0, 0.01]
-                  }
-              ],
-              yAxis : [
-                  {
-                      type : 'category',
-                      data : ['化学与材料工程学院','生物工程学院','电子工程学院','机械与电气工程学院','计算机学院','经济与管理学院',
-                '金融学院','美术与设计学院','文化创意与传播学院','教育学院','法学院','马克思主义学院','外国语学院','体育学院','音乐与舞蹈学院']
-                  }
-              ],
-              series : [
-                  {
-                      name:'完成情况',
-                      type:'bar',
-                      data:[15,20,3,5,8,12,24,31,23,5,11,8,4,6,7]
-                  },
-                  {
-                      name:'质量评分',
-                      type:'bar',
-                      data:[82,71,42,61,77,81,90,68,77,62,97,52,44,84,92]
-                  }
-              ]      
+    this.getData()
+    this.getWorkTypeList()
+    this.getDepartmentsList()
+    this.getCollegesList()
+  },
+  methods: {
+    // 获取工作类型列表
+    getWorkTypeList () {
+      this.$http.get('work_types').then(res => {
+        this.workTypeList = res.data.data
       })
+    },
+    // 获取对口科室列表
+    getDepartmentsList () {
+      this.$http.get('departments').then(res => {
+        this.departmentList = res.data.data
+      })
+    },
+     // 获取学院
+    getCollegesList () {
+        this.$http.get('colleges').then(res => {
+            this.collegesList = res.data.data
+        })
+    },
+    jump (row) {
+      this.$router.push('task_item/' + row.id)
+    },
+    getData(){
+      this.$http.get('echart/lists').then(res => {
+        for(let x in res.data){
+          this.finished.push(res.data[x].finisheds)
+          this.unfinished.push(res.data[x].unfinisheds)
+        }
+        this.finished.pop();
+        this.option.series[0].data = this.finished
+        this.option.series[1].data = this.unfinished
+        var myChart = echarts.init(document.getElementById('main'));
+        myChart.setOption(this.option)
+        myChart.on('click', this.eConsole);
+      })
+    },
+    eConsole(param) {    
+        if (typeof param.seriesIndex == 'undefined') {    
+            return;    
+        }    
+        if (param.type == 'click') {
+          this.isTable = true,
+            this.getTaskPro(param.dataIndex) 
+            //获取任务进程
+             
+        }    
+    },
+    getTaskPro (x) {
+        this.$http.get('tasks/').then(res => {
+            this.tableData = res.data.data
+        })
+    } 
   }
 }
 
@@ -65,6 +199,12 @@ export default{
 <style scoped>
 	#main{
     width:100%;
-    min-height:1200px;
+    min-height:400px;
+    margin-top:20px;
+    margin-bottom:20px;
+  }
+  .query{
+    padding:20px 0;
+    width:100%;
   }
 </style>

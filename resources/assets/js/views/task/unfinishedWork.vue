@@ -68,6 +68,7 @@
                 </el-table-column>
                 <el-table-column
                         label="操作"
+                        width="170"
                         inline-template
                 >
                   <template>
@@ -162,7 +163,12 @@
             }
         },
         mounted () {
-            this.getUsers()
+            this.getUsers();
+        },
+        computed: {
+            me () {
+                return this.$store.state.me ? this.$store.state.me : {};
+            }
         },
         methods: {
             //查看任务
@@ -223,8 +229,7 @@
             },
             //指定责任人
             appoint () {
-                this.$http.post('create_allot_task', {
-                    task_id: this.temp.id,
+                this.$http.post('create_allot_task/' + this.temp.id + this.$store.state.me.college_id, {
                     user_id: this.allot
                 }).then(res => {
                     this.isAllot = true
@@ -239,7 +244,6 @@
             getUsers () {
                 this.$http.get('users').then(res => {
                     this.options[1].children = res.data.users
-                    console.log(this.options[1].children)
                 })
             }
         }

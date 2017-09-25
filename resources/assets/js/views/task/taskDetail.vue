@@ -12,12 +12,12 @@
                     <div>工作类型：<span>{{ item.work_type }}</span></div>
                     <div> 对口科室：<span>{{ item.department }}</span></div>
                     <div>截止日期：<span>{{ item.end_time }}</span></div>
-                    <div>责任人：<span>{{ item.user ? item.user : '尚未指定' }}</span></div>
+                    <div v-if="taskPro">责任人：<span>{{ taskPro.leading_official ? taskPro.leading_official : '尚未指定' }}</span></div>
                     <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>
                 <!--操作按钮-->
                 <div class="appoint" v-if=!item.finished_at>
-                        <el-button v-if="!item.user" class="appo" @click="isDia = true" type="success">指定责任人</el-button>
+                        <el-button v-if="!taskPro.leading_official" class="appo" @click="isDia = true" type="success">指定责任人</el-button>
                         <el-button v-else class="appo" @click="isDia = true" type="success">修改责任人</el-button>
                     <!--指定责任人-->
                     <el-dialog title="指定责任人" :visible.sync="isDia" top="30%">
@@ -53,7 +53,7 @@
                 </div>
                 <div class="seal" v-else>
                 <!--     <span>已完成</span> -->
-                    <el-button :disabled="!item.assess" @click="isScores = true" type="info">查看评分结果</el-button>
+                    <el-button :disabled="!taskPro.assess" @click="isScores = true" type="info">查看评分结果</el-button>
                     <el-dialog title="评分结果" :visible.sync="isScores" class="scoreBox el-col-16 el-col-offset-4">
                         <el-form :label-width="formLabelWidth2" label-position="right">
                             <el-form-item label="完成质量">
@@ -88,6 +88,8 @@
                 isScores: false,
                 //当前选中一级菜单
                 currOption: [],
+                mine: [],
+                taskPro: [],
                 //当前选中责任人ID
                 allot: null,
                 //任务提交时是否过了截止日期
@@ -115,7 +117,12 @@
                 }
             }
         },
-        methods: {
+        computed: {
+            me () {
+                return this.$store.state.me ? this.$store.state.me : {};
+            }
+        },
+        methods: {        
             //随机生成颜色
             isColor () {
                 var color = [
@@ -162,8 +169,7 @@
             },
             //指定责任人
             appoint () {
-                this.$http.post('create_allot_task', {
-                    task_id: this.$route.params.id,
+                this.$http.post('create_allot_task/' + this.$route.params.id + '/' + this.me.college_id, {
                     user_id: this.allot
                 }).then(res => {
                     this.isAllot = true
@@ -176,9 +182,12 @@
             },
             //获取任务详情()
             loadItem () {
-                this.$http.get('task_detail/' + this.$route.params.id).then(res => {
-                    this.item = res.data.data
-                })
+                window.setTimeout(()=>{
+                    this.$http.get('task/' + this.$route.params.id + '?include=task_progresses&college='+this.me.college_id).then(res => {
+                        this.item = res.data.data
+                        this.taskPro = this.item.task_progresses.data[0];
+                    })
+                },1000);
             },
             //获取学院所有用户
             getUsers () {
@@ -189,13 +198,16 @@
         },
         beforeRouteUpdate (to, from, next) {
             next();
-            this.loadItem()
+            // this.loadItem()
             this.getUsers()
         },
         mounted () {
-            this.loadItem()
-            this.getUsers()
-            this.isColor()
+            // this.me();
+            window.setTimeout(()=>{
+                this.loadItem();
+                this.getUsers();
+                this.isColor();
+            },1000);
         }
     }
 </script>

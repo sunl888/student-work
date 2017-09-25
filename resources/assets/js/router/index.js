@@ -103,12 +103,19 @@ export default new Router({
           meta: {title: '会议管理'},
           component: parentComponent,
           children: [
-          {
-            path: 'cahier_create',
-            name: 'cahier_create',
-            meta: {title: '会议记录'},
-            component: require('../views/cahier/cahierCreate.vue')
-          }]
+            {
+              path: 'cahier_create',
+              name: 'cahier_create',
+              meta: {title: '会议记录'},
+              component: require('../views/cahier/cahierCreate.vue')
+            },
+            {
+              path: 'add_metting',
+              name: 'add_metting',
+              meta: {title: '添加会议'},
+              component: require('../views/cahier/addMetting.vue')
+            }
+          ]
         },
         {
               path: 'user_lists',

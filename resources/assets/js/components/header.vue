@@ -18,13 +18,14 @@
         <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="index" :to="{ path: item.path }">{{item.title}}</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="operation">
-        <el-button type="primary" @click="$router.push({name: 'add_task'})">添加任务</el-button>
+        <el-button :disabled="!me.is_super_admin" :plain="true" type="primary" @click="$router.push({name: 'add_metting'})">添加会议</el-button>
+        <el-button :disabled="!me.is_super_admin" type="primary" @click="$router.push({name: 'add_task'})">添加任务</el-button>
         <el-popover
                 ref="unreadBox"
                 placement="bottom-start"
                 width="160"
                 v-model="visible">
-            <a :title="value.data.task_id" @click="goItem(value.data.task_id)" :key="value.id" v-for="value in unreadData">
+            <a :title="value.data.message" @click="goItem(value.data.task_id)" :key="value.id" v-for="value in unreadData">
               {{value.data.message}}
             </a>
             <p v-if=isTips style="line-height:40px;font-size:14px;text-align:center">暂时还没有通知哦</p>
@@ -42,7 +43,6 @@
   </div>
 </template>
 <script>
-import {mapState} from 'vuex'
   export default {
     data () {
       return {
@@ -55,10 +55,11 @@ import {mapState} from 'vuex'
         isTips: false
       }
     },
-    computed: mapState({
-        // 箭头函数可使代码更简练
-        me: state => state.me
-    }),
+    computed:{
+      me () {
+        return this.$store.state.me ? this.$store.state.me : {};
+      }
+    },
     watch: {
         '$route': 'updateBreadcrumbs'
     },

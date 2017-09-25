@@ -9,7 +9,7 @@
                     <el-button type="primary" icon="plus" @click="$router.push({path: 'add_task'})"></el-button>
                   </p>
                 </div>
-                <div v-else-if="queryName == 'trashed_tasks'">
+                <div v-else-if="queryName == 'tasks/trashed_tasks=1'">
                   <p>
                     当前还没有已删除的任务
                   </p>
@@ -22,6 +22,11 @@
               <div v-else-if="queryName == 'users'">
                   <p>
                       当前没有已创建的用户
+                  </p>
+              </div>
+              <div v-else-if="queryName == 'mettings'">
+                  <p>
+                      当前没有会议记录
                   </p>
               </div>
               <div v-else>

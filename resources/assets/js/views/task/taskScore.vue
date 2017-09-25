@@ -13,10 +13,8 @@
                             <p>任务要求：<span>{{ item.detail }}</span></p>
                         </el-collapse-item>
                         <el-collapse-item title="任务进程" name="2">
-                            <p>负责人：<span>{{ taskPro.leading_official }}</span></p>
+                            <p>负责人：<span>{{ taskPro.leading_official.name || '' }}</span></p>
                             <p>所属学院：<span>{{ taskPro.college }}</span></p>
-                            <p>完成时间：<span>{{ taskPro.end_time}}</span></p>
-                            <p v-if="taskPro.delay">推迟理由：<span>{{ taskPro.delay  }}</span></p>
                         </el-collapse-item>
                     </el-collapse>
                 </div>
@@ -74,6 +72,9 @@
                         </el-form-item>
                     </el-form>
                     <el-form v-else label-position="right"  label-width="80px" :rules="rules" :model="formData">
+                        <el-form-item prop="quality" label="完成时间">
+                            <p>{{taskPro.end_time}}</p>
+                        </el-form-item>
                         <el-form-item prop="quality" label="完成质量">
                             <p>{{taskPro.quality}}</p>
                         </el-form-item>
@@ -171,8 +172,8 @@
             },
             //获取任务进程
             getTaskPro () {
-                this.$http.get('task_progress/' + this.$route.params.id).then(res => {
-                    this.taskPro = res.data.data[this.$route.params.college_id-1]
+                this.$http.get('task/' + this.$route.params.id + '?include=task_progresses').then(res => {
+                    this.taskPro = res.data.data.task_progresses.data[this.$route.params.college_id-1]
                 })
             },
             //获取此任务的催交情况
@@ -211,7 +212,7 @@
             this.getRemind()
             this.getAccess()
             this.isScore()
-
+            this.isColor()
         }
     }
 </script>
