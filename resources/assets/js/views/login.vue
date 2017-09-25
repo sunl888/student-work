@@ -32,6 +32,10 @@
               isLoading: false
           }
       },
+      computed: mapState({
+        // 箭头函数可使代码更简练
+        menus: state => state.menus
+      }),
       methods: {
           login() {
               this.isLoading = true

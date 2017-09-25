@@ -142,7 +142,7 @@
       this.task = this.loadAll(),
       this.updateBreadcrumbs(),
       this.unreadNotify()
-      this.getMe()
+      // this.getMe()
     }
   }
 </script>
