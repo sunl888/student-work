@@ -1,28 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Sunlong
- * Date: 2017/7/29
- * Time: 16:14
- */
 
 namespace App\Transformers;
 
+use App\Models\Meeting;
 use App\Models\TaskProgress;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
-use League\Fractal\TransformerAbstract;
 
-class Transformer extends TransformerAbstract
+class MeetingTransformer extends Transformer
 {
-    /**
-     * 获取责任人
-     * @param $taskProgress
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|string|static|static[]
-     */
-    public function getLeadOfficial($taskProgress)
+    public function transform(Meeting $meeting)
     {
-        $userIds = explode(',', $taskProgress->user_id);
+        return [
+            'id' => $meeting->id,
+            'title' => $meeting->title,
+            'users' =>$this->getLeadOfficial($meeting->users),
+            'detail' =>$meeting->detail,
+            'created_at' => $meeting->created_at->toDateTimeString(),
+            'updated_at' => $meeting->updated_at->toDateTimeString()
+        ];
+    }
+
+    public function getLeadOfficial($users)
+    {
+        $userIds = explode(',', $users);
         if (array_first($userIds) != null) {
             if (strtolower(array_first($userIds)) == TaskProgress::$personnelSign) {
                 return '全体人员';
@@ -35,5 +35,4 @@ class Transformer extends TransformerAbstract
             return null;
         }
     }
-
 }

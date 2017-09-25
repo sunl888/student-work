@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 
 class Event
 {
@@ -34,16 +35,16 @@ class Event
         return new PrivateChannel('channel-name');
     }
 
-    public function getLeadOfficial($users)
+    public function getUsers($users)
     {
         $userIds = explode(',', $users);
         if (array_first($userIds) != null) {
             if (strtolower(array_first($userIds)) == TaskProgress::$personnelSign) {
-                return '全体人员';
+                return User::where('college_id', Auth::user()->college_id)->get();
             } elseif (count($userIds) == 1) {
-                return User::find(array_first($userIds), ['id', 'name']);
+                return User::where('id', array_first($userIds))->get();
             } elseif (count($userIds) > 1) {
-                return User::whereIn('id', $userIds)->get(['id', 'name']);
+                return User::whereIn('id', $userIds)->get();
             }
         } else {
             return null;

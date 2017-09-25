@@ -16,7 +16,7 @@ class CreatedMeeting extends Event
 
     public function __construct($users, $metting)
     {
-        $users = $this->getLeadOfficial($users);
+        $users = $this->getUsers($users);
         $this->users = $users;
         $this->metting = $metting;
     }
