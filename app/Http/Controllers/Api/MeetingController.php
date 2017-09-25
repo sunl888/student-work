@@ -19,4 +19,8 @@ class MeetingController extends BaseController
     public function lists(){
         return $this->response()->collection(Meeting::all(), new MeetingTransformer());
     }
+
+    public function show(Meeting $meeting){
+        return $this->response()->item($meeting, new MeetingTransformer());
+    }
 }
