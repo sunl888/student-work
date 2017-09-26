@@ -43,17 +43,7 @@ class MenusSeeder extends Seeder
                 'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ], /*[
-                'id' => 4,
-                'name' => '任务考核汇总',
-                'parent_id' => 1,
-                'icon' => '',
-                'url' => 'task_collect',
-                'description' => '任务考核汇总',
-                'is_nav' => false,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],*/ [
+            ], [
                 'id' => 4,
                 'name' => '用户管理',
                 'parent_id' => 0,
@@ -66,7 +56,7 @@ class MenusSeeder extends Seeder
             ], [
                 'id' => 5,
                 'name' => '用户列表',
-                'parent_id' => 5,
+                'parent_id' => 4,
                 'icon' => '',
                 'url' => 'user_lists',
                 'description' => '用户列表',
@@ -76,7 +66,7 @@ class MenusSeeder extends Seeder
             ], [
                 'id' => 6,
                 'name' => '创建用户',
-                'parent_id' => 5,
+                'parent_id' => 4,
                 'icon' => '',
                 'url' => 'add_user',
                 'description' => '创建用户',
@@ -86,7 +76,7 @@ class MenusSeeder extends Seeder
             ],[
                 'id' => 7,
                 'name' => '更新用户',
-                'parent_id' => 5,
+                'parent_id' => 4,
                 'icon' => '',
                 'url' => 'user_update',
                 'description' => '更新用户',
@@ -126,7 +116,7 @@ class MenusSeeder extends Seeder
             ], [
                 'id' => 11,
                 'name' => '学院名称设置',
-                'parent_id' => 11,
+                'parent_id' => 10,
                 'icon' => '',
                 'url' => 'colleges',
                 'description' => '学院名称设置',
@@ -136,7 +126,7 @@ class MenusSeeder extends Seeder
             ], [
                 'id' => 12,
                 'name' => '工作类型设置',
-                'parent_id' => 11,
+                'parent_id' => 10,
                 'icon' => '',
                 'url' => 'work_type',
                 'description' => '工作类型设置',
@@ -146,7 +136,7 @@ class MenusSeeder extends Seeder
             ], [
                 'id' => 13,
                 'name' => '对口科室设置',
-                'parent_id' => 11,
+                'parent_id' => 10,
                 'icon' => '',
                 'url' => 'department',
                 'description' => '对口科室设置',
@@ -156,7 +146,7 @@ class MenusSeeder extends Seeder
             ], [
                 'id' => 14,
                 'name' => '考核等级设置',
-                'parent_id' => 11,
+                'parent_id' => 10,
                 'icon' => '',
                 'url' => 'access',
                 'description' => '考核等级设置',
@@ -196,7 +186,7 @@ class MenusSeeder extends Seeder
             ], [
                 'id' => 18,
                 'name' => '会议记录',
-                'parent_id' => 20,
+                'parent_id' => 17,
                 'icon' => '',
                 'url' => 'cahier_lists',
                 'description' => '会议记录',
@@ -206,7 +196,7 @@ class MenusSeeder extends Seeder
             ],[
                 'id' => 19,
                 'name' => '创建会议',
-                'parent_id' => 20,
+                'parent_id' => 17,
                 'icon' => '',
                 'url' => 'cahier_create',
                 'description' => '创建会议',
@@ -216,7 +206,7 @@ class MenusSeeder extends Seeder
             ],[
                 'id' => 20,
                 'name' => '任务汇总',
-                'parent_id' => 20,
+                'parent_id' => 0,
                 'icon' => 'multiline_chart',
                 'url' => '',
                 'description' => '任务汇总',
@@ -224,7 +214,7 @@ class MenusSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],[
-                'id' => 20,
+                'id' => 21,
                 'name' => '任务汇总',
                 'parent_id' => 20,
                 'icon' => '',
@@ -234,12 +224,12 @@ class MenusSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],[
-                'id' => 21,
+                'id' => 22,
                 'name' => '图表显示',
                 'parent_id' => 20,
-                'icon' => 'multiline_chart',
-                'url' => '',
-                'description' => '图表',
+                'icon' => '',
+                'url' => 'echart',
+                'description' => '图表显示',
                 'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
