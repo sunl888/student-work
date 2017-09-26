@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 use App\Models\Traits\Listable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -27,11 +26,6 @@ class Task extends BaseModel
     {
         return $this->hasMany(TaskProgress::class);
     }
-
-    /*public function getStatusAttribute($status)
-    {
-        return $status=='draft'?'未审核':'已审核';
-    }*/
 
     public function isPublish()
     {
@@ -77,14 +71,4 @@ class Task extends BaseModel
         else
             return $query->publishAndDraft();
     }
-    /**
-     * 延迟提交
-     * rule: 当前日期是否大于任务的截止日期 ?: false
-     * @return bool
-     */
-    /*public function isDelay()
-    {
-        $end_time = Carbon::parse($this->end_time);
-        return (Carbon::now()->gt($end_time));
-    }*/
 }
