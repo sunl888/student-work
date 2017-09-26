@@ -15,7 +15,6 @@ class ChartController extends Controller
         $data = [];
         $tasks = Task::applyFilter($request)->publish()->get()->load('task_progresses');
         $data['meta']['count'] = count($tasks);
-
         foreach ($tasks as $task) {
             foreach ($task->task_progresses as $task_progress) {
                 if (!isset($data[$task_progress->college_id])) {

@@ -17,6 +17,7 @@ class TaskProgress extends BaseModel
 
     protected $table = 'task_progresses';
     protected $fillable = ['task_id', 'college_id', 'user_id', 'assess_id', 'status', 'delay', 'quality', 'remark', 'remind'];
+    protected static $allowGroupFields = ['user_id', 'college_id'];
 
     public function isFinishedTask()
     {

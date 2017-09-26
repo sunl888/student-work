@@ -98,4 +98,19 @@ trait Listable
         }
         return $query;
     }
+
+    public function scopeWithGroup($query, $groups = null){
+        $groups = is_null($groups) ? request('groups', null) : $groups;
+        if(!empty($groups)){
+            if (is_string($groups)) {
+                // ?groups=task_work_id,departments_id
+                $groups = explode(',', $groups);
+                foreach ($groups as $group) {
+                    if (in_array($group, static::$allowGroupFields)) {
+                        $query->groupBy($group);
+                    }
+                }
+            }
+        }
+    }
 }

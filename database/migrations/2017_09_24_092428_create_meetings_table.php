@@ -19,7 +19,6 @@ class CreateMeetingsTable extends Migration
             $table->string('detail');
             $table->string('users');
             $table->dateTime('start_time');
-            //$table->dateTime('end_time')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateMeetingsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('meetings');
     }
 }

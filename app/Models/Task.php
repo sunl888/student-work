@@ -13,7 +13,8 @@ class Task extends BaseModel
 
     public static $allowUpdateFields = ['title', 'detail', 'work_type_id', 'department_id', 'end_time'];
     protected static $allowSearchFields = ['title', 'detail', 'id'];
-    protected static $allowSortFields = ['created_at', 'end_time'];
+    protected static $allowGroupFields = ['work_type_id', 'department_id'];
+    protected static $allowSortFields = ['created_at', 'work_type_id', 'department_id', 'end_time'];
     public $timestamps = true;
     protected $fillable = ['title', 'detail', 'work_type_id', 'department_id', 'end_time', 'status'];
     protected $hasDefaultValuesFields = ['status'];
@@ -54,13 +55,18 @@ class Task extends BaseModel
 
     public function scopeApplyFilter($query, $data)
     {
-        $data = $data->only('status', 'only_trashed');
+        $data = $data->only('status', 'only_trashed', 'start_date', 'end_date');
         $query->withSimpleSearch()
+            //->withGroup()
             ->withSort()
             ->byStatus(isset($data['status']) ? $data['status'] : null);
         if (isset($data['only_trashed']) && $data['only_trashed']) {
             $query->onlyTrashed();
         }
+        if (isset($data['start_date']) && $data['end_date']) {
+            $query->range($data['start_date'], $data['end_date']);
+        }
+
         return $query->recent();
     }
 
