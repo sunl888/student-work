@@ -20,7 +20,6 @@
                 <el-table-column
                         prop="title"
                         sortable
-                        width="200"
                         label="任务名称"
                 >
                 </el-table-column>
@@ -50,7 +49,11 @@
                         label="责任人"
                         inline-template
                 >
-                  <span>{{row.user ? row.user : '尚未指定'}}</span>
+                <span>
+                    <p v-if="row.user.length>1" v-for="value in row.user">{{value.name}}</p>
+                    <span v-else-if="row.user.name">{{row.user.name}}</span>
+                    <span v-else>尚未指定</span>
+                </span>
                 </el-table-column>
                 <el-table-column
                         inline-template
@@ -80,34 +83,15 @@
                 </el-table-column>
               </el-table>
               <!--指定责任人-->
-              <el-dialog title="指定责任人" :visible.sync="isDia" top="30%">
+              <el-dialog title="指定责任人" :visible.sync="isDia" top="10%">
                 <el-form>
-                  <el-form-item label="指定责任人" :label-width="formLabelWidth">
-                    <el-cascader
-                            @change="current()"
-                            :options="options"
-                            v-model="currOption"
-                            :props="prop"
-                    >
-                    </el-cascader>
+                  <el-form-item>
+                    <el-transfer :titles="['本学院可选责任人', '已选中的责任人']" v-model="allot" :data="users"></el-transfer>
                   </el-form-item>
                 </el-form>
                 <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
                   <el-button @click="isDia = false">取 消</el-button>
                   <el-button type="primary" @click="appoint()">确 定</el-button>
-                </div>
-              </el-dialog>
-              <!--填写推迟理由-->
-              <el-dialog title="推迟理由" :visible.sync="delay.isDelay" top="30%">
-                <p class='delayMessage'>{{delay.delayMessage}}</p>
-                <el-form>
-                  <el-form-item label="推迟理由" :label-width="formLabelWidth2">
-                    <el-input type="textarea" placeholder="请填写推迟理由" v-model="delay.delayReson"></el-input>
-                  </el-form-item>
-                </el-form>
-                <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
-                  <el-button @click="delay.isDelay = false">取 消</el-button>
-                  <el-button type="primary" @click="isSubmit(delay.delayReson)" required>确 定</el-button>
                 </div>
               </el-dialog>
             </template>
@@ -134,7 +118,7 @@
                 //当前选中一级菜单
                 currOption: [],
                 //当前选中责任人ID
-                allot: null,
+                allot: [],
                 //临时数组，存放row.id
                 temp: [],
                 //任务提交时是否过了截止日期
@@ -187,50 +171,13 @@
                 this.isDia = x
                 this.temp = row
             },
-            //获取当前选项
-            current(){
-                if(this.currOption[1]){
-                    this.allot = this.currOption[1]
-                } else {
-                    this.allot = this.currOption[0]
-                }
-            },
-            //判断提交时间是否过了截止日期
-            goSubmit (x) {
-                this.$confirm('提交任务后将无法取消, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.$http.get('is_delay/' + x.id).then(res => {
-                        this.temp = x
-                        if (res.data.isDelay) {
-                            this.delay.delayMessage = '此任务已经过了截止日期，请填写推迟理由后提交！'
-                            this.delay.isDelay = true
-                        } else {
-                            this.isSubmit()
-                        }
-                    })
-                }).catch(() => {
-                    this.$message.info('取消提交任务')
-                })
-            },
-            //去提交任务
-            isSubmit(val){
-                this.$http.post('submit_task/' + this.temp.id,{
-                    delay: val
-                }).then(res=>{
-                    this.$message.success('提交成功,此任务已完成!')
-                    this.delay.isDelay = false
-                    this.$refs['list'].refresh()
-                }).catch(res => {
-                    this.$message.error(res.message)
-                })
-            },
             //指定责任人
             appoint () {
+                if(this.allot.length == this.users.length){
+                    this.allot = 'all';
+                }
                 this.$http.post('create_allot_task/' + this.temp.id + '/' + this.me, {
-                    user_id: this.allot
+                    user_id: this.allot == 'all' ? this.allot : this.allot.join(',')
                 }).then(res => {
                     this.isAllot = true
                     this.isDia = false
@@ -243,7 +190,11 @@
             //获取学院所有用户
             getUsers () {
                 this.$http.get('users').then(res => {
-                    this.options[1].children = res.data.users
+                    for(let i in res.data.users)
+                    this.users.push({
+                        label: res.data.users[i].name,
+                        key: res.data.users[i].id
+                    })
                 })
             }
         }
@@ -264,5 +215,9 @@
     text-align:center;
     font-size:12px;
     padding-bottom:10px;
+  }
+
+  .el-transfer-panel__item .el-checkbox__input {
+    left:40px;
   }
 </style>

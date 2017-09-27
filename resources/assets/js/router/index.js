@@ -204,6 +204,12 @@ export default new Router({
               component: require('../views/cahier/cahierCreate.vue')
             },
             {
+              path: 'cahier_detail/:id',
+              name: 'cahier_detail',
+              meta: {title: '会议详情'},
+              component: require('../views/cahier/cahierDetail.vue')
+            },
+            {
               path: 'cahier_create',
               name: 'cahier_create',
               meta: {title: '添加会议'},
@@ -221,7 +227,21 @@ export default new Router({
                 path: '',
                 name: 'task_summary',
                 meta: {title: '任务汇总'},
-                component: require('../views/task/taskCollect.vue')
+                component: require('../views/summary/table.vue')
+            },
+            {
+                //各学院老师
+                path: 'echart',
+                name: 'echart',
+                meta: {title: '图表显示'},
+                component: require('../views/summary/echarts.vue')
+            },
+            {
+                //各学院老师
+                path: 'char_table/:id',
+                name: 'char_table',
+                meta: {title: '表格显示'},
+                component: require('../views/summary/charTable.vue')
             }
           ]
         }

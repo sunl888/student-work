@@ -12,7 +12,8 @@
                     <div>工作类型：<span>{{ item.work_type }}</span></div>
                     <div> 对口科室：<span>{{ item.department }}</span></div>
                     <div>截止日期：<span>{{ item.end_time }}</span></div>
-                    <div>责任人：<span>{{ leading }}</span></div>
+                    <div>责任人：<span v-for="value in leading">{{value.label}}</span>
+                    </div>
                     <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>
                 <!--操作按钮-->
@@ -20,34 +21,15 @@
                         <el-button v-if="!taskPro.leading_official" class="appo" @click="isDia = true" type="success">指定责任人</el-button>
                         <el-button v-else class="appo" @click="isDia = true" type="success">修改责任人</el-button>
                     <!--指定责任人-->
-                    <el-dialog title="指定责任人" :visible.sync="isDia" top="30%">
+                    <el-dialog title="指定责任人" :visible.sync="isDia" top="10%">
                         <el-form>
-                            <el-form-item label="指定责任人" :label-width="formLabelWidth">
-                                <el-cascader
-                                        @change="current()"
-                                        :options="options"
-                                        v-model="currOption"
-                                        :props="prop"
-                                >
-                                </el-cascader>
+                            <el-form-item>
+                                <el-transfer :titles="['本学院可选责任人', '已选中的责任人']" v-model="allot" :data="users"></el-transfer>
                             </el-form-item>
                         </el-form>
                         <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
                             <el-button @click="isDia = false">取 消</el-button>
                             <el-button type="primary" @click="appoint()">确 定</el-button>
-                        </div>
-                    </el-dialog>
-                    <!--填写推迟理由-->
-                    <el-dialog title="推迟理由" :visible.sync="delay.isDelay" top="30%">
-                        <p class='delayMessage'>{{delay.delayMessage}}</p>
-                        <el-form>
-                            <el-form-item label="推迟理由" :label-width="formLabelWidth2">
-                                <el-input type="textarea" placeholder="请填写推迟理由" v-model="delay.delayReson"></el-input>
-                            </el-form-item>
-                        </el-form>
-                        <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
-                            <el-button @click="delay.isDelay = false">取 消</el-button>
-                            <el-button type="primary" @click="isSubmit(delay.delayReson)" required>确 定</el-button>
                         </div>
                     </el-dialog>
                 </div>
@@ -92,7 +74,7 @@
                 mine: [],
                 taskPro: [],
                 //当前选中责任人ID
-                allot: null,
+                allot: [],
                 //任务提交时是否过了截止日期
                 delay: {
                     delayReson: '',
@@ -170,14 +152,16 @@
             },
             //指定责任人
             appoint () {
+                if(this.allot.length == this.users.length){
+                    this.allot = 'all';
+                }
                 this.$http.post('create_allot_task/' + this.$route.params.id + '/' + this.me, {
-                    user_id: this.allot
+                    user_id: this.allot == 'all' ? this.allot : this.allot.join(',')
                 }).then(res => {
                     this.isAllot = true
                     this.isDia = false
-                    this.loadItem()
                     this.$message.success('指定成功')
-                    this.$router.back();
+                    this.$refs['list'].refresh()
                 }).catch(res => {
                     this.$message.error('指定失败,请重新操作')
                 })
@@ -187,13 +171,17 @@
                 this.$http.get('task/' + this.$route.params.id + '?include=task_progresses&college='+this.me).then(res => {
                     this.item = res.data.data;
                     this.taskPro = this.item.task_progresses.data[0];
-                    this.leading = this.taskPro.leading_official?this.taskPro.leading_official.name:'尚未指定';
+                    this.leading = this.taskPro.leading_official?this.taskPro.leading_official:'尚未指定';
                 })
             },
             //获取学院所有用户
             getUsers () {
                 this.$http.get('users').then(res => {
-                    this.options[1].children = res.data.users
+                    for(let i in res.data.users)
+                    this.users.push({
+                        label: res.data.users[i].name,
+                        key: res.data.users[i].id
+                    })
                 })
             }
         },

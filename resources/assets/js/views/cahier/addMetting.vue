@@ -22,25 +22,21 @@
             </el-date-picker>
           </el-form-item>
           <!--完成时间-->
-          <el-form-item label="参会人员" prop="people">
-            <el-checkbox-group v-model="ruleForm.people">
-                 <el-checkbox id="check" @change="addTag(value)" v-for="value in users" :label="value.id" :key="value.id">{{value.name}}</el-checkbox>
-             </el-checkbox-group>
-             <el-tag style="margin-right:10px"
-                  @close="removeTag(tag)"
-                  v-if="tags"
-                  v-for="(tag,index) in tags"
-                  :key="tag"
-                  :closable="true"
-                  :type="color[index]" 
-                >
-                    {{tag}}
-                </el-tag>
+          <el-form-item label="参会学院" prop="college">
+            <el-select class="optionBox" v-model="ruleForm.college" @change="loadTransfer(ruleForm.college)">
+              <el-option
+                      v-for="item in collegesList"
+                      :key="item.id"
+                      :label="item.title"
+                      :value="item.id"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="该学院参会人员" prop="people">
+              <el-transfer v-model="ruleForm.people" :data="users"></el-transfer>
           </el-form-item>
           <!--按钮组-->
           <el-form-item>
-            <el-button v-if="isEdit" type="primary" @click="editTask('ruleForm')">立即修改</el-button>
-            <el-button v-else type="primary" @click="createTask('ruleForm')">立即添加</el-button>
+            <el-button type="primary" @click="createTask('ruleForm')">立即添加</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
         </el-form>
@@ -53,14 +49,14 @@
   export default{
     data () {
       return {
-        // 是否是修改
-        isEdit: false,
+        collegesList: [],
         users: [],
         tags: [],
         ruleForm: {
           title: '',
           detail: '',
           people: [],
+          college: null,
           time: ''
         },
         color: [],
@@ -70,6 +66,9 @@
           ],
           detail: [
             { type: 'string', required: true, message: '请填写会议内容', trigger: 'change' }
+          ],
+          college: [
+            { type: 'number', required: true, message: '请选择参会学院', trigger: 'change' }
           ],
           people: [
             { type: 'array', required: true, message: '请选择参会人员', trigger: 'change' }
@@ -81,7 +80,7 @@
       }
     },
     mounted () {
-      this.getUsers();
+      this.getCollegesList();
     },
     methods: {
       removeTag(x){
@@ -125,29 +124,19 @@
                 this.color[i] = color[Math.floor(Math.random()*10)]
         }
       },
-      // 修改任务
-      editTask (formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.$http.post('update_task/' + this.$route.params.id, this.$diff.diff(this.ruleForm)).then(res => {
-                this.$message({
-                message: '修改任务成功',
-                type: 'success'
-              })
-              this.$router.push({name: 'task_manage'})
-            })
-          } else {
-            return false
-          }
-        })
-      },
       // 重置
       resetForm (formName) {
         this.$refs[formName].resetFields()
       },
+      // 获取学院
+      getCollegesList () {
+          this.$http.get('colleges').then(res => {
+              this.collegesList = res.data.data
+          })
+      },
       //获取学院所有用户
-      getUsers () {
-          this.$http.get('all_users').then(res => {
+      loadTransfer (id) {
+          this.$http.get('users/'+id).then(res => {
               this.users = res.data.data
           })
       }

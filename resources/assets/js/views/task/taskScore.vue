@@ -25,9 +25,15 @@
                               v-model="formData.finishedDate"
                               align="right"
                               type="date"
-                              @change="isDelays()"
                               placeholder="选择完成日期">
                             </el-date-picker>
+                        </el-form-item>
+                        <el-form-item prop="finishedDate" label="是否迟交">
+                            <el-switch
+                              v-model="isDelay"
+                              on-color="#13ce66"
+                              off-color="#ff4949">
+                            </el-switch>
                         </el-form-item>
                          <el-form-item prop="delayReson" v-if="isDelay" label='推迟理由'>
                             <el-input
@@ -75,6 +81,20 @@
                         <el-form-item prop="quality" label="完成时间">
                             <p>{{taskPro.end_time}}</p>
                         </el-form-item>
+                        <el-form-item prop="finishedDate" label="是否迟交">
+                            <el-switch
+                              v-model="isDelay"
+                              on-color="#13ce66"
+                              off-color="#ff4949"
+                              on-text="是"
+                              off-text="否"
+                              disabled
+                              >
+                            </el-switch>
+                        </el-form-item>
+                         <el-form-item prop="delayReson" v-if="isDelay" label='推迟理由'>
+                            <p>{{taskPro.delay}}</p>
+                        </el-form-item>
                         <el-form-item prop="quality" label="完成质量">
                             <p>{{taskPro.quality}}</p>
                         </el-form-item>
@@ -121,6 +141,7 @@
                 //未展开的记录
                 modRemind: [],
                 isDelay: false,
+                isDelays:false,
                 // 表单数据
                 formData: {
                     finishedDate: null,
@@ -161,9 +182,6 @@
                   this.isScores = false
               }
             },
-            isDelays(){
-
-            },
             //获取任务详情
             loadItem () {
                 this.$http.get('task/' + this.$route.params.id).then(res => {
@@ -191,7 +209,8 @@
                     assess_id: this.formData.access_id,
                     quality: this.formData.quality,
                     status: this.formData.finishedDate,
-                    remark: this.formData.remark
+                    remark: this.formData.remark,
+                    delay: this.formData.delayReson
                 }).then(res => {
                     this.$message.success('成功评分！')
                     this.$router.back()

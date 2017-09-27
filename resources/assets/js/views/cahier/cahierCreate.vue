@@ -3,68 +3,36 @@
     <el-tabs v-model="activeName" @tab-click="request" >
       <el-tab-pane label="会议列表" name="list">
         <div class="table">
-          <currency-list-page ref="list" queryName="mettings">
+          <currency-list-page ref="list" :queryName="query">
             <template scope="list">
               <el-table
                       :default-sort = "{prop: 'created_at', order: 'descending'}"
                       :data="list.data"
                       stripe
-                      border
+                       border
                       style="width: 100%">
                 <el-table-column
                         prop="created_at"
                         sortable
                         label="发布日期"
-                        width="110">
+                        width="200">
                 </el-table-column>
                 <el-table-column
                         prop="title"
                         sortable
-                        width="200"
+                        min-width="400"
                         label="任务名称"
                 >
                 </el-table-column>
                 <el-table-column
-                        prop="work_type"
-                        label="工作类型"
-                        width="100"
-                        sortable
-                >
-                </el-table-column>
-                <el-table-column
-                        prop="department"
-                        label="对口科室"
-                        width="100"
-                        sortable
-                >
-                </el-table-column>
-                <el-table-column
-                        label="截止时间"
-                        width="110"
-                        sortable
-                        prop="end_time"
-                >
-                </el-table-column>
-                <el-table-column
-                        width="100"
-                        label="责任人"
                         inline-template
+                        min-width="200"
+                        sortable
+                        label="参会人员"
                 >
-                  <span>{{row.user ? row.user : '尚未指定'}}</span>
-                </el-table-column>
-                <el-table-column
-                        inline-template
-                        label="状态"
-                        width="100"
-                >
-                  <span>{{row.finished_at === null ? '未完成' : '已完成' }}</span>
-                </el-table-column>
-                <el-table-column
-                        label="任务评分"
-                        width="100"
-                        inline-template
-                >
-                  <span>{{ !row.assess ? '尚未评分' : row.assess}}</span>
+                <span>
+                  <span v-for="value in row.users">{{value.name + '&nbsp;'}}</span><span v-if="row.users.length>5">{{'等'}}</span>  
+                </span>
                 </el-table-column>
                 <el-table-column
                         label="操作"
@@ -89,7 +57,8 @@
         components: {CurrencyListPage},
         data () {
             return {
-                activeName: 'list'
+                activeName: 'list',
+                query: ''
             }
         },
         computed: {
@@ -100,19 +69,26 @@
         methods: {
             //查看任务
             browseTask (id) {
-                this.$router.push({name: 'task_detail',
+                this.$router.push({name: 'cahier_detail',
                     params: {
                         id
                     }
                 })
+            },
+            querys () {
+                if(this.me.is_super_admin){
+                    this.query = 'mettings';
+                } else {
+                    this.query = 'mettings?user=' + this.me.id;
+                }
             },
             //刷新表格
             request (tab) {
                 this.$refs[tab.name].refresh();
             }
         },
-        mounted () {
-            console.log(this.$store.state.menus);
+        beforeMount () {
+            this.querys()
         }
     }
 </script>

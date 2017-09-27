@@ -114,11 +114,17 @@
                                 this.list[x].task.end_time = this.dataFilter(this.list[x].task.end_time)
                                 if(this.list[x].assess === null)this.list[x].assess = '尚未评分'
                             }
-                        } else {
+                        }
+                        else if(this.queryName.match('mettings')){
                             this.list = res.data.data;
                             for(let x in this.list){
-                                this.list[x].created_at = this.dataFilter(this.list[x].created_at)
+                              this.list[x].title = this.list[x].title.substr(0,100) + '...';
                             }
+                          } else {
+                          this.list = res.data.data;
+                          for(let x in this.list){
+                              this.list[x].created_at = this.dataFilter(this.list[x].created_at)
+                          }
                         }
                         this.total = res.data.meta.pagination.total;
                         // this.perPage = res.data.meta.pagination.per_page
