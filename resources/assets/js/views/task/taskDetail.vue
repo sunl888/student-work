@@ -199,16 +199,12 @@
         },
         beforeRouteUpdate (to, from, next) {
             next();
-            // this.loadItem()
             this.getUsers()
         },
         mounted () {
-            // this.me();
-            window.setTimeout(()=>{
-                this.loadItem();
-                this.getUsers();
-                this.isColor();
-            },1000);
+            this.loadItem();
+            this.getUsers();
+            this.isColor();
         }
     }
 </script>

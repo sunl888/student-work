@@ -72,44 +72,10 @@
                         inline-template
                 >
                   <template>
-                    <el-button-group>
-                        <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
-                        <el-button :disabled='row.finished_at!==null' type="success" size="small" @click="isAppoints(true, row)">{{!row.user ? '指定责任人' : '修改责任人'}}</el-button>
-                    </el-button-group>
+                    <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
                   </template>
                 </el-table-column>
               </el-table>
-              <!--指定责任人-->
-              <el-dialog title="指定责任人" :visible.sync="isDia" top="30%">
-                <el-form>
-                  <el-form-item label="指定责任人" :label-width="formLabelWidth">
-                    <el-cascader
-                            @change="current()"
-                            :options="options"
-                            v-model="currOption"
-                            :props="prop"
-                    >
-                    </el-cascader>
-                  </el-form-item>
-                </el-form>
-                <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
-                  <el-button @click="isDia = false">取 消</el-button>
-                  <el-button type="primary" @click="appoint()">确 定</el-button>
-                </div>
-              </el-dialog>
-              <!--填写推迟理由-->
-              <el-dialog title="推迟理由" :visible.sync="delay.isDelay" top="30%">
-                <p class='delayMessage'>{{delay.delayMessage}}</p>
-                <el-form>
-                  <el-form-item label="推迟理由" :label-width="formLabelWidth2">
-                    <el-input type="textarea" placeholder="请填写推迟理由" v-model="delay.delayReson"></el-input>
-                  </el-form-item>
-                </el-form>
-                <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
-                  <el-button @click="delay.isDelay = false">取 消</el-button>
-                  <el-button type="primary" @click="isSubmit(delay.delayReson)" required>确 定</el-button>
-                </div>
-              </el-dialog>
             </template>
           </currency-list-page>
         </div>
@@ -123,47 +89,8 @@
         components: {CurrencyListPage},
         data () {
             return {
-                activeName: 'list',
-                //获取各学院可选责任人
-                users: [],
-                //是否显示dialog
-                isDia: false,
-                isAllot: false,
-                //是否显示评分结果
-                isScores: false,
-                //当前选中一级菜单
-                currOption: [],
-                //当前选中责任人ID
-                allot: null,
-                //临时数组，存放row.id
-                temp: [],
-                //任务提交时是否过了截止日期
-                delay: {
-                    delayReson: '',
-                    isDelay: false,
-                    delayMessage: ''
-                },
-                formLabelWidth: '210px',
-                formLabelWidth2: '100px',
-                //责任人级联选择器一级菜单
-                options: [
-                    {
-                        name: '全体人员', id: 'all'
-                    },
-                    {
-                        name: '具体单一', id: 'only',
-                        children: [
-                        ]
-                    }
-                ],
-                prop: {
-                    label: 'name',
-                    value: 'id'
-                }
+                activeName: 'list'
             }
-        },
-        mounted () {
-            this.getUsers();
         },
         computed: {
             me () {
@@ -182,70 +109,10 @@
             //刷新表格
             request (tab) {
                 this.$refs[tab.name].refresh();
-            },
-            isAppoints(x, row){
-                this.isDia = x
-                this.temp = row
-            },
-            //获取当前选项
-            current(){
-                if(this.currOption[1]){
-                    this.allot = this.currOption[1]
-                } else {
-                    this.allot = this.currOption[0]
-                }
-            },
-            //判断提交时间是否过了截止日期
-            goSubmit (x) {
-                this.$confirm('提交任务后将无法取消, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.$http.get('is_delay/' + x.id).then(res => {
-                        this.temp = x
-                        if (res.data.isDelay) {
-                            this.delay.delayMessage = '此任务已经过了截止日期，请填写推迟理由后提交！'
-                            this.delay.isDelay = true
-                        } else {
-                            this.isSubmit()
-                        }
-                    })
-                }).catch(() => {
-                    this.$message.info('取消提交任务')
-                })
-            },
-            //去提交任务
-            isSubmit(val){
-                this.$http.post('submit_task/' + this.temp.id,{
-                    delay: val
-                }).then(res=>{
-                    this.$message.success('提交成功,此任务已完成!')
-                    this.delay.isDelay = false
-                    this.$refs['list'].refresh()
-                }).catch(res => {
-                    this.$message.error(res.message)
-                })
-            },
-            //指定责任人
-            appoint () {
-                this.$http.post('create_allot_task/' + this.temp.id + this.$store.state.me.college_id, {
-                    user_id: this.allot
-                }).then(res => {
-                    this.isAllot = true
-                    this.isDia = false
-                    this.$message.success('指定成功')
-                    this.$refs['list'].refresh()
-                }).catch(res => {
-                    this.$message.error('指定失败,请重新操作')
-                })
-            },
-            //获取学院所有用户
-            getUsers () {
-                this.$http.get('users').then(res => {
-                    this.options[1].children = res.data.users
-                })
             }
+        },
+        mounted () {
+            console.log(this.$store.state.menus);
         }
     }
 </script>
