@@ -169,7 +169,7 @@ class TaskController extends BaseController
         if ($college instanceof College) {
             $condisions['college_id'] = $college;
         } else {
-            $condisions['college_id'] = $this->guard()->id();
+            $condisions['college_id'] = $this->guard()->user()->college_id;
         }
         return $this->response()->paginator($this->taskRepository->tasksByCollege($this->perPage(), $condisions), new TaskAndProgressTransformer());
     }
