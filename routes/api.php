@@ -74,7 +74,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->post('remind/{task}/{college}', 'TaskController@remind');
         // 获取任务的催交记录
         $api->get('reminds/{task}/{college}', 'TaskController@getReminds');
-        // 任务列表 ?only_trashed=0|1 ?status=draft|publish ?orders=work_type_id,department_id ?start_date=,end_date=
+        // 任务列表 ?only_trashed=0|1 ?status=draft|publish ?orders=work_type_id,department_id ?start_date=?&end_date=?
         $api->get('tasks', 'TaskController@tasks');
         // 获取工作类型
         $api->get('work_types', 'WorkTypeController@lists');
