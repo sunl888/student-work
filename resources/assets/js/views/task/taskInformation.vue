@@ -12,7 +12,7 @@
                     <div>工作类型：<span>{{ item.work_type }}</span></div>
                     <div> 对口科室：<span>{{ item.department }}</span></div>
                     <div>截止日期：<span>{{ item.end_time }}</span></div>
-                    <div v-if="taskPro.leading_official.name!==undefined">责任人：<span>{{ taskPro.leading_official.name!==undefined ? taskPro.leading_official.name : '尚未指定' }}</span></div>
+                    <div>责任人：<span>{{ leading }}</span></div>
                     <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>
                 <!--操作按钮-->
@@ -41,6 +41,7 @@
     export default{
         data () {
             return {
+                leading: '',
                 color: '',
                 //任务详情
                 item: [],
@@ -85,7 +86,7 @@
         },
         computed: {
             me () {
-                return this.$store.state.me ? this.$store.state.me : {};
+                return this.$store.state.me.college_id ? this.$store.state.me.college_id : {};
             }
         },
         methods: {
@@ -150,10 +151,10 @@
             //获取任务详情()
             loadItem () {
                 window.setTimeout(()=>{
-                    this.$http.get('task/' + this.$route.params.id + '?include=task_progresses&college='+this.me.college_id).then(res => {
+                    this.$http.get('task/' + this.$route.params.id + '?include=task_progresses&college='+this.me).then(res => {
                         this.item = res.data.data
                         this.taskPro = this.item.task_progresses.data[0];
-
+                        this.leading = this.taskPro.leading_official?this.taskPro.leading_official.name:'尚未指定';
                     })
                 },1000);
             },

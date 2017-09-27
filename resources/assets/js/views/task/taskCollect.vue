@@ -79,6 +79,7 @@ export default{
       finished: [],
       unfinished: [],
       college:[],
+      item:[],
       tableData:[],
       workTypeList: [],
       departmentList: [],
@@ -164,6 +165,7 @@ export default{
     },
     getData(){
       this.$http.get('echart/lists').then(res => {
+        this.item = res.data;
         for(let x in res.data){
           this.finished.push(res.data[x].finisheds)
           this.unfinished.push(res.data[x].unfinisheds)
@@ -182,13 +184,14 @@ export default{
         }    
         if (param.type == 'click') {
           this.isTable = true,
-            this.getTaskPro(param.dataIndex) 
+          console.log(this.item[param.dataIndex+1])
+          this.getTaskPro(param.dataIndex+1) 
             //获取任务进程
              
         }    
     },
     getTaskPro (x) {
-        this.$http.get('tasks/').then(res => {
+        this.$http.get('tasks?include=task_progresses&college='+this.item[x].college_id).then(res => {
             this.tableData = res.data.data
         })
     } 

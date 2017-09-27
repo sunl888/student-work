@@ -104,11 +104,11 @@
                 }
             }
         },
-        mounted () {},
-        computed: mapState({
-            // 箭头函数可使代码更简练
-            me: state => state.me
-        }),
+        computed: {
+            me () {
+                return this.$store.state.me ? this.$store.state.me : {};
+            }
+        },
         methods: {
             // 修改任务
             editUser (formName) {

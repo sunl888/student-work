@@ -3,7 +3,7 @@
     <el-tabs v-model="activeName" @tab-click="request" >
       <el-tab-pane label="任务列表" name="list">
         <div class="table">
-          <currency-list-page ref="list" queryName="lists">
+          <currency-list-page ref="list" queryName="lists?include=task_progresses&college=9">
             <template scope="list">
               <el-table
                       :default-sort = "{prop: 'created_at', order: 'descending'}"
@@ -167,7 +167,7 @@
         },
         computed: {
             me () {
-                return this.$store.state.me ? this.$store.state.me : {};
+                return this.$store.state.me.college_id ? this.$store.state.me.college_id : {};
             }
         },
         methods: {
@@ -229,7 +229,7 @@
             },
             //指定责任人
             appoint () {
-                this.$http.post('create_allot_task/' + this.temp.id + this.$store.state.me.college_id, {
+                this.$http.post('create_allot_task/' + this.temp.id + '/' + this.me, {
                     user_id: this.allot
                 }).then(res => {
                     this.isAllot = true

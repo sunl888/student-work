@@ -24,8 +24,9 @@
           <!--完成时间-->
           <el-form-item label="参会人员" prop="people">
             <el-checkbox-group v-model="ruleForm.people">
-                 <el-checkbox @change="addTag(value)" v-for="value in users" :label="value.id" :key="value.id">{{value.name}}</el-checkbox>
-                 <el-tag style="margin-right:10px"
+                 <el-checkbox id="check" @change="addTag(value)" v-for="value in users" :label="value.id" :key="value.id">{{value.name}}</el-checkbox>
+             </el-checkbox-group>
+             <el-tag style="margin-right:10px"
                   @close="removeTag(tag)"
                   v-if="tags"
                   v-for="(tag,index) in tags"
@@ -35,7 +36,6 @@
                 >
                     {{tag}}
                 </el-tag>
-             </el-checkbox-group>
           </el-form-item>
           <!--按钮组-->
           <el-form-item>
@@ -56,11 +56,7 @@
         // 是否是修改
         isEdit: false,
         users: [],
-        // 工作类型列表
-        workTypeList: [],
         tags: [],
-        // 对口科室列表
-        departmentList: [],
         ruleForm: {
           title: '',
           detail: '',
@@ -84,43 +80,18 @@
         }
       }
     },
-    watch: {
-      '$route' () {
-        this.ruleForm =  {
-          work_type_id: '',
-          department_id: '',
-          end_time: '',
-          title: '',
-          detail: ''
-        }
-        this.$route.name === 'editTask' ? this.isEdit = true : this.isEdit = false
-      }
-    },
     mounted () {
-      this.getWorkTypeList()
-      this.getDepartmentsList()
-      this.getUsers()
-      // 修改任务
-      if(this.$route.name === 'edit_task'){
-        this.isEdit = true
-        this.$http.get('task/' + this.$route.params.id).then(res => {
-          res.data.data.end_time = new Date(res.data.data.end_time);
-          this.ruleForm = res.data.data
-          this.$diff.save(this.ruleForm);
-        })
-      }else{
-        this.isEdit = false
-      }
+      this.getUsers();
     },
     methods: {
-        removeTag(x){
-            for(let y in this.tags){
-                if(this.tags[y] === x){
-                    this.tags.splice(y,1);
-                    this.ruleForm.people.splice(y,1);
-                }
-            }
-        },
+      removeTag(x){
+        for(let y in this.tags){
+          if(this.tags[y] === x){
+            this.tags.splice(y,1);
+            this.ruleForm.people.splice(y,1);
+          }
+        }
+      },
       // 创建任务
       createTask (formName) {
         this.$refs[formName].validate((valid) => {
@@ -145,16 +116,14 @@
       },
       addTag(value){
         for(let x in this.users){
-           if(value.id === this.users[x].id){
-                this.tags.push(this.users[x].name);
-           }
+          if(value.id === this.users[x].id){
+            this.tags.push(this.users[x].name);
+          }
         }
-                   console.log(this.ruleForm.people);
-        var color = [
-                        'success','warning', 'primary', 'danger', 'gray', 'success','warning', 'primary', 'danger', 'gray']
-                for(var i = 0; i < color.length; i++){
-                    this.color[i] = color[Math.floor(Math.random()*10)]
-                }
+        var color = ['success','warning', 'primary', 'danger', 'gray', 'success','warning', 'primary', 'danger', 'gray']
+        for(var i = 0; i < color.length; i++){
+                this.color[i] = color[Math.floor(Math.random()*10)]
+        }
       },
       // 修改任务
       editTask (formName) {
@@ -176,24 +145,12 @@
       resetForm (formName) {
         this.$refs[formName].resetFields()
       },
-      // 获取工作类型列表
-      getWorkTypeList () {
-        this.$http.get('work_types').then(res => {
-          this.workTypeList = res.data.data
-        })
-      },
-      // 获取对口科室列表
-      getDepartmentsList () {
-        this.$http.get('departments').then(res => {
-          this.departmentList = res.data.data
-        })
-      },
       //获取学院所有用户
-            getUsers () {
-                this.$http.get('all_users').then(res => {
-                    this.users = res.data.data
-                })
-            }
+      getUsers () {
+          this.$http.get('all_users').then(res => {
+              this.users = res.data.data
+          })
+      }
     }
   }
 </script>
