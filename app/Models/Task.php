@@ -55,10 +55,8 @@ class Task extends BaseModel
 
     public function scopeApplyFilter($query, $data)
     {
-        $data = $data->only('status', 'only_trashed', 'start_date', 'end_date');
+        $data = $data->only('status', 'only_trashed', 'start_date', 'end_date', 'work_type_id', 'department_id');
         $query->withSimpleSearch()
-            //->withGroup()
-            ->withSort()
             ->byStatus(isset($data['status']) ? $data['status'] : null);
         if (isset($data['only_trashed']) && $data['only_trashed']) {
             $query->onlyTrashed();
@@ -66,6 +64,13 @@ class Task extends BaseModel
         if (isset($data['start_date']) && $data['end_date']) {
             $query->range($data['start_date'], $data['end_date']);
         }
+        if (isset($data['work_type_id']) && $data['work_type_id']) {
+            $query->byKey('work_type_id', $data['work_type_id']);
+        }
+        if (isset($data['department_id']) && $data['department_id']) {
+            $query->byKey('department_id', $data['department_id']);
+        }
+
         return $query->recent();
     }
 
@@ -75,5 +80,9 @@ class Task extends BaseModel
             return $query->where('status', $status);
         else
             return $query->publishAndDraft();
+    }
+
+    public function scopeByKey($query, $key, $value){
+        return $query->where($key, $value);
     }
 }
