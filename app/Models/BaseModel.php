@@ -18,6 +18,7 @@ class BaseModel extends Model
     {
         return $query->orderBy('created_at', 'asc');
     }
+
     public function scopeRange($query, $start, $end)
     {
         return $query->whereBetween('created_at', [$start, $end]);

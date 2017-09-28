@@ -14,20 +14,25 @@ use App\Models\TaskProgress;
 use App\Models\User;
 use App\Notifications\TaskRemind;
 use App\Repositories\AssessRepository;
+use App\Repositories\CollegeRepository;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\TaskProgressRepository;
 use App\Repositories\TaskRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\WorkTypeRepository;
+use App\Service\Export2Excel;
 use App\Transformers\TaskAndProgressTransformer;
 use App\Transformers\TaskTransformer;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Notification;
 
 class TaskController extends BaseController
 {
+    use Export2Excel;
+
     protected $taskRepository;
 
     public function __construct(TaskRepository $repository)
@@ -159,6 +164,31 @@ class TaskController extends BaseController
         return $this->response()->paginator($tasks, new TaskTransformer());
     }
 
+    public function export2table(Request $request)
+    {
+        $tasks = Task::applyFilter($request)->get()->load('task_progresses');
+        $rows = ['任务ID', '标题', '详情', '结束时间', '工作类型', '对口科室', '学院名称', '完成状态', '责任人'];
+        $data = [];
+        foreach ($tasks as $task) {
+            foreach ($task->task_progresses as $progress) {
+                $data[] = [
+                    $task->id,
+                    $task->title,
+                    $task->detail,
+                    $task->end_time,
+                    app(WorkTypeRepository::class)->find($task->work_type_id)['title'],
+                    app(DepartmentRepository::class)->find($task->department_id)['title'],
+                    app(CollegeRepository::class)->find($progress->college_id)['title'],
+                    $progress->status ? '已完成' : '未完成',
+                    isset($progress->user_id) ? $this->getUsers($progress->user_id) : null,
+                ];
+            }
+        }
+        $tableName = $request->has('start_time') ? $request->get('start_time') . ' - 任务汇总表' : '任务汇总表';
+        $this->export($rows, $data, $tableName);
+    }
+
+
     /**
      * 获取某个学院的任务列表
      * @param null $collegeId
@@ -198,10 +228,15 @@ class TaskController extends BaseController
      */
     public function getLeadOfficial($taskProgress)
     {
-        $userIds = explode(',', $taskProgress->user_id);
+        if ($taskProgress instanceof Model) {
+            $userIds = explode(',', $taskProgress->user_id);
+        } else {
+            $userIds = explode(',', $taskProgress);
+        }
+
         if (array_first($userIds) != null) {
             if (strtolower(array_first($userIds)) == TaskProgress::$personnelSign) {
-                return array_values(['name'=>'全体人员']);
+                return array_values(['name' => '全体人员']);
             } elseif (count($userIds) == 1) {
                 return User::find(array_first($userIds), ['id', 'name']);
             } elseif (count($userIds) > 1) {

@@ -31,7 +31,7 @@ class TaskAndProgressTransformer extends Transformer
             //完成状态
             'finished_at' => $task->task_progress->status,
             //责任人
-            'user' => isset($task->task_progress->user_id) ? $this->getUser($task->task_progress->user_id):null,
+            'user' => isset($task->task_progress->user_id) ? $this->getUser($task->task_progress->user_id) : null,
             //'user' => $task->task_progress->user_id == TaskProgress::$personnelSign ? '全体人员' : app(User::class)->find($task->task_progress->user_id)['name'],
             //等级
             'assess' => !empty($task->task_progress->assess_id) ? app(AssessRepository::class)->find($task->task_progress->assess_id)['title'] : null,
@@ -49,7 +49,7 @@ class TaskAndProgressTransformer extends Transformer
         $userIds = explode(',', $users);
         if (array_first($userIds) != null) {
             if (strtolower(array_first($userIds)) == TaskProgress::$personnelSign) {
-                return ['name'=>'全体人员'];
+                return ['name' => '全体人员'];
             } elseif (count($userIds) == 1) {
                 return User::find(array_first($userIds), ['id', 'name']);
             } elseif (count($userIds) > 1) {

@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (app()->environment() !=='production') {
+        if (app()->environment() !== 'production') {
             \DB::listen(
                 function ($query) {
                     \Log::info(

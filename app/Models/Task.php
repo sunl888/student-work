@@ -66,7 +66,6 @@ class Task extends BaseModel
         if (isset($data['start_date']) && $data['end_date']) {
             $query->range($data['start_date'], $data['end_date']);
         }
-
         return $query->recent();
     }
 

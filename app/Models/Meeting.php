@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Traits\Listable;
-use Illuminate\Support\Facades\Auth;
 
 class Meeting extends BaseModel
 {
