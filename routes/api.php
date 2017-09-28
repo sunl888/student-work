@@ -30,7 +30,8 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     //上传用户头像
     $api->post('upload', 'UsersController@uploadFile');
     // 根据学院id获取该学院下的所有用户 默认根据当前登陆用户所在学院
-    $api->get('users', 'UsersController@usersWithCollege');
+	//?college=
+    $api->get('users/{college?}', 'UsersController@usersWithCollege');
     // 显示任务详情  ?include=task_progresses ?college=1  显示各个学院的完成情况
     $api->get('task/{task}', 'TaskController@task');
     //获取所有会议 ?user=1 ?title=  ?detail=

@@ -23,7 +23,7 @@ class UserRepository extends Repository
      * 获取学院下的所有用户
      * @return \Dingo\Api\Http\Response
      */
-    public function usersWithCollege($collegeId = null, $containCollege = false)
+    public function usersWithCollege($collegeId = null, $containCollege = true)
     {
         if (null == $collegeId) {
             $collegeId = \Auth::guard()->user()->college_id;

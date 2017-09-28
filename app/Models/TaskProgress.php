@@ -29,11 +29,6 @@ class TaskProgress extends BaseModel
         return $this->belongsTo(Task::class);
     }
 
-    /*public function getUserIdAttribute($key)
-    {
-        return ucfirst($key);
-    }*/
-
     public function scopeAsUsers($query, $user)
     {
         //todo 这里贼恶心

@@ -25,7 +25,7 @@ class MeetingTransformer extends Transformer
         $userIds = explode(',', $users);
         if (array_first($userIds) != null) {
             if (strtolower(array_first($userIds)) == TaskProgress::$personnelSign) {
-                return ['name'=>'全体人员'];
+                return array_values(['name'=>'全体人员']);
             } elseif (count($userIds) == 1) {
                 return User::find(array_first($userIds), ['id', 'name']);
             } elseif (count($userIds) > 1) {
