@@ -12,6 +12,3 @@
 */
 
 Route::get('/', 'HomeController@index');
-
-//Route::get('export2chart', 'Api\ChartController@export2chart');
-Route::get('export2table', 'Api\TaskController@export2table');

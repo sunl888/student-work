@@ -11,7 +11,8 @@
 */
 // 登陆
 $api->post('login', 'LoginController@login');
-
+//Route::get('export2chart', 'Api\ChartController@export2chart');
+$api->get('export2table', 'TaskController@export2table');
 $api->group(['middleware' => 'auth:web'], function ($api) {
     // 获取当前用户信息
     $api->get('me', 'UsersController@me');

@@ -10,7 +10,7 @@ class Meeting extends BaseModel
 
     protected static $allowSearchFields = ['title', 'detail'];
     protected static $allowSortFields = ['id'];
-    protected $fillable = ['title', 'start_time', 'users'];
+    protected $fillable = ['title', 'detail', 'start_time', 'users'];
 
     public function scopeApplyFilter($query, $data)
     {
