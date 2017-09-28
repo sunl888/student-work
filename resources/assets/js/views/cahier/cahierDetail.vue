@@ -4,7 +4,7 @@
             <el-card class="box-card">
                 <!--头部-->
                 <div slot="header" class="clearfix">
-                    <h2 style="line-height: 36px;color: #444;">{{'任务名称：' + item.title}}</h2>
+                    <h2 style="line-height: 36px;color: #444;">{{'会议名称：' + item.title}}</h2>
                 </div>
                 <!--任务详情-->
                 <div class="text item">
@@ -31,11 +31,9 @@
         methods: {
             //获取任务详情()
             loadItem () {
-                window.setTimeout(()=>{
-                    this.$http.get('metting/' + this.$route.params.id).then(res => {
-                        this.item = res.data.data
-                    })
-                },1000);
+                this.$http.get('metting/' + this.$route.params.id).then(res => {
+                    this.item = res.data.data
+                })
             }
         },
         beforeRouteUpdate (to, from, next) {

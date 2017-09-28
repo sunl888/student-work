@@ -175,9 +175,11 @@
             appoint () {
                 if(this.allot.length == this.users.length){
                     this.allot = 'all';
+                } else if(this.allot.length == 1){
+                    this.allot = String(this.allot);
                 }
                 this.$http.post('create_allot_task/' + this.temp.id + '/' + this.me, {
-                    user_id: this.allot == 'all' ? this.allot : this.allot.join(',')
+                    user_id: this.allot == 'all' || this.allot.length === 1 ? this.allot : this.allot.join(',')
                 }).then(res => {
                     this.isAllot = true
                     this.isDia = false

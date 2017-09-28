@@ -25,6 +25,11 @@ export default new Router({
               component: require('../views/task/taskManage.vue')
             },
             {
+              path: 'query_task/:state',
+              name: 'query_task',
+              component: require('../views/task/queryTask.vue')
+            },
+            {
               path: 'add_task',
               name: 'add_task',
               meta: {title: '添加任务'},

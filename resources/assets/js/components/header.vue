@@ -3,14 +3,15 @@
     <div class="top el-col-24">
       <img class="el-col-1 logo el-col-push-2" src="../assets/images/logo.png">
       <h2 class="el-col-3 el-col-push-2">学生处管理系统</h2>
-      <el-autocomplete
+      <el-input
+        placeholder="输入关键字"
         icon="search"
-        class="inline-input el-col-10 el-col-push-2 search"
-        v-model="state1"
-        :fetch-suggestions="querySearch"
-        placeholder="请输入内容"
-        @select="handleSelect"
-      ></el-autocomplete>
+        class="search el-col-10 el-col-push-2"
+        :on-icon-click="handleIconClick"
+        style="width:44%"
+        v-model="state"
+        >
+      </el-input>
       <el-button @click="logout()" class="btn el-col-2 el-col-push-3">切换账号</el-button>
     </div>
     <el-col class="local">
@@ -47,7 +48,7 @@
     data () {
       return {
         task: [],
-        state1: '',
+        state: '',
         unread: null,
         breadcrumbs: [],
         visible: false,
@@ -64,6 +65,9 @@
         '$route': 'updateBreadcrumbs'
     },
     methods: {
+      handleIconClick () {
+        this.$router.push({name: 'query_task',params: {state: this.state}});
+      },
       //设为已读
       setAlread () {
         this.$http.get('notifys_as_read').then(
@@ -88,17 +92,6 @@
             }
         })
       },
-      querySearch (queryString, cb) {
-        var task = this.task
-        var results = queryString ? task.filter(this.createFilter(queryString)) : task
-        // 调用 callback 返回建议列表的数据
-        cb(results)
-      },
-      createFilter (queryString) {
-        return (task) => {
-          return (task.value.indexOf(queryString.toLowerCase()) === 0)
-        }
-      },
       logout () {
           this.$http.get('logout').then(res => {
               this.$router.push({name: 'login'});
@@ -119,8 +112,6 @@
         } else {
             this.$router.push({name: 'task_item', params:{id: x}})
         }
-      },
-      handleSelect (item) {
       },
       updateBreadcrumbs () {
         this.breadcrumbs = [];
@@ -174,7 +165,7 @@
   min-width:200px;
 }
 .search{
-  margin-top:20px;
+  margin-top:22px;
   margin-left:20px;
 }
 .btn{

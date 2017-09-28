@@ -28,6 +28,7 @@
                 :label="item.title"
                 :value="item.id"></el-option>
     </el-select>
+    <el-button type="text" class="margin-left:30px!important;" @click="exportTable()">导出图表</el-button>
   </div>
   <div class="table">
     <el-table
@@ -76,6 +77,7 @@
 
 </template>
 <script>
+import axios from 'axios'
 export default{
   data () {
     return {
@@ -103,6 +105,14 @@ export default{
     this.getCollegesList()
   },
   methods: {
+    exportTable(){
+      window.open("http://localhost/api/export2table");
+      // this.$http.get('export2table').then(res => {
+      //   this.$message.success('导出成功！');
+      // }).catch(res => {
+      //   this.$message.success(res);        
+      // })
+    },
     // 获取工作类型列表
     getWorkTypeList () {
       this.$http.get('work_types').then(res => {
@@ -128,10 +138,7 @@ export default{
       let url = new Array();
       let i = 1;
       let range = this.query.range.toLocaleString().split(',');
-      this.query.range.start_date = (range[0] || '').substr(0,range[0].indexOf(' '));
-      this.query.range.end_date = (range[1] || '').substr(0,range[0].indexOf(' '));
-            console.log(this.query.range);
-      url[0] = 'tasks';
+      url[0] = 'tasks?status=publish';
       if (this.query.college_id !== null){
         url[i] = 'include=task_progresses&college='+this.query.college_id;
         i++;
@@ -145,15 +152,18 @@ export default{
         i++;
       }
       if (this.query.range.start_date !== null){
+        this.query.range.start_date = (range[0] || '').substr(0,range[0].indexOf(' '));
         url[i] = 'start_date='+this.query.range.start_date;
         i++;
       } 
       if (this.query.range.end_date !== null){
+        this.query.range.end_date = (range[1] || '').substr(0,range[0].indexOf(' '));
         url[i] = 'end_date='+this.query.range.end_date;
         i++;
       }
-      url[i] = 'status=publish';
-      this.$http.get(url.join('?')).then(res => {
+      
+      // url[i] = 'status=publish';
+      this.$http.get(url.join('&')).then(res => {
           this.tableData = res.data.data
       }) 
     }

@@ -32,7 +32,9 @@
             </el-select>
           </el-form-item>
           <el-form-item label="该学院参会人员" prop="people">
-              <el-transfer v-model="ruleForm.people" :data="users"></el-transfer>
+              <el-transfer class="el-col-pull-5" :titles="['该学院所有老师','已选中老师']" v-model="ruleForm.people" :data="users"></el-transfer>
+              <div>
+              </div>
           </el-form-item>
           <!--按钮组-->
           <el-form-item>
@@ -77,7 +79,7 @@
             { type: 'date', required: true, message: '请选择会议开始时间', trigger: 'change' }
           ]
         }
-      }
+      };
     },
     mounted () {
       this.getCollegesList();
@@ -91,53 +93,44 @@
           }
         }
       },
-      // 创建任务
       createTask (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.$http.post('metting',{
                 title: this.ruleForm.title,
                 detail: this.ruleForm.detail,
-                users: this.ruleForm.people,
+                users: this.ruleForm.people.join(','),
                 start_time: this.ruleForm.time
             }).then(res => {
                 console.log(this.ruleForm)
               this.$message({
-                message: '添加任务成功',
+                message: '添加会议成功',
                 type: 'success'
               })
-              this.$router.push({name: 'cahier_create'})
+              this.$router.push({name: 'cahier_lists'})
             })
           } else {
             return false
           }
         })
       },
-      addTag(value){
-        for(let x in this.users){
-          if(value.id === this.users[x].id){
-            this.tags.push(this.users[x].name);
-          }
-        }
-        var color = ['success','warning', 'primary', 'danger', 'gray', 'success','warning', 'primary', 'danger', 'gray']
-        for(var i = 0; i < color.length; i++){
-                this.color[i] = color[Math.floor(Math.random()*10)]
-        }
-      },
-      // 重置
       resetForm (formName) {
         this.$refs[formName].resetFields()
       },
-      // 获取学院
       getCollegesList () {
           this.$http.get('colleges').then(res => {
               this.collegesList = res.data.data
           })
       },
-      //获取学院所有用户
       loadTransfer (id) {
+          this.users.splice(this.users.length);
           this.$http.get('users/'+id).then(res => {
-              this.users = res.data.data
+            for(let x in res.data.users){
+              this.users.push({
+                key: res.data.users[x].id,
+                label: res.data.users[x].name,
+              })
+            }
           })
       }
     }
@@ -147,6 +140,9 @@
 .item_add{
   height:100%;
   background:#fff;
+}
+.el-checkbox__input{
+  left:50%!important;
 }
 .left{
   margin-top:30px;

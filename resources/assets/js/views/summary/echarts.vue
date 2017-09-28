@@ -4,6 +4,7 @@
     <el-date-picker
       v-model="range"
       type="daterange"
+      @change="getData()"
       placeholder="在日期范围内汇总">
     </el-date-picker>
   </div>
@@ -22,6 +23,7 @@ export default{
         start_time: null,
         end_time: null
       },
+      myChart: null,
       finished: [],
       unfinished: [],
       item:[],
@@ -72,24 +74,46 @@ export default{
   },
 	mounted () {
     this.getData()
+    this.myChart = echarts.init(document.getElementById('main'));
   },
   methods: {
     jump (row) {
       this.$router.push({name:'task_item',params: {id: row.id}})
     },
     getData(){
-      this.$http.get('echart/lists').then(res => {
+      let url = new Array();
+      let i = 1;
+      let range = this.range.toLocaleString().split(',');
+      url[0] = 'echart/lists';
+      if (this.range.start_date !== null){
+                // echarts.dispose();
+        this.range.start_date = (range[0] || '').substr(0,range[0].indexOf(' '));
+        url[i] = '?start_date='+this.range.start_date;
+        i++;
+      } 
+      if (this.range.end_date !== null){
+        this.range.end_date = (range[1] || '').substr(0,range[0].indexOf(' '));
+        url[i] = '&end_date='+this.range.end_date;
+        i++;
+      }
+      this.$http.get(url.join('')).then(res => {
         this.item = res.data;
-        for(let x in res.data){
+        if(this.item.meta.count !== 0){
+          for(let x in res.data){
           this.finished.push(res.data[x].finisheds)
           this.unfinished.push(res.data[x].unfinisheds)
+          }
+          this.finished.pop();
+          this.option.series[0].data = this.finished
+          this.option.series[1].data = this.unfinished
+          // console.log(this.option);
+          this.myChart.setOption(this.option)
+          this.myChart.on('click', this.eConsole);
+        } else {
+          this.myChart.dispose();
+          document.getElementById('main').innerHTML = '没有数据';
         }
-        this.finished.pop();
-        this.option.series[0].data = this.finished
-        this.option.series[1].data = this.unfinished
-        var myChart = echarts.init(document.getElementById('main'));
-        myChart.setOption(this.option)
-        myChart.on('click', this.eConsole);
+        
       })
     },
     eConsole(param) {    

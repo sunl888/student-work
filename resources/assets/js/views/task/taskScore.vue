@@ -13,7 +13,7 @@
                             <p>任务要求：<span>{{ item.detail }}</span></p>
                         </el-collapse-item>
                         <el-collapse-item title="任务进程" name="2">
-                            <p>负责人：<span>{{ taskPro.leading_official.name || '' }}</span></p>
+                            <p>负责人：<span v-for="value in taskPro.leading_official">{{ value.name + '、' }}</span></p>
                             <p>所属学院：<span>{{ taskPro.college }}</span></p>
                         </el-collapse-item>
                     </el-collapse>

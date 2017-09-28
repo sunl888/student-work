@@ -37,7 +37,7 @@
                                     inline-template
                                     sortable
                                     label="责任人">
-                                    <span>{{row.leading_official ? row.leading_official.name : '尚未指定'}}</span>
+                                    <span v-for="value in row.leading_official">{{value ? value.name + '、' : '尚未指定'}}</span>
                             </el-table-column>
 
                             <el-table-column

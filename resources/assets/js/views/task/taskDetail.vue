@@ -12,7 +12,7 @@
                     <div>工作类型：<span>{{ item.work_type }}</span></div>
                     <div> 对口科室：<span>{{ item.department }}</span></div>
                     <div>截止日期：<span>{{ item.end_time }}</span></div>
-                    <div>责任人：<span v-for="value in leading">{{value.label}}</span>
+                    <div>责任人：<span v-for="value in leading">{{value.name + '、'}}</span>
                     </div>
                     <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>

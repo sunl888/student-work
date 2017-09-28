@@ -1,14 +1,5 @@
 <template>
 <div>
-  <div class="query">
-    <el-date-picker
-      v-model="range"
-      type="daterange"
-      placeholder="在日期范围内汇总"
-      disabled>
-    </el-date-picker>
-    <el-button style="position:absolute;right:100px;" @click="$router.back()" type="text">回到图表</el-button>
-  </div>
   <div class="table">
     <el-table
     :data="tableData"
@@ -28,19 +19,20 @@
     </el-table-column>
     <el-table-column
       prop="work_type"
-      label="工作类型">
+      label="工作类型"
+      width="180">
     </el-table-column>
     <el-table-column
       prop="department"
       label="对口科室">
     </el-table-column>
     <el-table-column
+      prop="status"
       inline-template
       label="任务状态">
-      <span>已审核</span>
+          <span>已审核</span>
     </el-table-column>
     <el-table-column
-      prop="status"
       inline-template
       label="操作">
       <template>
@@ -54,34 +46,55 @@
 </div>
 
 </template>
-<script> 
+<script>
+import axios from 'axios'
 export default{
   data () {
     return {
+      isTable:false,
+      college:[],
       tableData:[],
-      range:{
-      	start_time: null,
-      	end_time: null 
+      workTypeList: [],
+      departmentList: [],
+      collegesList: [],
+      query: {
+        range: {
+          start_date: null,
+          end_date: null,
+        },
+        work_type_id: null,
+        department_id: null,
+        college_id:null
       }
     }
   },
 	mounted () {
-	this.getTaskPro()
+		this.loadItem();
   },
   methods: {
-  	jump (row) {
-      this.$router.push({name:'task_item',params: {id: row.id}})
+  	loadItem(){
+		this.$http.get('tasks?keywords=' + this.$route.params.state).then(res => {
+          this.tableData = res.data.data;
+        })
+  	},
+  	beforeRouteUpdate (to, from, next) {
+            // next();
+           this.loadItem();
     },
-    getTaskPro () {
-      this.$http.get('tasks?include=task_progresses&college='+this.$route.params.id+'&status=publish').then(res => {
-          this.tableData = res.data.data
-      })
+    jump (row) {
+      this.$router.push({name:'task_item',params: {id: row.id}})
     }
   }
 }
 
 </script>
 <style scoped>
+	#main{
+    width:100%;
+    min-height:400px;
+    margin-top:20px;
+    margin-bottom:20px;
+  }
   .query{
     padding:20px 0;
     width:100%;
