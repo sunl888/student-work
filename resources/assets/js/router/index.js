@@ -43,7 +43,7 @@ export default new Router({
             },
             {
                 //管理员
-                path: 'task_item/:id',
+                path: 'task_item/:id/:college',
                 name: 'task_item',
                 meta: {title: '任务详情'},
                 component: require('../views/task/taskItem.vue')
@@ -76,7 +76,7 @@ export default new Router({
             },
             {
                 //各学院
-                path: 'task_detail/:id',
+                path: 'task_detail/:id/:college',
                 name: 'task_detail',
                 meta: {title: '任务详情'},
                 component: require('../views/task/taskDetail.vue')
@@ -97,7 +97,7 @@ export default new Router({
             },
             {
                 //各学院老师
-                path: 'task_information/:id',
+                path: 'task_information/:id/:college',
                 name: 'task_information',
                 meta: {title: '任务详情'},
                 component: require('../views/task/taskInformation.vue')

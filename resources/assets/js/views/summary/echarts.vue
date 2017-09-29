@@ -107,8 +107,10 @@ export default{
           this.option.series[0].data = this.finished
           this.option.series[1].data = this.unfinished
           // console.log(this.option);
+          this.myChart = echarts.init(document.getElementById('main'));
           this.myChart.setOption(this.option)
           this.myChart.on('click', this.eConsole);
+          console.log(this.option)
         } else {
           this.myChart.dispose();
           document.getElementById('main').innerHTML = '没有数据';

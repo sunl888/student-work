@@ -54,4 +54,7 @@ a,a:hover,a:visited{
   transform: translateX(10px);
   opacity: 0;
 }
+.el-transfer-panel__item .el-checkbox__input{
+    left:40px;
+  }
 </style>

@@ -247,7 +247,8 @@ export default{
     browseTask (id) {
       this.$router.push({name: 'task_item',
           params: {
-              id
+              id: id,
+              college: this.$store.state.me.college_id
           }
       })
     },

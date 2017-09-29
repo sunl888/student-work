@@ -89,7 +89,8 @@
             browseTask (id) {
                 this.$router.push({name: 'task_information',
                     params: {
-                        id
+                        id: id,
+                        college: this.$store.state.me.college_id
                     }
                 })
             },

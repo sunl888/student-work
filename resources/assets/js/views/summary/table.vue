@@ -1,34 +1,42 @@
 <template>
 <div>
   <div class="query">
+    <el-select class="querySelect" clearable @change="getTaskPro()" v-model="query.status" placeholder="按任务状态汇总">
+        <el-option
+          v-for="(value,index) in taskStatus"
+          :key="index" 
+          :label="value.title"
+          :value="value.status"></el-option>
+    </el-select>
     <el-date-picker
+    class="querySelect"
       v-model="query.range"
        @change="getTaskPro()"
       type="daterange"
       placeholder="在日期范围内汇总任务">
     </el-date-picker>
-    <el-select @change="getTaskPro()" v-model="query.college_id" placeholder="按学院汇总任务">
+    <el-select class="querySelect" clearable @change="getTaskPro()" v-model="query.college_id" placeholder="按学院汇总任务">
         <el-option
                 v-for="item in collegesList"
                 :key="item.id"
                 :label="item.title"
                 :value="item.id"></el-option>
     </el-select>
-    <el-select v-model="query.work_type_id" @change="getTaskPro()" placeholder="按工作类型汇总任务">
+    <el-select class="querySelect" clearable v-model="query.work_type_id" @change="getTaskPro()" placeholder="按工作类型汇总任务">
         <el-option
                 v-for="item in workTypeList"
                 :key="item.id"
                 :label="item.title"
                 :value="item.id"></el-option>
     </el-select>
-    <el-select @change="getTaskPro()" v-model="query.department_id" placeholder="按对口科室汇总任务">
+    <el-select class="querySelect" clearable @change="getTaskPro()" v-model="query.department_id" placeholder="按对口科室汇总任务">
         <el-option
                 v-for="item in departmentList"
                 :key="item.id"
                 :label="item.title"
                 :value="item.id"></el-option>
     </el-select>
-    <el-button type="text" class="margin-left:30px!important;" @click="exportTable()">导出图表</el-button>
+    <el-button icon="upload2" title="导出图表" style="transform:rotate(180deg);" @click="exportTable()"></el-button>
   </div>
   <div class="table">
     <el-table
@@ -60,7 +68,7 @@
       prop="status"
       inline-template
       label="任务状态">
-          <span>已审核</span>
+          <span>{{row.status === 'publish' ? '已审核' : '未审核'}}</span>
     </el-table-column>
     <el-table-column
       inline-template
@@ -87,11 +95,16 @@ export default{
       workTypeList: [],
       departmentList: [],
       collegesList: [],
+      taskStatus: [
+        {title: '已审核', status: 'publish'},
+        {title: '未审核', status: 'draft'}
+      ],
       query: {
         range: {
           start_date: null,
           end_date: null,
         },
+        status: null,
         work_type_id: null,
         department_id: null,
         college_id:null
@@ -106,7 +119,7 @@ export default{
   },
   methods: {
     exportTable(){
-      window.open("http://localhost/api/export2table");
+      window.open("/api/export2table");
       // this.$http.get('export2table').then(res => {
       //   this.$message.success('导出成功！');
       // }).catch(res => {
@@ -138,32 +151,36 @@ export default{
       let url = new Array();
       let i = 1;
       let range = this.query.range.toLocaleString().split(',');
-      url[0] = 'tasks?status=publish';
+      url[0] = 'tasks?';
+      if(this.query.status !== null){
+         url[i] = 'status='+this.query.status;
+         i++;
+      }
       if (this.query.college_id !== null){
-        url[i] = 'include=task_progresses&college='+this.query.college_id;
+        url[i] = '&include=task_progresses&college='+this.query.college_id;
         i++;
       } 
       if(this.query.work_type_id !== null){
-        url[i] = 'work_type_id='+this.query.work_type_id;
+        url[i] = '&work_type_id='+this.query.work_type_id;
         i++;
       } 
       if(this.query.department_id !== null){
-        url[i] = 'department_id='+this.query.department_id;
+        url[i] = '&department_id='+this.query.department_id;
         i++;
       }
       if (this.query.range.start_date !== null){
         this.query.range.start_date = (range[0] || '').substr(0,range[0].indexOf(' '));
-        url[i] = 'start_date='+this.query.range.start_date;
+        url[i] = '&start_date='+this.query.range.start_date;
         i++;
       } 
       if (this.query.range.end_date !== null){
         this.query.range.end_date = (range[1] || '').substr(0,range[0].indexOf(' '));
-        url[i] = 'end_date='+this.query.range.end_date;
+        url[i] = '&end_date='+this.query.range.end_date;
         i++;
       }
       
       // url[i] = 'status=publish';
-      this.$http.get(url.join('&')).then(res => {
+      this.$http.get(url.join('')).then(res => {
           this.tableData = res.data.data
       }) 
     }
@@ -181,5 +198,8 @@ export default{
   .query{
     padding:20px 0;
     width:100%;
+  }
+  .querySelect{
+    width:18%;
   }
 </style>

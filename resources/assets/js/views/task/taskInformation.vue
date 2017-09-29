@@ -84,11 +84,6 @@
                 }
             }
         },
-        computed: {
-            me () {
-                return this.$store.state.me.college_id ? this.$store.state.me.college_id : {};
-            }
-        },
         methods: {
             //随机生成颜色
             isColor () {
@@ -150,13 +145,11 @@
             },
             //获取任务详情()
             loadItem () {
-                window.setTimeout(()=>{
-                    this.$http.get('task/' + this.$route.params.id + '?include=task_progresses&college='+this.me).then(res => {
-                        this.item = res.data.data
-                        this.taskPro = this.item.task_progresses.data[0];
-                        this.leading = this.taskPro.leading_official?this.taskPro.leading_official:'尚未指定';
-                    })
-                },1000);
+            this.$http.get('task/' + this.$route.params.id + '?include=task_progresses&college='+this.$route.params.college).then(res => {
+                this.item = res.data.data
+                this.taskPro = this.item.task_progresses.data[0];
+                this.leading = this.taskPro.leading_official?this.taskPro.leading_official:'尚未指定';
+            })
             },
             //获取学院所有用户
             getUsers () {

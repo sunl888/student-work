@@ -31,7 +31,7 @@
                         label="参会人员"
                 >
                 <span>
-                  <span v-for="value in row.users">{{value.name + '、'}}</span><span v-if="row.users.length>5">{{'等'}}</span>  
+                  <span v-for="value in row.users">{{value.name + '、'}}</span>  
                 </span>
                 </el-table-column>
                 <el-table-column

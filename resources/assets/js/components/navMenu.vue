@@ -69,6 +69,7 @@ export default{
       min-width: 180px !important;
   }
   .photo{
+    cursor:pointer;
     width:35px;
     height:35px;
     margin-bottom:10px;

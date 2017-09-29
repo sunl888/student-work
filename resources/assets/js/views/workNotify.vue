@@ -3,15 +3,9 @@
         <div v-if="notify.length != 0">
             <ul class="tag-left">
                 <li class="notifyBox el-col-22 el-col-push-1" v-for="value in notify">
-                    <router-link v-if="me.role_id == 1" :to="{name: 'task_item', params: {id: value.data.task_id}}">
+                    <span @click="goItem(value.data)">
                         {{value.data.message}}
-                    </router-link>
-                    <router-link v-else-if="me.role_id == 2" :to="{name: 'task_detail', params: {id: value.data.task_id}}">
-                        {{value.data.message}}
-                    </router-link>
-                    <router-link v-else :to="{name: 'task_information', params: {id: value.data.task_id}}">
-                        {{value.data.message}}
-                    </router-link>
+                    </span>
                     <p>
                         <i class="material-icons">av_timer</i>
                         <span>{{'&nbsp;发布时间&emsp;' + value.data.created_at.date | dateFilter}}</span>
@@ -42,11 +36,23 @@
                 itemUrl: ''
             }
         },
-        computed: mapState({
-            // 箭头函数可使代码更简练
-            me: state => state.me
-        }),
+        computed: {
+            me () {
+                return this.$store.state.me ? this.$store.state.me : {}
+            }
+        },
         methods: {
+            goItem(x){
+                let url = "";
+                if(this.me.role_id == 1){
+                    url = 'task_item';
+                } else if(this.me.role_id == 2){
+                    url = 'task_detail';
+                } else {
+                    url = 'task_information';
+                }
+                this.$router.push({name: url, params: {id: x.task_id,college:this.me.college_id}});
+            },
             refresh () {
                 this.$nextTick(() => {
                     this.getNotify(this.currentPage);
@@ -158,7 +164,8 @@
     .notifyBox:last-child{
         border-bottom:none;
     }
-    .notifyBox>a{
+    .notifyBox>span{
+        cursor:pointer;
         color:#444;
     }
     .notifyBox>p>i,.notifyBox>p>span{

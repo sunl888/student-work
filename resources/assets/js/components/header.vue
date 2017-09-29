@@ -19,25 +19,10 @@
         <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="index" :to="{ path: item.path }">{{item.title}}</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="operation">
-        <el-button :disabled="!me.is_super_admin" :plain="true" type="primary" @click="$router.push({name: 'add_metting'})">添加会议</el-button>
-        <el-button :disabled="!me.is_super_admin" type="primary" @click="$router.push({name: 'add_task'})">添加任务</el-button>
-        <el-popover
-                ref="unreadBox"
-                placement="bottom-start"
-                width="160"
-                v-model="visible">
-            <a :title="value.data.message" @click="goItem(value.data.task_id)" :key="value.id" v-for="value in unreadData">
-              {{value.data.message}}
-            </a>
-            <p v-if=isTips style="line-height:40px;font-size:14px;text-align:center">暂时还没有通知哦</p>
-            <div v-else style="text-align: right; margin: 0">
-              <button class="more" @click="$router.push({name: 'notify'})">
-                查看剩余通知
-              </button>
-            </div>
-        </el-popover>
+        <el-button :disabled="!me.is_super_admin" :plain="true" type="primary" @click="$router.push({name: 'cahier_create'})">添加会议</el-button>
+        <el-button style="margin:0 10px;" :disabled="!me.is_super_admin" type="primary" @click="$router.push({name: 'add_task'})">添加任务</el-button>
         <el-badge :value=unread class="item">
-          <el-button v-popover:unreadBox @click="setAlread">最新通知</el-button>
+          <el-button style="background:#f5f5f5;" type="text" @click="setAlread"><i style="color:black;background:#f5f5f5" :title="'有'+unread+'条新通知'" @click="setAlread" class="material-icons">notifications</i></el-button>
         </el-badge>
       </div>
     </el-col>
@@ -51,9 +36,7 @@
         state: '',
         unread: null,
         breadcrumbs: [],
-        visible: false,
-        unreadData: [],
-        isTips: false
+        unreadData: []
       }
     },
     computed:{
@@ -75,8 +58,9 @@
         ).then(res => {
             if(this.visible === false) {
                 this.unreadData = null
-                this.isTips = true
             }
+            this.$router.push({name:'notify'})
+
         })
       },
       //获取未读通知
@@ -96,13 +80,6 @@
           this.$http.get('logout').then(res => {
               this.$router.push({name: 'login'});
           })
-      },
-      loadAll () {
-        return [
-          {'value': '暑假留校注意事项'},
-          {'value': '考前动员大会'},
-          {'value': '学院招生'}
-        ]
       },
       goItem (x) {
         if(this.me.role_id === 2){
@@ -130,7 +107,6 @@
       }
     },
     mounted () {
-      this.task = this.loadAll(),
       this.updateBreadcrumbs(),
       this.unreadNotify()
     }

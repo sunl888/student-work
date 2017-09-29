@@ -101,7 +101,7 @@
             }
         },
         computed: {
-            me () {
+            college_id () {
                 return this.$store.state.me.college_id ? this.$store.state.me.college_id : {};
             }
         },
@@ -152,11 +152,14 @@
             },
             //指定责任人
             appoint () {
+                Array(this.allot);
                 if(this.allot.length == this.users.length){
                     this.allot = 'all';
+                } else if(this.allot.length == 1){
+                    this.allot = String(this.allot);
                 }
-                this.$http.post('create_allot_task/' + this.$route.params.id + '/' + this.me, {
-                    user_id: this.allot == 'all' ? this.allot : this.allot.join(',')
+                this.$http.post('create_allot_task/' + this.$route.params.id + '/' + this.$route.params.college, {
+                    user_id: this.allot == 'all' || this.allot.length === 1 ? this.allot : this.allot.join(',')
                 }).then(res => {
                     this.isAllot = true
                     this.isDia = false
@@ -168,7 +171,7 @@
             },
             //获取任务详情()
             loadItem () {
-                this.$http.get('task/' + this.$route.params.id + '?include=task_progresses&college='+this.me).then(res => {
+                this.$http.get('task/' + this.$route.params.id + '?include=task_progresses&college='+this.$route.params.college).then(res => {
                     this.item = res.data.data;
                     this.taskPro = this.item.task_progresses.data[0];
                     this.leading = this.taskPro.leading_official?this.taskPro.leading_official:'尚未指定';

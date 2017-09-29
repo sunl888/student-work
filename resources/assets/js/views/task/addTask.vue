@@ -123,12 +123,16 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.$http.post('create_task',this.ruleForm).then(res => {
-                console.log(this.ruleForm)
               this.$message({
                 message: '添加任务成功',
                 type: 'success'
               })
               this.$router.push({name: 'task_manage'})
+            }).catch(res => {
+              this.$message({
+                message: '完成日期必须大于现在的日期',
+                type: 'error'
+              })
             })
           } else {
             return false

@@ -71,6 +71,9 @@
   background:white;
   border-radius: 10px;
 }
+.el-input{
+  margin-left:0;
+}
 .login h3{
   margin: 40px 0;
   font-size: 22px;

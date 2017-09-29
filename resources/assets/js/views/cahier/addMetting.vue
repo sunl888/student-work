@@ -32,7 +32,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="该学院参会人员" prop="people">
-              <el-transfer class="el-col-pull-5" :titles="['该学院所有老师','已选中老师']" v-model="ruleForm.people" :data="users"></el-transfer>
+              <el-transfer class="el-col-pull-4" :titles="['该学院所有老师','已选中老师']" v-model="ruleForm.people" :data="users"></el-transfer>
               <div>
               </div>
           </el-form-item>
@@ -54,6 +54,7 @@
         collegesList: [],
         users: [],
         tags: [],
+        item: [],
         ruleForm: {
           title: '',
           detail: '',
@@ -128,8 +129,8 @@
             for(let x in res.data.users){
               this.users.push({
                 key: res.data.users[x].id,
-                label: res.data.users[x].name,
-              })
+                label: res.data.users[x].name
+              });
             }
           })
       }
@@ -141,9 +142,6 @@
   height:100%;
   background:#fff;
 }
-.el-checkbox__input{
-  left:50%!important;
-}
 .left{
   margin-top:30px;
 }
@@ -153,4 +151,7 @@
 .addTask{
   height:100%;
 }
+.el-transfer-panel__item .el-checkbox__input{
+    left:40px;
+  }
 </style>

@@ -68,6 +68,11 @@ export default{
       }
     }
   },
+  watch:{
+    '$route' () {
+      this.loadItem();
+    }
+  },
 	mounted () {
 		this.loadItem();
   },
@@ -77,10 +82,6 @@ export default{
           this.tableData = res.data.data;
         })
   	},
-  	beforeRouteUpdate (to, from, next) {
-            // next();
-           this.loadItem();
-    },
     jump (row) {
       this.$router.push({name:'task_item',params: {id: row.id}})
     }

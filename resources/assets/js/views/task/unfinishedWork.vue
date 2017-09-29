@@ -1,5 +1,5 @@
 <template>
-  <div class="taskManage item">
+  <div class="taskManage item collegeTask">
     <el-tabs v-model="activeName" @tab-click="request" >
       <el-tab-pane label="任务列表" name="list">
         <div class="table">
@@ -86,7 +86,7 @@
               <el-dialog title="指定责任人" :visible.sync="isDia" top="10%">
                 <el-form>
                   <el-form-item>
-                    <el-transfer :titles="['本学院可选责任人', '已选中的责任人']" v-model="allot" :data="users"></el-transfer>
+                    <el-transfer class="transfer" :titles="['本学院可选责任人', '已选中的责任人']" :value="allot" v-model="allot" :data="users"></el-transfer>
                   </el-form-item>
                 </el-form>
                 <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
@@ -159,7 +159,8 @@
             browseTask (id) {
                 this.$router.push({name: 'task_detail',
                     params: {
-                        id
+                        id: id,
+                        college: this.me
                     }
                 })
             },
@@ -173,6 +174,7 @@
             },
             //指定责任人
             appoint () {
+                Array(this.allot);
                 if(this.allot.length == this.users.length){
                     this.allot = 'all';
                 } else if(this.allot.length == 1){
@@ -203,13 +205,13 @@
     }
 </script>
 <style scoped>
-  .taskManage{
+  .collegeTask{
     width: 100%;
   }
   .page{
     margin-top: 30px;
   }
-  .el-cascader,.el-input{
+  .collegeTask>.el-cascader,.el-input{
     margin-left:-200px;
   }
   .delayMessage{
