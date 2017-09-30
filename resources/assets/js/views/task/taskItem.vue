@@ -3,7 +3,7 @@
         <div class="current">
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
-                    <h2 style="line-height: 36px;color: #444;">{{'任务名称：' + item.title}}</h2>
+                    <h2 style="line-height: 36px;color: #444;width:80%;margin:0 auto;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{'任务名称：' + item.title}}</h2>
                 </div>
                 <div class="text item">
                     <div>发布日期：<span>{{ item.created_at }}</span></div>
@@ -89,6 +89,7 @@
             // 获取各学院完成任务进度
             getTaskPro () {
                 this.$http.get('task/' + this.$route.params.id + '?include=task_progresses').then(res => {
+                    this.item = res.data.data
                     this.taskPro = res.data.data.task_progresses.data
                     for(let x in this.taskPro){
                         if(this.taskPro[x].end_time === null){
@@ -101,11 +102,11 @@
                 })
             },
             // 获取任务详情(管理员)
-            loadItem () {
-                this.$http.get('task/' + this.$route.params.id).then(res => {
-                    this.item = res.data.data
-                })
-            },
+            // loadItem () {
+            //     this.$http.get('task/' + this.$route.params.id).then(res => {
+            //         this.item = res.data.data
+            //     })
+            // },
             // 催交
             reminders (x) {
                 //获取任务的催交情况
@@ -163,7 +164,7 @@
             }
         },
         mounted () {
-            this.loadItem()
+            // this.loadItem()
             this.getTaskPro()
         }
     }
@@ -208,6 +209,7 @@
         line-height: 2;
         font-size: 16px;
         text-indent: 2em;
+        word-wrap:break-word;
     }
     .text>div span,.text>p span{
         color:#333;

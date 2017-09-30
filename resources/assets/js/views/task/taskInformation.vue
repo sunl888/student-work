@@ -4,7 +4,7 @@
             <el-card class="box-card">
                 <!--头部-->
                 <div slot="header" class="clearfix">
-                    <h2 style="line-height: 36px;color: #444;">{{'任务名称：' + item.title}}</h2>
+                    <h2 style="line-height: 36px;color: #444;width:80%;margin:0 auto;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{'任务名称：' + item.title}}</h2>
                 </div>
                 <!--任务详情-->
                 <div class="text item">
@@ -227,7 +227,7 @@
         padding:5px;
     }
     .content{
-        text-align:left;text-indent: 2em;
+        text-align:left;text-indent: 2em;word-wrap:break-word;
     }
     .delayMessage{
         color:#FF4949;

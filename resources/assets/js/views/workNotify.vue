@@ -3,7 +3,7 @@
         <div v-if="notify.length != 0">
             <ul class="tag-left">
                 <li class="notifyBox el-col-22 el-col-push-1" v-for="value in notify">
-                    <span @click="goItem(value.data)">
+                    <span @click="goItem(value)">
                         {{value.data.message}}
                     </span>
                     <p>
@@ -44,14 +44,19 @@
         methods: {
             goItem(x){
                 let url = "";
-                if(this.me.role_id == 1){
-                    url = 'task_item';
-                } else if(this.me.role_id == 2){
-                    url = 'task_detail';
-                } else {
-                    url = 'task_information';
+                if(x.type.match('CreatedMeeting')){
+                    this.$router.push({name: 'cahier_detail', params: {id: x.data.id}});
+                } else{
+                    if(this.me.role_id == 1){
+                        url = 'task_item';
+                    } else if(this.me.role_id == 2){
+                        url = 'task_detail';
+                    } else {
+                        url = 'task_information';
+                    }  
+                    this.$router.push({name: url, params: {id: x.data.task_id,college:this.me.college_id}});
                 }
-                this.$router.push({name: url, params: {id: x.task_id,college:this.me.college_id}});
+               
             },
             refresh () {
                 this.$nextTick(() => {
@@ -65,7 +70,7 @@
                         page
                     }
                 }).then(res => {
-                    this.notify = res.data.data.reverse()
+                    this.notify = res.data.data
                     this.total = res.data.meta.pagination.total
                 })
 

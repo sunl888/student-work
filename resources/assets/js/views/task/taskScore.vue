@@ -182,15 +182,10 @@
                   this.isScores = false
               }
             },
-            //获取任务详情
-            loadItem () {
-                this.$http.get('task/' + this.$route.params.id).then(res => {
-                    this.item = res.data.data
-                })
-            },
             //获取任务进程
             getTaskPro () {
                 this.$http.get('task/' + this.$route.params.id + '?include=task_progresses').then(res => {
+                    this.item = res.data.data
                     this.taskPro = res.data.data.task_progresses.data[this.$route.params.college_id-1]
                 })
             },
@@ -226,7 +221,6 @@
             }
         },
         mounted () {
-            this.loadItem()
             this.getTaskPro()
             this.getRemind()
             this.getAccess()

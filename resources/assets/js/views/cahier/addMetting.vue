@@ -3,7 +3,7 @@
     <div class="item_add">
       <div class="left el-col-18 el-col-offset-1">
         <!--表单-->
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" label-position="right" class="demo-ruleForm">
           <el-form-item label="会议名称" prop="title">
              <el-input v-model="ruleForm.title" placeholder="请输入会议名称"></el-input>
           </el-form-item>
@@ -32,7 +32,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="该学院参会人员" prop="people">
-              <el-transfer class="el-col-pull-4" :titles="['该学院所有老师','已选中老师']" v-model="ruleForm.people" :data="users"></el-transfer>
+              <el-transfer class="el-col-pull-5" :titles="['该学院所有老师','已选中老师']" v-model="ruleForm.people" :data="users"></el-transfer>
               <div>
               </div>
           </el-form-item>

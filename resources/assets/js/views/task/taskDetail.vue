@@ -4,7 +4,7 @@
             <el-card class="box-card">
                 <!--头部-->
                 <div slot="header" class="clearfix">
-                    <h2 style="line-height: 36px;color: #444;">{{'任务名称：' + item.title}}</h2>
+                    <h2 style="line-height: 36px;color: #444;width:80%;margin:0 auto;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{'任务名称：' + item.title}}</h2>
                 </div>
                 <!--任务详情-->
                 <div class="text item">
@@ -17,7 +17,7 @@
                     <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>
                 <!--操作按钮-->
-                <div class="appoint" v-if=!item.finished_at>
+                <div class="appoint" v-if=!item.end_time>
                         <el-button v-if="!taskPro.leading_official" class="appo" @click="isDia = true" type="success">指定责任人</el-button>
                         <el-button v-else class="appo" @click="isDia = true" type="success">修改责任人</el-button>
                     <!--指定责任人-->
@@ -39,13 +39,13 @@
                     <el-dialog title="评分结果" :visible.sync="isScores" class="scoreBox el-col-16 el-col-offset-4">
                         <el-form :label-width="formLabelWidth2" label-position="right">
                             <el-form-item label="完成质量">
-                                <p class="scoreRes">{{item.quality}}</p>
+                                <p class="scoreRes">{{taskPro.quality}}</p>
                             </el-form-item>
                             <el-form-item label="考核等级">
-                                <el-tag :type="color">{{item.assess}}</el-tag>
+                                <el-tag :type="color">{{taskPro.assess}}</el-tag>
                             </el-form-item>
                             <el-form-item label="备注">
-                                <p class="scoreRes">{{item.remark}}</p>
+                                <p class="scoreRes">{{taskPro.remark}}</p>
                             </el-form-item>
                         </el-form>
                     </el-dialog>
@@ -256,7 +256,7 @@
         padding:5px;
     }
     .content{
-        text-align:left;text-indent: 2em;
+        text-align:left;text-indent: 2em;word-wrap:break-word;
     }
     .delayMessage{
         color:#FF4949;

@@ -50,9 +50,8 @@
                         inline-template
                 >
                 <span>
-                    <p v-if="row.user.length>1" v-for="value in row.user">{{value.name}}</p>
-                    <span v-else-if="row.user.name">{{row.user.name}}</span>
-                    <span v-else>尚未指定</span>
+                    <p v-if="row.user!==null" v-for="value in row.user">{{value.name}}</p>
+                    <span v-else>{{'尚未指定'}}</span>
                 </span>
                 </el-table-column>
                 <el-table-column
