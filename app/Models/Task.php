@@ -4,7 +4,13 @@ namespace App\Models;
 
 use App\Models\Traits\Listable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class Task
+ * @method static applyFilter($request)
+ * @package App\Models
+ */
 class Task extends BaseModel
 {
     use SoftDeletes, Listable;
@@ -56,6 +62,10 @@ class Task extends BaseModel
     public function scopeApplyFilter($query, $data)
     {
         $data = $data->only('status', 'only_trashed', 'start_date', 'end_date', 'work_type_id', 'department_id');
+        // 非管理员只能获取publish状态的任务
+        if (!Auth::user()->isSuperAdmin()) {
+            $data['status'] = 'publish';
+        }
         $query->withSimpleSearch()
             ->byStatus(isset($data['status']) ? $data['status'] : null);
         if (isset($data['only_trashed']) && $data['only_trashed']) {
@@ -82,7 +92,9 @@ class Task extends BaseModel
             return $query->publishAndDraft();
     }
 
-    public function scopeByKey($query, $key, $value){
+    public function scopeByKey($query, $key, $value)
+    {
         return $query->where($key, $value);
     }
+
 }

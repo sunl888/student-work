@@ -31,7 +31,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     //上传用户头像
     $api->post('upload', 'UsersController@uploadFile');
     // 根据学院id获取该学院下的所有用户 默认根据当前登陆用户所在学院
-	//?college=
+    //?college=
     $api->get('users/{college?}', 'UsersController@usersWithCollege');
     // 显示任务详情  ?include=task_progresses ?college=1  显示各个学院的完成情况
     $api->get('task/{task}', 'TaskController@task');
@@ -39,7 +39,9 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     $api->get('mettings', 'MeetingController@lists');
     //获取会议 meeting_id
     $api->get('metting/{meeting}', 'MeetingController@show');
-
+    // 任务列表 ?only_trashed=0|1 ?status=draft|publish ?orders=work_type_id,department_id ?start_date=?&end_date=?
+    // ?work_type_id=  ?department_id=
+    $api->get('tasks', 'TaskController@tasks');
     //学院
     $api->group(['middleware' => ['role:college']], function ($api) {
         // 添加责任人
@@ -76,9 +78,6 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->post('remind/{task}/{college}', 'TaskController@remind');
         // 获取任务的催交记录
         $api->get('reminds/{task}/{college}', 'TaskController@getReminds');
-        // 任务列表 ?only_trashed=0|1 ?status=draft|publish ?orders=work_type_id,department_id ?start_date=?&end_date=?
-        // ?work_type_id=  ?department_id=
-        $api->get('tasks', 'TaskController@tasks');
         // 获取工作类型
         $api->get('work_types', 'WorkTypeController@lists');
         // 获取考核等级

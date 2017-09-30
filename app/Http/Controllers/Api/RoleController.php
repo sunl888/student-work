@@ -19,7 +19,6 @@ class RoleController extends BaseController
     public function allRoles()
     {
         $roles = app(Role::class)->recent()->get();
-        //->where('name','<>','super_admin')
         return $this->response()->collection($roles, new RoleTransformer());
     }
 

@@ -19,7 +19,7 @@ class MeetingController extends BaseController
 
     public function lists(Request $request)
     {
-        return $this->response()->collection(Meeting::applyFilter($request)->get(), new MeetingTransformer());
+        return $this->response()->paginator(Meeting::applyFilter($request)->paginate($this->perPage()), new MeetingTransformer());
     }
 
     public function show(Meeting $meeting)

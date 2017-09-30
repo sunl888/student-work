@@ -13,7 +13,7 @@ class BaseController extends Controller
 {
     use Helpers, ValidatePermission;
 
-    public function getUsers($userIds)
+    public function getUsersName($userIds)
     {
         if ($userIds instanceof Model) {
             $userIds = explode(',', $userIds->user_id);
@@ -32,6 +32,7 @@ class BaseController extends Controller
                 foreach ($users as $user) {
                     $tmp .= $user->name . ',';
                 }
+                $tmp = str_replace_last(',', '', $tmp);
                 return $tmp;
             }
         } else {

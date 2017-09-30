@@ -8,8 +8,6 @@
 
 namespace App\Transformers;
 
-use App\Models\TaskProgress;
-use App\Models\User;
 use League\Fractal\TransformerAbstract;
 
 class Transformer extends TransformerAbstract
@@ -19,7 +17,7 @@ class Transformer extends TransformerAbstract
      * @param $taskProgress
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|string|static|static[]
      */
-    public function getLeadOfficial($taskProgress)
+    /*public function getLeadOfficial($taskProgress)
     {
         $userIds = explode(',', $taskProgress->user_id);
         if (array_first($userIds) != null) {
@@ -33,6 +31,6 @@ class Transformer extends TransformerAbstract
         } else {
             return null;
         }
-    }
+    }*/
 
 }

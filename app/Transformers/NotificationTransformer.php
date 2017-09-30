@@ -10,6 +10,7 @@ class NotificationTransformer extends TransformerAbstract
     {
         return [
             'data' => json_decode($notications->data),
+            'type' => $notications->type,
         ];
     }
 }

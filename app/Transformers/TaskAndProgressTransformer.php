@@ -9,8 +9,6 @@
 namespace App\Transformers;
 
 use App\Models\Task;
-use App\Models\TaskProgress;
-use App\Models\User;
 use App\Repositories\AssessRepository;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\WorkTypeRepository;
@@ -31,8 +29,7 @@ class TaskAndProgressTransformer extends Transformer
             //完成状态
             'finished_at' => $task->task_progress->status,
             //责任人
-            'user' => isset($task->task_progress->user_id) ? $this->getUser($task->task_progress->user_id) : null,
-            //'user' => $task->task_progress->user_id == TaskProgress::$personnelSign ? '全体人员' : app(User::class)->find($task->task_progress->user_id)['name'],
+            'user' => isset($task->task_progress->user_id) ? get_lead_official($task->task_progress->user_id) : null,
             //等级
             'assess' => !empty($task->task_progress->assess_id) ? app(AssessRepository::class)->find($task->task_progress->assess_id)['title'] : null,
             //完成质量
@@ -44,7 +41,7 @@ class TaskAndProgressTransformer extends Transformer
         ];
     }
 
-    public function getUser($users)
+    /*public function getUser($users)
     {
         $userIds = explode(',', $users);
         if (array_first($userIds) != null) {
@@ -58,6 +55,6 @@ class TaskAndProgressTransformer extends Transformer
         } else {
             return null;
         }
-    }
+    }*/
 
 }

@@ -43,12 +43,6 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     ];
 
 
-    // todo 这里的修改器不能正常修改性别，不知道为什么，但是修改其他的字段都可以
-    /*public function getGenderAttribute($value)
-    {
-        return $this->attributes['gender'] = $value?'男':'女';
-    }*/
-
     public function isSuperAdmin()
     {
         return $this->hasRole('super_admin');

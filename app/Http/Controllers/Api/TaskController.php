@@ -11,7 +11,6 @@ use App\Models\College;
 use App\Models\Remind;
 use App\Models\Task;
 use App\Models\TaskProgress;
-use App\Models\User;
 use App\Notifications\TaskRemind;
 use App\Repositories\AssessRepository;
 use App\Repositories\CollegeRepository;
@@ -25,7 +24,6 @@ use App\Transformers\TaskAndProgressTransformer;
 use App\Transformers\TaskTransformer;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Notification;
 
@@ -180,7 +178,7 @@ class TaskController extends BaseController
                     app(DepartmentRepository::class)->find($task->department_id)['title'],
                     app(CollegeRepository::class)->find($progress->college_id)['title'],
                     $progress->status ? '已完成' : '未完成',
-                    isset($progress->user_id) ? $this->getUsers($progress->user_id) : null,
+                    isset($progress->user_id) ? $this->getUsersName($progress->user_id) : null,
                 ];
             }
         }
@@ -210,7 +208,7 @@ class TaskController extends BaseController
         $res = new Collection();
         foreach ($tasks as $task) {
             $tmp = $task->task()->where(['status' => 'publish'])->first();
-            $task->user = $this->getLeadOfficial($task);
+            $task->user = get_lead_official($task);
             $task->work_type = app(WorkTypeRepository::class)->find($tmp->work_type_id)['title'];
             $task->department = app(DepartmentRepository::class)->find($tmp->department_id)['title'];
             $task->assess = !empty($task->assess_id) ? app(AssessRepository::class)->find($task->assess_id)['title'] : null;
@@ -219,32 +217,6 @@ class TaskController extends BaseController
             }
         }
         return $this->response()->array($res->forPage(request('page') ?: 1, $this->perPage())->toArray());
-    }
-
-    /**
-     * 获取责任人
-     * @param $taskProgress
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|string|static|static[]
-     */
-    public function getLeadOfficial($taskProgress)
-    {
-        if ($taskProgress instanceof Model) {
-            $userIds = explode(',', $taskProgress->user_id);
-        } else {
-            $userIds = explode(',', $taskProgress);
-        }
-
-        if (array_first($userIds) != null) {
-            if (strtolower(array_first($userIds)) == TaskProgress::$personnelSign) {
-                return array_values(['name' => '全体人员']);
-            } elseif (count($userIds) == 1) {
-                return User::find(array_first($userIds), ['id', 'name']);
-            } elseif (count($userIds) > 1) {
-                return User::whereIn('id', $userIds)->get(['id', 'name']);
-            }
-        } else {
-            return null;
-        }
     }
 
     public function task(Task $task)
