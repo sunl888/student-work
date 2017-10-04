@@ -4,6 +4,9 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    protected $userCount = 100;
+    protected $taskCount = 100;
+
     /**
      * Run the database seeds.
      *
@@ -11,24 +14,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        /*DB::table('departments')->truncate();
-        DB::table('work_types')->truncate();
-        DB::table('colleges')->truncate();
-        DB::table('assess')->truncate();
-        DB::table('semesters')->truncate();*/
+        $this->call(UsersTableSeeder::class);
+        $this->call(RolesTableSeeder::class);
+        factory(App\Models\User::class, $this->userCount)->create();
+        $this->call(RoleUserTableSeeder::class);
+        $this->call(PermissionsTableSeeder::class);
+        $this->call(PermissionRoleTableSeeder::class);
 
         $this->call(DepartmentsSeeder::class);
         $this->call(WorkTypesSeeder::class);
         $this->call(CollegesSeeder::class);
         $this->call(AssessSeeder::class);
-        $this->call(UsersTableSeeder::class);
-        $this->call(PermissionsTableSeeder::class);
-        $this->call(RolesTableSeeder::class);
-        $this->call(RoleUserTableSeeder::class);
-        $this->call(PermissionRoleTableSeeder::class);
         $this->call(MenusSeeder::class);
         $this->call(MenuRoleSeeder::class);
-        $this->call(TaskSeeder::class);
+        factory(App\Models\Task::class, $this->taskCount)->create();
+        //$this->call(TaskSeeder::class);
         $this->call(MettingsSeeder::class);
     }
 }

@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Database\Seeder;
-
-class RoleUserTableSeeder extends Seeder
+class RoleUserTableSeeder extends DatabaseSeeder
 {
     /**
      * Run the database seeds.
@@ -11,49 +9,27 @@ class RoleUserTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('role_user')->insert(
+        $data = [
             [
-                [
-                    'user_id' => 1,
-                    'role_id' => 1
-                ],
-                [
-                    'user_id' => 2,
-                    'role_id' => 2
-                ],
-                [
-                    'user_id' => 3,
-                    'role_id' => 2
-                ],
-                [
-                    'user_id' => 4,
-                    'role_id' => 2
-                ],
-                [
-                    'user_id' => 5,
-                    'role_id' => 3
-                ],
-                [
-                    'user_id' => 6,
-                    'role_id' => 3
-                ],
-                [
-                    'user_id' => 7,
-                    'role_id' => 3
-                ],
-                [
-                    'user_id' => 8,
-                    'role_id' => 3
-                ],
-                [
-                    'user_id' => 9,
-                    'role_id' => 3
-                ],
-                [
-                    'user_id' => 10,
-                    'role_id' => 3
-                ]
+                'user_id' => 1,
+                'role_id' => 1
+            ],
+            [
+                'user_id' => 2,
+                'role_id' => 2
+            ],
+            [
+                'user_id' => 3,
+                'role_id' => 3
             ]
-        );
+        ];
+        for($i=4; $i<=$this->userCount+3; $i++){
+            $data[] = [
+                'user_id' =>$i,
+                'role_id' =>random_int(1,3)
+            ];
+        }
+
+        DB::table('role_user')->insert($data);
     }
 }
