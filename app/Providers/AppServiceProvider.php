@@ -78,7 +78,7 @@ class AppServiceProvider extends ServiceProvider
                     [
                         'status_code' => 401,
                         'code' => 401.1,
-                        'message' => '请先登陆'
+                        'message' => '你还没有登陆^^'
                     ], 401
                 );
             }
@@ -101,7 +101,7 @@ class AppServiceProvider extends ServiceProvider
                     [
                         'status_code' => 404,
                         'code' => 404,
-                        'message' => $exception->getMessage()
+                        'message' => strpos($exception->getMessage(),"No query results")? $exception->getMessage(): 'Not Found',
                     ], 404
                 );
             }
@@ -118,16 +118,5 @@ class AppServiceProvider extends ServiceProvider
                 );
             }
         );
-        /* $apiHandler->register(
-         // Zizaco/entrust没有权限会抛出这个异常
-             function (\Symfony\Component\HttpKernel\Exception\HttpException $exception) {
-                 return response([
-                     'status_code' => 403,
-                     'code' => 403,
-                     'message' => '对不起，你没有操作权限'
-                 ], 403);
-
-             }
-         );*/
     }
 }

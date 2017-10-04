@@ -24,6 +24,8 @@ use App\Transformers\TaskAndProgressTransformer;
 use App\Transformers\TaskTransformer;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Notification;
 
@@ -187,6 +189,7 @@ class TaskController extends BaseController
     }
 
 
+
     /**
      * 获取某个学院的任务列表
      * @param null $collegeId
@@ -223,12 +226,6 @@ class TaskController extends BaseController
     {
         return $this->response->item(Task::findOrFail($task->id), new TaskTransformer());
     }
-
-    /*public function getTaskDetail($taskId)
-    {
-        $conditions = ['task_id' => $taskId, 'college_id' => Auth::guard()->user()->college_id];
-        return $this->response()->item($this->taskRepository->taskAndPregress($conditions), new TaskAndProgressTransformer());
-    }*/
 
     /**
      * 恢复任务
@@ -284,6 +281,33 @@ class TaskController extends BaseController
     {
         $conditions = ['task_id' => $task_id, 'college_id' => $college_id];
         return $this->response->array(app(Remind::class)->where($conditions)->get()->toArray());
+    }
+
+    public function getUsersName($userIds)
+    {
+        if ($userIds instanceof Model) {
+            $userIds = explode(',', $userIds->user_id);
+        } else {
+            $userIds = explode(',', $userIds);
+        }
+        $tmp = '';
+        if (array_first($userIds) != null) {
+            if (strtolower(array_first($userIds)) == TaskProgress::$personnelSign) {
+                return '全体人员';
+            } elseif (count($userIds) == 1) {
+                $user = User::find(array_first($userIds));
+                return $user->name;
+            } elseif (count($userIds) > 1) {
+                $users = User::whereIn('id', $userIds)->get();
+                foreach ($users as $user) {
+                    $tmp .= $user->name . ',';
+                }
+                $tmp = str_replace_last(',', '', $tmp);
+                return $tmp;
+            }
+        } else {
+            return null;
+        }
     }
 
 }
