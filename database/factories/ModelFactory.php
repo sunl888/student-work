@@ -11,10 +11,9 @@
 |
 */
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-
 use Carbon\Carbon;
 
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     static $password = 'admin';
     static $college_id = 1;
@@ -42,6 +41,25 @@ $factory->define(App\Models\Task::class, function (Faker\Generator $faker) {
         'department_id' => random_int(1,5),
         'end_time' => Carbon::tomorrow()->addDays(10),
         'status' => 'draft',
+        'created_at' => Carbon::now(),
+        'updated_at' => Carbon::now()->addDays(3)
+    ];
+});
+
+$factory->define(App\Models\Meeting::class, function (Faker\Generator $faker) {
+    $users = [
+        '11,12,13,14',
+        '6,7,8,9',
+        '16,17,18,19',
+        '26,27,28,29',
+        '36,37,38,39',
+        '56,57,58,59',
+    ];
+    return [
+        'title' => $faker->sentence,
+        'detail' =>$faker->text(500),
+        'users' =>  $users[random_int(1,count($users)-1)],
+        'start_time' => Carbon::now()->addDays(2),
         'created_at' => Carbon::now(),
         'updated_at' => Carbon::now()->addDays(3)
     ];

@@ -6,6 +6,7 @@ class DatabaseSeeder extends Seeder
 {
     protected $userCount = 100;
     protected $taskCount = 100;
+    protected $meetCount = 100;
 
     /**
      * Run the database seeds.
@@ -28,7 +29,8 @@ class DatabaseSeeder extends Seeder
         $this->call(MenusSeeder::class);
         $this->call(MenuRoleSeeder::class);
         factory(App\Models\Task::class, $this->taskCount)->create();
+        factory(App\Models\Meeting::class, $this->meetCount)->create();
         //$this->call(TaskSeeder::class);
-        $this->call(MettingsSeeder::class);
+        //$this->call(MettingsSeeder::class);
     }
 }
