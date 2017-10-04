@@ -13,9 +13,8 @@ use App\Repositories\DepartmentRepository;
 use App\Repositories\WorkTypeRepository;
 use Carbon\Carbon;
 use Illuminate\Validation\ValidationException;
-use League\Fractal\TransformerAbstract;
 
-class TaskTransformer extends TransformerAbstract
+class TaskTransformer extends Transformer
 {
     protected $availableIncludes = ['task_progresses'];
 
@@ -39,7 +38,7 @@ class TaskTransformer extends TransformerAbstract
     {
         $college = $this->validated();
         $task_progress = $task->task_progresses();
-        if (!($college['college'] == null)) {
+        if (!($college['college'] == null && $this->allowSearchTaskDetail())) {
             $task_progress = $task_progress->where(['college_id' => $college]);
         }
 

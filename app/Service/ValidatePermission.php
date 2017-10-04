@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Created by PhpStorm.
@@ -58,5 +59,11 @@ trait ValidatePermission
     protected function allowUpdateTask()
     {
         return $this->validatePermission('admin.edit_task');
+    }
+
+    // 是否显示任务详情（各个学院的任务完成情况）
+    protected function allowSearchTaskDetail()
+    {
+        return Auth::user()->isSuperAdmin();
     }
 }
