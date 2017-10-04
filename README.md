@@ -1,17 +1,11 @@
-<p align="center">
-  <img style="max-width:50%" src="https://github.com/wqer1019/student-work/blob/dev/public/favicon.ico">
-</p>
-
-***
-
 # 学生事务工作进程监控系统
 
-## 环境
+## 环境要求
 - PHP >= 7.0
 -  MySQL >= 5.6
 -  Node.js
 
-## 安装
+## 开始安装
 从 [github](https://github.com/wqer1019/student-work.git) 克隆本项目
 ```shell
 # from github clone this project.
@@ -44,7 +38,7 @@ php artisan key:generate
 php artisan migrate --seed
 ```
 
-## 设计图
+## UML模型
 <p align="center">
   <img style="max-width:50%" src="https://github.com/wqer1019/student-work/blob/master/public/design_chart.png">
   <br>
