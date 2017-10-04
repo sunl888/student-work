@@ -1,9 +1,11 @@
-# 学生事务工作进程监控系统
+# 学生处任务发布监控系统
+
+
 
 ## 环境要求
 - PHP >= 7.0
--  MySQL >= 5.6
--  Node.js
+- MySQL >= 5.6
+- Node.js
 
 ## 开始安装
 从 [github](https://github.com/wqer1019/student-work.git) 克隆本项目
