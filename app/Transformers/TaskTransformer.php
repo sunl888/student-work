@@ -34,6 +34,11 @@ class TaskTransformer extends Transformer
         ];
     }
 
+    /**
+     * 显示各个学院的任务完成情况
+     * @param Task $task
+     * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+     */
     public function includeTaskProgresses(Task $task)
     {
         $college = $this->validated();
@@ -49,6 +54,11 @@ class TaskTransformer extends Transformer
         }
     }
 
+    /**
+     * 验证college的合法性
+     * @return array
+     * @throws ValidationException
+     */
     public function validated()
     {
         $college = request()->only('college');
