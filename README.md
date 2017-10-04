@@ -1,5 +1,10 @@
-# 学生事务工作进程监控系统
+<p align="center">
+  <img style="max-width:50%" src="https://github.com/wqer1019/student-work/blob/dev/public/favicon.ico">
+</p>
+
 ***
+
+# 学生事务工作进程监控系统
 
 ## 环境
 - PHP >= 7.0
