@@ -23,7 +23,7 @@
                     <el-dialog title="指定责任人" :visible.sync="isDia" top="10%">
                         <el-form>
                             <el-form-item>
-                                <el-transfer :titles="['本学院可选责任人', '已选中的责任人']" v-model="allot" :data="users"></el-transfer>
+                                <el-transfer :titles="['本学院可选责任人', '已选中的责任人']" v-model="currOption" :data="users"></el-transfer>
                             </el-form-item>
                         </el-form>
                         <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
@@ -73,7 +73,7 @@
                 mine: [],
                 taskPro: [],
                 //当前选中责任人ID
-                allot: [],
+                allot: '',
                 //任务提交时是否过了截止日期
                 delay: {
                     delayReson: '',
@@ -151,12 +151,23 @@
             },
             //指定责任人
             appoint () {
-                Array(this.allot);
-                if(this.allot.length == this.users.length){
+                 if(this.currOption.length == this.users.length){
                     this.allot = 'all';
-                } else if(this.allot.length == 1){
-                    this.allot = String(this.allot);
+                } else if(this.currOption.length == 1){
+                    this.allot = String(this.currOption[0])
+                } else {
+                    this.allot = this.currOption.join(',');
                 }
+                this.$http.post('create_allot_task/' + this.temp.id + '/' + this.me, {
+                    user_id: this.allot
+                }).then(res => {
+                    this.isAllot = true
+                    this.isDia = false
+                    this.$message.success('指定成功')
+                    this.$refs['list'].refresh()
+                }).catch(res => {
+                    this.$message.error('指定失败,请重新操作')
+                })
                 this.$http.post('create_allot_task/' + this.$route.params.id + '/' + this.$route.params.college, {
                     user_id: this.allot == 'all' || this.allot.length === 1 ? this.allot : this.allot.join(',')
                 }).then(res => {
