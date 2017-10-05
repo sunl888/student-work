@@ -25,7 +25,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'email' => $faker->unique()->freeEmail,
         'password' => bcrypt($password),
         'college_id' => $college_id++,
-        'picture' => $faker->imageUrl(),//$faker->image(public_path('uploads'), 480, 480, 'people', false),
+        'picture' => $faker->imageUrl(640, 480),//$faker->image(public_path('uploads'), 480, 480, 'people', false),
         'gender' => $faker->boolean,
         'created_at' => Carbon::now(),
         'updated_at' => Carbon::now()->addDays(3),

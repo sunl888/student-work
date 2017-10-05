@@ -16,28 +16,28 @@ class UsersTableSeeder extends Seeder
             [
                 'name' => 'admin',
                 'password' => bcrypt('admin'),
-                'email' => 'test@e8net.cn',
+                'email' => app(Faker\Generator::class)->freeEmail,
                 'college_id' => null,
-                'picture' => null,
-                'gender' => true,
+                'picture' => app(Faker\Generator::class)->imageUrl(),
+                'gender' => app(Faker\Generator::class)->boolean,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ], [
                 'name' => 'jsj',
                 'password' => bcrypt('jsj'),
-                'email' => 'test@e8net.cn',
+                'email' => app(Faker\Generator::class)->freeEmail,
                 'college_id' => 9,
-                'picture' => null,
-                'gender' => true,
+                'picture' => app(Faker\Generator::class)->imageUrl(),
+                'gender' => app(Faker\Generator::class)->boolean,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ], [
                 'name' => 'sunlong',
                 'password' => bcrypt('sunlong'),
-                'email' => 'test@e8net.cn',
+                'email' => app(Faker\Generator::class)->freeEmail,
                 'college_id' => 9,
-                'picture' => null,
-                'gender' => true,
+                'picture' => app(Faker\Generator::class)->imageUrl(),
+                'gender' => app(Faker\Generator::class)->boolean,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]
