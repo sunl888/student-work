@@ -39,84 +39,87 @@
     <el-button icon="upload2" title="导出图表" style="transform:rotate(180deg);" @click="exportTable()"></el-button>
   </div>
   <div class="table">
-    <el-table
-    :data="tableData"
-    stripe
-    border
-    style="width: 100%">
-    <el-table-column
-      prop="created_at"
-      label="发布日期"
-      >
-    </el-table-column>
-    <el-table-column
-      prop="title"
-      min-width="100"
-      label="任务名称"
-      >
-    </el-table-column>
-    <el-table-column
-      prop="work_type"
-      label="工作类型"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="department"
-      label="对口科室">
-    </el-table-column>
-    <el-table-column
-      prop="status"
-      inline-template
-      label="任务状态">
-          <span>{{row.status === 'publish' ? '已审核' : '未审核'}}</span>
-    </el-table-column>
-    <el-table-column
-      inline-template
-      label="操作">
-      <template>
-        <el-button-group>
-          <el-button @click="jump(row)" type="primary" size="small">查看</el-button>
-        </el-button-group>
-      </template>
-    </el-table-column>
-  </el-table>
+        <div class="table">
+          <el-table
+          :data="tableData"
+          stripe
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="created_at"
+            label="发布日期"
+            >
+          </el-table-column>
+          <el-table-column
+            prop="title"
+            min-width="100"
+            label="任务名称"
+            >
+          </el-table-column>
+          <el-table-column
+            prop="work_type"
+            label="工作类型"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="department"
+            label="对口科室">
+          </el-table-column>
+          <el-table-column
+            prop="status"
+            inline-template
+            label="任务状态">
+                <span>{{row.status === 'publish' ? '已审核' : '未审核'}}</span>
+          </el-table-column>
+          <el-table-column
+            inline-template
+            label="操作">
+            <template>
+              <el-button-group>
+                <el-button @click="jump(row)" type="primary" size="small">查看</el-button>
+              </el-button-group>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
   </div>
   <div v-if="tableData.length > 0" class="footer">
-    <div class="page_num_box">
-        显示:
-        <el-select @change="change()" class="page_num" size="small" v-model="perPage">
-            <el-option label="5" :value="5"></el-option>
-            <el-option label="10" :value="10"></el-option>
-            <el-option label="15" :value="15"></el-option>
-            <el-option label="20" :value="20"></el-option>
-            <el-option label="30" :value="30"></el-option>
-            <el-option label="40" :value="40"></el-option>
-        </el-select>
-        项结果
-    </div>
-    <el-pagination
-      class="page"
-      layout="prev, pager, next"
-      :total="total"
-      :current-page="currentPage"
-      :page-size="perPage"
-      @current-change="change">
-    </el-pagination>
-  </div>
+              <div class="page_num_box">
+                  显示:
+                  <el-select @change="change()" class="page_num" size="small" v-model="perPage">
+                      <el-option label="5" :value="5"></el-option>
+                      <el-option label="10" :value="10"></el-option>
+                      <el-option label="15" :value="15"></el-option>
+                      <el-option label="20" :value="20"></el-option>
+                      <el-option label="30" :value="30"></el-option>
+                      <el-option label="40" :value="40"></el-option>
+                  </el-select>
+                  项结果
+              </div>
+              <el-pagination
+                class="page"
+                layout="prev, pager, next"
+                :total="total"
+                :current-page="currentPage"
+                :page-size="perPage"
+                @current-change="change">
+              </el-pagination>
+          </div>
 </div>
-
 </template>
 <script>
 import axios from 'axios'
 export default{
   data () {
     return {
+      activeName: 'list',
       isTable:false,
       college:[],
       tableData:[],
       workTypeList: [],
       departmentList: [],
       total: 0,
+      url:'',
       perPage: 20,
       currentPage: 1,
       collegesList: [],
@@ -210,12 +213,11 @@ export default{
         i++;
       } 
       if (this.query.range.end_date !== null){
-        this.query.range.end_date = (range[1] || '').substr(0,range[0].indexOf(' '));
+        this.query.range.end_date = (range[1] || '').substr(0,range[1].indexOf(' '));
         url[i] = '&end_date='+this.query.range.end_date;
         i++;
       }
-      
-      // url[i] = 'status=publish';
+      this.url = url.join('');
       this.$http.get(url.join(''),{
         params: {
           limit: this.perPage,
@@ -223,7 +225,7 @@ export default{
         }
       }).then(res => {
         this.total = res.data.meta.pagination.total;
-          this.tableData = res.data.data
+        this.tableData = res.data.data
       }) 
     }
   }

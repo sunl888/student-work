@@ -92,7 +92,7 @@
                               >
                             </el-switch>
                         </el-form-item>
-                         <el-form-item prop="delayReson" v-if="isDelay" label='推迟理由'>
+                         <el-form-item prop="delayReson" v-if="taskPro.delay!==null" label='推迟理由'>
                             <p>{{taskPro.delay}}</p>
                         </el-form-item>
                         <el-form-item prop="quality" label="完成质量">
@@ -187,6 +187,7 @@
                 this.$http.get('task/' + this.$route.params.id + '?include=task_progresses').then(res => {
                     this.item = res.data.data
                     this.taskPro = res.data.data.task_progresses.data[this.$route.params.college_id-1]
+                    if(this.taskPro.delay!==null)this.isDelay = true;
                 })
             },
             //获取此任务的催交情况

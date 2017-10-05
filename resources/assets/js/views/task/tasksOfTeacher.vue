@@ -56,8 +56,9 @@
                                         label="任务评分"
                                         width="120"
                                         sortable
-                                        prop="assess"
+                                        inline-template
                                 >
+                                <span>{{!row.assess ? '尚未评分' : row.assess}}</span>
                                 </el-table-column>
                                 <el-table-column
                                         label="操作"

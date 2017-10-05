@@ -1,4 +1,4 @@
-<template>
+s<template>
     <div class="taskDetail">
         <div class="current">
             <el-card class="box-card">
@@ -9,7 +9,7 @@
                 <!--任务详情-->
                 <div class="text item">
                     <div>发布日期：<span>{{ item.created_at }}</span></div>
-                    <div style="display:block;margin-top:10px;">参会人员：<span v-for="value in item.users">{{value.name + '&nbsp'  }}</span></div>
+                    <div style="display:block;margin-top:10px;">参会人员：<span>{{leading}}</span></div>
                     <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>
             </el-card>
@@ -20,20 +20,27 @@
     export default{
         data () {
             return {
-                item: []
+                item: [],
+                leading: ''
             }
         },
         computed: {
             me () {
-                return this.$store.state.me.college_id ? this.$store.state.me.college_id : {};
+                return this.$store.state.me ? this.$store.state.me : {};
             }
         },
         methods: {
             //获取任务详情()
             loadItem () {
-                this.$http.get('metting/' + this.$route.params.id).then(res => {
-                    this.item = res.data.data
-                })
+                    this.$http.get('metting/' + this.$route.params.id).then(res => {
+                        this.item = res.data.data
+                        this.leading = Array(this.leading);
+                        for(let i in this.item.users){
+                            this.leading[i] = this.item.users[i].name;
+                        }
+                        this.leading = this.leading.join('、');
+                    })
+
             }
         },
         beforeRouteUpdate (to, from, next) {

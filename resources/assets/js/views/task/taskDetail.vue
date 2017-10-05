@@ -12,8 +12,7 @@
                     <div>工作类型：<span>{{ item.work_type }}</span></div>
                     <div> 对口科室：<span>{{ item.department }}</span></div>
                     <div>截止日期：<span>{{ item.end_time }}</span></div>
-                    <div>责任人：<span v-for="value in leading">{{value.name + '、'}}</span>
-                    </div>
+                    <div>责任人：<span>{{leading}}</span></div>
                     <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>
                 <!--操作按钮-->
@@ -24,7 +23,7 @@
                     <el-dialog title="指定责任人" :visible.sync="isDia" top="10%">
                         <el-form>
                             <el-form-item>
-                                <el-transfer :titles="['本学院可选责任人', '已选中的责任人']" v-model="allot" :data="users"></el-transfer>
+                                <el-transfer :titles="['本学院可选责任人', '已选中的责任人']" v-model="currOption" :data="users"></el-transfer>
                             </el-form-item>
                         </el-form>
                         <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
@@ -74,7 +73,7 @@
                 mine: [],
                 taskPro: [],
                 //当前选中责任人ID
-                allot: [],
+                allot: '',
                 //任务提交时是否过了截止日期
                 delay: {
                     delayReson: '',
@@ -152,12 +151,23 @@
             },
             //指定责任人
             appoint () {
-                Array(this.allot);
-                if(this.allot.length == this.users.length){
+                 if(this.currOption.length == this.users.length){
                     this.allot = 'all';
-                } else if(this.allot.length == 1){
-                    this.allot = String(this.allot);
+                } else if(this.currOption.length == 1){
+                    this.allot = String(this.currOption[0])
+                } else {
+                    this.allot = this.currOption.join(',');
                 }
+                this.$http.post('create_allot_task/' + this.temp.id + '/' + this.me, {
+                    user_id: this.allot
+                }).then(res => {
+                    this.isAllot = true
+                    this.isDia = false
+                    this.$message.success('指定成功')
+                    this.$refs['list'].refresh()
+                }).catch(res => {
+                    this.$message.error('指定失败,请重新操作')
+                })
                 this.$http.post('create_allot_task/' + this.$route.params.id + '/' + this.$route.params.college, {
                     user_id: this.allot == 'all' || this.allot.length === 1 ? this.allot : this.allot.join(',')
                 }).then(res => {
@@ -174,7 +184,16 @@
                 this.$http.get('task/' + this.$route.params.id + '?include=task_progresses&college='+this.$route.params.college).then(res => {
                     this.item = res.data.data;
                     this.taskPro = this.item.task_progresses.data[0];
-                    this.leading = this.taskPro.leading_official?this.taskPro.leading_official:'尚未指定';
+                    if(this.taskPro.leading_official){
+                        this.leading = Array(this.leading);
+                        for(let i in this.taskPro.leading_official){
+                            this.leading[i] = this.taskPro.leading_official[i].name;
+                        }
+                        this.leading = this.leading.join('、');
+                    } else {
+                        this.leading = String(this.leading);
+                        this.leading = '尚未指定';
+                    }
                 })
             },
             //获取学院所有用户

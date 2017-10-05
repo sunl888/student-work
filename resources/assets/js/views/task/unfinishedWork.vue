@@ -50,8 +50,8 @@
                         inline-template
                 >
                 <span>
-                    <p v-if="row.user!==null" v-for="value in row.user">{{value.name}}</p>
-                    <span v-else>{{'尚未指定'}}</span>
+                    <span v-if="row.user!==null">{{row.user.length === 1 ? (row.user[0].name || '') : (row.user[0].name || '') + '等'+ (row.user.length-1) + '人'}}</span>
+                    <span v-else>尚未指定</span>
                 </span>
                 </el-table-column>
                 <el-table-column
@@ -85,7 +85,7 @@
               <el-dialog title="指定责任人" :visible.sync="isDia" top="10%">
                 <el-form>
                   <el-form-item>
-                    <el-transfer class="transfer" :titles="['本学院可选责任人', '已选中的责任人']" :value="allot" v-model="allot" :data="users"></el-transfer>
+                    <el-transfer class="transfer" :titles="['本学院可选责任人', '已选中的责任人']" :value="allot" v-model="currOption" :data="users"></el-transfer>
                   </el-form-item>
                 </el-form>
                 <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
@@ -117,7 +117,7 @@
                 //当前选中一级菜单
                 currOption: [],
                 //当前选中责任人ID
-                allot: [],
+                allot: '',
                 //临时数组，存放row.id
                 temp: [],
                 //任务提交时是否过了截止日期
@@ -173,14 +173,16 @@
             },
             //指定责任人
             appoint () {
-                Array(this.allot);
-                if(this.allot.length == this.users.length){
+                // Array(this.allot);
+                if(this.currOption.length == this.users.length){
                     this.allot = 'all';
-                } else if(this.allot.length == 1){
-                    this.allot = String(this.allot);
+                } else if(this.currOption.length == 1){
+                    this.allot = String(this.currOption[0])
+                } else {
+                    this.allot = this.currOption.join(',');
                 }
                 this.$http.post('create_allot_task/' + this.temp.id + '/' + this.me, {
-                    user_id: this.allot == 'all' || this.allot.length === 1 ? this.allot : this.allot.join(',')
+                    user_id: this.allot
                 }).then(res => {
                     this.isAllot = true
                     this.isDia = false

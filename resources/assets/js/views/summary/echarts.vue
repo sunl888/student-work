@@ -20,8 +20,8 @@ export default{
   data () {
     return {
       range:{
-        start_time: null,
-        end_time: null
+        start_date: null,
+        end_date: null
       },
       myChart: null,
       finished: [],
@@ -92,7 +92,7 @@ export default{
         i++;
       } 
       if (this.range.end_date !== null){
-        this.range.end_date = (range[1] || '').substr(0,range[0].indexOf(' '));
+        this.range.end_date = (range[1] || '').substr(0,range[1].indexOf(' '));
         url[i] = '&end_date='+this.range.end_date;
         i++;
       }
@@ -110,7 +110,6 @@ export default{
           this.myChart = echarts.init(document.getElementById('main'));
           this.myChart.setOption(this.option)
           this.myChart.on('click', this.eConsole);
-          console.log(this.option)
         } else {
           this.myChart.dispose();
           document.getElementById('main').innerHTML = '没有数据';

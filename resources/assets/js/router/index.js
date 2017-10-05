@@ -209,7 +209,7 @@ export default new Router({
               component: require('../views/cahier/cahierCreate.vue')
             },
             {
-              path: 'cahier_detail/:id',
+              path: 'cahier_detail/:id/:user?',
               name: 'cahier_detail',
               meta: {title: '会议详情'},
               component: require('../views/cahier/cahierDetail.vue')
