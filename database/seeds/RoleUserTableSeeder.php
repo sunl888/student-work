@@ -26,7 +26,7 @@ class RoleUserTableSeeder extends DatabaseSeeder
         for ($i = 4; $i <= $this->userCount + 3; $i++) {
             $data[] = [
                 'user_id' => $i,
-                'role_id' => random_int(1, 3)
+                'role_id' => random_int(2, 3)
             ];
         }
 
