@@ -1,148 +1,146 @@
 <template>
-<div>
-  <div class="table">
-    <el-table
-    :data="tableData"
-    stripe
-    border
-    style="width: 100%">
-    <el-table-column
-      prop="created_at"
-      label="发布日期"
-      >
-    </el-table-column>
-    <el-table-column
-      prop="title"
-      min-width="100"
-      label="任务名称"
-      >
-    </el-table-column>
-    <el-table-column
-      prop="work_type"
-      label="工作类型"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="department"
-      label="对口科室">
-    </el-table-column>
-    <el-table-column
-      prop="status"
-      inline-template
-      label="任务状态">
-          <span>已审核</span>
-    </el-table-column>
-    <el-table-column
-      inline-template
-      label="操作">
-      <template>
-        <el-button-group>
-          <el-button @click="jump(row)" type="primary" size="small">查看</el-button>
-        </el-button-group>
-      </template>
-    </el-table-column>
-  </el-table>
-  </div>
-  <div v-if="tableData.length > 0" class="footer">
-    <div class="page_num_box">
-        显示:
-        <el-select @change="change()" class="page_num" size="small" v-model="perPage">
-            <el-option label="5" :value="5"></el-option>
-            <el-option label="10" :value="10"></el-option>
-            <el-option label="15" :value="15"></el-option>
-            <el-option label="20" :value="20"></el-option>
-            <el-option label="30" :value="30"></el-option>
-            <el-option label="40" :value="40"></el-option>
-        </el-select>
-        项结果
-    </div>
-    <el-pagination
-      class="page"
-      layout="prev, pager, next"
-      :total="total"
-      :current-page="currentPage"
-      :page-size="perPage"
-      @current-change="change">
-    </el-pagination>
-  </div>
-</div>
+  <div class="taskManage item">
 
+       <div class="table">
+            <div class="table">
+              <el-table
+              :data="item"
+              stripe
+              border
+              style="width: 100%">
+              <el-table-column
+                prop="created_at"
+                label="发布日期"
+                >
+              </el-table-column>
+              <el-table-column
+                prop="title"
+                min-width="100"
+                label="任务名称"
+                >
+              </el-table-column>
+              <el-table-column
+                prop="work_type"
+                label="工作类型"
+                width="180">
+              </el-table-column>
+              <el-table-column
+                prop="department"
+                label="对口科室">
+              </el-table-column>
+              <el-table-column
+                prop="status"
+                inline-template
+                label="任务状态">
+                    <span>已审核</span>
+              </el-table-column>
+              <el-table-column
+                inline-template
+                label="操作">
+                <template>
+                  <el-button-group>
+                    <el-button @click="jump(row)" type="primary" size="small">查看</el-button>
+                  </el-button-group>
+                </template>
+              </el-table-column>
+            </el-table> 
+          </div>
+     </div>
+     <div v-if="item.length > 0" class="footer">
+              <div class="page_num_box">
+                  显示:
+                  <el-select @change="change()" class="page_num" size="small" v-model="perPage">
+                      <el-option label="5" :value="5"></el-option>
+                      <el-option label="10" :value="10"></el-option>
+                      <el-option label="15" :value="15"></el-option>
+                      <el-option label="20" :value="20"></el-option>
+                      <el-option label="30" :value="30"></el-option>
+                      <el-option label="40" :value="40"></el-option>
+                  </el-select>
+                  项结果
+              </div>
+              <el-pagination
+                class="page"
+                layout="prev, pager, next"
+                :total="total"
+                :current-page="currentPage"
+                :page-size="perPage"
+                @current-change="change">
+              </el-pagination>
+          </div>
+   </div>
 </template>
 <script>
-import axios from 'axios'
 export default{
   data () {
     return {
-      isTable:false,
-      college:[],
       total: 0,
       perPage: 20,
       currentPage: 1,
-      tableData:[],
-      workTypeList: [],
-      departmentList: [],
-      collegesList: [],
-      query: {
-        range: {
-          start_date: null,
-          end_date: null,
-        },
-        work_type_id: null,
-        department_id: null,
-        college_id:null
-      }
+      activeName: 'list',
+      item: []
     }
   },
-  watch:{
-    '$route' () {
-      this.loadItem();
-    }
-  },
-	mounted () {
-		this.loadItem();
+  mounted () {
+    this.getList();
     if(this.autoRequest){
       this.getList();
     }
   },
+  computed: {
+    me () {
+      return this.$store.state.me ? this.$store.state.me : {}
+    }
+  },
   methods: {
-    change (currentPage) {
-      this.loadItem(currentPage);
-    },
     refresh () {
       this.$nextTick(() => {
-          this.loadItem(this.currentPage);
+          this.getList(this.currentPage);
       })
     },
-  	loadItem(page=1, sort){
-		this.$http.get('tasks?keywords=' + this.$route.params.state,{
-       params: {
-          limit: this.perPage,
-          page
-        }
-    }).then(res => {
-          this.tableData = res.data.data;
-          this.total = res.data.meta.pagination.total;
-        })
-  	},
     jump (row) {
-      this.$router.push({name:'task_item',params: {id: row.id}})
-    }
-  }
-}
+      if(this.me.role_id === 1){
+         this.$router.push({name: 'task_item', params: {id: row.id}})
+      } else if(this.me.role_id === 2){
+         this.$router.push({name: 'task_detail', params: {id: row.id,college: this.me.college_id}})
+      } else if(this.me.role_id === 3){
+         this.$router.push({name: 'task_information', params: {id: row.id,college: this.me.college_id}})
+      }
+     
+    },
+    getList (page = 1, sort) {
 
+            this.loading = true;
+            this.$http.get('tasks?keywords=' + this.$route.params.state, {
+                params: {
+                    limit: this.perPage,
+                    page
+                }
+            }).then(res => {
+              console.log(res);
+              this.item = res.data.data;
+              console.log(this.item)
+               this.total = res.data.meta.pagination.total;
+                this.loading = false;
+              }).catch(err => {
+                this.loading = false;
+            })
+    },
+    change (currentPage) {
+        this.getList(currentPage);
+    }
+  },
+  beforeRouteUpdate (to, from, next) {
+      next();
+      this.getList();
+  }
+} 
 </script>
-<style scoped>
-	#main{
-    width:100%;
-    min-height:400px;
-    margin-top:20px;
-    margin-bottom:20px;
-  }
-  .query{
-    padding:20px 0;
-    width:100%;
-  }
-    .footer{
+<style>
+.table{
+  margin-top:20px;
+}
+.footer{
   padding: 15px 20px;
 }
 .page_num_box{

@@ -5,6 +5,7 @@
         <div class="table">
           <currency-list-page ref="list" :queryName="query">
             <template scope="list">
+              <!-- {{list}} -->
               <el-table
                       :default-sort = "{prop: 'created_at', order: 'descending'}"
                       :data="list.data"
@@ -31,7 +32,7 @@
                         label="参会人员"
                 >
                 <span>
-                  <span v-for="value in row.users">{{value.name + '、'}}</span>  
+                  <span>{{row.users[0].name + '等'+ (row.users.length-1) + '人'}}</span>
                 </span>
                 </el-table-column>
                 <el-table-column

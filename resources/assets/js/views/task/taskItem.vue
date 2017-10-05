@@ -38,8 +38,8 @@
                                     sortable
                                     label="责任人">
                                     <span>
-                                        <span v-if="row.leading_official === null">{{'尚未指定'}}</span>
-                                        <span v-else v-for="value in row.leading_official">{{value.name + '、'}}</span>
+                                        <span v-if="row.leading_official!==null">{{row.leading_official.length === 1 ? (row.leading_official[0].name || '') : (row.leading_official[0].name || '') + '等'+ (row.leading_official.length-1) + '人'}}</span>
+                                    <span v-else>尚未指定</span>
                                     </span>
                             </el-table-column>
 

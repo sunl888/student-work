@@ -8,6 +8,7 @@
         icon="search"
         class="search el-col-10 el-col-push-2"
         :on-icon-click="handleIconClick"
+        @keyup.enter.native="handleIconClick"
         style="width:44%"
         v-model="state"
         >
@@ -22,7 +23,7 @@
         <el-button :disabled="!me.is_super_admin" :plain="true" type="primary" @click="$router.push({name: 'cahier_create'})">添加会议</el-button>
         <el-button style="margin:0 10px;" :disabled="!me.is_super_admin" type="primary" @click="$router.push({name: 'add_task'})">添加任务</el-button>
         <el-badge :value=unread class="item">
-          <el-button style="background:#f5f5f5;" type="text" @click="setAlread"><i style="color:#444;background:#f5f5f5" :title="'有'+unread+'条新通知'" @click="setAlread" class="material-icons">notifications</i></el-button>
+          <el-button style="background:#f5f5f5;" type="text" @click="setAlread"><i style="color:#444;background:#f5f5f5" :title="tips" @click="setAlread" class="material-icons">notifications</i></el-button>
         </el-badge>
       </div>
     </el-col>
@@ -36,7 +37,8 @@
         state: '',
         unread: null,
         breadcrumbs: [],
-        unreadData: []
+        unreadData: [],
+        tips: null
       }
     },
     computed:{
@@ -72,6 +74,11 @@
             } else {
                 this.isTips = false
                 this.unread = res.data.data.length
+                if(this.unread > 0) {
+                  this.tips = '请查看' + this.unread + '条新通知';
+                }else{
+                  this.tips = '当前没有新通知';
+                }
                 this.unreadData = res.data.data.splice(0,3)
             }
         })

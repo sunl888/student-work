@@ -50,8 +50,8 @@
                         inline-template
                 >
                 <span>
-                    <p v-if="row.user!==null" v-for="value in row.user">{{value.name}}</p>
-                    <span v-else>{{'尚未指定'}}</span>
+                    <span v-if="row.user!==null">{{row.user.length === 1 ? (row.user[0].name || '') : (row.user[0].name || '') + '等'+ (row.user.length-1) + '人'}}</span>
+                    <span v-else>尚未指定</span>
                 </span>
                 </el-table-column>
                 <el-table-column
@@ -173,11 +173,11 @@
             },
             //指定责任人
             appoint () {
-                Array(this.allot);
+                // Array(this.allot);
                 if(this.allot.length == this.users.length){
                     this.allot = 'all';
                 } else if(this.allot.length == 1){
-                    this.allot = String(this.allot);
+                    this.allot = String(this.allot[0]);
                 }
                 this.$http.post('create_allot_task/' + this.temp.id + '/' + this.me, {
                     user_id: this.allot == 'all' || this.allot.length === 1 ? this.allot : this.allot.join(',')

@@ -12,8 +12,7 @@
                     <div>工作类型：<span>{{ item.work_type }}</span></div>
                     <div> 对口科室：<span>{{ item.department }}</span></div>
                     <div>截止日期：<span>{{ item.end_time }}</span></div>
-                    <div>责任人：<span v-for="value in leading">{{value.name + '、'}}</span>
-                    </div>
+                    <div>责任人：<span>{{leading}}</span></div>
                     <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>
                 <!--操作按钮-->
@@ -174,7 +173,16 @@
                 this.$http.get('task/' + this.$route.params.id + '?include=task_progresses&college='+this.$route.params.college).then(res => {
                     this.item = res.data.data;
                     this.taskPro = this.item.task_progresses.data[0];
-                    this.leading = this.taskPro.leading_official?this.taskPro.leading_official:'尚未指定';
+                    if(this.taskPro.leading_official){
+                        this.leading = Array(this.leading);
+                        for(let i in this.taskPro.leading_official){
+                            this.leading[i] = this.taskPro.leading_official[i].name;
+                        }
+                        this.leading = this.leading.join('、');
+                    } else {
+                        this.leading = String(this.leading);
+                        this.leading = '尚未指定';
+                    }
                 })
             },
             //获取学院所有用户
