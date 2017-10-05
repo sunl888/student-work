@@ -33,10 +33,10 @@ class TaskSeeder extends Seeder
 （三）加强应急后勤保障工作。相关部门应加强应急值守的后勤保障工作，保证突发事件发生时，公务用车及各种应急物品能及时到位，便于应急处置。
 请各部门、各二级学院将全校值班安排情况通知到相关人员，请保卫处、后勤部门及各二级学院将本学期晚间值班安排表于9月2日前通过电子政务平台报校办应急管理中心王康阔收。
     特此通知',
-                'work_type_id' =>  1,
+                'work_type_id' => 1,
                 'department_id' => 1,
-                'created_at' =>    Carbon::now(),
-                'end_time' =>      Carbon::tomorrow()->addDays(10),
+                'created_at' => Carbon::now(),
+                'end_time' => Carbon::tomorrow()->addDays(10),
                 'updated_at' => Carbon::now(),
                 'status' => 'draft'
             ], [

@@ -36,9 +36,9 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Models\Task::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->sentence,
-        'detail' =>$faker->text(500),
-        'work_type_id' =>  random_int(1,4),
-        'department_id' => random_int(1,5),
+        'detail' => $faker->text(500),
+        'work_type_id' => random_int(1, 4),
+        'department_id' => random_int(1, 5),
         'end_time' => Carbon::tomorrow()->addDays(10),
         'status' => 'draft',
         'created_at' => Carbon::now(),
@@ -57,8 +57,8 @@ $factory->define(App\Models\Meeting::class, function (Faker\Generator $faker) {
     ];
     return [
         'title' => $faker->sentence,
-        'detail' =>$faker->text(500),
-        'users' =>  $users[random_int(1,count($users)-1)],
+        'detail' => $faker->text(500),
+        'users' => $users[random_int(1, count($users) - 1)],
         'start_time' => Carbon::now()->addDays(2),
         'created_at' => Carbon::now(),
         'updated_at' => Carbon::now()->addDays(3)

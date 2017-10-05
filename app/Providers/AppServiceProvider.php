@@ -101,7 +101,7 @@ class AppServiceProvider extends ServiceProvider
                     [
                         'status_code' => 404,
                         'code' => 404,
-                        'message' => strpos($exception->getMessage(),"No query results")? $exception->getMessage(): 'Not Found',
+                        'message' => strpos($exception->getMessage(), "No query results") ? $exception->getMessage() : 'Not Found',
                     ], 404
                 );
             }

@@ -14,7 +14,7 @@ class MettingsSeeder extends Seeder
     {
         for ($i = 0; $i <= 10; $i++) {
             DB::table('meetings')->insert([
-                'id' => $i+1,
+                'id' => $i + 1,
                 'title' => str_random(200),
                 'detail' => str_random(200),
                 'users' => '1,3,4,6,9',

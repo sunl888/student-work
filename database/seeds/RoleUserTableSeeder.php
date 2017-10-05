@@ -23,10 +23,10 @@ class RoleUserTableSeeder extends DatabaseSeeder
                 'role_id' => 3
             ]
         ];
-        for($i=4; $i<=$this->userCount+3; $i++){
+        for ($i = 4; $i <= $this->userCount + 3; $i++) {
             $data[] = [
-                'user_id' =>$i,
-                'role_id' =>random_int(1,3)
+                'user_id' => $i,
+                'role_id' => random_int(1, 3)
             ];
         }
 

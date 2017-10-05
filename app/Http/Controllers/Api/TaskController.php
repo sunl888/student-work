@@ -21,12 +21,17 @@ use App\Repositories\UserRepository;
 use App\Repositories\WorkTypeRepository;
 use App\Service\Export2Excel;
 use App\Transformers\TaskAndProgressTransformer;
+use App\Transformers\TaskOfTeacherTransformer;
 use App\Transformers\TaskTransformer;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
+use League\Fractal\Pagination\PagerfantaPaginatorAdapter;
 use Notification;
 
 class TaskController extends BaseController
@@ -188,7 +193,32 @@ class TaskController extends BaseController
         $this->export($rows, $data, $tableName);
     }
 
-
+    public function getUsersName($userIds)
+    {
+        if ($userIds instanceof Model) {
+            $userIds = explode(',', $userIds->user_id);
+        } else {
+            $userIds = explode(',', $userIds);
+        }
+        $tmp = '';
+        if (array_first($userIds) != null) {
+            if (strtolower(array_first($userIds)) == TaskProgress::$personnelSign) {
+                return '全体人员';
+            } elseif (count($userIds) == 1) {
+                $user = User::find(array_first($userIds));
+                return $user->name;
+            } elseif (count($userIds) > 1) {
+                $users = User::whereIn('id', $userIds)->get();
+                foreach ($users as $user) {
+                    $tmp .= $user->name . ',';
+                }
+                $tmp = str_replace_last(',', '', $tmp);
+                return $tmp;
+            }
+        } else {
+            return null;
+        }
+    }
 
     /**
      * 获取某个学院的任务列表
@@ -200,26 +230,25 @@ class TaskController extends BaseController
         if ($college instanceof College) {
             $condisions['college_id'] = $college;
         } else {
-            $condisions['college_id'] = $this->guard()->user()->college_id;
+            $condisions['college_id'] = Auth::user()->college_id;
         }
         return $this->response()->paginator($this->taskRepository->tasksByCollege($this->perPage(), $condisions), new TaskAndProgressTransformer());
     }
 
     public function getTasksByTeacher()
     {
-        $tasks = app(TaskProgress::class)->asUsers($this->guard()->id())->get()->load('task');
+        $tasks = app(TaskProgress::class)->asUsers(Auth::id())->with(['task' => function ($query) {
+            $query->publish();
+        }])->get();
         $res = new Collection();
         foreach ($tasks as $task) {
-            $tmp = $task->task()->where(['status' => 'publish'])->first();
-            $task->user = get_lead_official($task);
-            $task->work_type = app(WorkTypeRepository::class)->find($tmp->work_type_id)['title'];
-            $task->department = app(DepartmentRepository::class)->find($tmp->department_id)['title'];
-            $task->assess = !empty($task->assess_id) ? app(AssessRepository::class)->find($task->assess_id)['title'] : null;
-            if ($tmp) {
+            if (!is_null($task->task)) {
                 $res->push($task);
             }
         }
-        return $this->response()->array($res->forPage(request('page') ?: 1, $this->perPage())->toArray());
+        $pages = $res->forPage(request('page') ?: 1, $this->perPage());
+        $page = new LengthAwarePaginator($pages, count($res), $this->perPage());
+        return $this->response()->paginator($page, new TaskOfTeacherTransformer());
     }
 
     public function task(Task $task)
@@ -281,33 +310,6 @@ class TaskController extends BaseController
     {
         $conditions = ['task_id' => $task_id, 'college_id' => $college_id];
         return $this->response->array(app(Remind::class)->where($conditions)->get()->toArray());
-    }
-
-    public function getUsersName($userIds)
-    {
-        if ($userIds instanceof Model) {
-            $userIds = explode(',', $userIds->user_id);
-        } else {
-            $userIds = explode(',', $userIds);
-        }
-        $tmp = '';
-        if (array_first($userIds) != null) {
-            if (strtolower(array_first($userIds)) == TaskProgress::$personnelSign) {
-                return '全体人员';
-            } elseif (count($userIds) == 1) {
-                $user = User::find(array_first($userIds));
-                return $user->name;
-            } elseif (count($userIds) > 1) {
-                $users = User::whereIn('id', $userIds)->get();
-                foreach ($users as $user) {
-                    $tmp .= $user->name . ',';
-                }
-                $tmp = str_replace_last(',', '', $tmp);
-                return $tmp;
-            }
-        } else {
-            return null;
-        }
     }
 
 }

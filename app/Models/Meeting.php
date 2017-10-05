@@ -4,6 +4,11 @@ namespace App\Models;
 
 use App\Models\Traits\Listable;
 
+/**
+ * Class Meeting
+ * @method static applyFilter($data)
+ * @package App\Models
+ */
 class Meeting extends BaseModel
 {
     use Listable;
@@ -37,7 +42,7 @@ class Meeting extends BaseModel
     public function scopebyUser($query, $user)
     {
         return $query->orWhere('users', 'like', '%' . ",$user," . '%')
-            ->orWhere('users', 'like', '%' . "$user," . '%')
-            ->orWhere('users', 'like', '%' . ",$user" . '%');
+            ->orWhere('users', 'like', "$user," . '%')
+            ->orWhere('users', 'like', '%' . ",$user");
     }
 }

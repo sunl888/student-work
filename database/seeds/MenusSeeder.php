@@ -73,7 +73,7 @@ class MenusSeeder extends Seeder
                 'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ],[
+            ], [
                 'id' => 7,
                 'name' => '更新用户',
                 'parent_id' => 4,
@@ -173,7 +173,7 @@ class MenusSeeder extends Seeder
                 'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ],  [
+            ], [
                 'id' => 17,
                 'name' => '会议管理',
                 'parent_id' => 0,
@@ -193,7 +193,7 @@ class MenusSeeder extends Seeder
                 'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ],[
+            ], [
                 'id' => 19,
                 'name' => '创建会议',
                 'parent_id' => 17,
@@ -203,7 +203,7 @@ class MenusSeeder extends Seeder
                 'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ],[
+            ], [
                 'id' => 20,
                 'name' => '任务汇总',
                 'parent_id' => 0,
@@ -213,7 +213,7 @@ class MenusSeeder extends Seeder
                 'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ],[
+            ], [
                 'id' => 21,
                 'name' => '任务汇总',
                 'parent_id' => 20,
@@ -223,7 +223,7 @@ class MenusSeeder extends Seeder
                 'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ],[
+            ], [
                 'id' => 22,
                 'name' => '图表显示',
                 'parent_id' => 20,

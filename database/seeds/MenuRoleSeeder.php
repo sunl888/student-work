@@ -72,22 +72,22 @@ class MenuRoleSeeder extends Seeder
             ], [// 预置数据
                 'menu_id' => 10,
                 'role_id' => 1,
-            ],[
+            ], [
                 'menu_id' => 11,
                 'role_id' => 1,
-            ],[
+            ], [
                 'menu_id' => 12,
                 'role_id' => 1,
-            ],[
+            ], [
                 'menu_id' => 13,
                 'role_id' => 1,
-            ],[
+            ], [
                 'menu_id' => 14,
                 'role_id' => 1,
             ], [// 任务列表
                 'menu_id' => 15,
                 'role_id' => 2,
-            ],[// 任务列表
+            ], [// 任务列表
                 'menu_id' => 16,
                 'role_id' => 3,
             ], [// 会议管理
@@ -102,10 +102,10 @@ class MenuRoleSeeder extends Seeder
             ], [
                 'menu_id' => 18,
                 'role_id' => 1,
-            ],[
+            ], [
                 'menu_id' => 18,
                 'role_id' => 2,
-            ],[
+            ], [
                 'menu_id' => 18,
                 'role_id' => 3,
             ], [// 创建会议
