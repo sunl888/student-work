@@ -146,7 +146,7 @@
             //获取任务详情()
             loadItem () {
             this.$http.get('task/' + this.$route.params.id + '?include=task_progresses&college='+this.$route.params.college).then(res => {
-                this.item = res.data.data
+                this.item = res.data.data;
                 this.taskPro = this.item.task_progresses.data[0];
                     if(this.taskPro.leading_official){
                         this.leading = Array(this.leading);
