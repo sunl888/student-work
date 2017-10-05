@@ -19,7 +19,7 @@
                                         width="120">
                                 </el-table-column>
                                 <el-table-column
-                                        prop="task.title"
+                                        prop="title"
                                         sortable
                                         label="任务名称"
                                 >
@@ -48,7 +48,7 @@
                                 <el-table-column
                                         label="截止时间"
                                         width="120"
-                                        prop="task.end_time"
+                                        prop="end_time"
                                         sortable
                                 >
                                 </el-table-column>
@@ -65,7 +65,7 @@
                                         inline-template
                                 >
                                     <template>
-                                        <el-button type="primary" size="small" @click="browseTask(row.task.id)">查看</el-button>
+                                        <el-button type="primary" size="small" @click="browseTask(row.task_id)">查看</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>

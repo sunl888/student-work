@@ -109,9 +109,9 @@
                     }).then(res => {
                         this.loading = false;
                         if(this.queryName === 'tasks_of_teacher') {
-                            this.list = res.data;
-                            this.total = res.meta.pagination.total;
-                            this.perPage = res.meta.pagination.per_page;
+                            this.list = res.data.data;
+                            this.total = res.data.meta.pagination.total;
+                            this.perPage = res.data.meta.pagination.per_page;
                             for(let x in this.list){
                                 this.list[x].created_at = this.dataFilter(this.list[x].created_at)
                                 this.list[x].task.end_time = this.dataFilter(this.list[x].task.end_time);
