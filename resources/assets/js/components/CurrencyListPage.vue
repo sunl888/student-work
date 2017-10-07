@@ -3,28 +3,28 @@
           <div v-loading="loading" class="main">
               <slot v-if="list.length > 0" :data="list"></slot>
               <template v-else>
-                <div v-if="queryName == 'tasks'">
+                <div v-if="queryName.match('tasks')">
                   <p>
                     当前还没有任务哦，请单击右侧按钮添加任务&emsp;
                     <el-button type="primary" icon="plus" @click="$router.push({path: 'add_task'})"></el-button>
                   </p>
                 </div>
-                <div v-else-if="queryName == 'tasks/trashed_tasks=1'">
+                <div v-else-if="queryName.match('trashed_tasks=1')">
                   <p>
                     当前还没有已删除的任务
                   </p>
                 </div>
-                <div v-else-if="queryName == 'lists' || 'tasks_of_teacher'">
+                <div v-else-if="queryName.match('lists') || queryName.match('tasks_of_teacher')">
                   <p>
                       当前没有可查看的任务
                   </p>
                 </div>
-              <div v-else-if="queryName == 'users'">
+              <div v-else-if="queryName.match('users')">
                   <p>
                       当前没有已创建的用户
                   </p>
               </div>
-              <div v-else-if="queryName == 'mettings'">
+              <div v-else-if="queryName.match('mettings')">
                   <p>
                       当前没有会议记录
                   </p>
