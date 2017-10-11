@@ -23,18 +23,30 @@
           </el-form-item>
           <!--完成时间-->
           <el-form-item label="参会学院" prop="college">
-            <el-select class="optionBox" v-model="ruleForm.college" @change="loadTransfer(ruleForm.college)">
+            <el-col style="margin-bottom:15px">
+              <el-checkbox class="el-col-pull-10" v-model="checked">全体人员</el-checkbox>
+            </el-col>
+            <el-col>
+              <el-select v-if="!checked" class="optionBox" v-model="ruleForm.college" @change="loadTransfer(ruleForm.college)">
               <el-option
                       v-for="item in collegesList"
                       :key="item.id"
                       :label="item.title"
                       :value="item.id"></el-option>
-            </el-select>
+              </el-select>
+            </el-col>
           </el-form-item>
-          <el-form-item label="该学院参会人员" prop="people">
+          <el-form-item v-if="!checked" label="该学院参会人员" prop="people">
               <el-transfer class="el-col-pull-5" :titles="['该学院所有老师','已选中老师']" v-model="ruleForm.people" :data="users"></el-transfer>
-              <div>
-              </div>
+          </el-form-item>
+          <!--按钮组-->
+          <el-form-item>
+            <el-button type="primary" @click="createTask('ruleForm')">立即添加</el-button>
+            <el-button @click="resetForm('ruleForm')">重置</el-button>
+          </el-form-item>
+          <!-- 缺勤情况 -->
+          <el-form-item v-if="!checked" label="该学院参会人员" prop="people">
+              <el-transfer class="el-col-pull-5" :titles="['该学院所有老师','已选中老师']" v-model="ruleForm.people" :data="users"></el-transfer>
           </el-form-item>
           <!--按钮组-->
           <el-form-item>
@@ -52,6 +64,7 @@
     data () {
       return {
         collegesList: [],
+         checked: false,
         users: [],
         tags: [],
         item: [],
@@ -74,7 +87,7 @@
             { type: 'number', required: true, message: '请选择参会学院', trigger: 'change' }
           ],
           people: [
-            { type: 'array', required: true, message: '请选择参会人员', trigger: 'change' }
+            { type: 'array', required: true, message: '请选择参会人员' }
           ],
           time: [
             { type: 'date', required: true, message: '请选择会议开始时间', trigger: 'change' }
@@ -97,10 +110,15 @@
       createTask (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            if(this.checked){
+              this.ruleForm.people = 'all'
+            } else {
+              this.ruleForm.people = this.ruleForm.people.join(',')
+            }
             this.$http.post('metting',{
                 title: this.ruleForm.title,
                 detail: this.ruleForm.detail,
-                users: this.ruleForm.people.join(','),
+                users: this.ruleForm.people,
                 start_time: this.ruleForm.time
             }).then(res => {
                 console.log(this.ruleForm)

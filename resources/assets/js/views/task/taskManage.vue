@@ -62,7 +62,7 @@
                    </el-button-group>
                  </template>
                  <template scope="scope" v-else>
-                   <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
+                   <el-button type="primary" size="small" @click="browseTask(row.id)">考核</el-button>
                    <el-button type="danger" size="small" @click="cancelAudit(row.id)">取消审核</el-button>
                  </template>
                </el-table-column>

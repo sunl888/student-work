@@ -1,11 +1,28 @@
 <template>
 <div>
+  <h1 style="padding:10px 0">各学院任务完成情况汇总</h1>
   <div class="query">
+    <el-select v-model="query.semester" placeholder="按学期汇总">
+      <el-option
+        v-for="item in semester"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value">
+      </el-option>
+    </el-select>
+    <el-select v-model="query.schoolYear" placeholder="按学年汇总">
+      <el-option
+        v-for="item in schoolYear"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value">
+      </el-option>
+    </el-select>
     <el-date-picker
-      v-model="range"
+      v-model="query.range"
       type="daterange"
       @change="getData()"
-      placeholder="在日期范围内汇总">
+      placeholder="按日期范围汇总">
     </el-date-picker>
   </div>
   <div id="main">
@@ -19,10 +36,47 @@ import ecConfig from 'echarts';
 export default{
   data () {
     return {
-      range:{
-        start_date: null,
-        end_date: null
-      },
+      semester: [{
+          value: '1',
+          label: '2016-2017学年第一学期'
+        }, {
+          value: '2',
+          label: '2016-2017学年第二学期'
+        }, {
+          value: '3',
+          label: '2015-2016学年第一学期'
+        }, {
+          value: '4',
+          label: '2015-2016学年第二学期'
+        }, {
+          value: '5',
+          label: '2014-2015学年第一学期'
+        }],
+        schoolYear: [{
+          value: '1',
+          label: '2016-2017学年'
+        }, {
+          value: '2',
+          label: '2016-2017学年'
+        }, {
+          value: '3',
+          label: '2015-2016学年'
+        }, {
+          value: '4',
+          label: '2015-2016学年'
+        }, {
+          value: '5',
+          label: '2014-2015学年'
+        }],
+        query:{
+           range:{
+            start_date: null,
+            end_date: null
+          },
+          semester: '',
+          schoolYear: ''
+        },
+     
       myChart: null,
       finished: [],
       unfinished: [],
@@ -83,7 +137,7 @@ export default{
     getData(){
       let url = new Array();
       let i = 1;
-      let range = this.range.toLocaleString().split(',');
+      let range = this.query.range.toLocaleString().split(',');
       url[0] = 'echart/lists';
       if (this.range.start_date !== null){
                 // echarts.dispose();

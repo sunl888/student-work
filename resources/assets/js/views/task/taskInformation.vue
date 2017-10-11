@@ -18,20 +18,16 @@
                 <!--操作按钮-->
                 <div class="seal">
                     <!-- <span v-if="item.finished_at">已完成</span> -->
-                    <el-button :disabled="!taskPro.assess" @click="isScores = true" type="info">查看评分结果</el-button>
-                    <el-dialog title="评分结果" :visible.sync="isScores" class="scoreBox el-col-16 el-col-offset-4">
-                        <el-form :label-width="formLabelWidth2" label-position="right">
-                            <el-form-item label="完成质量">
-                                <p class="scoreRes">{{taskPro.quality}}</p>
-                            </el-form-item>
-                            <el-form-item label="考核等级">
-                                <el-tag :type="color">{{taskPro.assess}}</el-tag>
-                            </el-form-item>
-                            <el-form-item label="备注">
-                                <p class="scoreRes">{{taskPro.remark}}</p>
-                            </el-form-item>
-                        </el-form>
-                    </el-dialog>
+                    <div v-if="taskPro.assess" class="scoreBox el-col-16 el-col-push-4">
+                        <h4>评分结果</h4>
+                        <p class="scoreRes">{{'完成情况：&emsp;' + taskPro.quality}}</p>
+                        <p class="scoreRes">考核等级：&emsp;<el-tag :type="color">{{taskPro.assess}}</el-tag></p>
+                        
+                        <p class="scoreRes">{{'备&emsp;&emsp;注：&emsp;' + taskPro.remark}}</p>
+                    </div>
+                    <div class="scoreBox el-col-8 el-col-push-8" v-else>
+                        <span>尚未评分</span>
+                    </div>
                 </div>
             </el-card>
         </div>
@@ -191,8 +187,11 @@
         text-align:left;
     }
     .scoreBox{
-        position:fixed;
-        overflow-y:hidden;
+        padding:20px;
+        border-radius:5px;
+        border:1px solid #eee;
+        box-shadow:inset 0 0 5px 5px #eee;
+        background:#f5f5f5;
     }
     .taskDetail{
         height:100%;
@@ -263,6 +262,7 @@
         text-align:left;
         color:#444;
         margin-left:20px;
+        margin-bottom:10px;
     }
     .seal>span{
         position:absolute;

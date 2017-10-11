@@ -21,6 +21,7 @@
                                 <el-table-column
                                         prop="title"
                                         sortable
+                                        min-width="200"
                                         label="任务名称"
                                 >
                                 </el-table-column>
@@ -62,6 +63,7 @@
                                 </el-table-column>
                                 <el-table-column
                                         label="操作"
+                                        width="100"
                                         inline-template
                                 >
                                     <template>

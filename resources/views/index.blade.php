@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="icon" href="../../favicon.ico" type="image/x-icon">
-    <title>学生处管理系统</title>
+    <title>淮南师范学院学生事务进程考核系统</title>
 </head>
 <body>
     <div id="app"></div>

@@ -1,19 +1,19 @@
 <template xmlns="http://www.w3.org/1999/html">
   <div class="item el-col-24">
     <div class="top el-col-24">
-      <img class="el-col-1 logo el-col-push-2" src="../assets/images/logo.png">
-      <h2 class="el-col-3 el-col-push-2">学生处管理系统</h2>
+      <img class="el-col-1 logo el-col-push-1" src="../assets/images/logo.png">
+      <h2 style="margin:0 20px" class="el-col-7 el-col-push-1">淮南师范学院学生事务进程考核系统</h2>
       <el-input
-        placeholder="输入关键字"
+        placeholder="输入关键字查询系统中的任务"
         icon="search"
-        class="search el-col-10 el-col-push-2"
+        class="search el-col-10 el-col-push-1"
         :on-icon-click="handleIconClick"
         @keyup.enter.native="handleIconClick"
-        style="width:44%"
+        style="width:35%"
         v-model="state"
         >
       </el-input>
-      <el-button @click="logout()" class="btn el-col-2 el-col-push-3">切换账号</el-button>
+      <el-button @click="logout()" class="btn el-col-2 el-col-push-2">切换账号</el-button>
     </div>
     <el-col class="local">
       <el-breadcrumb separator="/">

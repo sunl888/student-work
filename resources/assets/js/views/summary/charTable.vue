@@ -1,8 +1,25 @@
 <template>
 <div>
+  <h1 style="padding:10px 0">各学院任务完成情况汇总</h1>
   <div class="query">
+    <el-select v-model="query.semester" placeholder="按学期汇总" disabled>
+      <el-option
+        v-for="item in semester"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value">
+      </el-option>
+    </el-select>
+    <el-select v-model="query.schoolYear" placeholder="按学年汇总" disabled>
+      <el-option
+        v-for="item in schoolYear"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value">
+      </el-option>
+    </el-select>
     <el-date-picker
-      v-model="range"
+      v-model="query.range"
       type="daterange"
       placeholder="在日期范围内汇总"
       disabled>
@@ -43,6 +60,11 @@
                 <span>已审核</span>
               </el-table-column>
               <el-table-column
+                inline-template
+                label="评分结果">
+                <span>{{row.task_progresses.data[0].assess ? row.task_progresses.data[0].assess : '尚未评分'}}</span>
+              </el-table-column>
+              <el-table-column
                 prop="status"
                 inline-template
                 label="操作">
@@ -67,10 +89,46 @@ export default{
   data () {
     return {
       tableData:[],
+       semester: [{
+          value: '1',
+          label: '2016-2017学年第一学期'
+        }, {
+          value: '2',
+          label: '2016-2017学年第二学期'
+        }, {
+          value: '3',
+          label: '2015-2016学年第一学期'
+        }, {
+          value: '4',
+          label: '2015-2016学年第二学期'
+        }, {
+          value: '5',
+          label: '2014-2015学年第一学期'
+        }],
+        schoolYear: [{
+          value: '1',
+          label: '2016-2017学年'
+        }, {
+          value: '2',
+          label: '2016-2017学年'
+        }, {
+          value: '3',
+          label: '2015-2016学年'
+        }, {
+          value: '4',
+          label: '2015-2016学年'
+        }, {
+          value: '5',
+          label: '2014-2015学年'
+        }],
       activeName: 'list',
-      range:{
-      	start_time: null,
-      	end_time: null 
+      query:{
+        semester:'',
+        schoolYear: '',
+        range:{
+          start_time: null,
+          end_time: null 
+        },
       },
       total: 0,
       perPage: 20,
@@ -92,7 +150,7 @@ export default{
       })
     },
   	jump (row) {
-      this.$router.push({name:'task_item',params: {id: row.id}})
+      this.$router.push({name:'task_detail',params: {id: row.id,college:this.$route.params.id}})
     },
     // getTaskPro (page = 1, sort) {
     //   this.$http.get('tasks?include=task_progresses&college='+this.$route.params.id+'&status=publish',{

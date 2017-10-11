@@ -13,7 +13,7 @@
                             <p>任务要求：<span>{{ item.detail }}</span></p>
                         </el-collapse-item>
                         <el-collapse-item title="任务进程" name="2">
-                            <p>负责人：<span v-for="value in taskPro.leading_official">{{ value.name + '、' }}</span></p>
+                            <p>负责人：<span>{{ taskPro.leading_official[0].name + '等' + (taskPro.leading_official.length-1) + '人'}}</span></p>
                             <p>所属学院：<span>{{ taskPro.college }}</span></p>
                         </el-collapse-item>
                     </el-collapse>
@@ -31,6 +31,8 @@
                         <el-form-item prop="finishedDate" label="是否迟交">
                             <el-switch
                               v-model="isDelay"
+                               on-text="是"
+                              off-text="否"
                               on-color="#13ce66"
                               off-color="#ff4949">
                             </el-switch>
@@ -43,11 +45,11 @@
                                     v-model="formData.delayReson">
                             </el-input>
                         </el-form-item>
-                        <el-form-item prop="quality" label="完成质量">
+                        <el-form-item prop="quality" label="完成情况">
                             <el-input
                                     type="textarea"
                                     :rows="2"
-                                    placeholder="请简述任务的完成质量"
+                                    placeholder="请简述任务的完成情况"
                                     v-model="formData.quality">
                             </el-input>
                         </el-form-item>
@@ -64,7 +66,7 @@
                                 <el-radio-button v-for="value in access" :key="value.id" :label="value.id">{{value.title}}</el-radio-button>
                             </el-radio-group>
                         </el-form-item>
-                        <el-form-item label='备注'>
+                        <el-form-item label='备注' prop="remark">
                             <el-input
                                     class="el-col-19"
                                     type="textarea"
@@ -124,7 +126,7 @@
     export default {
         data () {
             return {
-                activeNames: '',
+                activeNames: ['1','2'],
                 // 任务详情
                 item: [],
                 // 任务进程
@@ -155,7 +157,8 @@
                 //表单规则
                 rules: {
                     quality: [
-                        { type: 'string', required: true, message: '请输入完成质量', trigger: 'blur' }
+                        { type: 'string', required: true, message: '请输入完成质量', trigger: 'blur' },
+                         { min: 0, max: 140, message: '请将文本长度保持在140个字符以内', trigger: 'blur' }
                     ],
                     access_id: [
                         { type: 'number', required: true, message: '请选择考核等级', trigger: 'blur' }
@@ -164,8 +167,11 @@
                         { type: 'date', required: true, message: '请选择完成日期', trigger: 'blur' }
                     ],
                     delayReson: [
-                        { type: 'string', required: true, message: '请填写推迟理由', trigger: 'blur' }
-                    ]
+                        { type: 'string', required: true, message: '请填写推迟理由', trigger: 'blur' },
+                        { min: 1, max: 140, message: '请将文本长度保持在140个字符以内', trigger: 'blur' }
+                    ],
+                    remark: [
+                    { min: 1, max: 140, message: '请将文本长度保持在140个字符以内', trigger: 'blur' }]
                 }
             }
         },
@@ -209,7 +215,7 @@
                     delay: this.formData.delayReson
                 }).then(res => {
                     this.$message.success('成功评分！')
-                    this.$router.back()
+                    this.$router.push({name: 'task_manage'})
                 }).catch(res => {
                     this.$message.error(res)
                 })
@@ -242,7 +248,7 @@
         padding-bottom:15px;
     }
     .taskScore,.score,.box{
-        min-height:470px;
+        min-height:550px;
     }
     .text {
         font-size: 14px;

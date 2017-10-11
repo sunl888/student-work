@@ -1,5 +1,6 @@
 <template>
 <div>
+  <h1 style="padding:10px 0">各学院任务完成情况汇总</h1>
   <div class="query">
     <el-select class="querySelect" clearable @change="getTaskPro()" v-model="query.status" placeholder="按任务状态汇总">
         <el-option

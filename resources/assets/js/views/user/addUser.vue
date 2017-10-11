@@ -6,7 +6,7 @@
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                     <!--用户角色-->
                     <el-form-item label="用户角色" prop="role_id">
-                        <el-select :disabled='isEdit' v-model="ruleForm.role_id" class="optionBox" @change="isColloeges()">
+                        <el-select v-model="ruleForm.role_id" class="optionBox" @change="isColloeges()">
                             <el-option
                                     v-for="item in rolesList"
                                     :key="item.id"
@@ -17,7 +17,7 @@
                     </el-form-item>
                     <!--所属学院-->
                     <el-form-item v-if="isCollege" label="所属学院" prop="college_id">
-                        <el-select :disabled='isEdit' v-model="ruleForm.college_id" class="optionBox">
+                        <el-select v-model="ruleForm.college_id" class="optionBox">
                             <el-option
                                     v-for="item in collegesList"
                                     :key="item.id"
@@ -27,7 +27,7 @@
                     </el-form-item>
                     <!--用户名-->
                     <el-form-item label="用户名" prop="name">
-                        <el-input :disabled='isEdit' v-model="ruleForm.name" placeholder="请输入用户名"></el-input>
+                        <el-input v-model="ruleForm.name" placeholder="请输入用户名"></el-input>
                     </el-form-item>
                     <!--性别-->
                     <el-form-item label="性别" prop="gender">
