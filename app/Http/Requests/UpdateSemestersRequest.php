@@ -27,6 +27,7 @@ class UpdateSemestersRequest extends FormRequest
             'title' => 'nullable',
             'start_time' => 'nullable',
             'end_time' => 'nullable',
+            'checked' =>'nullable|boolean',
         ];
     }
 
