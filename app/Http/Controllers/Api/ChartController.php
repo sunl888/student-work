@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Repositories\CollegeRepository;
-use ConsoleTVs\Charts\Facades\Charts;
 use Illuminate\Http\Request;
 
 class ChartController extends Controller
@@ -52,9 +51,11 @@ class ChartController extends Controller
                     $data[$task_progress->college_id]['college_name'] = app(CollegeRepository::class)->find($task_progress->college_id)->title;
                     $data[$task_progress->college_id]['unfinisheds'] = is_null($task_progress->status) ? 1 : 0;
                     $data[$task_progress->college_id]['finisheds'] = !is_null($task_progress->status) ? 1 : 0;
+                    $data[$task_progress->college_id]['score'] = !is_null($task_progress->status) ? $task_progress->assess->score: 0;
                 } else {
                     $data[$task_progress->college_id]['unfinisheds'] += is_null($task_progress->status) ? 1 : 0;
                     $data[$task_progress->college_id]['finisheds'] += !is_null($task_progress->status) ? 1 : 0;
+                    $data[$task_progress->college_id]['score'] += !is_null($task_progress->status) ? $task_progress->assess->score: 0;
                 }
             }
         }

@@ -28,6 +28,11 @@ class TaskProgress extends BaseModel
         return $this->belongsTo(Task::class);
     }
 
+    public function assess()
+    {
+        return $this->belongsTo(Assess::class, 'assess_id', 'id');
+    }
+
     public function scopeAsUsers($query, $user)
     {
         return $query->where('user_id', static::$personnelSign)
