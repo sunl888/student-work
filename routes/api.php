@@ -42,10 +42,11 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     // 任务列表 ?only_trashed=0|1 ?status=draft|publish ?orders=work_type_id,department_id ?start_date=?&end_date=?
     // ?work_type_id=  ?department_id=
     $api->get('tasks', 'TaskController@tasks');
+    // 添加责任人
+    $api->post('create_allot_task/{task}/{college}', 'TaskProgressController@allotTask');
     //学院
     $api->group(['middleware' => ['role:college']], function ($api) {
-        // 添加责任人
-        $api->post('create_allot_task/{task}/{college}', 'TaskProgressController@allotTask');
+
         // 学院显示的任务列表
         $api->get('lists/{college?}', 'TaskController@getTasksByCollege');
     });
