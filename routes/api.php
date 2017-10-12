@@ -86,6 +86,9 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->get('colleges', 'CollegeController@lists');
         // 获取对口科室
         $api->get('departments', 'DepartmentController@lists');
+        // 获取学期
+        $api->get('semesters', 'SemestersController@lists');
+        $api->get('current_semester', 'SemestersController@currentSemester');
         // 工作类型
         $api->post('create_work_type', 'WorkTypeController@store');
         $api->post('update_work_type/{work_id}', 'WorkTypeController@update');
@@ -102,6 +105,10 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->post('create_college', 'CollegeController@store');
         $api->post('update_college/{college_id}', 'CollegeController@update');
         $api->get('delete_college/{college_id}', 'CollegeController@delete');
+        // 学期设置
+        $api->post('create_semester', 'SemestersController@store');
+        $api->post('update_semester/{semester_id}', 'SemestersController@update');
+        $api->get('delete_semester/{semester_id}', 'SemestersController@delete');
         // 创建用户
         $api->post('user', 'UsersController@store');
         // 获取指定用户的信息

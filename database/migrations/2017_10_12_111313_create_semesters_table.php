@@ -19,8 +19,12 @@ class CreateSemestersTable extends Migration
             $table->dateTime('start_time');
             $table->dateTime('end_time');
             $table->unsignedInteger('parent_id')->default(0);// 0->学年
+            $table->boolean('checked')->default(0);
             $table->timestamps();
             $table->softDeletes();
+            /*$table->foreign('parent_id')
+                ->references('id')->on('semesters')
+                ->onDelete('cascade');*/
         });
     }
 

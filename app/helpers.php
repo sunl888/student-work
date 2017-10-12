@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Setting;
 use App\Models\TaskProgress;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -49,3 +50,17 @@ if (!function_exists('get_lead_official')) {
     }
 
 }
+
+/*if (!function_exists('setting')) {
+    function setting($name = null)
+    {
+        if (is_null($name)) {
+            return app(Setting::class);
+        }
+
+        if (is_array($name)) {
+            return app(Setting::class)->findByName($name);
+        }
+    }
+
+}*/
