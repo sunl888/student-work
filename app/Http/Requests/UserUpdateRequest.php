@@ -28,11 +28,11 @@ class UserUpdateRequest extends FormRequest
         return [
             //'name' => [Rule::unique('users')->ignore($user->id)],
             'email' => 'nullable|email',// email
-            //'college_id' => 'nullable',// 学院id
+            'college_id' => 'nullable',// 学院id
             'picture' => 'nullable',// 头像
             'gender' => 'nullable|boolean', // 性别
             'password' => 'nullable|confirmed',// 密码
-            //'role_id' => 'nullable', // 角色id
+            'role_id' => 'nullable', // 角色id
         ];
     }
 

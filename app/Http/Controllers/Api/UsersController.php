@@ -11,6 +11,7 @@ use App\Service\FileUpload;
 use App\Transformers\RoleTransformer;
 use App\Transformers\UserTransformer;
 use Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends BaseController
 {
@@ -97,13 +98,19 @@ class UsersController extends BaseController
      */
     public function update(User $user, UserUpdateRequest $request)
     {
-        $data = $request->all();
+        if(Auth::user()->isSuperAdmin()){
+            $data = $request->all();
+        }else{
+            $data = $request->except(['role_id','college_id']);
+        }
         if (isset($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         }
         $user->update($data);
-        if (!empty($roleId = $request->get('role_id'))) {
-            $user->roles()->sync($roleId);
+        if(Auth::user()->isSuperAdmin()){
+            if (!empty($roleId = $request->get('role_id'))) {
+                $user->roles()->sync($roleId);
+            }
         }
         return $this->response->noContent();
     }
