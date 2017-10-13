@@ -13,17 +13,6 @@ class Meeting extends BaseModel
 {
     use Listable;
 
-    public static $score = [
-        [
-            'title' => '已到',
-            'score' => 70
-        ], [
-            'title' => '迟到',
-            'score' => 60
-        ], [
-            'title' => '未到',
-            'score' => 50
-        ]];
     protected static $allowSearchFields = ['title', 'detail'];
     protected static $allowSortFields = ['id'];
     protected $fillable = ['title', 'detail', 'start_time', 'users'];
