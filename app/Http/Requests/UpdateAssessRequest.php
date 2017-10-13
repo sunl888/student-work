@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateAssessRequest extends FormRequest
 {
@@ -26,10 +25,10 @@ class UpdateAssessRequest extends FormRequest
     {
         return [
             'title' => 'nullable|string',
-            'type' => [
+            /*'type' => [
                 'nullable',
                 Rule::in(['examine', 'late']),
-            ],// examine|late
+            ],*/// examine|late
             'score' => 'nullable|numeric|max:100',
         ];
     }

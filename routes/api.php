@@ -95,9 +95,10 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->post('update_work_type/{work_id}', 'WorkTypeController@update');
         $api->get('delete_work_type/{work_id}', 'WorkTypeController@delete');
         // 考核等级
-        $api->post('create_appraise', 'AssessController@store');
-        $api->post('update_appraise/{assess_id}', 'AssessController@update');
-        $api->get('delete_appraise/{assess_id}', 'AssessController@delete');
+        $api->post('create_appraise/{type}', 'AssessController@store');
+        //todo 这里的type是前端强行让我带上的，没有毛用
+        $api->post('update_appraise/{type}/{assess_id}', 'AssessController@update');
+        $api->get('delete_appraise/{type}/{assess_id}', 'AssessController@delete');
         // 对口科室
         $api->post('create_department', 'DepartmentController@store');
         $api->post('update_department/{department_id}', 'DepartmentController@update');

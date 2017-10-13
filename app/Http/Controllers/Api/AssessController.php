@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\CreateAssessRequest;
 use App\Http\Requests\UpdateAssessRequest;
+use App\Models\Assess;
 use App\Repositories\AssessRepository;
 use App\Transformers\AssessTransformer;
 use Illuminate\Http\Request;
@@ -15,9 +16,13 @@ class AssessController extends BaseController
         return $this->response->collection(app(AssessRepository::class)->get($filter), new AssessTransformer());
     }
 
-    public function store(CreateAssessRequest $request)
+    public function store($type, CreateAssessRequest $request)
     {
-        app(AssessRepository::class)->create($request->only('title', 'score'));
+        $data = $request->only('title', 'score');
+        if (in_array($type, [Assess::TYPE_LATE, Assess::TYPE_EXAMINE])) {
+            $data['type'] = $type;
+            app(AssessRepository::class)->create($data);
+        }
         return $this->response->noContent();
     }
 
