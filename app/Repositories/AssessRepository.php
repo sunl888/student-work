@@ -30,9 +30,9 @@ class AssessRepository extends Repository
         });
     }
 
-    public function get($filter = null)
+    public function get($type)
     {
-        return $this->model->applyFilter($filter)->get();
+        return $this->model->where(['type'=>$type])->get();
     }
 
     public function create(array $data)

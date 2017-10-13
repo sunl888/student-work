@@ -82,7 +82,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         // 获取工作类型
         $api->get('work_types', 'WorkTypeController@lists');
         // 获取考核等级  examine 考核评分  late  缺勤原因
-        $api->get('appraises', 'AssessController@lists');
+        $api->get('appraises/{type}', 'AssessController@lists');
         // 获取学院
         $api->get('colleges', 'CollegeController@lists');
         // 获取对口科室

@@ -7,13 +7,12 @@ use App\Http\Requests\UpdateAssessRequest;
 use App\Models\Assess;
 use App\Repositories\AssessRepository;
 use App\Transformers\AssessTransformer;
-use Illuminate\Http\Request;
 
 class AssessController extends BaseController
 {
-    public function lists(Request $filter)
+    public function lists($type)
     {
-        return $this->response->collection(app(AssessRepository::class)->get($filter), new AssessTransformer());
+        return $this->response->collection(app(AssessRepository::class)->get($type), new AssessTransformer());
     }
 
     public function store($type, CreateAssessRequest $request)
