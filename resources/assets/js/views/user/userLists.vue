@@ -22,8 +22,8 @@
                                         sortable
                                         width="70px"
                                         label="头像">
-                                    <img style="width:30px;height:30px" v-if="row.picture!==null" :src="row.picture" alt="">
-                                    <img style="width:30px;height:30px;" v-else src="../../assets/images/picture.jpg" alt="">
+                                    <img style="border-radius:50%;width:30px;height:30px" v-if="row.picture!==null" :src="row.picture" alt="">
+                                    <img style="border-radius:50%;width:30px;height:30px;" v-else src="../../assets/images/picture.jpg" alt="">
                                 </el-table-column>
                                 <el-table-column
                                         prop="name"
@@ -77,8 +77,8 @@
         <el-card v-if="isProfile" class="proCard el-col-5">
             <div class="head">
                 <i class="el-icon-close" style="position:absolute;right:20px;" @click="isProfile =false"></i>
-                <img v-if="item.picture" :src="item.picture">
-                <img v-else src="../../assets/images/picture.jpg" alt="">
+                <img style="border-radius:50%;" v-if="item.picture" :src="item.picture">
+                <img style="border-radius:50%;" v-else src="../../assets/images/picture.jpg" alt="">
             </div>
             <div class="profile el-col-20 el-col-push-2">
                 <p>用户名：<span>{{item.name}}</span></p>

@@ -29,7 +29,7 @@
                         >
                             <el-button size="small" type="primary">{{!me.picture? '点击上传头像':'点击修改头像'}}</el-button>
                         </el-upload>
-                        <img v-if="me.picture" style="width:50px;margin-top:20px;height:50px;margin-left:-300px;" width="100%" :src="me.picture">
+                        <img v-if="me.picture" style="border-radius:50%;width:50px;margin-top:20px;height:50px;margin-left:-300px;" width="100%" :src="me.picture">
                         <span v-else-if="!me.picture">您还没有上传过头像哦</span>
                     </el-form-item>
                     <!--邮箱-->

@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Assess extends BaseModel
 {
-    const TYPE_EXAMINE = 'examine';
-
     // examine 考核评分
-    const TYPE_LATE = 'late';
+    const TYPE_EXAMINE = 'examines';
     // late  推迟理由
+    const TYPE_LATE = 'lates';
+
     protected $fillable = ['title', 'score', 'type'];
 
     use SoftDeletes {
@@ -46,12 +46,12 @@ class Assess extends BaseModel
 
     public function scopeExamine($query)
     {
-        return $query->where('type', 'examine');
+        return $query->where('type', 'examines');
     }
 
     public function scopeLate($query)
     {
-        return $query->where('type', 'late');
+        return $query->where('type', 'lates');
     }
 
     public function scopeExamineOrLate($query)

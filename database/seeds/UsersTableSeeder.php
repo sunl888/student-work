@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('xsc'),
                 'email' => app(Faker\Generator::class)->freeEmail,
                 'college_id' => null,
-                'picture' => app(Faker\Generator::class)->imageUrl(),
+                'picture' => 'images/picture.jpg',//app(Faker\Generator::class)->imageUrl(),
                 'gender' => app(Faker\Generator::class)->boolean,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
@@ -27,7 +27,7 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('jsj'),
                 'email' => app(Faker\Generator::class)->freeEmail,
                 'college_id' => 9,
-                'picture' => app(Faker\Generator::class)->imageUrl(),
+                'picture' => 'images/picture.jpg',//app(Faker\Generator::class)->imageUrl(),
                 'gender' => app(Faker\Generator::class)->boolean,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
@@ -36,7 +36,7 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('sunlong'),
                 'email' => app(Faker\Generator::class)->freeEmail,
                 'college_id' => 9,
-                'picture' => app(Faker\Generator::class)->imageUrl(),
+                'picture' => 'images/picture.jpg',//app(Faker\Generator::class)->imageUrl(),
                 'gender' => app(Faker\Generator::class)->boolean,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
