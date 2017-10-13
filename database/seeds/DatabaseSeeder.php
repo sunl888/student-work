@@ -4,9 +4,9 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    protected $userCount = 100;
-    protected $taskCount = 100;
-    protected $meetCount = 100;
+    protected $userCount = 80;
+    protected $taskCount = 60;
+    protected $meetCount = 30;
 
     /**
      * Run the database seeds.

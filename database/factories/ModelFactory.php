@@ -57,7 +57,7 @@ $factory->define(App\Models\Meeting::class, function (Faker\Generator $faker) {
     ];
     return [
         'title' => $faker->sentence,
-        'detail' => $faker->text(500),
+        'detail' => $faker->text(200),
         'users' => $users[random_int(1, count($users) - 1)],
         'start_time' => Carbon::now()->addDays(2),
         'created_at' => Carbon::now(),

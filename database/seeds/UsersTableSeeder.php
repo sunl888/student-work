@@ -14,8 +14,8 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'name' => 'admin',
-                'password' => bcrypt('admin'),
+                'name' => 'xsc',
+                'password' => bcrypt('xsc'),
                 'email' => app(Faker\Generator::class)->freeEmail,
                 'college_id' => null,
                 'picture' => app(Faker\Generator::class)->imageUrl(),

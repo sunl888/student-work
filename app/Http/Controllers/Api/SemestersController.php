@@ -56,7 +56,7 @@ class SemestersController extends BaseController
 
     public function currentSemester()
     {
-        $semester = Semester::where('checked',1)->first();
+        $semester = Semester::where('checked', 1)->first();
         return $this->response->item($semester, new SemestersTransformer());
     }
 

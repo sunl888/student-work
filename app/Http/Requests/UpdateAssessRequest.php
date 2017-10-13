@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateAssessRequest extends FormRequest
 {
@@ -25,7 +26,11 @@ class UpdateAssessRequest extends FormRequest
     {
         return [
             'title' => 'nullable|string',
-            'score' => 'nullable|numeric|between:1,100',
+            'type' => [
+                'nullable',
+                Rule::in(['examine', 'late']),
+            ],// examine|late
+            'score' => 'nullable|numeric|max:100',
         ];
     }
 
@@ -36,7 +41,7 @@ class UpdateAssessRequest extends FormRequest
             'title.string' => '考核等级必须是字符串',
             //'score.required' =>'该等级必须添加预制评分',
             'score.numeric' => '评分必须是数值型',
-            'score.between' => '评分范围是1~100之间'
+            'score.max' => '评分小于100'
         ];
     }
 }

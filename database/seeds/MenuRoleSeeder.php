@@ -120,6 +120,12 @@ class MenuRoleSeeder extends Seeder
             ], [// 图标显示
                 'menu_id' => 22,
                 'role_id' => 1,
+            ], [// 缺勤原因
+                'menu_id' => 23,
+                'role_id' => 1,
+            ], [// 学期学年设置
+                'menu_id' => 24,
+                'role_id' => 1,
             ]
         ]);
     }

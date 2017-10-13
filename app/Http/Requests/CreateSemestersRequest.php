@@ -28,7 +28,7 @@ class CreateSemestersRequest extends FormRequest
             'start_time' => 'required',
             'end_time' => 'required',
             'parent_id' => 'exists:semesters,id',
-            'checked' =>'nullabel|boolean'
+            'checked' => 'nullabel|boolean'
         ];
     }
 

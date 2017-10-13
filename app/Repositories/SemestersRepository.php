@@ -10,6 +10,7 @@ namespace App\Repositories;
 
 use App\Models\Semester;
 use Cache;
+
 class SemestersRepository extends Repository
 {
     public function __construct()
@@ -36,8 +37,8 @@ class SemestersRepository extends Repository
 
     public function update(array $data, $conditions)
     {
-        if(isset($data['checked'])){
-            $this->model->update(['checked'=>0]);
+        if (isset($data['checked'])) {
+            $this->model->update(['checked' => 0]);
         }
         return $this->model->update($data, $conditions);
     }

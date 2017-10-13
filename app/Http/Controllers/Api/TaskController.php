@@ -12,7 +12,6 @@ use App\Models\Remind;
 use App\Models\Task;
 use App\Models\TaskProgress;
 use App\Notifications\TaskRemind;
-use App\Repositories\AssessRepository;
 use App\Repositories\CollegeRepository;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\TaskProgressRepository;
@@ -29,9 +28,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
-use League\Fractal\Pagination\PagerfantaPaginatorAdapter;
 use Notification;
 
 class TaskController extends BaseController

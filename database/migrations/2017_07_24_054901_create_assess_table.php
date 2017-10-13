@@ -18,6 +18,7 @@ class CreateAssessTable extends Migration
             $blueprint->increments('id');
             $blueprint->string('title', 20)->comment('考核等级');
             $blueprint->integer('score')->comment('评分');
+            $blueprint->string('type')->default('examine');// late
             $blueprint->timestamps();
             $blueprint->softDeletes();
         });

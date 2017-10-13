@@ -98,16 +98,16 @@ class UsersController extends BaseController
      */
     public function update(User $user, UserUpdateRequest $request)
     {
-        if(Auth::user()->isSuperAdmin()){
+        if (Auth::user()->isSuperAdmin()) {
             $data = $request->all();
-        }else{
-            $data = $request->except(['role_id','college_id']);
+        } else {
+            $data = $request->except(['role_id', 'college_id']);
         }
         if (isset($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         }
         $user->update($data);
-        if(Auth::user()->isSuperAdmin()){
+        if (Auth::user()->isSuperAdmin()) {
             if (!empty($roleId = $request->get('role_id'))) {
                 $user->roles()->sync($roleId);
             }

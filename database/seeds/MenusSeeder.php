@@ -233,7 +233,27 @@ class MenusSeeder extends Seeder
                 'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ],
+            ], [
+                'id' => 23,
+                'name' => '缺勤原因设置',
+                'parent_id' => 10,
+                'icon' => '',
+                'url' => 'absence',
+                'description' => '缺勤原因',
+                'is_nav' => true,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ], [
+                'id' => 24,
+                'name' => '学期学年设置',
+                'parent_id' => 10,
+                'icon' => '',
+                'url' => 'semester',
+                'description' => '学期学年设置',
+                'is_nav' => true,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]
         ]);
     }
 }

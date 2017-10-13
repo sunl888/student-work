@@ -13,6 +13,7 @@ class AssessTransformer extends TransformerAbstract
             'id' => $assess->id,
             'title' => $assess->title,
             'score' => $assess->score,
+            'type' => $assess->type,
             'created_at' => $assess->created_at->toDateTimeString(),
             'updated_at' => $assess->updated_at->toDateTimeString()
         ];

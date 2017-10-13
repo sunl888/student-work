@@ -28,10 +28,16 @@ class TaskProgress extends BaseModel
         return $this->belongsTo(Task::class);
     }
 
+    // 完成质量
     public function assess()
     {
         return $this->belongsTo(Assess::class, 'assess_id', 'id');
     }
+    // 推迟理由
+    /*public function delay()
+    {
+        return $this->belongsTo(Assess::class, 'assess_id', 'id');
+    }*/
 
     public function scopeAsUsers($query, $user)
     {

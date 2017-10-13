@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class ChartController extends Controller
 {
     //图表
-    public function export2chart(Request $request)
+    /*public function export2chart(Request $request)
     {
         $datas = $this->lists($request)->getData();
         $labels = [];
@@ -37,7 +37,7 @@ class ChartController extends Controller
             ->dataset('未完成', $unfinisheds)
             // Setup what the values mean
             ->labels($labels);
-    }
+    }*/
 
     public function lists(Request $request)
     {
@@ -51,11 +51,14 @@ class ChartController extends Controller
                     $data[$task_progress->college_id]['college_name'] = app(CollegeRepository::class)->find($task_progress->college_id)->title;
                     $data[$task_progress->college_id]['unfinisheds'] = is_null($task_progress->status) ? 1 : 0;
                     $data[$task_progress->college_id]['finisheds'] = !is_null($task_progress->status) ? 1 : 0;
-                    $data[$task_progress->college_id]['score'] = !is_null($task_progress->status) ? $task_progress->assess->score: 0;
+                    // 评分
+                    $data[$task_progress->college_id]['score'] = !is_null($task_progress->status) ? $task_progress->assess->score : 0;
+                    //$data[$task_progress->college_id]['score'] += !is_null($task_progress->delay) ? $task_progress->delay->score: 0;
                 } else {
                     $data[$task_progress->college_id]['unfinisheds'] += is_null($task_progress->status) ? 1 : 0;
                     $data[$task_progress->college_id]['finisheds'] += !is_null($task_progress->status) ? 1 : 0;
-                    $data[$task_progress->college_id]['score'] += !is_null($task_progress->status) ? $task_progress->assess->score: 0;
+                    $data[$task_progress->college_id]['score'] += !is_null($task_progress->status) ? $task_progress->assess->score : 0;
+                    //$data[$task_progress->college_id]['score'] += !is_null($task_progress->delay) ? $task_progress->delay->score: 0;
                 }
             }
         }

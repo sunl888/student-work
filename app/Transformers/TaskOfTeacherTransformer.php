@@ -8,7 +8,6 @@
 
 namespace App\Transformers;
 
-use App\Models\Task;
 use App\Models\TaskProgress;
 use App\Repositories\AssessRepository;
 use App\Repositories\DepartmentRepository;
