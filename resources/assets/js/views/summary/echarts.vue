@@ -78,8 +78,7 @@ export default{
         },
      
       myChart: null,
-      finished: [],
-      unfinished: [],
+      score: [],
       item:[],
       option:{
          tooltip : {
@@ -89,7 +88,7 @@ export default{
                 }
             },
             legend: {
-                data:['已完成','未完成']
+                data:['总分']
             },
             grid: {
                 left: '3%',
@@ -112,15 +111,9 @@ export default{
             series : [
                 {
                     clickable : true,
-                    name:'已完成',
-                    stack: '已完成',
+                    name:'总分',
+                    stack: '总分',
                     type:'bar'
-                },
-                {
-                    clickable : true,
-                    name:'未完成',
-                    type:'bar',
-                    stack: '未完成'
                 }
             ]   
       }
@@ -139,27 +132,25 @@ export default{
       let i = 1;
       let range = this.query.range.toLocaleString().split(',');
       url[0] = 'echart/lists';
-      if (this.range.start_date !== null){
+      if (this.query.range.start_date !== null){
                 // echarts.dispose();
-        this.range.start_date = (range[0] || '').substr(0,range[0].indexOf(' '));
-        url[i] = '?start_date='+this.range.start_date;
+        this.query.range.start_date = (range[0] || '').substr(0,range[0].indexOf(' '));
+        url[i] = '?start_date='+this.query.range.start_date;
         i++;
       } 
-      if (this.range.end_date !== null){
-        this.range.end_date = (range[1] || '').substr(0,range[1].indexOf(' '));
-        url[i] = '&end_date='+this.range.end_date;
+      if (this.query.range.end_date !== null){
+        this.query.range.end_date = (range[1] || '').substr(0,range[1].indexOf(' '));
+        url[i] = '&end_date='+this.query.range.end_date;
         i++;
       }
       this.$http.get(url.join('')).then(res => {
         this.item = res.data;
         if(this.item.meta.count !== 0){
           for(let x in res.data){
-          this.finished.push(res.data[x].finisheds)
-          this.unfinished.push(res.data[x].unfinisheds)
+          this.score.push(res.data[x].score)
           }
-          this.finished.pop();
-          this.option.series[0].data = this.finished
-          this.option.series[1].data = this.unfinished
+          this.score.pop();
+          this.option.series[0].data = this.score
           // console.log(this.option);
           this.myChart = echarts.init(document.getElementById('main'));
           this.myChart.setOption(this.option)
@@ -168,7 +159,6 @@ export default{
           this.myChart.dispose();
           document.getElementById('main').innerHTML = '没有数据';
         }
-        
       })
     },
     eConsole(param) {    

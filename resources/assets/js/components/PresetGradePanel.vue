@@ -21,7 +21,8 @@
         },
         props: {
             title: String,
-            url: String
+            url: String,
+            getUrl: String
         },
         data () {
             return {
@@ -89,7 +90,7 @@
             },
             // 获取工作类型
             getWorkType () {
-                this.$http.get(this.url + 's').then(res => {
+                this.$http.get(this.getUrl).then(res => {
                     this.tags = res.data.data
                 })
             },

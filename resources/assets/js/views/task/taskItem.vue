@@ -14,12 +14,13 @@
                 </div>
                 <el-button v-if="item.status === 'draft'"  class="btn" @click="auditing()" type="success">审核任务</el-button>
                 <div class="taskWatch" v-else>
-                    <template>
+                     <currency-list-page :autoRequest="false" ref="list" :queryName="'task/' + this.$route.params.id + '?include=task_progresses'">
+                    <template scope="list">
                         <el-table
                                 border
                                 stripe
+                                :data="list.data"
                                 height="500"
-                                :data="taskPro"
                                 style="width: 100%">
                             <el-table-column
                                     sortable
@@ -58,6 +59,7 @@
                                 min-width="150">
                                 <template class="operaBtn">
                                     <el-button-group>
+                        <el-button :disabled="row.assess !== '尚未评分'" type="success" size="small" @click="isAppoints(true, row)">{{!row.leading_official ? '指定责任人' : '修改责任人'}}</el-button>
                                         <el-button size="small" type="danger" :disabled="row.status !== '未完成'" @click="reminders(row)" title="催交">催交</el-button>
                                         <el-button size="small" type="info" :disabled="row.assess !=='尚未评分' || !row.leading_official" @click="goScore(row.college_id)" title="评分">评分</el-button>
                                         <el-button size="small" type="success" :disabled="row.assess === '尚未评分'" @click="browse(row.college_id)" title="评分">查看</el-button>
@@ -65,14 +67,29 @@
                                 </template>
                             </el-table-column>
                         </el-table>
+                        <!--指定责任人-->
+              <el-dialog title="指定责任人" :visible.sync="isDia" top="10%">
+                <el-form>
+                  <el-form-item>
+                    <el-transfer class="transfer" :titles="['本学院可选责任人', '已选中的责任人']" :value="allot" v-model="currOption" :data="users"></el-transfer>
+                  </el-form-item>
+                </el-form>
+                <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
+                  <el-button @click="isDia = false">取 消</el-button>
+                  <el-button type="primary" @click="appoint()">确 定</el-button>
+                </div>
+              </el-dialog>
                     </template>
+                     </currency-list-page>
                 </div>
             </el-card>
         </div>
     </div>
 </template>
 <script>
+import CurrencyListPage from '../../components/CurrencyListPage'
     export default{
+         components: {CurrencyListPage},
         data () {
             return {
                 //任务详情
@@ -82,7 +99,24 @@
                 //催交记录
                 remind: [],
                 //催交按钮是否可用
-                isRemind: []
+                isRemind: [],
+                 //获取各学院可选责任人
+                users: [],
+                //是否显示dialog
+                isDia: false,
+                isAllot: false,
+ //当前选中一级菜单
+                currOption: [],
+                //当前选中责任人ID
+                allot: '',
+                //临时数组，存放row.id
+                temp: null,
+            }
+        },
+        watch: {
+            temp: function (temp) {
+                console.log(temp);
+                this.getUsers();
             }
         },
         methods: {
@@ -91,14 +125,7 @@
                 this.$http.get('task/' + this.$route.params.id + '?include=task_progresses').then(res => {
                     this.item = res.data.data
                     this.taskPro = res.data.data.task_progresses.data
-                    for(let x in this.taskPro){
-                        if(this.taskPro[x].end_time === null){
-                            this.taskPro[x].end_time = '尚未完成'
-                        }
-                        if(this.taskPro[x].assess === null){
-                            this.taskPro[x].assess = '尚未评分'
-                        }
-                    }
+                    
                 })
             },
             // 获取任务详情(管理员)
@@ -135,6 +162,40 @@
             // 跳转任务评分
             goScore (x) {
                 this.$router.push({name: 'task_score', params: {id: this.$route.params.id, college_id: x}})
+            },
+             isAppoints(x, row){
+                this.isDia = x
+                this.temp = row.college_id
+            },
+            //指定责任人
+            appoint () {
+                // Array(this.allot);
+                this.users.splice(this.users.length);
+                if(this.currOption.length == this.users.length){
+                    this.allot = 'all';
+                } else if(this.currOption.length == 1){
+                    this.allot = String(this.currOption[0])
+                } else {
+                    this.allot = this.currOption.join(',');
+                }
+                this.$http.post('create_allot_task/' + this.$route.params.id + '/' + this.temp, {
+                    user_id: this.allot
+                }).then(res => {
+                    this.isAllot = true
+                    this.isDia = false
+                    this.$message.success('指定成功')
+                    this.$refs['list'].refresh()
+                })
+            },
+            //获取学院所有用户
+            getUsers () {
+                this.$http.get('users/' + this.temp).then(res => {
+                    for(let i in res.data.users)
+                    this.users.push({
+                        label: res.data.users[i].name,
+                        key: res.data.users[i].id
+                    })
+                })
             },
             //查看评分结果
             browse(x){

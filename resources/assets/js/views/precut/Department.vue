@@ -1,6 +1,6 @@
 <template>
   <div class="work_type">
-      <PreseDataPanel title="对口科室设置" url="department"></PreseDataPanel>
+      <PreseDataPanel title="对口科室设置" getUrl="departments" url="department"></PreseDataPanel>
   </div>
 </template>
 

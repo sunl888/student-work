@@ -194,6 +194,18 @@ export default new Router({
                     name: 'access',
                     meta: {title: '考核等级设置'},
                     component: require('../views/precut/gradeExam.vue')
+                },
+                {
+                    path: 'absence',
+                    name: 'absence',
+                    meta: {title: '考核等级设置'},
+                    component: require('../views/precut/absence.vue')
+                },
+                {
+                    path: 'semester',
+                    name: 'semester',
+                    meta: {title: '考核等级设置'},
+                    component: require('../views/precut/semester.vue')
                 }
             ]
         },

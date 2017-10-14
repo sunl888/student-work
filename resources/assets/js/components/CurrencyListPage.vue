@@ -29,6 +29,16 @@
                       当前没有会议记录
                   </p>
               </div>
+              <div v-else-if="queryName.match('mettings')">
+                  <p>
+                      当前没有会议记录
+                  </p>
+              </div>
+              <div v-else-if="queryName.match('task_progresses')">
+                  <p>
+                      正在加载中...
+                  </p>
+              </div>
               <div v-else>
                   <p>
                       当前没有已创建的角色
@@ -125,10 +135,20 @@
                                 this.list[x].title = this.list[x].title.substr(0,100) + '...';
                               }
                             }
-                          } else {
+                          } else if(this.queryName.match('task_progresse')){
+                            this.list = res.data.data.task_progresses.data
+                            for(let x in this.list){
+                                if(this.list[x].end_time === null){
+                                    this.list[x].end_time = '尚未完成'
+                                }
+                                if(this.list[x].assess === null){
+                                    this.list[x].assess = '尚未评分'
+                                }
+                            }
+                          } else{
                           this.list = res.data.data;
                           this.total = res.data.meta.pagination.total;
-                        this.perPage = res.data.meta.pagination.per_page
+                          this.perPage = res.data.meta.pagination.per_page
                           for(let x in this.list){
                               this.list[x].created_at = this.dataFilter(this.list[x].created_at)
                           }

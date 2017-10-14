@@ -13,7 +13,7 @@
                             <p>任务要求：<span>{{ item.detail }}</span></p>
                         </el-collapse-item>
                         <el-collapse-item title="任务进程" name="2">
-                            <p>负责人：<span>{{ taskPro.leading_official[0].name + '等' + (taskPro.leading_official.length-1) + '人'}}</span></p>
+                            <p>负责人：<span>{{ taskPro.leading_official.length > 1 ?  taskPro.leading_official[0].name + '等' + (taskPro.leading_official.length-1) + '人' : taskPro.leading_official[0].name}}</span></p>
                             <p>所属学院：<span>{{ taskPro.college }}</span></p>
                         </el-collapse-item>
                     </el-collapse>
@@ -222,7 +222,7 @@
             },
             //获取考核等级
             getAccess () {
-                this.$http.get('appraises').then( res=> {
+                this.$http.get('appraises/examines').then( res=> {
                     this.access = res.data.data
                 })
             }

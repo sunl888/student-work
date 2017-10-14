@@ -25,13 +25,13 @@ class AssessController extends BaseController
         return $this->response->noContent();
     }
 
-    public function update(UpdateAssessRequest $request, $assessId)
+    public function update($type, $assessId, UpdateAssessRequest $request)
     {
         app(AssessRepository::class)->update($request->all(), ['id' => $assessId]);
         return $this->response->noContent();
     }
 
-    public function delete($assessId)
+    public function delete($type, $assessId)
     {
         app(AssessRepository::class)->delete($assessId);
         return $this->response->noContent();

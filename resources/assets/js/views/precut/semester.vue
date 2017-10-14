@@ -1,6 +1,6 @@
 <template>
   <div class="departments">
-      <PreseDataPanel title="学院设置" getUrl="colleges" url="college"></PreseDataPanel>
+      <PreseDataPanel title="学期学年设置" url="college"></PreseDataPanel>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="work_type">
-      <PreseDataPanel title="工作类型设置" url="work_type"></PreseDataPanel>
+      <PreseDataPanel title="工作类型设置" getUrl="work_types" url="work_type"></PreseDataPanel>
   </div>
 </template>
 

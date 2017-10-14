@@ -1,6 +1,6 @@
 <template>
     <div class="departments">
-        <PresetGradePanel title="考核等级设置" getUrl="appraises/examines" url="appraise/examines"></PresetGradePanel>
+        <PresetGradePanel title="缺勤原因设置" getUrl="appraises/lates" url="appraise/lates"></PresetGradePanel>
     </div>
 </template>
 <script>
