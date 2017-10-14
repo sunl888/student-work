@@ -96,7 +96,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->get('delete_work_type/{work_id}', 'WorkTypeController@delete');
         // 考核等级
         $api->post('create_appraise/{type}', 'AssessController@store');
-        //todo 这里的type是前端强行让我带上的，没有毛用
+        //todo 这里的type是前端强行让我带上的，没毛用
         $api->post('update_appraise/{type}/{assess_id}', 'AssessController@update');
         $api->get('delete_appraise/{type}/{assess_id}', 'AssessController@delete');
         // 对口科室
