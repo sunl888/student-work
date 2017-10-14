@@ -32,7 +32,7 @@ class AssessRepository extends Repository
 
     public function get($type)
     {
-        return $this->model->where(['type'=>$type])->get();
+        return $this->model->where(['type' => $type])->get();
     }
 
     public function create(array $data)
