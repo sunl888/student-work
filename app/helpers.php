@@ -2,7 +2,6 @@
 
 use App\Models\Absentee;
 use App\Models\Meeting;
-use App\Models\Setting;
 use App\Models\TaskProgress;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -53,6 +52,9 @@ if (!function_exists('get_lead_official')) {
 
 }
 
+/**
+ * 获取缺勤人员
+ */
 if (!function_exists('get_absentees')) {
     function get_absentees($metting)
     {

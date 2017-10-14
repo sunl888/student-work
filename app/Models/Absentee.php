@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+/**
+ * Class Absentee
+ * @package App\Models
+ */
 class Absentee extends BaseModel
 {
     protected $fillable = ['user_id', 'meeting_id', 'assess_id', 'remark', 'id'];
