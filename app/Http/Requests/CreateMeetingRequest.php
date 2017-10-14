@@ -27,6 +27,7 @@ class CreateMeetingRequest extends FormRequest
             'title' => 'required|max:255',
             'detail' => 'required',
             'users' => 'required|users',
+            'absent_cause' => 'array',
             'start_time' => 'required|date',
         ];
     }
@@ -36,7 +37,8 @@ class CreateMeetingRequest extends FormRequest
         return [
             '*.required' => ' :attribute 字段必须填写.',
             'users.users' => '指定的用户不存在',
-            'start_time.date' => '请填写正确的日期格式.'
+            'start_time.date' => '请填写正确的日期格式.',
+            'absent_cause.array' => 'absent_cause parameter must be an array'
         ];
     }
 }

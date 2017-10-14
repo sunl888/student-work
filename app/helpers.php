@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Absentee;
+use App\Models\Meeting;
 use App\Models\Setting;
 use App\Models\TaskProgress;
 use App\Models\User;
@@ -51,16 +53,13 @@ if (!function_exists('get_lead_official')) {
 
 }
 
-/*if (!function_exists('setting')) {
-    function setting($name = null)
+if (!function_exists('get_absentees')) {
+    function get_absentees($metting)
     {
-        if (is_null($name)) {
-            return app(Setting::class);
+        if ($metting instanceof Meeting) {
+            $metting = $metting->id;
         }
-
-        if (is_array($name)) {
-            return app(Setting::class)->findByName($name);
-        }
+        return Absentee::where(['meeting_id' => $metting])->with('user')->with('assess')->get();
     }
 
-}*/
+}

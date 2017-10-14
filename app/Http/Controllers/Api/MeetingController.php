@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\CreateMeetingRequest;
+use App\Models\Absentee;
 use App\Models\Meeting;
 use App\Transformers\MeetingTransformer;
 use Illuminate\Http\Request;
@@ -11,8 +12,19 @@ class MeetingController extends BaseController
 {
     public function store(CreateMeetingRequest $request)
     {
-        $metting = Meeting::create($request->all());
-        //event(new CreatedMeeting($metting->users, $metting));
+        $data = $request->all();
+        $metting = Meeting::create($data);
+        // 判断哪些人缺勤，分别为他们创建缺勤记录
+        if (isset($data['absent_cause'])) {
+            array_walk($data['absent_cause'], function (&$value, $key, $joinUsing) {
+                $value[$joinUsing['key']] = $joinUsing['val'];
+            }, array('key' => 'meeting_id', 'val' => $metting->id));
+            // 将每个用户的缺勤记录存入数据库
+            array_walk($data['absent_cause'], function (&$val) {
+                Absentee::create($val);
+            });
+        }
+        // event(new CreatedMeeting($metting->users, $metting));
         return $this->response()->noContent();
     }
 

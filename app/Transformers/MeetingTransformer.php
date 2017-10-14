@@ -3,8 +3,6 @@
 namespace App\Transformers;
 
 use App\Models\Meeting;
-use App\Models\TaskProgress;
-use App\Models\User;
 
 class MeetingTransformer extends Transformer
 {
@@ -13,14 +11,15 @@ class MeetingTransformer extends Transformer
         return [
             'id' => $meeting->id,
             'title' => $meeting->title,
-            'users' => $this->getLeadOfficial($meeting->users),
+            'users' => get_lead_official($meeting->users),
             'detail' => $meeting->detail,
+            'absentees' => get_absentees($meeting->id),
             'created_at' => $meeting->created_at->toDateTimeString(),
             'updated_at' => $meeting->updated_at->toDateTimeString()
         ];
     }
 
-    public function getLeadOfficial($users)
+    /*public function getLeadOfficial($users)
     {
         $userIds = explode(',', $users);
         if (array_first($userIds) != null) {
@@ -34,5 +33,5 @@ class MeetingTransformer extends Transformer
         } else {
             return null;
         }
-    }
+    }*/
 }

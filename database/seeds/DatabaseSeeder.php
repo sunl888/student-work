@@ -4,9 +4,9 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    protected $userCount = 80;
-    protected $taskCount = 60;
-    protected $meetCount = 30;
+    protected $userCount = 70;
+    protected $taskCount = 30;
+    protected $meetCount = 10;
 
     /**
      * Run the database seeds.
@@ -30,7 +30,5 @@ class DatabaseSeeder extends Seeder
         $this->call(MenuRoleSeeder::class);
         factory(App\Models\Task::class, $this->taskCount)->create();
         factory(App\Models\Meeting::class, $this->meetCount)->create();
-        //$this->call(TaskSeeder::class);
-        //$this->call(MettingsSeeder::class);
     }
 }

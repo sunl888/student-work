@@ -198,7 +198,6 @@
           })
       },
       getAllUsers(){
-        this.users.splice(this.users.length);
         this.$http.get('all_users').then(res => {
           for(let x in res.data.data){
             this.allUsers.push({
@@ -209,7 +208,8 @@
         })
       },
       loadTransfer (id) {
-          this.users.splice(this.users.length);
+          console.log(this.users);
+          this.users.splice(this.users.length)
           this.$http.get('users/'+id).then(res => {
             for(let x in res.data.users){
               this.users.push({
