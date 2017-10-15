@@ -59,9 +59,9 @@
                                 min-width="150">
                                 <template class="operaBtn">
                                     <el-button-group>
-                        <el-button :disabled="row.assess !== '尚未评分'" type="success" size="small" @click="isAppoints(true, row)">{{!row.leading_official ? '指定责任人' : '修改责任人'}}</el-button>
+                        <el-button :disabled="!row.end_time" type="success" size="small" @click="isAppoints(true, row)">{{!row.leading_official ? '指定责任人' : '修改责任人'}}</el-button>
                                         <el-button size="small" type="danger" :disabled="row.status !== '未完成'" @click="reminders(row)" title="催交">催交</el-button>
-                                        <el-button size="small" type="info" :disabled="row.assess !=='尚未评分' || !row.leading_official" @click="goScore(row.college_id)" title="评分">评分</el-button>
+                                        <el-button size="small" type="info" :disabled="!row.end_time || !row.leading_official" @click="goScore(row.college_id)" title="评分">评分</el-button>
                                         <el-button size="small" type="success" :disabled="row.assess === '尚未评分'" @click="browse(row.college_id)" title="评分">查看</el-button>
                                     </el-button-group>
                                 </template>
