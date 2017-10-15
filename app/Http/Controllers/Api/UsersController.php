@@ -98,6 +98,7 @@ class UsersController extends BaseController
      */
     public function update(User $user, UserUpdateRequest $request)
     {
+        // 管理员可以修改用户角色
         if (Auth::user()->isSuperAdmin()) {
             $data = $request->all();
         } else {

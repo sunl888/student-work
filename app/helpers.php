@@ -61,7 +61,11 @@ if (!function_exists('get_absentees')) {
         if ($metting instanceof Meeting) {
             $metting = $metting->id;
         }
-        return Absentee::where(['meeting_id' => $metting])->with('user')->with('assess')->get();
+        $absentee = Absentee::where(['meeting_id' => $metting])->with('user')->with('assess')->get();
+        if($absentee->isEmpty()){
+            return null;
+        }
+        return $absentee;
     }
 
 }
