@@ -17,9 +17,11 @@ class SemestersController extends BaseController
         foreach ($all as $item) {
             // 没有父级id
             if (!$item->parent_id) {
+                //没有创建学年
                 if (!isset($values[$item->id])) {
                     $values[$item->id] = $item->toArray();
                 } else {
+                    // 创建了学年
                     $tmp = $values[$item->id]['childs'];
                     $values[$item->id] = $item->toArray();
                     $values[$item->id]['childs'] = $tmp;
@@ -27,9 +29,13 @@ class SemestersController extends BaseController
             } else {
                 // 有父级id但是在values里不存在
                 if (!isset($values[$item->parent_id])) {
-                    $values[$item->parent_id] = $all->find($item->parent_id)->toArray();
+                    if (($val = $all->find($item->parent_id)) != null) {
+                        $values[$item->parent_id] = $val->toArray();
+                        $values[$item->parent_id]['childs'][] = $item->toArray();
+                    }
+                }else{
+                    $values[$item->parent_id]['childs'][] = $item->toArray();
                 }
-                $values[$item->parent_id]['childs'][] = $item->toArray();
             }
             unset($item);
         }
