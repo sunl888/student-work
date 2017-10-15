@@ -149,8 +149,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         //创建会议
         $api->post('metting', 'MeetingController@store');
 
-        //echart
-        //lists
+        // 图表
         $api->get('echart/lists', 'ChartController@lists');
     });
 });
