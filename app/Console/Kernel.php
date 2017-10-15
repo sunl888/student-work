@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        // 导入用户数据.
+        \App\Console\Commands\ImportUsers::class,
     ];
 
     /**

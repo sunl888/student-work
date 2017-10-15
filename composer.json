@@ -10,7 +10,7 @@
         "itsgoingd/clockwork": "^1.14",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "maatwebsite/excel": "^2.1",
+        "maatwebsite/excel": "~2.1.0",
         "zizaco/entrust": "dev-master"
     },
     "require-dev": {
