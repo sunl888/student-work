@@ -3,7 +3,7 @@
     <el-tabs v-model="activeName" @tab-click="request" >
       <el-tab-pane label="任务列表" name="list">
         <div class="table">
-          <currency-list-page ref="list" :queryName="'lists?include=task_progresses&college=' + me">
+          <currency-list-page ref="list" queryName='lists'>
             <template scope="list">
               <el-table
                       :default-sort = "{prop: 'created_at', order: 'descending'}"

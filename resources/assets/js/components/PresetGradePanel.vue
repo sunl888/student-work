@@ -98,7 +98,6 @@
             deleteWorkType (id, index) {
                 this.$http.get('delete_' + this.url + '/' + id).then(res => {
                     this.tags.splice(index, 1)
-                    console.log(res.status)
                     this.$message({
                         message: '删除成功',
                         type: 'success'

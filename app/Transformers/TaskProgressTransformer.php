@@ -22,7 +22,7 @@ class TaskProgressTransformer extends Transformer
             'college' => ($college = app(CollegeRepository::class)->find($taskProgress->college_id)) ? $college['title'] : null,
             'leading_official' => get_lead_official($taskProgress->user_id),//责任人 (数组 id,name)
             'assess_id' => $taskProgress->assess_id,//考核等级
-            'assess' => is_null($taskProgress->assess_id) ? [] : app(AssessRepository::class)->find($taskProgress->assess_id)->toArray(),
+            'assess' => is_null($taskProgress->assess_id) ? null : app(AssessRepository::class)->find($taskProgress->assess_id)->toArray(),
             'created_at' => $taskProgress->created_at->toDateTimeString(),
             'status' => !empty($taskProgress->status) ? '已完成' : '未完成',//完成状态
             'end_time' => $taskProgress->status,//完成时间

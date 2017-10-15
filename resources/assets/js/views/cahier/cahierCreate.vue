@@ -32,7 +32,7 @@
                         label="参会人员"
                 >
                 <span>
-                  <span>{{row.users[0].name + '等'+ (row.users.length-1) + '人'}}</span>
+                  <span>{{row.users[0].name === '全体人员' ? row.users[0].name : row.users[0].name + '等'+ (row.users.length-1) + '人'}}</span>
                 </span>
                 </el-table-column>
                 <el-table-column

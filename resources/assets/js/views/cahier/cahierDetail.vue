@@ -12,6 +12,26 @@ s<template>
                     <div style="display:block;margin-top:10px;">参会人员：<span>{{leading}}</span></div>
                     <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>
+                <div class="table">
+                    <h5>缺勤人员</h5>
+                    <template>
+                      <el-table
+                        :data="absent"
+                        stripe
+                        style="width: 100%">
+                        <el-table-column
+                          prop="user.nickname"
+                          label="用户名"
+                          min-width="180">
+                        </el-table-column>
+                        <el-table-column
+                          prop="assess.title"
+                          label="缺勤原因"
+                          min-width="180">
+                        </el-table-column>
+                      </el-table>
+                    </template>
+                </div>
             </el-card>
         </div>
     </div>
@@ -21,6 +41,7 @@ s<template>
         data () {
             return {
                 item: [],
+                absent:[],
                 leading: ''
             }
         },
@@ -34,6 +55,7 @@ s<template>
             loadItem () {
                     this.$http.get('metting/' + this.$route.params.id).then(res => {
                         this.item = res.data.data
+                        this.absent = this.item.absentees;
                         this.leading = Array(this.leading);
                         for(let i in this.item.users){
                             this.leading[i] = this.item.users[i].name;

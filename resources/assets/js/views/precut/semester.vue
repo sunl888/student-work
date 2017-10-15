@@ -1,14 +1,14 @@
 <template>
-  <div class="departments">
-      <PreseDataPanel title="学期学年设置" url="college"></PreseDataPanel>
+  <div class="work_type">
+      <PreseSemesterPanel title="学期学年设置" getUrl="semesters" url="semester"></PreseSemesterPanel>
   </div>
 </template>
 
 <script>
-import PreseDataPanel from '../../components/PresetDataPanel.vue'
+import PreseSemesterPanel from '../../components/PresetSemesterPanel.vue'
 export default {
   components: {
-    PreseDataPanel
+    PreseSemesterPanel
   }
 }
 </script>

@@ -2,23 +2,24 @@
 <div>
   <h1 style="padding:10px 0">各学院任务完成情况汇总</h1>
   <div class="query">
-    <el-select v-model="query.semester" placeholder="按学期汇总">
-      <el-option
-        v-for="item in semester"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value">
-      </el-option>
-    </el-select>
-    <el-select v-model="query.schoolYear" placeholder="按学年汇总">
-      <el-option
-        v-for="item in schoolYear"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value">
-      </el-option>
-    </el-select>
+      <el-select class="el-col-pull-1" @change="getSememter()" v-model="query.schoolYear" clearable placeholder="按学年汇总">
+        <el-option
+          v-for="item in schoolYear"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+      <el-select class="el-col-pull-1" @change="getMode()" :disabled="query.schoolYear===''" v-model="query.semester" placeholder="按学期汇总">
+        <el-option
+          v-for="item in semester"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
     <el-date-picker
+    :disabled="query.schoolYear!==''"
       v-model="query.range"
       type="daterange"
       @change="getData()"
@@ -36,47 +37,16 @@ import ecConfig from 'echarts';
 export default{
   data () {
     return {
-      semester: [{
-          value: '1',
-          label: '2016-2017学年第一学期'
-        }, {
-          value: '2',
-          label: '2016-2017学年第二学期'
-        }, {
-          value: '3',
-          label: '2015-2016学年第一学期'
-        }, {
-          value: '4',
-          label: '2015-2016学年第二学期'
-        }, {
-          value: '5',
-          label: '2014-2015学年第一学期'
-        }],
-        schoolYear: [{
-          value: '1',
-          label: '2016-2017学年'
-        }, {
-          value: '2',
-          label: '2016-2017学年'
-        }, {
-          value: '3',
-          label: '2015-2016学年'
-        }, {
-          value: '4',
-          label: '2015-2016学年'
-        }, {
-          value: '5',
-          label: '2014-2015学年'
-        }],
-        query:{
-           range:{
-            start_date: null,
-            end_date: null
-          },
-          semester: '',
-          schoolYear: ''
+      semester: [],
+      schoolYear: [],
+      query:{
+         range:{
+          start_date: null,
+          end_date: null
         },
-     
+        semester: '',
+        schoolYear: ''
+      },
       myChart: null,
       score: [],
       item:[],
@@ -121,6 +91,7 @@ export default{
   },
 	mounted () {
     this.getData()
+    this.getschoolYear()
     this.myChart = echarts.init(document.getElementById('main'));
   },
   methods: {
@@ -143,7 +114,10 @@ export default{
         url[i] = '&end_date='+this.query.range.end_date;
         i++;
       }
-      this.$http.get(url.join('')).then(res => {
+      this.getList(url.join(''));
+    },
+    getList(url){
+      this.$http.get(url).then(res => {
         this.item = res.data;
         if(this.item.meta.count !== 0){
           for(let x in res.data){
@@ -168,6 +142,59 @@ export default{
         if (param.type == 'click') {
           this.$router.push({name: 'char_table', params: {id: param.dataIndex+1}});
         }    
+    },
+    getschoolYear(){
+      this.$http.get('semesters').then(res => {
+        for(let i in res.data){
+          this.schoolYear.push({
+            label: res.data[i].title,
+            value: res.data[i].id,
+            start_time: res.data[i].start_time.substr(0,res.data[i].start_time.indexOf(' ')),
+            end_time: res.data[i].end_time.substr(0,res.data[i].end_time.indexOf(' ')),
+            childs: res.data[i].childs
+          })
+        }
+      })
+    },
+    getSememter(){
+      this.query.semester = '';
+      this.semester.splice(0,this.semester.length);
+      for(let i in this.schoolYear){
+          if(this.query.schoolYear === this.schoolYear[i].value){
+            for(let j in this.schoolYear[i].childs){
+              this.semester.push({
+                label:this.schoolYear[i].childs[j].title,
+                value: this.schoolYear[i].childs[j].id,
+                start_time: this.schoolYear[i].childs[j].start_time.substr(0,this.schoolYear[i].childs[j].start_time.indexOf(' ')),
+                end_time: this.schoolYear[i].childs[j].end_time.substr(0,this.schoolYear[i].childs[j].end_time.indexOf(' '))
+              })
+            }
+          }
+        }
+        let url = new Array();
+        let i = 1;
+        url[0] = 'echart/lists';
+        for(let z in this.schoolYear){
+          if(this.schoolYear[z].value === this.query.schoolYear){
+            url[i] = '?start_date='+this.schoolYear[z].start_time;
+            i++;
+            url[i] = '&end_date='+this.schoolYear[z].end_time;
+          }
+        }
+        this.getList(url.join(''));
+      },
+    getMode(){
+       let url = new Array();
+       let i = 1;
+        url[0] = 'echart/lists';
+        for(let z in this.semester){
+          if(this.semester[z].value === this.query.semester){
+            url[i] = '?start_date='+this.semester[z].start_time;
+            i++;
+            url[i] = '&end_date='+this.semester[z].end_time;
+          }
+        }
+        this.getList(url.join(''));
     }
   }
 }

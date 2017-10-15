@@ -21,7 +21,7 @@
                     <div v-if="taskPro.assess" class="scoreBox el-col-16 el-col-push-4">
                         <h4>评分结果</h4>
                         <p class="scoreRes">{{'完成情况：&emsp;' + taskPro.quality}}</p>
-                        <p class="scoreRes">考核等级：&emsp;<el-tag :type="color">{{taskPro.assess}}</el-tag></p>
+                        <p class="scoreRes">考核等级：&emsp;<el-tag :type="color">{{taskPro.assess.title}}</el-tag></p>
                         
                         <p class="scoreRes">{{'备&emsp;&emsp;注：&emsp;' + taskPro.remark}}</p>
                     </div>

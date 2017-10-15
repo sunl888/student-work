@@ -22,10 +22,10 @@
             </el-date-picker>
           </el-form-item>
           <!--完成时间-->
-            <el-form-item label="全体人员参会">
+    <!--         <el-form-item style="margin-bottom:0px;" label="全体人员">
                <el-checkbox style="margin-left:-25px;" class="el-col-pull-11" v-model="checked"></el-checkbox>
-            </el-form-item> 
-          <el-form-item v-if="!checked" label="参会学院" prop="college">
+            </el-form-item>  -->
+          <!-- <el-form-item v-if="!checked" label="参会学院" prop="college">
             <el-col>
               <el-select class="optionBox" v-model="ruleForm.college" @change="loadTransfer(ruleForm.college)">
               <el-option
@@ -35,16 +35,17 @@
                       :value="item.id"></el-option>
               </el-select>
             </el-col>
-          </el-form-item>
-          <el-form-item v-if="!checked" label="该学院参会人员" prop="people">
-              <el-transfer style="margin-left:15px;" class="el-col-pull-5" :titles="['该学院所有老师','已选中老师']" v-model="ruleForm.people" :data="users"></el-transfer>
+          </el-form-item> -->
+          <el-form-item style="margin:22px 0;"  label="参会人员" prop="people">
+              <el-transfer style="margin-left:15px;" class="el-col-pull-4" :titles="['所有老师','已选中老师']" v-model="ruleForm.people" :data="allUsers"></el-transfer>
           </el-form-item>
           <el-form-item>
-             <p class="el-col-pull-6" style="color:#666;"><span style="color:red;">*</span>参会人员全部选择完成后，请单击选择完成按钮以确认选择情况</p>
-              <el-button :disabled="ruleForm.people ===null" class="el-col-10" @click="allAttend()">完成</el-button>
+             <p class="el-col-pull-5" style="color:#666;"><span style="color:red;">*</span>参会人员全部选择完成后，请单击选择完成按钮以便填写缺勤情况</p>
+              <el-button :disabled="ruleForm.people ===null" class="el-col-8" @click="allAttend()">选择完成</el-button>
           </el-form-item>
-           <el-form-item label="是否有缺勤人员" prop="people">
+           <el-form-item label="是否有缺勤人员" prop="absent">
               <el-switch
+              :disabled="isHas"
               class="el-col-pull-11"
                 v-model="isLate"
                 on-text="是"
@@ -52,21 +53,24 @@
               </el-switch>
            </el-form-item>
            <div v-if="isLate">
-              <el-form-item label="缺勤情况" prop="late_id">
-            <el-col>
-              <el-select class="optionBox" v-model="ruleForm.late_id">
+            <el-form-item label="缺勤人员" prop="late">
+            <el-checkbox-group v-model="late">
+              <el-checkbox v-for="value in attendPeo" :label="value.key" :key="value.key">{{value.label}}</el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+          <el-form-item label="缺勤情况" prop="late_id" >
+            <el-col :pull="6">
+              <el-radio-group v-model="ruleForm.late_id" @change="changeUser()">
+                <el-radio-button v-for="item in lates" :key="item.id" :label="item.id">{{item.title}}</el-radio-button>
+              </el-radio-group>
+             <!--  <el-select class="optionBox" v-model="ruleForm.late_id" @change="changeUser()">
               <el-option
                       v-for="item in lates"
                       :key="item.id"
                       :label="item.title"
                       :value="item.id"></el-option>
-              </el-select>
+              </el-select> -->
             </el-col>
-          </el-form-item>
-          <el-form-item label="缺勤人员" prop="late">
-            <el-checkbox-group v-model="ruleForm.late">
-              <el-checkbox v-for="value in attendPeo" :label="value.label" :key="value.key"></el-checkbox>
-            </el-checkbox-group>
           </el-form-item>
            </div>
          
@@ -86,21 +90,23 @@
     data () {
       return {
         lates: [],
+        isHas: true,
         collegesList: [],
-        checked: false,
-        users: [],
         tags: [],
+        absent_cause:[],
         item: [],
         attendPeo: [],
         isLate: false,
+        late: [],
+        checked: false,
+        temp:[],
         ruleForm: {
           title: '',
           detail: '',
           people: [],
-          college: null,
           time: '',
-          late: [],
-          late_id: null
+          late_id: null,
+          late: []
         },
         allUsers: [],
         color: [],
@@ -120,18 +126,33 @@
           late_id: [
             { type: 'number', required: true, message: '请选择缺勤原因', trigger: 'change' }
           ],
-          late: [
-            { type: 'array', required: true, message: '请选择缺勤人员' }
-          ],
+          // absent: [
+          //   {type:'boolean', required: true,message: '请选择缺勤情况',trigger: 'change'}
+          // ],
+          // late: [
+          //   { type: 'array', required: true, message: '请选择缺勤人员',trigger: 'change' }
+          // ],
           time: [
             { type: 'date', required: true, message: '请选择会议开始时间', trigger: 'change' }
           ]
         }
       };
     },
+    // watch:{
+    //   late: function(){
+    //     this.ruleForm.late.splice(this.ruleForm.late)
+    //     for(let i in this.late){
+    //       this.ruleForm.late.push({
+    //         id: this.ruleForm.late_id,
+    //         users: this.late[i]
+    //       })
+    //     }
+    //   }
+    // },
     mounted () {
       this.getCollegesList();
       this.getLate();
+      this.getAllUsers()
     },
     methods: {
       removeTag(x){
@@ -142,31 +163,45 @@
           }
         }
       },
+      changeUser(){
+        this.absent_cause.splice(0,this.absent_cause.length);
+        for(let i in this.late){
+          this.absent_cause.push({
+            assess_id: this.ruleForm.late_id,
+            user_id: this.late[i]
+          })
+        }
+        for(let x in this.late){
+         for(let y in this.attendPeo){
+          if(this.late[x] === this.attendPeo[y].key){
+             this.attendPeo.splice(y,1);   
+          }
+         }
+       }
+      },
       allAttend(){
-        if(this.checked){
+        this.isHas = false;
+        if(this.ruleForm.people.length === this.allUsers.length){
           alert('确认成功！参会人员为全体成员，请继续填写表单');
-          this.getAllUsers();
           this.attendPeo = this.allUsers;
         } else {
           alert('确认成功！已选参会人员共' + this.ruleForm.people.length + '人，请继续填写表单')
           for(let x = 0; x < this.ruleForm.people.length;x++){
-            for(let y=0;y < this.users.length;y++){
-              if(this.ruleForm.people[x] === this.users[y].key){
+            for(let y=0;y < this.allUsers.length;y++){
+              if(this.ruleForm.people[x] === this.allUsers[y].key){
                 this.attendPeo.push({
-                  label: this.users[y].label,
-                  key: this.users[y].key
+                  label: this.allUsers[y].label,
+                  key: this.allUsers[y].key
                 })
               }
             }
           }
-          console.log(this.attendPeo)
-        }
-        
+        }  
       },
       createTask (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            if(this.checked){
+            if(this.ruleForm.people.length === this.allUsers.length){
               this.ruleForm.people = 'all'
             } else {
               this.ruleForm.people = this.ruleForm.people.join(',')
@@ -175,9 +210,9 @@
                 title: this.ruleForm.title,
                 detail: this.ruleForm.detail,
                 users: this.ruleForm.people,
-                start_time: this.ruleForm.time
+                start_time: this.ruleForm.time,
+                absent_cause:this.absent_cause
             }).then(res => {
-                console.log(this.ruleForm)
               this.$message({
                 message: '添加会议成功',
                 type: 'success'
@@ -207,18 +242,15 @@
           }
         })
       },
-      loadTransfer (id) {
-          console.log(this.users);
-          this.users.splice(this.users.length)
-          this.$http.get('users/'+id).then(res => {
-            for(let x in res.data.users){
-              this.users.push({
-                key: res.data.users[x].id,
-                label: res.data.users[x].name
-              });
-            }
-          })
-      },
+     //  countLates(){
+     //    this.temp.splice(-1);
+     //    console.log(this.ruleForm.late_id,this.late)
+     //    this.temp.push({
+     //      late_id: this.ruleForm.late_id,
+     //      users_id: this.late
+     //    })
+     //    console.log(this.temp)
+     // },
       //获取缺勤原因
       getLate () {
           this.$http.get('appraises/lates').then( res=> {
@@ -242,7 +274,4 @@
 .addTask{
   height:100%;
 }
-.el-transfer-panel__item .el-checkbox__input{
-    left:40px;
-  }
 </style>

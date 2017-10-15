@@ -71,8 +71,8 @@ router.beforeEach((to, from, next) => {
         store.state.me = null;
         next();
     } else {
-        getMenu();
         getMe();
+        getMenu();
         next();
     }
 })

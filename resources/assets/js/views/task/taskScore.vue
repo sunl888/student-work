@@ -13,10 +13,7 @@
                             <p>任务要求：<span>{{ item.detail }}</span></p>
                         </el-collapse-item>
                         <el-collapse-item title="任务进程" name="2">
-                            <p>负责人：<span>
-                                {{taskPro.leading_official.length}}
-                            </span></p>
-                            <!-- <p>负责人：<span>{{ taskPro.leading_official.length === 0 ? taskPro.leading_official[0].name : taskPro.leading_official[0].name + '等' + (taskPro.leading_official.length-1) + '人' }}</span></p> -->
+                            <p>负责人：<span>{{ alloter > 1? taskPro.leading_official[0].name  + '等' + (alloter-1) + '人' : taskPro.leading_official[0].name}}</span></p>
                             <p>所属学院：<span>{{ taskPro.college }}</span></p>
                         </el-collapse-item>
                     </el-collapse>
@@ -112,7 +109,7 @@
                             </div>
                         </el-form-item>
                         <el-form-item prop="access_id"  label="考核打分">
-                            <el-tag :type="color">{{taskPro.assess}}</el-tag>
+                            <el-tag :type="color">{{taskPro.assess.title}}</el-tag>
                         </el-form-item>
                         <el-form-item label='备注'>
                             <p>{{taskPro.remark}}</p>
@@ -132,6 +129,7 @@
                 activeNames: ['1','2'],
                 // 任务详情
                 item: [],
+                alloter:null,
                 // 任务进程
                 taskPro: [],
                 // 获取考核等级
@@ -197,6 +195,7 @@
                     this.item = res.data.data
                     this.taskPro = res.data.data.task_progresses.data[this.$route.params.college_id-1]
                     if(this.taskPro.delay!==null)this.isDelay = true;
+                    this.alloter = this.taskPro.leading_official.length || '';
                 })
             },
             //获取此任务的催交情况
@@ -218,7 +217,7 @@
                     delay: this.formData.delayReson
                 }).then(res => {
                     this.$message.success('成功评分！')
-                    this.$router.push({name: 'task_manage'})
+                    this.$router.back();
                 }).catch(res => {
                     this.$message.error(res)
                 })
