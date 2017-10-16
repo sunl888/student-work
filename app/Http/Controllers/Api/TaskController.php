@@ -190,6 +190,11 @@ class TaskController extends BaseController
         $this->export($rows, $data, $tableName);
     }
 
+    /**
+     * @param $userIds
+     * @return mixed|null|string
+     * @version 1.1 返回用户nickname信息【v1.0返回的是用户name信息】
+     */
     public function getUsersName($userIds)
     {
         if ($userIds instanceof Model) {
@@ -203,11 +208,11 @@ class TaskController extends BaseController
                 return '全体人员';
             } elseif (count($userIds) == 1) {
                 $user = User::find(array_first($userIds));
-                return $user->name;
+                return $user->nickname;
             } elseif (count($userIds) > 1) {
                 $users = User::whereIn('id', $userIds)->get();
                 foreach ($users as $user) {
-                    $tmp .= $user->name . ',';
+                    $tmp .= $user->nickname . ',';
                 }
                 $tmp = str_replace_last(',', '', $tmp);
                 return $tmp;

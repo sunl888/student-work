@@ -38,12 +38,12 @@ if (!function_exists('get_lead_official')) {
 
         if (array_first($userIds) != null) {
             if (strtolower(array_first($userIds)) == TaskProgress::$personnelSign) {
-                return array_values([['id' => 'all', 'name' => '全体人员']]);
+                return array_values([['id' => 'all', 'name' =>'全体人员', 'nickname' => '全体人员']]);
             } elseif (count($userIds) == 1) {
-                $user = User::find(array_first($userIds), ['id', 'name']);
+                $user = User::find(array_first($userIds), ['id', 'name', 'nickname']);
                 return [$user];
             } elseif (count($userIds) > 1) {
-                return User::whereIn('id', $userIds)->get(['id', 'name']);
+                return User::whereIn('id', $userIds)->get(['id', 'name', 'nickname']);
             }
         } else {
             return null;

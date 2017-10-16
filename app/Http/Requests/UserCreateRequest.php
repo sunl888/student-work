@@ -25,6 +25,7 @@ class UserCreateRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:users,name',// 用户名
+            'nickname' => 'required',// 用户名
             'email' => 'required|email',// email
             'college_id' => 'nullable|exists:colleges,id',// 学院id
             'picture' => 'nullable',// 头像
@@ -38,6 +39,7 @@ class UserCreateRequest extends FormRequest
     {
         return [
             'name.required' => '用户名必须填写',
+            'nickname.required' => '用户昵称必须填写',
             'name.unique' => '用户名已存在',
             'email.required' => 'email必须填写',
             'college_id.exists' => '该学院不存在',

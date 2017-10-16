@@ -27,6 +27,7 @@ class UserUpdateRequest extends FormRequest
         //$user = $this->route()->parameter('user');
         return [
             //'name' => [Rule::unique('users')->ignore($user->id)],
+            'nickname' => 'nullable',
             'email' => 'nullable|email',// email
             'college_id' => 'nullable',// 学院id
             'picture' => 'nullable',// 头像
