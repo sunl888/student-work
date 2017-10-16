@@ -17,6 +17,7 @@ class UserTransformer extends TransformerAbstract
         return [
             'id' => $user->id,
             'name' => $user->name,
+            'nickname' => $user->nickname,
             'gender_str' => $user->gender ? '女' : '男',
             'gender' => $user->gender,
             'college_id' => (int)$user->college_id,
