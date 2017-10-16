@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\Listable;
+use App\Service\CurrentSemester;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class Task extends BaseModel
 {
-    use SoftDeletes, Listable;
+    use SoftDeletes, Listable, CurrentSemester;
 
     const STATUS_PUBLISH = 'publish', STATUS_DRAFT = 'draft';
 
@@ -73,6 +74,9 @@ class Task extends BaseModel
         }
         if (isset($data['start_date']) && $data['end_date']) {
             $query->range($data['start_date'], $data['end_date']);
+        } else {
+            // 默认显示当前学期的任务
+            $query->currentSemester();
         }
         if (isset($data['work_type_id']) && $data['work_type_id']) {
             $query->byKey('work_type_id', $data['work_type_id']);
@@ -80,7 +84,6 @@ class Task extends BaseModel
         if (isset($data['department_id']) && $data['department_id']) {
             $query->byKey('department_id', $data['department_id']);
         }
-
         return $query->recent();
     }
 
