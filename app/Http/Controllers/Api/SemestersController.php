@@ -66,4 +66,12 @@ class SemestersController extends BaseController
         return $this->response->item($semester, new SemestersTransformer());
     }
 
+    public function setCurrentSemester($semester)
+    {
+        $data['checked'] = 1;
+        app(SemestersRepository::class)->update($data, ['id' => $semester]);
+        return $this->response->noContent();
+    }
+
+
 }
