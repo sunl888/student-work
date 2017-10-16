@@ -109,6 +109,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->get('delete_college/{college_id}', 'CollegeController@delete');
         // 学期设置
         $api->post('create_semester', 'SemestersController@store');
+        $api->post('set_current_semester/{semester}', 'SemestersController@setCurrentSemester');
         $api->post('update_semester/{semester_id}', 'SemestersController@update');
         $api->get('delete_semester/{semester_id}', 'SemestersController@delete');
         // 创建用户

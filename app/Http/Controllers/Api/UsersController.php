@@ -42,10 +42,14 @@ class UsersController extends BaseController
      */
     public function lists()
     {
-        $users = User::recent()
-            //->with('roles')
-            ->paginate($this->perPage());
-        return $this->response->paginator($users, new UserTransformer());
+        if (0 == request('limit')) {
+            $users = User::recent()->get();
+            return $this->response->collection($users, new UserTransformer());
+        } else {
+            $users = User::recent()->paginate($this->perPage());
+            return $this->response->paginator($users, new UserTransformer());
+        }
+
     }
 
     /**

@@ -48,6 +48,11 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         return $this->hasRole('super_admin');
     }
 
+    /*public function scopeFromRoles($query, array $role)
+    {
+        return $query->hasRole($role);
+    }*/
+
     /**
      * 用户角色
      */

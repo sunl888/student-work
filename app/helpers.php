@@ -38,7 +38,7 @@ if (!function_exists('get_lead_official')) {
 
         if (array_first($userIds) != null) {
             if (strtolower(array_first($userIds)) == TaskProgress::$personnelSign) {
-                return array_values([['id' => 'all', 'name' =>'全体人员', 'nickname' => '全体人员']]);
+                return array_values([['id' => 'all', 'name' => '全体人员', 'nickname' => '全体人员']]);
             } elseif (count($userIds) == 1) {
                 $user = User::find(array_first($userIds), ['id', 'name', 'nickname']);
                 return [$user];
@@ -62,7 +62,7 @@ if (!function_exists('get_absentees')) {
             $metting = $metting->id;
         }
         $absentee = Absentee::where(['meeting_id' => $metting])->with('user')->with('assess')->get();
-        if($absentee->isEmpty()){
+        if ($absentee->isEmpty()) {
             return null;
         }
         return $absentee;

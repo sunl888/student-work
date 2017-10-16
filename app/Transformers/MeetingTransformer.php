@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Transformers;
 
 use App\Models\Meeting;
+
 class MeetingTransformer extends Transformer
 {
     public function transform(Meeting $meeting)

@@ -33,7 +33,7 @@ class SemestersController extends BaseController
                         $values[$item->parent_id] = $val->toArray();
                         $values[$item->parent_id]['childs'][] = $item->toArray();
                     }
-                }else{
+                } else {
                     $values[$item->parent_id]['childs'][] = $item->toArray();
                 }
             }

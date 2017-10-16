@@ -36,18 +36,18 @@ class SemestersRepository extends Repository
         return $this->model->create($data);
     }
 
-    public function update(array $data, $conditions)
-    {
-        $this->setChecked($data);
-        return $this->model->update($data, $conditions);
-    }
-
     public function setChecked($data)
     {
         if (isset($data['checked'])) {
             // 将所有的checked全部置为 0
             $this->model->update(['checked' => 0]);
         }
+    }
+
+    public function update(array $data, $conditions)
+    {
+        $this->setChecked($data);
+        return $this->model->update($data, $conditions);
     }
 
     public function delete($id)
