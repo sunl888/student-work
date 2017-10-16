@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Cache;
 
 class Semester extends BaseModel
 {
-    protected $fillable = ['title', 'start_time', 'end_time', 'parent_id'];
+    protected $fillable = ['title', 'start_time', 'end_time', 'parent_id', 'checked'];
     protected $hidden = ['deleted_at'];
     protected $table = 'semesters';
     use SoftDeletes {
