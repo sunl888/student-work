@@ -35,7 +35,7 @@
                                     min-width="100">
                             </el-table-column>
                             <el-table-column
-                                    inline-template
+                                   inline-template
                                     sortable
                                     label="责任人">
                                     <span>
@@ -50,7 +50,7 @@
                                     label="任务状态">
                             </el-table-column>
                             <el-table-column
-                                    inline-template
+                               inline-template
                                     label="评分结果">
                                     <span>{{row.assess === '尚未评分' ? row.assess:row.assess.title}}</span>
                             </el-table-column>
