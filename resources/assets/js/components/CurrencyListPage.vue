@@ -3,10 +3,16 @@
           <div v-loading="loading" class="main">
               <slot v-if="list.length > 0" :data="list"></slot>
               <template v-else>
-                <div v-if="queryName.match('tasks')">
+                <div v-if="queryName==='tasks'">
                   <p>
                     当前还没有任务哦，请单击右侧按钮添加任务&emsp;
                     <el-button type="primary" icon="plus" @click="$router.push({path: 'add_task'})"></el-button>
+                  </p>
+                </div>
+                <div v-else-if="queryName.match('task_progresses')">
+                  <p>
+                    正在加载数据中...
+                    <!-- <el-button type="primary" icon="plus" @click="$router.push({path: 'add_task'})"></el-button> -->
                   </p>
                 </div>
                 <div v-else-if="queryName.match('trashed_tasks=1')">
@@ -27,16 +33,6 @@
               <div v-else-if="queryName.match('mettings')">
                   <p>
                       当前没有会议记录
-                  </p>
-              </div>
-              <div v-else-if="queryName.match('mettings')">
-                  <p>
-                      当前没有会议记录
-                  </p>
-              </div>
-              <div v-else-if="queryName.match('task_progresses')">
-                  <p>
-                      正在加载中...
                   </p>
               </div>
               <div v-else>
@@ -135,16 +131,19 @@
                                 this.list[x].title = this.list[x].title.substr(0,100) + '...';
                               }
                             }
-                          } else if(this.queryName.match('task_progresse')){
+                          } else if(this.queryName.match('task_progresses&college=')){
+                            this.list = res.data.data
+                          } else if(this.queryName.match('include=task_progresses')){
                             this.list = res.data.data.task_progresses.data
                             for(let x in this.list){
-                                if(this.list[x].end_time === null){
-                                    this.list[x].end_time = '尚未完成'
-                                }
-                                if(this.list[x].assess === null){
-                                    this.list[x].assess = '尚未评分'
-                                }
-                            }
+                                  if(this.list[x].end_time === null){
+                                      this.list[x].end_time = '尚未完成'
+                                  }
+                                  if(this.list[x].assess === null){
+                                      this.list[x].assess = '尚未评分'
+                                  }
+                              }
+                            
                           } else{
                           this.list = res.data.data;
                           this.total = res.data.meta.pagination.total;
