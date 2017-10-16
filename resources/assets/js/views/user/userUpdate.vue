@@ -12,10 +12,16 @@
                     <el-form-item v-if="me.college_name === null" label="所属学院" prop="college_id">
                         <el-input disabled v-model="me.college_name"></el-input>
                     </el-form-item>
-                    <!--用户名-->
+                    <!--用户ID-->
+
                     <el-form-item label="用户名" prop="name">
-                        <el-input disabled v-model="me.name" placeholder="请输入用户名"></el-input>
+                        <el-input disabled v-model="me.name" placeholder="请输入用户名(推荐使用工号)"></el-input>
                     </el-form-item>
+                      <!--用户名-->
+                    <el-form-item label="用户昵称" prop="nickname">
+                        <el-input v-model="me.nickname" placeholder="请输入用户昵称"></el-input>
+                    </el-form-item>
+                    
                     <!--性别-->
                     <el-form-item label="性别" prop="gender">
                         <el-radio v-for="item in genders" :key=item.id class="radio" v-model="me.gender" :label=item.gender>{{item.gender_str}}</el-radio>
@@ -81,7 +87,10 @@
                 dialogVisible: false,
                 rules: {
                     name: [
-                        { type: 'string', required: true, message: '请填写用户名', trigger: 'change' }
+                        { type: 'string', required: true, message: '请填写用户名或者工号', trigger: 'change' }
+                    ],
+                    nickname: [
+                     { type: 'string', required: true, message: '请填写用户昵称', trigger: 'change' }
                     ],
                     email: [
                         { type: 'string', required: true, message: '请填写邮箱', trigger: 'blur' }

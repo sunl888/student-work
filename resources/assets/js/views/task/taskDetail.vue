@@ -53,7 +53,7 @@
     export default{
         data () {
             return {
-                leading: '',
+                leading: [],
                 color: '',
                 //任务详情
                 item: [],
@@ -180,12 +180,12 @@
                 this.$http.get('task/' + this.$route.params.id + '?include=task_progresses&college='+this.$route.params.college).then(res => {
                     this.item = res.data.data;
                     this.taskPro = this.item.task_progresses.data[0];
+                    let tempArr = new Array();
                     if(this.taskPro.leading_official){
-                        this.leading = Array(this.leading);
-                        for(let i in this.taskPro.leading_official){
-                            this.leading[i] = this.taskPro.leading_official[i].name;
+                        for(let j in this.taskPro.leading_official){
+                            tempArr.push(this.taskPro.leading_official[j].name + '-' +this.taskPro.leading_official[j].nickname);
                         }
-                        this.leading = this.leading.join('、');
+                        this.leading = tempArr.join('、');
                     } else {
                         this.leading = String(this.leading);
                         this.leading = '尚未指定';

@@ -39,7 +39,9 @@
                 </el-dialog>
                <div v-for="(value,key) in item.childs">
                     <Ttag @update="update($event, value.id, 1)" @on-close="deleteWorkType(value.id, 'childs'. index,key)" :title="value.title"></Ttag>
-                <Ttag @update="update($event, value.id, 2)" @on-close="deleteWorkType(value.id, 'childs',index,key)" :range="value.start_time + ' - ' +value.end_time"></Ttag>
+                    <Ttag @update="update($event, value.id, 2)" @on-close="deleteWorkType(value.id, 'childs',index,key)" :range="value.start_time + ' - ' +value.end_time"></Ttag>
+                    <i v-if="value.checked === 1" style="color:orange;position:absolute;margin-left:20px;margin-top:8px;" title="当前学期" class="el-icon-star-on"></i>
+                    <i v-else style="color:#13CE66;position:absolute;margin-left:20px;margin-top:8px;cursor:pointer" class="el-icon-check" title="设为当前学期" @click="setCurrent(value.id)"></i>
                </div>
             </div>
 
@@ -74,6 +76,12 @@
             this.getWorkType()
         },
         methods: {
+            setCurrent(id){
+                this.$http.post('set_current_semester' + '/' + id).then(res => {
+                    this.$message.success('已设置为当前学期');
+                    this.getWorkType();
+                })
+            },
             openDia(id){
                 this.isSemester = true
                 this.temp = id
@@ -126,50 +134,76 @@
         		   end_time: this.range[1].substr(0,this.range[1].indexOf(' '))
         		})
                 if(this.isSemester){
-                     this.$http.post('create_' + this.url, {
+                    if(this.currentSemester){
+                        this.$http.post('create_' + this.url, {
                         title: this.inputTitle,
                         start_time:this.range[2].start_time,
                         end_time: this.range[2].end_time,
                         parent_id: this.temp,
-                        checked: this.currentSemester
-                    }).then(res => {
-                        this.inputTitle = ''
-                        this.range = ''
-                        this.getWorkType()
-                        this.$message({
-                            message: '添加成功',
-                            type: 'success'
+                        checked: 1
+                        }).then(res => {
+                            this.inputTitle = ''
+                            this.range = ''
+                            this.getWorkType()
+                            this.$message({
+                                message: '添加成功',
+                                type: 'success'
+                            })
+                            this.isSemester = false
+                            this.currentSemester = null
+                        }).catch(res => {
+                            this.$message({
+                                type: 'error',
+                                message: res.message
+                            })
                         })
-                        this.isSemester = false
-                    }).catch(res => {
-                        this.$message({
-                            type: 'error',
-                            message: res.message
+                    } else {
+                       this.$http.post('create_' + this.url, {
+                            title: this.inputTitle,
+                            start_time:this.range[2].start_time,
+                            end_time: this.range[2].end_time,
+                            parent_id: this.temp,
+                        }).then(res => {
+                            this.inputTitle = ''
+                            this.range = ''
+                            this.getWorkType()
+                            this.$message({
+                                message: '添加成功',
+                                type: 'success'
+                            })
+                            this.isSemester = false
+                            this.currentSemester = null
+                        }).catch(res => {
+                            this.$message({
+                                type: 'error',
+                                message: res.message
+                            })
                         })
-                    })
+                    }
                 } else {
-                    this.$http.post('create_' + this.url, {
+                        this.$http.post('create_' + this.url, {
                         title: this.inputTitle,
                         start_time:this.range[2].start_time,
                         end_time: this.range[2].end_time
                         // parent_id: this.temp,
                         // checked: this.currentSemester
-                    }).then(res => {
-                        this.inputTitle = ''
-                        this.range = ''
-                        this.getWorkType()
-                        this.$message({
-                            message: '添加成功',
-                            type: 'success'
+                        }).then(res => {
+                            this.inputTitle = ''
+                            this.range = ''
+                            this.getWorkType()
+                            this.$message({
+                                message: '添加成功',
+                                type: 'success'
+                            })
+                            this.isSemester = false
+                        }).catch(res => {
+                            this.$message({
+                                type: 'error',
+                                message: res.message
+                            })
                         })
-                        this.isSemester = false
-                    }).catch(res => {
-                        this.$message({
-                            type: 'error',
-                            message: res.message
-                        })
-                    })
-                }
+
+                    }
             },
             // 获取工作类型
             getWorkType () {

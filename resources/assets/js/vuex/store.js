@@ -4,7 +4,8 @@ Vue.use(Vuex);
 
 const state = {
     me: null,
-    menus: null
+    menus: null,
+    users: null
 };
 export default new Vuex.Store({
     state,
@@ -14,6 +15,9 @@ export default new Vuex.Store({
         },
         UPDATE_MENUS (state, menus) {
             state.menus = menus;
+        },
+        allUser(state, users){
+            state.users = users;
         }
     }
 });

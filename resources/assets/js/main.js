@@ -9,7 +9,7 @@ import 'element-ui/lib/theme-default/index.css'
 import store from './vuex/store';
 Vue.prototype.$http = axios.create({
     baseURL: '/api/',
-    timeout: 5000,
+    timeout: 20000,
     responseType: 'json',
     headers:{
         'X-Requested-With': 'XMLHttpRequest'
@@ -45,7 +45,21 @@ function getMe() {
     if(store.state.me === null) {
         Vue.prototype.$http.get('me').then(res => {
             store.commit('UPDATE_ME', res.data.data);
+            if(store.state.me.is_super_admin){
+                getUsers();
+            }
         });
+    }
+}
+function getUsers() {
+    if(store.state.users === null) {
+        Vue.prototype.$http.get('all_users',{
+          params: {
+            limit: 0
+          }
+      }).then(res => {
+        store.commit('allUser', res.data.data);
+      })
     }
 }
 function getMenu(next) {
@@ -69,6 +83,7 @@ router.beforeEach((to, from, next) => {
     } else if(to.name === 'login'){
         store.state.menus = null;
         store.state.me = null;
+        store.state.users = null;
         next();
     } else {
         getMe();

@@ -28,7 +28,12 @@
                                 <el-table-column
                                         prop="name"
                                         sortable
-                                        label="用户名">
+                                        label="用户名（工号）">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="nickname"
+                                        sortable
+                                        label="用户昵称">
                                 </el-table-column>
                                 <el-table-column
                                         prop="gender_str"
@@ -81,7 +86,8 @@
                 <img style="border-radius:50%;" v-else src="../../assets/images/picture.jpg" alt="">
             </div>
             <div class="profile el-col-20 el-col-push-2">
-                <p>用户名：<span>{{item.name}}</span></p>
+                <p>用户名(工号)：<span>{{item.name}}</span></p>
+                <p>用户昵称：<span>{{item.nickname}}</span></p>
                 <p>性&emsp;别：<span>{{item.gender_str}}</span></p>
                 <p>用户邮箱：<span>{{item.email}}</span></p>
                 <p>用户角色：<span>{{item.role_dispname}}</span></p>

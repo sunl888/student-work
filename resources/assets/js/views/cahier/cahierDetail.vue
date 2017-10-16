@@ -13,17 +13,26 @@ s<template>
                     <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>
                 <div class="table">
-                    <h5>缺勤人员</h5>
                     <template>
                       <el-table
                         :data="absent"
                         stripe
                         style="width: 100%">
                         <el-table-column
-                          prop="user.nickname"
-                          label="用户名"
+                          prop="user.name"
+                          label="用户名（工号）"
                           min-width="180">
                         </el-table-column>
+                        <el-table-column
+                          prop="user.nickname"
+                          label="用户昵称"
+                          min-width="180">
+                        </el-table-column>
+                       <!--  <el-table-column
+                          prop="user.name"
+                          label="用户名（工号）"
+                          min-width="180">
+                        </el-table-column> -->
                         <el-table-column
                           prop="assess.title"
                           label="缺勤原因"
@@ -42,7 +51,7 @@ s<template>
             return {
                 item: [],
                 absent:[],
-                leading: ''
+                leading: []
             }
         },
         computed: {
@@ -56,9 +65,16 @@ s<template>
                     this.$http.get('metting/' + this.$route.params.id).then(res => {
                         this.item = res.data.data
                         this.absent = this.item.absentees;
-                        this.leading = Array(this.leading);
+                        let tempArr = new Array();
                         for(let i in this.item.users){
-                            this.leading[i] = this.item.users[i].name;
+                            tempArr.push({
+                                name: this.item.users[i].name,
+                                nickname: this.item.users[i].nickname
+                            })
+
+                        }
+                        for(let j in tempArr){
+                            this.leading.push(tempArr[j].name + '-' +tempArr[j].nickname);
                         }
                         this.leading = this.leading.join('、');
                     })

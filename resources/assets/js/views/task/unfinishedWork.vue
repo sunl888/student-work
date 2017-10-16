@@ -50,7 +50,7 @@
                         inline-template
                 >
                 <span>
-                    <span v-if="row.user!==null">{{row.user.length === 1 ? (row.user[0].name || '') : (row.user[0].name || '') + '等'+ (row.user.length-1) + '人'}}</span>
+                    <span v-if="row.user!==null">{{row.user.length === 1 ? (row.user[0].nickname || '') : (row.user[0].nickname || '') + '等'+ (row.user.length-1) + '人'}}</span>
                     <span v-else>尚未指定</span>
                 </span>
                 </el-table-column>
@@ -197,7 +197,7 @@
                 this.$http.get('users').then(res => {
                     for(let i in res.data.users)
                     this.users.push({
-                        label: res.data.users[i].name,
+                        label: res.data.users[i].name + ' - ' +res.data.users[i].nickname ,
                         key: res.data.users[i].id
                     })
                 })

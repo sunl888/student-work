@@ -25,13 +25,17 @@
                                     :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
-                    <!--用户名-->
+                    <!--用户ID-->
                     <el-form-item label="用户名" prop="name">
-                        <el-input v-model="ruleForm.name" placeholder="请输入用户名"></el-input>
+                        <el-input :disabled="isEdit"  v-model="ruleForm.name" placeholder="请输入用户名(推荐使用工号)"></el-input>
+                    </el-form-item>
+                    <!--用户名-->
+                    <el-form-item label="用户昵称" prop="nickname">
+                        <el-input v-model="ruleForm.nickname" placeholder="请输入用户昵称"></el-input>
                     </el-form-item>
                     <!--性别-->
                     <el-form-item label="性别" prop="gender">
-                        <el-radio v-for="item in genders" :key=item.id class="radio" v-model="ruleForm.gender" :label=item.gender>{{item.gender_str}}</el-radio>
+                        <el-radio v-for="item in genders" :key=item.id class="radio" v-model="ruleForm.gender" :label="item.gender">{{item.gender_str}}</el-radio>
                     </el-form-item>
                     <!--上传头像-->
                     <el-form-item label="上传头像" prop="picture">
@@ -95,6 +99,7 @@
                 dialogVisible: false,
                 ruleForm: {
                     name: '',
+                    nickname: '',
                     email: '',
                     college_id: null,
                     picture: '',
@@ -105,7 +110,10 @@
                 },
                 rules: {
                     name: [
-                        { type: 'string', required: true, message: '请填写用户名', trigger: 'change' }
+                        { type: 'string', required: true, message: '请填写用户名或工号', trigger: 'change' }
+                    ],
+                    nickname:[
+                        { type: 'string', required: true, message: '请填写用户昵称', trigger: 'change' }
                     ],
                     email: [
                         { type: 'string', required: true, message: '请填写邮箱', trigger: 'blur' }
@@ -136,6 +144,7 @@
                     college_id: null,
                     picture: '',
                     gender: false,
+                    nickname: '',
                     password: '',
                     password_confirmation: '',
                     role_id: null
@@ -155,6 +164,12 @@
                     this.ruleForm = res.data.data
                     this.$diff.save(this.ruleForm)
                     this.rules = {
+                        role_id: [
+                            { type: 'number', required: true, message: '请选择用户角色', trigger: 'blur' }
+                        ],
+                        nickname:[
+                            { type: 'string', required: true, message: '请填写用户昵称', trigger: 'change' }
+                        ],
                         email: [
                             { type: 'string', required: true, message: '请填写邮箱', trigger: 'blur' }
                         ],

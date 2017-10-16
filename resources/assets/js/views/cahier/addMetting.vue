@@ -37,7 +37,7 @@
             </el-col>
           </el-form-item> -->
           <el-form-item style="margin:22px 0;"  label="参会人员" prop="people">
-              <el-transfer style="margin-left:15px;" class="el-col-pull-4" :titles="['所有老师','已选中老师']" v-model="ruleForm.people" :data="allUsers"></el-transfer>
+              <el-transfer filterable filter-placeholder="请输入老师姓名或学院名称" style="margin-left:15px;" class="el-col-pull-1 allUser" :titles="['所有老师','已选中老师']" v-model="ruleForm.people" :data="allUsers"></el-transfer>
           </el-form-item>
           <el-form-item>
              <p class="el-col-pull-5" style="color:#666;"><span style="color:red;">*</span>参会人员全部选择完成后，请单击选择完成按钮以便填写缺勤情况</p>
@@ -55,7 +55,7 @@
            <div v-if="isLate">
             <el-form-item label="缺勤人员" prop="late">
             <el-checkbox-group v-model="late">
-              <el-checkbox v-for="value in attendPeo" :label="value.key" :key="value.key">{{value.label}}</el-checkbox>
+              <el-checkbox :disabled="value.status !== null" v-for="value in attendPeo" :label="value.key" :key="value.key">{{value.label}}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item label="缺勤情况" prop="late_id" >
@@ -152,38 +152,65 @@
     mounted () {
       this.getCollegesList();
       this.getLate();
-      this.getAllUsers()
+      this.getAllUsers();
+    },
+    watch:{
+      users: function(){
+        this.getAllUsers()
+      }
+    },
+    computed: {
+        users () {
+            return this.$store.state.users ? this.$store.state.users : {};
+        }
     },
     methods: {
-      removeTag(x){
-        for(let y in this.tags){
-          if(this.tags[y] === x){
-            this.tags.splice(y,1);
-            this.ruleForm.people.splice(y,1);
-          }
-        }
-      },
+      // removeTag(x){
+      //   for(let y in this.tags){
+      //     if(this.tags[y] === x){
+      //       this.tags.splice(y,1);
+      //       this.ruleForm.people.splice(y,1);
+      //     }
+      //   }
+      // },
       changeUser(){
-        this.absent_cause.splice(0,this.absent_cause.length);
+        // this.absent_cause.splice(0,this.absent_cause.length);
+
         for(let i in this.late){
           this.absent_cause.push({
             assess_id: this.ruleForm.late_id,
             user_id: this.late[i]
           })
         }
-        for(let x in this.late){
+        this.late.splice(0,this.late.length);
+        for(let x in this.absent_cause){
          for(let y in this.attendPeo){
-          if(this.late[x] === this.attendPeo[y].key){
-             this.attendPeo.splice(y,1);   
+          if(this.absent_cause[x].user_id === this.attendPeo[y].key){
+           this.attendPeo[y].status = this.absent_cause[x].assess_id
           }
          }
-       }
+        }
+
+        // console.log(this.absent_cause);
+        // for(let x in this.late){
+        //  for(let y in this.attendPeo){
+        //   if(this.late[x] === this.attendPeo[y].key){
+        //      this.attendPeo.splice(y,1);   
+        //   }
+        //  }
+       // }
       },
       allAttend(){
         this.isHas = false;
         if(this.ruleForm.people.length === this.allUsers.length){
           alert('确认成功！参会人员为全体成员，请继续填写表单');
-          this.attendPeo = this.allUsers;
+          for(let i in this.allUsers){
+            this.attendPeo.push({
+              label: this.allUsers[i].label,
+              key: this.allUsers[i].key,
+              status: null
+            })
+          }
         } else {
           alert('确认成功！已选参会人员共' + this.ruleForm.people.length + '人，请继续填写表单')
           for(let x = 0; x < this.ruleForm.people.length;x++){
@@ -191,7 +218,8 @@
               if(this.ruleForm.people[x] === this.allUsers[y].key){
                 this.attendPeo.push({
                   label: this.allUsers[y].label,
-                  key: this.allUsers[y].key
+                  key: this.allUsers[y].key,
+                  status: null
                 })
               }
             }
@@ -199,17 +227,18 @@
         }  
       },
       createTask (formName) {
+        let tempPeple = '';
         this.$refs[formName].validate((valid) => {
           if (valid) {
             if(this.ruleForm.people.length === this.allUsers.length){
-              this.ruleForm.people = 'all'
+              tempPeple = 'all'
             } else {
-              this.ruleForm.people = this.ruleForm.people.join(',')
+              tempPeple = this.ruleForm.people.join(',')
             }
             this.$http.post('metting',{
                 title: this.ruleForm.title,
                 detail: this.ruleForm.detail,
-                users: this.ruleForm.people,
+                users: tempPeple,
                 start_time: this.ruleForm.time,
                 absent_cause:this.absent_cause
             }).then(res => {
@@ -233,24 +262,13 @@
           })
       },
       getAllUsers(){
-        this.$http.get('all_users').then(res => {
-          for(let x in res.data.data){
+        for(let x in this.users){
             this.allUsers.push({
-              key: res.data.data[x].id,
-              label: res.data.data[x].name
+              key: this.users[x].id,
+              label: (this.users[x].college.title || '学生处') + ' - ' + this.users[x].nickname
             });
           }
-        })
-      },
-     //  countLates(){
-     //    this.temp.splice(-1);
-     //    console.log(this.ruleForm.late_id,this.late)
-     //    this.temp.push({
-     //      late_id: this.ruleForm.late_id,
-     //      users_id: this.late
-     //    })
-     //    console.log(this.temp)
-     // },
+     },
       //获取缺勤原因
       getLate () {
           this.$http.get('appraises/lates').then( res=> {
