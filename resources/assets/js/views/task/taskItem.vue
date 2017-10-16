@@ -14,7 +14,7 @@
                 </div>
                 <el-button v-if="item.status === 'draft'"  class="btn" @click="auditing()" type="success">审核任务</el-button>
                 <div class="taskWatch" v-else>
-                     <currency-list-page :autoRequest="false" ref="list" :queryName="'task/' + this.$route.params.id + '?include=task_progresses'">
+                     <currency-list-page :isPage="false" :autoRequest="false" ref="list" :queryName="'task/' + this.$route.params.id + '?include=task_progresses'">
                     <template scope="list">
                         <el-table
                                 border
@@ -29,10 +29,11 @@
                                     min-width="150">
                             </el-table-column>
                             <el-table-column
-                                    prop="end_time"
+                                    inline-template
                                     sortable
                                     label="完成时间"
                                     min-width="100">
+                                 <span>{{row.end_time === '尚未完成' ? row.end_time : (row.end_time || '').substr(0,(row.end_time || '').indexOf(' '))}}</span>
                             </el-table-column>
                             <el-table-column
                                    inline-template
@@ -72,7 +73,7 @@
               <el-dialog title="指定责任人" :visible.sync="isDia" top="10%">
                 <el-form>
                   <el-form-item>
-                    <el-transfer class="transfer" :titles="['本学院可选责任人', '已选中的责任人']" :value="allot" v-model="currOption" :data="users"></el-transfer>
+                    <el-transfer filterable class="transfer" :titles="['本学院可选责任人', '已选中的责任人']" :value="allot" v-model="currOption" :data="users"></el-transfer>
                   </el-form-item>
                 </el-form>
                 <div slot="footer" style="margin-top:-50px;" class="dialog-footer">

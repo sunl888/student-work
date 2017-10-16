@@ -85,7 +85,7 @@
               <el-dialog title="指定责任人" :visible.sync="isDia" top="10%">
                 <el-form>
                   <el-form-item>
-                    <el-transfer class="transfer" :titles="['本学院可选责任人', '已选中的责任人']" :value="allot" v-model="currOption" :data="users"></el-transfer>
+                    <el-transfer filterable class="transfer" :titles="['本学院可选责任人', '已选中的责任人']" :value="allot" v-model="currOption" :data="users"></el-transfer>
                   </el-form-item>
                 </el-form>
                 <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
@@ -197,7 +197,7 @@
                 this.$http.get('users').then(res => {
                     for(let i in res.data.users)
                     this.users.push({
-                        label: res.data.users[i].name + ' - ' +res.data.users[i].nickname ,
+                        label: res.data.users[i].nickname ,
                         key: res.data.users[i].id
                     })
                 })

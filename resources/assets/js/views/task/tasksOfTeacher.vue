@@ -40,11 +40,11 @@
                                 >
                                 </el-table-column>
                                 <el-table-column
-                                        prop="status"
+                                        inline-template
                                         label="状态"
                                         width="100"
-                                        slot="empty"
                                 >
+                                <span>{{row.finished_at ? "已完成" : '未完成'}}</span>
                                 </el-table-column>
                                 <el-table-column
                                         label="截止时间"

@@ -13,7 +13,7 @@
             </el-button>
         </div>
         <transition-group name="el-zoom-in-center">
-            <div class="tagGroup box el-col-24" :key="item.id" v-for="(item,index) in tags" >
+            <div class="tagGroup tagbox el-col-24" :key="item.id" v-for="(item,index) in tags" >
                 <Ttag @update="update($event, item.id, 1)" @on-close="deleteWorkType(item.id, 'parent', index)" :title="item.title"></Ttag>
                 <Ttag @update="update($event, item.id, 2)" @on-close="deleteWorkType(item.id,'parent', index)" :range="item.start_time + ' - ' +item.end_time"></Ttag>
                <el-button style="position:absolute;margin-left:20px" v-if="item.parent_id == 0" type="text" @click="openDia(item.id)">添加学期</el-button>
@@ -257,7 +257,7 @@
     .prese_data_panel>.add_input,.add_input{
         width: 130px;
     }
-    .box{
+    .tagbox{
        float:left;
         margin: 10px 20px;
         padding:10px;

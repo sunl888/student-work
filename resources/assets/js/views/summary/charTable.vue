@@ -62,7 +62,7 @@
               <el-table-column
                 inline-template
                 label="评分结果">
-                <span>{{row.task_progresses.data[0].assess.title ? row.task_progresses.data[0].assess.title : '尚未评分'}}</span>
+                <span>{{row.task_progresses.data[0].assess ? row.task_progresses.data[0].assess.title : '尚未评分'}}</span>
               </el-table-column>
               <el-table-column
                 prop="status"

@@ -82,7 +82,7 @@
                     </el-form>
                     <el-form v-else label-position="right"  label-width="80px" :rules="rules" :model="formData">
                         <el-form-item prop="quality" label="完成时间">
-                            <p>{{taskPro.end_time}}</p>
+                            <p>{{taskPro.end_time ? taskPro.end_time[0] : ''}}</p>
                         </el-form-item>
                         <el-form-item prop="finishedDate" label="是否迟交">
                             <el-switch
@@ -110,7 +110,7 @@
                             </div>
                         </el-form-item>
                         <el-form-item prop="access_id"  label="考核打分">
-                            <el-tag :type="color">{{taskPro.assess.title}}</el-tag>
+                            <el-tag :type="color">{{taskPro.assess ? taskPro.assess.title : ''}}</el-tag>
                         </el-form-item>
                         <el-form-item label='备注'>
                             <p>{{taskPro.remark}}</p>
@@ -197,6 +197,7 @@
                     this.taskPro = res.data.data.task_progresses.data[this.$route.params.college_id-1]
                     if(this.taskPro.delay!==null)this.isDelay = true;
                     this.alloter = this.taskPro.leading_official ? this.taskPro.leading_official.length : '';
+                    this.taskPro.end_time = (this.taskPro.end_time || '').split(' ');
                 })
             },
             //获取此任务的催交情况

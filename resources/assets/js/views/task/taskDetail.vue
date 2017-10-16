@@ -34,16 +34,20 @@
                 </div>
                 <div class="seal" v-else>
                 <!--     <span>已完成</span> -->
-                    <div v-if="taskPro.assess" class="scoreBox el-col-16 el-col-push-4">
-                        <h4>评分结果</h4>
+                   
+                        <el-card class="assessBox el-col-16 el-col-push-4">
+                             <div v-if="taskPro.assess">
+                             <h4 style="margin-bottom:10px">评分结果</h4>
                         <p class="scoreRes">{{'完成情况：&emsp;' + taskPro.quality}}</p>
                         <p class="scoreRes">考核等级：&emsp;<el-tag :type="color">{{taskPro.assess.title}}</el-tag></p>
                         
                         <p class="scoreRes">{{'备&emsp;&emsp;注：&emsp;' + taskPro.remark}}</p>
                     </div>
-                    <div class="scoreBox el-col-8 el-col-push-8" v-else>
+                    <div class="el-col-8 el-col-push-8" v-else>
                         <span>尚未评分</span>
                     </div>
+                        </el-card>
+                       
                 </div>
             </el-card>
         </div>
@@ -183,7 +187,7 @@
                     let tempArr = new Array();
                     if(this.taskPro.leading_official){
                         for(let j in this.taskPro.leading_official){
-                            tempArr.push(this.taskPro.leading_official[j].name + '-' +this.taskPro.leading_official[j].nickname);
+                            tempArr.push(this.taskPro.leading_official[j].nickname);
                         }
                         this.leading = tempArr.join('、');
                     } else {
@@ -239,10 +243,11 @@
     }
     .scoreBox{
         padding:20px;
-        border-radius:5px;
         border:1px solid #eee;
-        box-shadow:inset 0 0 5px 5px #eee;
-        background:#f5f5f5;
+        box-shadow:inset 0 0 2px 2px #f5f5f5;
+    }
+    .scoreBox>h4{
+        margin-bottom:10px;
     }
     .text{
         min-height:200px;
@@ -293,6 +298,9 @@
         /*bottom:80px;*/
         /*left:50%;*/
         /*transform: translateX(-50%)*/
+    }
+    .assessBox{
+        padding:5px 10px;
     }
     .scoreRes{
         text-align:left;

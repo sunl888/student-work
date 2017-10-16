@@ -2,9 +2,9 @@
   <div class="menuBox">
     <el-menu router unique-opened theme="dark" default-active="1" >
       <div class="mine">
-        <i :title="me.name" v-if="me.picture == null" @click="$router.push({name:'user_update'})" style="cursor:pointer;color:white;" class="material-icons">account_circle</i>
-        <img :title="me.name" @click="$router.push({name:'user_update'})" class="photo" v-else :src="me.picture" alt="">
-        <p :title="me.name" style="cursor:pointer;" @click="$router.push({name:'user_update'})">{{'您好，' + me.name}}</p>
+        <i :title="me.nickname" v-if="me.picture == null" @click="$router.push({name:'user_update'})" style="cursor:pointer;color:white;" class="material-icons">account_circle</i>
+        <img :title="me.nickname" @click="$router.push({name:'user_update'})" class="photo" v-else :src="me.picture" alt="">
+        <p :title="me.nickname" style="cursor:pointer;" @click="$router.push({name:'user_update'})">{{'您好，' + me.nickname}}</p>
         <p v-if="me.college!=undefined">{{me.college.title}}</p>
       </div>
       <el-submenu v-for="values in menus" :index=values.name :key="values.id">

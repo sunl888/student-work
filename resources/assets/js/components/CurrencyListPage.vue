@@ -42,7 +42,8 @@
               </div>
               </template>
           </div>
-          <div v-if="list.length > 0" class="footer">
+          <div v-if="isPage">
+            <div v-if="list.length > 0" class="footer">
               <div class="page_num_box">
                   显示:
                   <el-select @change="change()" class="page_num" size="small" v-model="perPage">
@@ -64,6 +65,8 @@
                 @current-change="change">
               </el-pagination>
           </div>
+          </div>
+          
     </div>
 
 </template>
@@ -75,6 +78,10 @@
             queryName: String,
             autoRequest: {
               type: Boolean,
+              default: true
+            },
+            isPage: {
+              type:Boolean,
               default: true
             }
         },
