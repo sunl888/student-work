@@ -248,10 +248,10 @@
               })
               this.$router.push({name: 'cahier_lists'})
             }).catch(err => {
-                            for(let i in err.response.data.errors){
+                            for(let i in err.response.data.message){
                                 this.$message({
                                   type: 'error',
-                                  message: err.response.data.errors[i]
+                                  message: err.response.data.message[i]
                               })  
                             }
                                                          
