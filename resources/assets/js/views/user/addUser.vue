@@ -201,12 +201,15 @@
                                 type: 'success'
                             })
                             this.$router.push({name: 'user_lists'})
-                        }).catch(res => {
-                            $message: ({
-                                type: 'error',
-                                message: res
-                            })
-                        })
+                        }).catch(err => {
+                            for(let i in err.response.data.errors){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.errors[i]
+                              })  
+                            }
+                                                         
+                          })
                     } else {
                         return false
                     }
@@ -231,7 +234,15 @@
                                 type: 'success'
                             })
                             this.$router.push({name: 'user_lists'})
-                        })
+                        }).catch(err => {
+                            for(let i in err.response.data.errors){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.errors[i]
+                              })  
+                            }
+                                                         
+                          })
                     } else {
                         return false
                     }

@@ -247,7 +247,15 @@
                 type: 'success'
               })
               this.$router.push({name: 'cahier_lists'})
-            })
+            }).catch(err => {
+                            for(let i in err.response.data.errors){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.errors[i]
+                              })  
+                            }
+                                                         
+                          })
           } else {
             return false
           }

@@ -7,7 +7,7 @@
                 <Ttag @update="update($event, item.id, 2)" @on-close="deleteWorkType(item.id, index)" :score="item.score"></Ttag>
             </div>
         </transition-group>
-        <el-input class="add_input" v-model="inputVal" placeholder="请输入等级"></el-input>
+        <el-input class="add_input" v-model="inputVal" placeholder="请输入标题"></el-input>
         <span>-</span>
         <el-input @keyup.enter.native="addType" @click="addType" class="add_input" icon="plus" v-model="inputGra" placeholder="请输入分数"></el-input>
     </div>
@@ -45,12 +45,15 @@
                             message: '修改成功',
                             type: 'success'
                         })
-                    }).catch(res => {
-                        this.$message({
-                            type: 'error',
-                            message: res.message
-                        })
-                    })
+                    }).catch(err => {
+                            for(let i in err.response.data.errors){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.errors[i]
+                              })  
+                            }
+                                                         
+                          })
                 } else {
                     this.$http.post('update_' + this.url + '/' + id, {
                         score: newVal
@@ -59,13 +62,15 @@
                             message: '修改成功',
                             type: 'success'
                         })
-                    }).catch(res => {
-                        this.$message({
-                            type: 'error',
-                            message: res.message
-
-                        })
-                    })
+                    }).catch(err => {
+                           for(let i in err.response.data.message){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.message[i]
+                              })  
+                            }
+                                                         
+                          })
                 }
             },
             // 添加工作类型
@@ -81,12 +86,15 @@
                         message: '添加成功',
                         type: 'success'
                     })
-                }).catch(res => {
-                    this.$message({
-                        type: 'error',
-                        message: res.message
-                    })
-                })
+                }).catch(err => {
+                            for(let i in err.response.data.message){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.message[i]
+                              })  
+                            }
+                                                         
+                          })
             },
             // 获取工作类型
             getWorkType () {
@@ -102,12 +110,15 @@
                         message: '删除成功',
                         type: 'success'
                     })
-                }).catch(res => {
-                    this.$message({
-                        type: 'error',
-                        message: res.data.message
-                    })
-                })
+                }).catch(err => {
+                           for(let i in err.response.data.message){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.message[i]
+                              })  
+                            }
+                                                         
+                          })
             }
         }
     }

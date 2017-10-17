@@ -128,12 +128,15 @@
                 type: 'success'
               })
               this.$router.push({name: 'task_manage'})
-            }).catch(res => {
-              this.$message({
-                message: '完成日期必须大于现在的日期',
-                type: 'error'
-              })
-            })
+            }).catch(err => {
+                            for(let i in err.response.data.message){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.message[i]
+                              })  
+                            }
+                                                         
+                          })
           } else {
             return false
           }
@@ -149,7 +152,16 @@
                 type: 'success'
               })
               this.$router.push({name: 'task_manage'})
-            })
+            }).catch(err => {
+                               for(let i in err.response.data.message){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.message[i]
+                              })  
+                            }
+                               
+                                                         
+                          })
           } else {
             return false
           }

@@ -39,12 +39,15 @@ export default {
           message: '修改成功',
           type: 'success'
         })
-      }).catch(res => {
-          $messgae({
-              type: 'error',
-              message: res.data.message
-          })
-      })
+      }).catch(err => {
+                           for(let i in err.response.data.message){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.message[i]
+                              })  
+                            }
+                                                         
+                          })
     },
     // 添加工作类型
     addType () {
@@ -57,12 +60,14 @@ export default {
               message: '创建成功',
               type: 'success'
           })
-      }).catch(res => {
-        this.$message({
-              type: 'error',
-              message: res.data.message
-          })
-      })
+      }).catch(err => {
+                           for(let i in err.response.data.message){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.message[i]
+                              })  
+                            }                         
+                          })
     },
     // 获取工作类型
     getWorkType () {

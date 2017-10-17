@@ -45,13 +45,15 @@
               }).then(res => {
                   this.isLoading = false
                   this.$router.push({name: 'home'})
-              }).catch(res => {
-                  this.isLoading = false
-                  this.$message({
-                      showClose: true,
+              }).catch(err => {
+                this.loading = false
+                for(let i in err.response.data.errors){
+                    this.$message({
                       type: 'error',
-                      message: message
-                  })
+                      message: err.response.data.errors[i]
+                  })  
+                }
+                                             
               })
           }
       }

@@ -40,7 +40,7 @@
                                     sortable
                                     label="责任人">
                                     <span>
-                                        <span v-if="row.leading_official!==null">{{row.leading_official.length === 1 ? (row.leading_official[0].nickname || '') : (row.leading_official[0].nickname || '') + '等'+ (row.leading_official.length-1) + '人'}}</span>
+                                        <span v-if="row.leading_official!==null">{{row.leading_official.length === 1 ? (row.leading_official[0].nickname || '') : (row.leading_official[0].nickname || '') + '等共'+ row.leading_official.length + '人'}}</span>
                                     <span v-else>尚未指定</span>
                                     </span>
                             </el-table-column>
@@ -155,9 +155,15 @@ import CurrencyListPage from '../../components/CurrencyListPage'
                         window.setTimeout(() => {
                             x.status =  '未完成'
                         },10000)
-                    }).catch(() => {
-                        this.$message.info('取消催交')
-                    })
+                    }).catch(err => {
+                            for(let i in err.response.data.errors){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.errors[i]
+                              })  
+                            }
+                                                         
+                          })
                 })
             },
             // 跳转任务评分
@@ -171,7 +177,6 @@ import CurrencyListPage from '../../components/CurrencyListPage'
             //指定责任人
             appoint () {
                 // Array(this.allot);
-                this.users.splice(this.users.length);
                 if(this.currOption.length == this.users.length){
                     this.allot = 'all';
                 } else if(this.currOption.length == 1){
@@ -186,6 +191,8 @@ import CurrencyListPage from '../../components/CurrencyListPage'
                     this.isDia = false
                     this.$message.success('指定成功')
                     this.$refs['list'].refresh()
+                    this.users.splice(0,this.users.length);
+                    this.currOption.splice(0,this.currOption.length);
                 })
             },
             //获取学院所有用户
@@ -218,12 +225,15 @@ import CurrencyListPage from '../../components/CurrencyListPage'
                         });
                         this.$refs['boxCard'].refresh()
                     })
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消审核'
-                    });
-                });
+                }).catch(err => {
+                            for(let i in err.response.data.errors){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.errors[i]
+                              })  
+                            }
+                                                         
+                          })
             }
         },
         mounted () {

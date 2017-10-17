@@ -50,7 +50,7 @@
                         inline-template
                 >
                 <span>
-                    <span v-if="row.user!==null">{{row.user.length === 1 ? (row.user[0].nickname || '') : (row.user[0].nickname || '') + '等'+ (row.user.length-1) + '人'}}</span>
+                    <span v-if="row.user!==null">{{row.user.length === 1 ? (row.user[0].nickname || '') : (row.user[0].nickname || '') + '等共'+ row.user.length + '人'}}</span>
                     <span v-else>尚未指定</span>
                 </span>
                 </el-table-column>
@@ -188,8 +188,10 @@
                     this.isDia = false
                     this.$message.success('指定成功')
                     this.$refs['list'].refresh()
-                }).catch(res => {
-                    this.$message.error('指定失败,请重新操作')
+                    this.currOption.splice(0,this.currOption)
+                }).catch(()=>{
+                    this.currOption.splice(0,this.currOption)
+                    this.$message.info('取消指定责任人');
                 })
             },
             //获取学院所有用户

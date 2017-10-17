@@ -112,9 +112,15 @@
                             this.isSubmit()
                         }
                     })
-                }).catch(() => {
-                    this.$message.info('取消提交任务')
-                })
+                }).catch(err => {
+                            for(let i in err.response.data.errors){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.errors[i]
+                              })  
+                            }
+                                                         
+                          })
             },
             //去提交任务
             isSubmit(val){
@@ -137,9 +143,15 @@
                     this.isDia = false
                     this.loadItem()
                     this.$message.success('指定成功')
-                }).catch(res => {
-                    this.$message.error('指定失败,请重新操作')
-                })
+                }).catch(err => {
+                            for(let i in err.response.data.errors){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.errors[i]
+                              })  
+                            }
+                                                         
+                          })
             },
             //获取任务详情()
             loadItem () {

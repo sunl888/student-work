@@ -96,12 +96,15 @@
                             message: '修改成功',
                             type: 'success'
                         })
-                    }).catch(res => {
-                        this.$message({
-                            type: 'error',
-                            message: res.message
-                        })
-                    })
+                    }).catch(err => {
+                           for(let i in err.response.data.message){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.message[i]
+                              })  
+                            }
+                                                         
+                          })
                 } else {
                 	newVal = newVal.split('~');
         //         	this.range = this.range.toLocaleString().split(',')
@@ -117,13 +120,15 @@
                             message: '修改成功',
                             type: 'success'
                         })
-                    }).catch(res => {
-                        this.$message({
-                            type: 'error',
-                            message: res.message
-
-                        })
-                    })
+                    }).catch(err => {
+                            for(let i in err.response.data.message){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.message[i]
+                              })  
+                            }
+                                                         
+                          })
                 }
             },
             // 添加工作类型
@@ -151,12 +156,15 @@
                             })
                             this.isSemester = false
                             this.currentSemester = null
-                        }).catch(res => {
-                            this.$message({
-                                type: 'error',
-                                message: res.message
-                            })
-                        })
+                        }).catch(err => {
+                            for(let i in err.response.data.message){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.message[i]
+                              })  
+                            }
+                                                         
+                          })
                     } else {
                        this.$http.post('create_' + this.url, {
                             title: this.inputTitle,
@@ -173,12 +181,15 @@
                             })
                             this.isSemester = false
                             this.currentSemester = null
-                        }).catch(res => {
-                            this.$message({
-                                type: 'error',
-                                message: res.message
-                            })
-                        })
+                        }).catch(err => {
+                            for(let i in err.response.data.message){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.message[i]
+                              })  
+                            }
+                                                         
+                          })
                     }
                 } else {
                         this.$http.post('create_' + this.url, {
@@ -196,12 +207,15 @@
                                 type: 'success'
                             })
                             this.isSemester = false
-                        }).catch(res => {
-                            this.$message({
-                                type: 'error',
-                                message: res.message
-                            })
-                        })
+                        }).catch(err => {
+                            for(let i in err.response.data.message){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.message[i]
+                              })  
+                            }
+                                                         
+                          })
 
                     }
             },
@@ -232,12 +246,15 @@
                         message: '删除成功',
                         type: 'success'
                     })
-                }).catch(res => {
-                    this.$message({
-                        type: 'error',
-                        message: res
-                    })
-                })
+                }).catch(err => {
+                            for(let i in err.response.data.errors){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.errors[i]
+                              })  
+                            }
+                                                         
+                          })
             }
         }
     }

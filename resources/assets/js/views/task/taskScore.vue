@@ -13,7 +13,7 @@
                             <p>任务要求：<span>{{ item.detail }}</span></p>
                         </el-collapse-item>
                         <el-collapse-item title="任务进程" name="2">
-                            <p>负责人：<span v-if="alloter > 1">{{taskPro.leading_official[0].nickname  + '等' + (alloter-1) + '人'}}</span>
+                            <p>负责人：<span v-if="alloter > 1">{{taskPro.leading_official[0].nickname  + '等共' + alloter + '人'}}</span>
                                 <span v-else>{{taskPro.leading_official ? taskPro.leading_official[0].nickname : ''}}</span></p>
                             <p>所属学院：<span>{{ taskPro.college }}</span></p>
                         </el-collapse-item>
@@ -159,8 +159,7 @@
                 //表单规则
                 rules: {
                     quality: [
-                        { type: 'string', required: true, message: '请输入完成质量', trigger: 'blur' },
-                         { min: 0, max: 140, message: '请将文本长度保持在140个字符以内', trigger: 'blur' }
+                        { type: 'string', required: true, message: '请输入完成质量', trigger: 'blur' }
                     ],
                     access_id: [
                         { type: 'number', required: true, message: '请选择考核等级', trigger: 'blur' }
@@ -169,11 +168,8 @@
                         { type: 'date', required: true, message: '请选择完成日期', trigger: 'blur' }
                     ],
                     delayReson: [
-                        { type: 'string', required: true, message: '请填写推迟理由', trigger: 'blur' },
-                        { min: 1, max: 140, message: '请将文本长度保持在140个字符以内', trigger: 'blur' }
-                    ],
-                    remark: [
-                    { min: 1, max: 140, message: '请将文本长度保持在140个字符以内', trigger: 'blur' }]
+                        { type: 'string', required: true, message: '请填写推迟理由', trigger: 'blur' }
+                    ]
                 }
             }
         },
@@ -219,10 +215,16 @@
                     delay: this.formData.delayReson
                 }).then(res => {
                     this.$message.success('成功评分！')
-                    this.$router.back();
-                }).catch(res => {
-                    this.$message.error(res)
-                })
+                    this.$router.go(-1);
+                }).catch(err => {
+                            for(let i in err.response.data.message){
+                                this.$message({
+                                  type: 'error',
+                                  message: err.response.data.message[i]
+                              })  
+                            } 
+                                                         
+                          })
             },
             //获取考核等级
             getAccess () {
