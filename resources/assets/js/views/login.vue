@@ -46,7 +46,7 @@
                   this.isLoading = false
                   this.$router.push({name: 'home'})
               }).catch(err => {
-                this.loading = false
+                this.isLoading = false
                 for(let i in err.response.data.errors){
                     this.$message({
                       type: 'error',
