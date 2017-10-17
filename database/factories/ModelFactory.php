@@ -36,7 +36,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Models\Task::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->sentence,
-        'detail' => $faker->text(500),
+        'detail' => $faker->text(300),
         'work_type_id' => random_int(1, 4),
         'department_id' => random_int(1, 5),
         'end_time' => Carbon::tomorrow()->addDays(10),
@@ -48,12 +48,12 @@ $factory->define(App\Models\Task::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Models\Meeting::class, function (Faker\Generator $faker) {
     $users = [
-        '11,12,13,14',
-        '6,7,8,9',
+        '11,13,14',
+        '6,7,9',
         '16,17,18,19',
-        '26,27,28,29',
+        '26,27,29',
         '36,37,38,39',
-        '56,57,58,59',
+        '56,57,59',
     ];
     return [
         'title' => $faker->sentence,
