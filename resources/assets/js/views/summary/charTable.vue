@@ -29,7 +29,7 @@
   <div class="table">
          <currency-list-page ref="list" :queryName="'tasks?include=task_progresses&college='+this.$route.params.id+'&status=publish'"> 
           <template scope="list">
-            <div class="table">
+            <!-- <div class="table"> -->
               <el-table
               :data="list.data"
               stripe
@@ -57,12 +57,17 @@
               <el-table-column
                 inline-template
                 label="任务状态">
-                <span>已审核</span>
+                  <span>{{row.task_progresses.data[0].status}}</span>
               </el-table-column>
               <el-table-column
                 inline-template
                 label="评分结果">
                 <span>{{row.task_progresses.data[0].assess ? row.task_progresses.data[0].assess.title : '尚未评分'}}</span>
+              </el-table-column>
+               <el-table-column
+                inline-template
+                label="得分">
+                <span>{{row.task_progresses.data[0].assess ? row.task_progresses.data[0].assess.score : '尚未评分'}}</span>
               </el-table-column>
               <el-table-column
                 prop="status"
@@ -75,7 +80,7 @@
                 </template>
               </el-table-column>
             </el-table>
-            </div>
+            <!-- </div> -->
           </template>
        </currency-list-page>
   </div>

@@ -1,6 +1,11 @@
 <template>
     <div class="prese_data_panel">
         <h2 class="title">{{title}}</h2>
+        <div style="color:#666;font-size:12px;margin-top:-20px;margin-bottom:20px" >
+        <p>使用提示：有<i class="el-icon-star-on" style="color:orange;margin:0 3px"></i>标记的为当前学期</p>
+            <p>点击非当前学期后的<i style="color:#13CE66;margin:0 3px" class="el-icon-check"></i>按钮可以将此学期设置为当前学期哦</p>
+        </div>
+        
         <div>
             <el-input style="margin-right:10px;width:130px;" class="add_input" v-model="inputTitle" placeholder="请输入学年名称"></el-input>
             <el-date-picker
@@ -17,6 +22,7 @@
                 <Ttag @update="update($event, item.id, 1)" @on-close="deleteWorkType(item.id, 'parent', index)" :title="item.title"></Ttag>
                 <Ttag @update="update($event, item.id, 2)" @on-close="deleteWorkType(item.id,'parent', index)" :range="item.start_time + ' - ' +item.end_time"></Ttag>
                <el-button style="position:absolute;margin-left:20px" v-if="item.parent_id == 0" type="text" @click="openDia(item.id)">添加学期</el-button>
+               <p style="width:80%;margin:5px auto;background:#999;height:1px;"></p>
                <el-dialog title="添加学期" :visible.sync="isSemester">
                   <el-form>
                     <el-col>
@@ -37,11 +43,11 @@
                     <el-button type="primary" @click="addType()">确 定</el-button>
                   </div>
                 </el-dialog>
-               <div v-for="(value,key) in item.childs">
+               <div style="margin-top:10px" v-for="(value,key) in item.childs">
                     <Ttag @update="update($event, value.id, 1)" @on-close="deleteWorkType(value.id, 'childs'. index,key)" :title="value.title"></Ttag>
                     <Ttag @update="update($event, value.id, 2)" @on-close="deleteWorkType(value.id, 'childs',index,key)" :range="value.start_time + ' - ' +value.end_time"></Ttag>
                     <i v-if="value.checked === 1" style="color:orange;position:absolute;margin-left:20px;margin-top:8px;" title="当前学期" class="el-icon-star-on"></i>
-                    <i v-else style="color:#13CE66;position:absolute;margin-left:20px;margin-top:8px;cursor:pointer" class="el-icon-check" title="设为当前学期" @click="setCurrent(value.id)"></i>
+                    <i v-else style="color:#13CE66;position:absolute;margin-left:20px;margin-top:8px;cursor:pointer" class="el-icon-check" title="点击设为当前学期" @click="setCurrent(value.id)"></i>
                </div>
             </div>
 
@@ -263,7 +269,7 @@
 <style lang="css">
     .prese_data_panel{
         width: 60%;
-        padding: 20px;
+        padding: 25px;
         margin: 0 auto;
     }
     .prese_data_panel>.title,.title{
@@ -276,7 +282,7 @@
     }
     .tagbox{
        float:left;
-        margin: 10px 20px;
+        margin: 20px;
         padding:10px;
         background:#fff;
         border-radius:3px;

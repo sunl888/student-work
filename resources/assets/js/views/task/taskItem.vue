@@ -62,7 +62,7 @@
                                 <template class="operaBtn">
                                     <el-button-group>
                         <el-button :disabled="row.assess !== '尚未评分'" type="success" size="small" @click="isAppoints(true, row)">{{!row.leading_official ? '指定责任人' : '修改责任人'}}</el-button>
-                                        <el-button size="small" type="danger" :disabled="row.assess !== '尚未评分'" @click="reminders(row)" title="催交">催交</el-button>
+                                        <el-button size="small" type="danger" :disabled="row.assess !== '尚未评分' || row.status!=='未完成'" @click="reminders(row)" title="催交">催交</el-button>
                                         <el-button size="small" type="info" :disabled="row.assess !== '尚未评分' || !row.leading_official" @click="goScore(row.college_id)" title="评分">评分</el-button>
                                         <el-button size="small" type="success" :disabled="row.assess === '尚未评分'" @click="browse(row.college_id)" title="评分">查看</el-button>
                                     </el-button-group>
@@ -77,7 +77,7 @@
                   </el-form-item>
                 </el-form>
                 <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
-                  <el-button @click="isDia = false">取 消</el-button>
+                  <el-button @click="cancel()">取 消</el-button>
                   <el-button type="primary" @click="appoint()">确 定</el-button>
                 </div>
               </el-dialog>
@@ -191,9 +191,13 @@ import CurrencyListPage from '../../components/CurrencyListPage'
                     this.isDia = false
                     this.$message.success('指定成功')
                     this.$refs['list'].refresh()
-                    this.users.splice(0,this.users.length);
+                    // this.users.splice(0,this.users.length);
                     this.currOption.splice(0,this.currOption.length);
                 })
+            },
+            cancel(){
+                this.isDia = false;
+                this.currOption.splice(0,this.currOption.length);
             },
             //获取学院所有用户
             getUsers () {

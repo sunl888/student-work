@@ -139,7 +139,10 @@
                               }
                             }
                           } else if(this.queryName.match('task_progresses&college=')){
-                            this.list = res.data.data
+                           this.list = res.data.data;
+                          this.total = res.data.meta.pagination.total;
+                          this.perPage = res.data.meta.pagination.per_page
+                            
                           } else if(this.queryName.match('include=task_progresses')){
                             this.list = res.data.data.task_progresses.data
                             for(let x in this.list){

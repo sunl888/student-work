@@ -89,7 +89,7 @@
                   </el-form-item>
                 </el-form>
                 <div slot="footer" style="margin-top:-50px;" class="dialog-footer">
-                  <el-button @click="isDia = false">取 消</el-button>
+                  <el-button @click="cancel()">取 消</el-button>
                   <el-button type="primary" @click="appoint()">确 定</el-button>
                 </div>
               </el-dialog>
@@ -162,6 +162,11 @@
                         college: this.me
                     }
                 })
+            },
+            cancel(){
+               this.isDia = false
+                this.currOption.splice(0,this.currOption.length)
+                // this.users.splice(0,this.users.length)
             },
             //刷新表格
             request (tab) {

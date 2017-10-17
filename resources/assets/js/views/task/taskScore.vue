@@ -98,7 +98,7 @@
                          <el-form-item prop="delayReson" v-if="taskPro.delay!==null" label='推迟理由'>
                             <p>{{taskPro.delay}}</p>
                         </el-form-item>
-                        <el-form-item prop="quality" label="完成质量">
+                        <el-form-item prop="quality" label="完成情况">
                             <p>{{taskPro.quality}}</p>
                         </el-form-item>
                         <el-form-item class="remind" label="催交情况">

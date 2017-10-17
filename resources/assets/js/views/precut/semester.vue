@@ -9,6 +9,8 @@ import PreseSemesterPanel from '../../components/PresetSemesterPanel.vue'
 export default {
   components: {
     PreseSemesterPanel
+  },
+  mounted(){
   }
 }
 </script>

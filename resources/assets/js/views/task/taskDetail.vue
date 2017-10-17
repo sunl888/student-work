@@ -41,10 +41,10 @@
                         <p class="scoreRes">{{'完成情况：&emsp;' + taskPro.quality}}</p>
                         <p class="scoreRes">考核等级：&emsp;<el-tag :type="color">{{taskPro.assess.title}}</el-tag></p>
                         
-                        <p class="scoreRes">{{'备&emsp;&emsp;注：&emsp;' + taskPro.remark}}</p>
+                        <p class="scoreRes">{{'备&emsp;&emsp;注：&emsp;' + (taskPro.remark !== null ? taskPro.remark : '无')}}</p>
                     </div>
-                    <div class="el-col-8 el-col-push-8" v-else>
-                        <span>尚未评分</span>
+                    <div style="padding-bottom:30px;" class="el-col-8 el-col-push-8" v-else>
+                        <span >尚未评分</span>
                     </div>
                         </el-card>
                        

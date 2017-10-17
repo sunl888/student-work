@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h1 style="padding:10px 0">各学院任务完成情况汇总</h1>
+  <h1 style="padding:10px 0">各学院任务完成情况汇总图示</h1>
   <div class="query">
       <el-select class="el-col-pull-1" @change="getSememter()" v-model="query.schoolYear" clearable placeholder="按学年汇总">
         <el-option
@@ -47,8 +47,10 @@ export default{
         semester: '',
         schoolYear: ''
       },
+      zoomSize: 4,
       myChart: null,
       score: [],
+      college: [],
       item:[],
       option:{
          tooltip : {
@@ -58,32 +60,111 @@ export default{
                 }
             },
             legend: {
-                data:['总分']
+                data:['所有任务的总得分情况']
             },
             grid: {
                 left: '3%',
                 right: '4%',
-                bottom: '3%',
+                // bottom: '%',
                 containLabel: true
             },
             xAxis : [
                 {
                     clickable : true,
                     type : 'category',
-                    data : ['化工',' 文化', '生工', ' 教育', '电工', '法学院',' 机电', '马克思','计算机','外国语', '经管', '体育','金融', '音乐','美院']
+                    axisLabel:{  
+                        interval:'auto',  
+                        // rotate:-45,//倾斜度 -90 至 90 默认为0  
+                        margin:2, 
+                        inside: true, 
+                        textStyle:{  
+                            fontWeight:"bolder",  
+                            color:"#444",
+                            fontSize: 10
+                        }
+                    },
+                    // itemStyle:{
+                    //   normal:{
+                    //     label:{
+                    //       position:bottom
+                    //     }
+                    //   }
+                    // },
+                    // axisTick: {
+                    //     show: false
+                    // },
+                    // axisLine: {
+                    //     show: false
+                    // },
+                    z: 10
                 }
             ],
-            yAxis : [
+            yAxis: {
+                axisLine: {
+                    show: true
+                },
+                axisTick: {
+                    show: true
+                },
+                axisLabel: {
+                    textStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            dataZoom: [
                 {
-                    type : 'value'
+                    type: 'inside'
                 }
             ],
             series : [
+                { // For shadow
+                    type: 'bar',
+                    itemStyle: {
+                        normal: {color: 'rgba(0,0,0,0.05)'}
+                    },
+                    barGap:'-100%',
+                    barCategoryGap:'40%',
+                    animation: false,
+                    data: ['100%']
+                },
                 {
+                   // name:'总分',
                     clickable : true,
-                    name:'总分',
-                    stack: '总分',
-                    type:'bar'
+                    name:'所有任务的总得分情况',
+                    stack: '所有任务的总得分情况',
+                    type:'bar',
+                    itemStyle: {
+                        normal: {
+                          label: {  
+                                show: true,//是否展示  
+                                // position:bottom,
+                                textStyle: {  
+                                    fontWeight:'bolder',  
+                                    fontSize : '12',  
+                                    fontFamily : '微软雅黑',  
+                                }  
+                            } ,
+                            color: new echarts.graphic.LinearGradient(
+                                0, 0, 0, 1,
+                                [
+                                    {offset: 0, color: '#83bff6'},
+                                    {offset: 0.5, color: '#188df0'},
+                                    {offset: 1, color: '#188df0'}
+                                ]
+                            )
+                      },
+                      emphasis: {
+                          color: new echarts.graphic.LinearGradient(
+                              0, 0, 0, 1,
+                              [
+                                  {offset: 0, color: '#2378f7'},
+                                  {offset: 0.7, color: '#2378f7'},
+                                  {offset: 1, color: '#83bff6'}
+                              ]
+                          )
+                      }
+                  }
                 }
             ]   
       }
@@ -114,33 +195,61 @@ export default{
         url[i] = '&end_date='+this.query.range.end_date;
         i++;
       }
+            this.score.splice(0,this.score.length);
+      this.college.splice(0,this.college.length);
       this.getList(url.join(''));
     },
     getList(url){
+      this.score.splice(0,this.score.length);
+      this.college.splice(0,this.college.length);
       this.$http.get(url).then(res => {
         this.item = res.data;
         if(this.item.meta.count !== 0){
-          for(let x in res.data){
-          this.score.push(res.data[x].score)
+           this.score.splice(0,this.score.length);
+      this.college.splice(0,this.college.length);
+          for(let x in this.item){
+          this.score.push(this.item[x].score)
+          this.college.push(this.item[x].college_name)
           }
           this.score.pop();
-          this.option.series[0].data = this.score
+          this.option.series[1].data = this.score
+          this.college.pop();
+          this.option.xAxis[0].data = this.college
           // console.log(this.option);
           this.myChart = echarts.init(document.getElementById('main'));
           this.myChart.setOption(this.option)
           this.myChart.on('click', this.eConsole);
+          this.myChart.on('dblclick', this.eConsole2);
+          // this.myChart.on('click', function (params) {
+              
+          // });
         } else {
           this.myChart.dispose();
+                this.score.splice(0,this.score.length);
+      this.college.splice(0,this.college.length);
           document.getElementById('main').innerHTML = '没有数据';
         }
       })
     },
     eConsole(param) {    
+        // if (typeof param.seriesIndex == 'undefined') {    
+        //     return;    
+        // }    
+        if (param.type == 'click') {
+          this.myChart.dispatchAction({
+                  type: 'dataZoom',
+                  startValue: this.college[Math.max(param.dataIndex -this.zoomSize / 2, 0)],
+                  endValue: this.college[Math.min(param.dataIndex + this.zoomSize / 2, this.score.length - 1)]
+              });
+          
+        }    
+    },
+    eConsole2(param) {    
         if (typeof param.seriesIndex == 'undefined') {    
             return;    
         }    
-        if (param.type == 'click') {
-          this.$router.push({name: 'char_table', params: {id: param.dataIndex+1}});
+        if (param.type == 'dblclick') {
+           this.$router.push({name: 'char_table', params: {id: param.dataIndex+1}});
         }    
     },
     getschoolYear(){
@@ -181,6 +290,8 @@ export default{
             url[i] = '&end_date='+this.schoolYear[z].end_time;
           }
         }
+              this.score.splice(0,this.score.length);
+      this.college.splice(0,this.college.length);
         this.getList(url.join(''));
       },
     getMode(){
@@ -194,6 +305,8 @@ export default{
             url[i] = '&end_date='+this.semester[z].end_time;
           }
         }
+              this.score.splice(0,this.score.length);
+      this.college.splice(0,this.college.length);
         this.getList(url.join(''));
     }
   }
@@ -203,7 +316,7 @@ export default{
 <style scoped>
 	#main{
     width:100%;
-    min-height:400px;
+    min-height:450px;
     margin-top:20px;
     margin-bottom:20px;
   }
