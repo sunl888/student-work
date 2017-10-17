@@ -37,7 +37,7 @@ class SubmitTaskRequest extends FormRequest
         return [
             'assess_id.required' => '考核等级必须填写.',
             'assess_id.exists' => '该等级不存在.',
-            'quality.max' => '完成质量最多140个字符.',
+            'quality.max' => '完成情况最多140个字符.',
             'remark.max' => '备注最多140个字符.',
             'delay.max' => '推迟理由最多140个字符.',
             'status.date' => '请填写正确的日期.'
