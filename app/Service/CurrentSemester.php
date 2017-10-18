@@ -27,7 +27,7 @@ trait CurrentSemester
 
     public function scopeCurrentSemester($query)
     {
-        $current_Semester = app(SemestersRepository::class)->where(['checked'=>1])->first();
+        $current_Semester = app(SemestersRepository::class)->where(['checked' => 1])->first();
         return $query->range($current_Semester->start_time, $current_Semester->end_time);
     }
 

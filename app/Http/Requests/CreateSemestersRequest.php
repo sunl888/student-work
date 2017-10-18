@@ -25,8 +25,8 @@ class CreateSemestersRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
+            'start_time' => 'required|date',
+            'end_time' => 'required|date',
             'parent_id' => 'exists:semesters,id',
             'checked' => 'nullable|boolean'
         ];
@@ -37,7 +37,8 @@ class CreateSemestersRequest extends FormRequest
         return [
             '*.required' => ':attribute 必须要填写',
             'parent_id.exists' => '该学年不存在.',
-            'checked.boolean' => '类型不匹配.'
+            'checked.boolean' => '类型不匹配.',
+            '*.date' => '请填写正确的日期'
         ];
     }
 }

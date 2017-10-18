@@ -1,7 +1,7 @@
 <template>
     <div class="prese_data_panel">
         <h2 class="title">{{title}}</h2>
-        <div style="color:#666;font-size:12px;margin-top:-20px;margin-bottom:20px" >
+        <div style="color:#666;font-size:14px;color:red;margin-top:-20px;margin-bottom:20px" >
         <p>使用提示：有<i class="el-icon-star-on" style="color:orange;margin:0 3px"></i>标记的为当前学期</p>
             <p>点击非当前学期后的<i style="color:#13CE66;margin:0 3px" class="el-icon-check"></i>按钮可以将此学期设置为当前学期哦</p>
         </div>
@@ -200,8 +200,8 @@
                 } else {
                         this.$http.post('create_' + this.url, {
                         title: this.inputTitle,
-                        start_time:this.range[2].start_time,
-                        end_time: this.range[2].end_time
+                        start_time:this.range[2].start_time.trim(),
+                        end_time: this.range[2].end_time.trim()
                         // parent_id: this.temp,
                         // checked: this.currentSemester
                         }).then(res => {

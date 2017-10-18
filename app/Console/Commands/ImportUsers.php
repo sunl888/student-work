@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Models\College;
 use App\Models\Role;
 use App\Models\User;
-use App\Repositories\CollegeRepository;
 use Illuminate\Console\Command;
 use Maatwebsite\Excel\Facades\Excel;
 
