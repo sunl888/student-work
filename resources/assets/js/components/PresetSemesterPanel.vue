@@ -94,7 +94,9 @@
             },
             // 更新工作类型
             update (newVal, id, num) {
+
                 if(num === 1) {
+                                   
                     this.$http.post('update_' + this.url + '/' + id, {
                         title: newVal,
                     }).then(res => {
@@ -112,15 +114,18 @@
                                                          
                           })
                 } else {
-                	newVal = newVal.split('~');
+
+                	let tempNewVal = new Array();
+                    tempNewVal = newVal.split(' - ');
+                          console.log(tempNewVal)           
         //         	this.range = this.range.toLocaleString().split(',')
 		    		// this.range.push({
 		    		//    start_time: (this.range[0] || '').substr(0,(this.range[0] || '').indexOf(' ')),
 		    		//    end_time: (this.range[1] || '').substr(0,(this.range[1] || '').indexOf(' '))
 		    		// })
                     this.$http.post('update_' + this.url + '/' + id, {
-	                    start_time:newVal[0],
-	                    end_time:newVal[1]
+	                    start_time:tempNewVal[0],
+	                    end_time:tempNewVal[1]
                     }).then(res => {
                         this.$message({
                             message: '修改成功',
