@@ -25,8 +25,8 @@ class UpdateSemestersRequest extends FormRequest
     {
         return [
             'title' => 'nullable',
-            'start_time' => 'nullable',
-            'end_time' => 'nullable',
+            'start_time' => 'nullable|date',
+            'end_time' => 'nullable|date',
             'checked' => 'nullable|boolean',
         ];
     }
@@ -34,7 +34,7 @@ class UpdateSemestersRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            '*.date' => '请填写正确的日期'
         ];
     }
 }

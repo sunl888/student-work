@@ -38,7 +38,7 @@ class SemestersRepository extends Repository
 
     public function setChecked($data)
     {
-        if (isset($data['checked']) && $data['checked'] ==1) {
+        if (isset($data['checked']) && $data['checked'] == 1) {
             // 将所有的checked全部置为 0
             $this->model->update(['checked' => 0]);
         }

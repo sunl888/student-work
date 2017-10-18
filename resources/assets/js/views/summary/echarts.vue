@@ -65,18 +65,22 @@ export default{
             grid: {
                 left: '3%',
                 right: '4%',
-                // bottom: '%',
-                containLabel: true
+                 bottom: '40%',
+//                containLabel: true
             },
             xAxis : [
                 {
                     clickable : true,
                     type : 'category',
                     axisLabel:{  
-                        interval:'auto',  
-                        // rotate:-45,//倾斜度 -90 至 90 默认为0  
+                        interval:0,
+                        formatter:function(value)
+                        {
+                            return value.split("").join("\n");
+                        },
+                        //rotate:45,//倾斜度 -90 至 90 默认为0
                         margin:2, 
-                        inside: true, 
+//                        inside: true,
                         textStyle:{  
                             fontWeight:"bolder",  
                             color:"#444",
@@ -138,10 +142,11 @@ export default{
                         normal: {
                           label: {  
                                 show: true,//是否展示  
-                                // position:bottom,
+                                 position:'top',
                                 textStyle: {  
                                     fontWeight:'bolder',  
-                                    fontSize : '12',  
+                                    fontSize : '12',
+                                    color:'red',
                                     fontFamily : '微软雅黑',  
                                 }  
                             } ,
@@ -316,7 +321,7 @@ export default{
 <style scoped>
 	#main{
     width:100%;
-    min-height:450px;
+    min-height:850px;
     margin-top:20px;
     margin-bottom:20px;
   }
