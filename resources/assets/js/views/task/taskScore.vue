@@ -110,7 +110,7 @@
                             </div>
                         </el-form-item>
                         <el-form-item prop="access_id"  label="考核打分">
-                            <el-tag :type="color">{{taskPro.assess ? taskPro.assess.title : ''}}</el-tag>
+                            <el-tag style="font-size: 15px;" size="medium" :type="color">{{taskPro.assess ? taskPro.assess.title : ''}}</el-tag>
                         </el-form-item>
                         <el-form-item label='备注'>
                             <p>{{taskPro.remark}}</p>

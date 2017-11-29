@@ -4,7 +4,7 @@
       <div class="left el-col-18 el-col-offset-1">
         <!--表单-->
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="工作类型" prop="work_type_id">
+          <el-form-item label="任务类型" prop="work_type_id">
             <el-select v-model="ruleForm.work_type_id" class="optionBox">
               <el-option
                 v-for="item in workTypeList"

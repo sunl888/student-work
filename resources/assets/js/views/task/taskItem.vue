@@ -7,7 +7,7 @@
                 </div>
                 <div class="text item">
                     <div>发布日期：<span>{{ item.created_at }}</span></div>
-                    <div>工作类型：<span>{{ item.work_type }}</span></div>
+                    <div>任务类型：<span>{{ item.work_type }}</span></div>
                     <div> 对口科室：<span>{{ item.department }}</span></div>
                     <div>截止日期：<span>{{ item.end_time }}</span></div>
                     <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>

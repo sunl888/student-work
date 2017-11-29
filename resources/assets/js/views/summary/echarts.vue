@@ -84,7 +84,7 @@ export default{
                         textStyle:{  
                             fontWeight:"bolder",  
                             color:"#444",
-                            fontSize: 10
+                            fontSize: 14
                         }
                     },
                     // itemStyle:{
@@ -145,7 +145,7 @@ export default{
                                  position:'top',
                                 textStyle: {  
                                     fontWeight:'bolder',  
-                                    fontSize : '12',
+                                    fontSize : '14',
                                     color:'red',
                                     fontFamily : '微软雅黑',  
                                 }  

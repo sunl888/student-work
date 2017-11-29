@@ -1,7 +1,7 @@
 <template>
   <div class='loginBox el-col-24'>
     <div class='login el-col-4'>
-      <h3>欢迎使用学生处管理系统</h3>
+      <h3>淮南师范学院学生事务进程考核系统</h3>
       <div class="form">
           <p>{{wrong}}</p>
         <el-row>
@@ -10,7 +10,11 @@
                 <el-input v-model="userName" placeholder="请输入用户名" size="small"></el-input>
             </el-col>
             <el-col :span="20" :offset="2">
-              <el-input @keyup.enter.native="login()" v-model="userPsw" type="password" placeholder="请输入密码" size="small"></el-input>
+              <el-input v-model="userPsw" type="password" placeholder="请输入密码" size="small"></el-input>
+            </el-col>
+            <el-col class="vaild_code" :span="20" :offset="2">
+              <img src="../assets/images/vaildCode.png" alt="">
+              <input class="vaild_code_input" @keyup.enter.native="login()" v-model="userCode" type="text" placeholder="请输入验证码" size="small"></input>
             </el-col>
           </el-form>
           <el-col :span="12" :offset="6">
@@ -28,6 +32,7 @@
           return {
               userName: 'xsc',
               userPsw: 'xsc',
+              userCode: '',
               wrong: '',
               isLoading: false
           }
@@ -62,14 +67,12 @@
 <style scoped>
 .login{
   position:absolute;
-  margin:auto;
-  top:0;
-  bottom:100px;
-  left:0;
-  right:0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   min-width:400px;
   overflow:hidden;
-  height:280px;
+  padding-bottom: 20px;
   background:white;
   border-radius: 10px;
 }
@@ -78,7 +81,7 @@
 }
 .login h3{
   margin: 40px 0;
-  font-size: 22px;
+  font-size: 18px;
   color: #444;
 }
 .el-col{
@@ -109,4 +112,29 @@
   -moz-animation: animatedBackground 40s linear infinite;
   -webkit-animation: animatedBackground 40s linear infinite;
 }
+.vaild_code{
+  height: 40px;
+}
+.vaild_code img{
+  height: 100%;
+  float: left;
+  width: 29%;
+}
+.vaild_code_input{
+  box-sizing: border-box;
+  float: left;
+  width: 70%;
+  border: none;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border: 1px solid #bfcbd9;
+  border-left: none;
+  outline: none;
+  padding-left:10px;
+  height: 40px;
+}
+  .vaild_code_input:focus{
+    border: 1px solid #20a0ff;
+    border-left: none;
+  }
 </style>

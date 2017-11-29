@@ -9,7 +9,7 @@
                 <!--任务详情-->
                 <div class="text item">
                     <div>发布日期：<span>{{ item.created_at }}</span></div>
-                    <div>工作类型：<span>{{ item.work_type }}</span></div>
+                    <div>任务类型：<span>{{ item.work_type }}</span></div>
                     <div> 对口科室：<span>{{ item.department }}</span></div>
                     <div>截止日期：<span>{{ item.end_time }}</span></div>
                     <div>责任人：<span>{{leading}}</span></div>
@@ -22,7 +22,7 @@
                              <div v-if="taskPro.assess">
                              <h4 style="margin-bottom:10px">评分结果</h4>
                         <p class="scoreRes">{{'完成情况：&emsp;' + taskPro.quality}}</p>
-                        <p class="scoreRes">考核等级：&emsp;<el-tag :type="color">{{taskPro.assess.title}}</el-tag></p>
+                        <p class="scoreRes">考核等级：&emsp;<el-tag style="font-size: 15px;" :type="color">{{taskPro.assess.title}}</el-tag></p>
                         
                         <p class="scoreRes">{{'备&emsp;&emsp;注：&emsp;' + taskPro.remark}}</p>
                     </div>

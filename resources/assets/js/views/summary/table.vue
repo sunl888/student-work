@@ -23,7 +23,7 @@
                 :label="item.title"
                 :value="item.id"></el-option>
     </el-select>
-    <el-select class="querySelect" clearable v-model="query.work_type_id" @change="getTaskPro()" placeholder="按工作类型汇总任务">
+    <el-select class="querySelect" clearable v-model="query.work_type_id" @change="getTaskPro()" placeholder="按任务类型汇总任务">
         <el-option
                 v-for="item in workTypeList"
                 :key="item.id"
@@ -59,7 +59,7 @@
           </el-table-column>
           <el-table-column
             prop="work_type"
-            label="工作类型"
+            label="任务类型"
             width="180">
           </el-table-column>
           <el-table-column

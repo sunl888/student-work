@@ -8,36 +8,41 @@ s<template>
                 </div>
                 <!--任务详情-->
                 <div class="text item">
-                    <div>发布日期：<span>{{ item.created_at }}</span></div>
-                    <div style="display:block;margin-top:10px;">参会人员：<span>{{leading}}</span></div>
+                    <div class="cahierProps">
+                        <span>会议日期：{{ item.created_at }}</span>
+                        <span>会议地点：{{ item.created_at }}</span>
+                    </div>
                     <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>
                 <div class="table">
+                    <h3 style="margin-bottom: 10px;color: #444;">会议出勤情况</h3>
                     <template>
                       <el-table
                         :data="absent"
                         stripe
+                        border
                         style="width: 100%">
                         <el-table-column
-                          prop="user.name"
-                          label="用户名（工号）"
+                          prop="name"
+                          label="应参会人员(工号)"
                           min-width="180">
                         </el-table-column>
                         <el-table-column
-                          prop="user.nickname"
-                          label="用户昵称"
+                          prop="nickname"
+                          label="应参会人员(昵称)"
                           min-width="180">
                         </el-table-column>
-                       <!--  <el-table-column
-                          prop="user.name"
-                          label="用户名（工号）"
-                          min-width="180">
-                        </el-table-column> -->
                         <el-table-column
-                          prop="assess.title"
-                          label="缺勤原因"
+                          inline-template
+                          label="出勤情况"
                           min-width="180">
+                            <span>{{row.status ? '缺勤' : '出勤'}}</span>
                         </el-table-column>
+                          <el-table-column
+                                  prop="status"
+                                  label="缺勤原因"
+                                  min-width="180">
+                          </el-table-column>
                       </el-table>
                     </template>
                 </div>
@@ -64,19 +69,14 @@ s<template>
             loadItem () {
                     this.$http.get('metting/' + this.$route.params.id).then(res => {
                         this.item = res.data.data
-                        this.absent = this.item.absentees;
-                        let tempArr = new Array();
                         for(let i in this.item.users){
-                            tempArr.push({
-                                name: this.item.users[i].name,
-                                nickname: this.item.users[i].nickname
-                            })
-
+                            for(let j in this.item.absentees) {
+                                if (this.item.users[i].id === this.item.absentees[j].user_id) {
+                                    this.item.users[i].status = this.item.absentees[j].assess.title
+                                }
+                            }
                         }
-                        for(let j in tempArr){
-                            this.leading.push(tempArr[j].name + '-' +tempArr[j].nickname);
-                        }
-                        this.leading = this.leading.join('、');
+                        this.absent = this.item.users;
                     })
 
             }
@@ -197,6 +197,9 @@ s<template>
         font-weight:bold;
         transform: rotate(25deg);
         animation: play 0.5s ease;
+    }
+    .cahierProps span{
+        margin-right: 20px;
     }
     @keyframes play{
         from{

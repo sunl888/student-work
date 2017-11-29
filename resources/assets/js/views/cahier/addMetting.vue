@@ -7,6 +7,9 @@
           <el-form-item label="会议名称" prop="title">
              <el-input v-model="ruleForm.title" placeholder="请输入会议名称"></el-input>
           </el-form-item>
+            <el-form-item label="开会地点" prop="title">
+                <el-input v-model="ruleForm.place" placeholder="请输入开会地点"></el-input>
+            </el-form-item>
           <!--对口科室-->
           <el-form-item label="会议详情" prop="detail">
             <el-input v-model="ruleForm.detail" type="textarea" placeholder="请输入详细内容"></el-input>
@@ -54,9 +57,10 @@
            </el-form-item>
            <div v-if="isLate">
             <el-form-item label="缺勤人员" prop="late">
-            <el-checkbox-group v-model="late">
+            <el-checkbox-group v-model="late" v-if="attendPeo.length !== 0">
               <el-checkbox :disabled="value.status !== null" v-for="value in attendPeo" :label="value.key" :key="value.key">{{value.label}}</el-checkbox>
             </el-checkbox-group>
+                <p v-else>当前参会人员为空, 请先选择参会人员</p>
           </el-form-item>
           <el-form-item label="缺勤情况" prop="late_id" >
             <el-col :pull="6">
@@ -102,6 +106,7 @@
         temp:[],
         ruleForm: {
           title: '',
+          place: '',
           detail: '',
           people: [],
           time: '',
@@ -113,6 +118,9 @@
         rules: {
           title: [
             { type: 'string', required: true, message: '请填写会议名称', trigger: 'change' }
+          ],
+          place: [
+            { type: 'string', required: true, message: '请填写会议地点', trigger: 'change' }
           ],
           detail: [
             { type: 'string', required: true, message: '请填写会议内容', trigger: 'change' }
@@ -201,9 +209,10 @@
        // }
       },
       allAttend(){
+        this.attendPeo.splice(0, this.attendPeo.length);
         this.isHas = false;
         if(this.ruleForm.people.length === this.allUsers.length){
-          alert('确认成功！参会人员为全体成员，请继续填写表单');
+          this.$message.success('确认成功！参会人员为全体成员，请继续填写表单');
           for(let i in this.allUsers){
             this.attendPeo.push({
               label: this.allUsers[i].label,
@@ -211,8 +220,12 @@
               status: null
             })
           }
-        } else {
-          alert('确认成功！已选参会人员共' + this.ruleForm.people.length + '人，请继续填写表单')
+        } else if(this.ruleForm.people.length === 0){
+            this.$message.warning('当前参会人员为空，请先选择参会人员！');
+            return;
+        }else{
+            this.attendPeo.splice(0, this.attendPeo.length);
+          this.$message.success('确认成功！已选参会人员共' + this.ruleForm.people.length + '人，请继续填写表单')
           for(let x = 0; x < this.ruleForm.people.length;x++){
             for(let y=0;y < this.allUsers.length;y++){
               if(this.ruleForm.people[x] === this.allUsers[y].key){
@@ -224,6 +237,10 @@
               }
             }
           }
+            if(this.attendPeo.length === 0){
+                this.$message.warning('当前未选择参会人员，请先选择参会人员！');
+                return;
+            }
         }  
       },
       createTask (formName) {

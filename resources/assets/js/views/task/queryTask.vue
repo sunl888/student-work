@@ -21,7 +21,7 @@
               </el-table-column>
               <el-table-column
                 prop="work_type"
-                label="工作类型"
+                label="任务类型"
                 width="180">
               </el-table-column>
               <el-table-column
