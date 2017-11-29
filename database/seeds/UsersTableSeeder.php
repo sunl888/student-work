@@ -14,15 +14,15 @@ class   UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'name' => 'xsc',
-                'password' => bcrypt('xsc'),
+                'name' => 'admin',
+                'password' => bcrypt('admin2017'),
                 'email' => app(Faker\Generator::class)->freeEmail,
                 'college_id' => null,
                 'picture' => 'images/picture.jpg',//app(Faker\Generator::class)->imageUrl(),
                 'gender' => app(Faker\Generator::class)->boolean,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
-            ], [
+            ]/* , [
                 'name' => 'jsj',
                 'password' => bcrypt('jsj'),
                 'email' => app(Faker\Generator::class)->freeEmail,
@@ -40,7 +40,7 @@ class   UsersTableSeeder extends Seeder
                 'gender' => app(Faker\Generator::class)->boolean,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
-            ]
+            ] */
         ]);
 
     }
