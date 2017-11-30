@@ -222,7 +222,7 @@ import CurrencyListPage from '../../components/CurrencyListPage'
                     type: 'warning'
                 }).then(() => {
                     this.$http.get('audit_task/' + this.$route.params.id).then(res => {
-                        this.$router.push({name: 'task_manage'})
+                        this.$router.back();
                         this.$message({
                             type: 'success',
                             message: '审核成功!'
