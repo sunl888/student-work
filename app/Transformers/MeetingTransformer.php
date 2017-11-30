@@ -13,6 +13,8 @@ class MeetingTransformer extends Transformer
             'title' => $meeting->title,
             'users' => get_lead_official($meeting->users),
             'detail' => $meeting->detail,
+            'address' =>$meeting->address,
+            'start_time' =>$meeting->start_time,
             'absentees' => get_absentees($meeting->id),
             'created_at' => $meeting->created_at->toDateTimeString(),
             'updated_at' => $meeting->updated_at->toDateTimeString()
