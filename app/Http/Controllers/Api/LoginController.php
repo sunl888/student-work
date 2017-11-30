@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Exceptions\LoginFailed;
+use Cache;
 use HttpException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Cache;
 
 class LoginController extends BaseController
 {
@@ -78,9 +78,11 @@ class LoginController extends BaseController
         );
         throw new HttpException(423, "请在 $seconds 秒后重试。");
     }
+
     public function login(Request $request)
     {
         $this->validateLogin($request);
+
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
             return $this->sendLockoutResponse($request);
@@ -99,9 +101,6 @@ class LoginController extends BaseController
         if ($this->attemptLogin($request)) {
             return $this->sendLoginResponse($request);
         }
-        // If the login attempt was unsuccessful we will increment the number of attempts
-        // to login and redirect the user back to the login form. Of course, when this
-        // user surpasses their maximum number of attempts they will get locked out.
         $this->incrementLoginAttempts($request);
         return $this->sendFailedLoginResponse($request);
     }
@@ -140,8 +139,14 @@ class LoginController extends BaseController
     protected function validateLogin(Request $request)
     {
         $this->validate($request, [
-            $this->username() => ['required', 'string'],
-            'password' => ['required', 'string'],
+            $this->username() => 'bail|required|string',
+            'password' => 'bail|required|string|min:5|max:20|alpha_num',
+        ], [
+            '*.required' => ':attribute 字段必须填写',
+            '*.string' => ':attribute 字段必须是字符型',
+            '*.min' => ':attribute 字段最少5个字符',
+            '*.max' => ':attribute 字段最多20个字符',
+            '*.alpha_num' => ':attribute 字段必须是字符和密码的组合',
         ]);
     }
 
@@ -176,5 +181,21 @@ class LoginController extends BaseController
     protected function sendFailedLoginResponse(Request $request)
     {
         throw new LoginFailed('登录失败！请检查用户名和密码是否输入正确。');
+    }
+
+    /**
+     * 重写验证逻辑
+     * @param Request $request
+     * @param array $rules
+     * @param array $messages
+     * @param array $customAttributes
+     */
+    public function validate(Request $request, array $rules, array $messages = [], array $customAttributes = [])
+    {
+        $validator = $this->getValidationFactory()->make($request->all(), $rules, $messages, $customAttributes);
+
+        if ($validator->fails()) {
+            throw new LoginFailed($validator->errors()->first(), 422);
+        }
     }
 }
