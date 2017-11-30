@@ -30,7 +30,7 @@ class UserCreateRequest extends FormRequest
             'college_id' => 'nullable|exists:colleges,id',// 学院id
             'picture' => 'nullable',// 头像
             'gender' => 'required|boolean', // 性别
-            'password' => 'required|confirmed',// 密码
+            'password' => 'required|confirmed|min:5|max:20|alpha_num|regex:/^(?!([A-Za-z]+|d\d+)$)[A-Za-z\d]$/',// 密码
             'role_id' => 'required|exists:roles,id', // 角色id
         ];
     }
@@ -48,6 +48,10 @@ class UserCreateRequest extends FormRequest
             'gender.boolean' => '性别必须是bool型(true:女 false:男)',
             'password.required' => '密码必须填写',
             'password.confirmed' => '两次密码不一致(注意传password_confirmation字段)',
+            'password.min' =>'密码最少5位',
+            'password.max' =>'密码最多20位',
+            'password.alpha_num' =>'密码必须是字母或数字',
+            'password.regex' =>'密码必须是字母和数字的组合',
             'role_id.required' => '角色必须选择',
             'role_id.exists' => '该角色不存在',
         ];

@@ -15,6 +15,7 @@ class   UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'name' => 'admin',
+                'nickname' => 'admin',
                 'password' => bcrypt('admin2017'),
                 'email' => app(Faker\Generator::class)->freeEmail,
                 'college_id' => null,
