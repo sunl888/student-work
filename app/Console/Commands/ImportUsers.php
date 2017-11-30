@@ -44,7 +44,7 @@ class ImportUsers extends Command
         $option = $this->option('admin');
         if ($option) {
             $users = [
-                [
+                /*[
                     'name' => 'xsc',
                     'nickname' => 'xsc',
                     'gender' => 0,
@@ -52,7 +52,7 @@ class ImportUsers extends Command
                     'email' => app(\Faker\Generator::class)->freeEmail,
                     'picture' => 'images/picture.jpg',
                     'college_id' => null,
-                ], [
+                ],*/ [
                     'name' => 'admin',
                     'nickname' => 'admin',
                     'gender' => 1,

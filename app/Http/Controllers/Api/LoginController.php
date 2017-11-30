@@ -7,7 +7,6 @@ use HttpException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Cache;
 
 class LoginController extends BaseController
@@ -25,7 +24,7 @@ class LoginController extends BaseController
     }
     // 验证码
     public function captcha(){
-        return captcha_src();
+        return captcha_src('login');
     }
     public function getUser()
     {
