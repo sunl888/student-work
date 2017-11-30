@@ -13,6 +13,7 @@ class MeetingController extends BaseController
     public function store(CreateMeetingRequest $request)
     {
         $data = $request->all();
+        $data['start_time'] = \Carbon\Carbon::createFromTimestamp(strtotime($data['start_time']));
         $meeting = Meeting::create($data);
         // 判断哪些人缺勤，分别为他们创建缺勤记录
         if (isset($data['absent_cause'])) {

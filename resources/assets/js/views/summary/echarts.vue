@@ -60,7 +60,13 @@ export default{
                 }
             },
             legend: {
-                data:['所有任务的总得分情况']
+                data:['所有任务的总得分情况'],
+                textStyle:{  
+                            fontWeight:"bolder",  
+                            color:"#000",
+                            
+                            fontSize: 18
+                        }
             },
             grid: {
                 left: '3%',
@@ -79,12 +85,13 @@ export default{
                             return value.split("").join("\n");
                         },
                         //rotate:45,//倾斜度 -90 至 90 默认为0
-                        margin:2, 
+                        margin:10, 
 //                        inside: true,
                         textStyle:{  
                             fontWeight:"bolder",  
-                            color:"#444",
-                            fontSize: 14
+                            color:"#000",
+                            
+                            fontSize: 18
                         }
                     },
                     // itemStyle:{
@@ -145,7 +152,7 @@ export default{
                                  position:'top',
                                 textStyle: {  
                                     fontWeight:'bolder',  
-                                    fontSize : '14',
+                                    fontSize : '16',
                                     color:'red',
                                     fontFamily : '微软雅黑',  
                                 }  

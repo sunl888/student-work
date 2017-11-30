@@ -24,11 +24,14 @@
                     
                     <!--性别-->
                     <el-form-item label="性别" prop="gender">
-                        <el-radio v-for="item in genders" :key=item.id class="radio" v-model="me.gender" :label=item.gender>{{item.gender_str}}</el-radio>
+                        <div style="margin-left: 25px;">
+                         <el-radio v-for="item in genders" :key=item.id class="radio" v-model="me.gender" :label="item.gender">{{item.gender_str}}</el-radio>
+                        </div>
                     </el-form-item>
                     <!--上传头像-->
                     <el-form-item label="上传头像" prop="picture">
                         <el-upload
+                         style="margin-left: 25px;"
                                 class="upload-demo"
                                 action="api/upload"
                                 :on-success="handleSuccess"
@@ -45,12 +48,12 @@
                     <!--是否修改密码按钮-->
                     <button class="isPass el-icon-arrow-down" v-if="!isPass" @click="isPass = true">&emsp;修改密码</button>
                     <!--密码-->
-                    <el-form-item label="密码" prop="password" v-if="isPass">
-                        <el-input v-model="me.password" type="password" placeholder="请输入密码"></el-input>
+                    <el-form-item label="新密码" prop="password" v-if="isPass">
+                        <el-input v-model="me.password" type="password" placeholder="请输入新密码"></el-input>
                     </el-form-item>
                     <!--确认密码-->
-                    <el-form-item label="确认密码" prop="password_confirmation" v-if="isPass">
-                        <el-input v-model="me.password_confirmation" type="password" placeholder="请输入确认密码"></el-input>
+                    <el-form-item label="确认新密码" prop="password_confirmation" v-if="isPass">
+                        <el-input v-model="me.password_confirmation" type="password" placeholder="请输入新的确认密码"></el-input>
                     </el-form-item>
 
                     <!--按钮组-->

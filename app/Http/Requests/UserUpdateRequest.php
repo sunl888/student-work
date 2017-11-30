@@ -32,7 +32,7 @@ class UserUpdateRequest extends FormRequest
             'college_id' => 'nullable',// 学院id
             'picture' => 'nullable',// 头像
             'gender' => 'nullable|boolean', // 性别
-            'password' => 'nullable|confirmed|min:5|max:20|alpha_num|regex:/^(?!([A-Za-z]+|d\d+)$)[A-Za-z\d]$/',// 密码
+            'password' => 'bail|nullable|confirmed|min:5|max:20|alpha_num|regex:/^(?!([A-Za-z]+|d\d+)$)[A-Za-z\d]$/',// 密码
             'role_id' => 'nullable', // 角色id
         ];
     }

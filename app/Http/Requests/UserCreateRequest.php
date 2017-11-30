@@ -30,7 +30,7 @@ class UserCreateRequest extends FormRequest
             'college_id' => 'nullable|exists:colleges,id',// 学院id
             'picture' => 'nullable',// 头像
             'gender' => 'required|boolean', // 性别
-            'password' => 'required|confirmed|min:5|max:20|alpha_num|regex:/^(?!([A-Za-z]+|d\d+)$)[A-Za-z\d]$/',// 密码
+            'password' => 'bail|required|confirmed|min:5|max:20|alpha_num|regex:/^[a-zA-Z0-9]{6,10}$/',// 密码
             'role_id' => 'required|exists:roles,id', // 角色id
         ];
     }

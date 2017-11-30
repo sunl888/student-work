@@ -35,11 +35,14 @@
                     </el-form-item>
                     <!--性别-->
                     <el-form-item label="性别" prop="gender">
-                        <el-radio v-for="item in genders" :key=item.id class="radio" v-model="ruleForm.gender" :label="item.gender">{{item.gender_str}}</el-radio>
+                        <div style="margin-left: 25px;">
+                            <el-radio v-for="item in genders" :key=item.id class="radio" v-model="ruleForm.gender" :label="item.gender">{{item.gender_str}}</el-radio>
+                        </div>
                     </el-form-item>
                     <!--上传头像-->
                     <el-form-item label="上传头像" prop="picture">
                         <el-upload
+                        style="margin-left: 25px;" 
                                 class="upload-demo"
                                 action="api/upload"
                                 :on-success="handleSuccess"
@@ -61,7 +64,7 @@
                         <el-input v-model="ruleForm.password" type="password" placeholder="请输入新密码"></el-input>
                     </el-form-item>
                     <!--确认密码-->
-                    <el-form-item label="确认密码" prop="password_confirmation" v-if="isPass">
+                    <el-form-item label="确认新密码" prop="password_confirmation" v-if="isPass">
                         <el-input v-model="ruleForm.password_confirmation" type="password" placeholder="请输入新的确认密码"></el-input>
                     </el-form-item>
 

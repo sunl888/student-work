@@ -116,7 +116,7 @@
                     this.loading = true;
                     this.$http.get(this.queryName, {
                         params: {
-                            limit: window.localStorage.perPage,
+                            limit: this.perPage,
                             page
                         }
                     }).then(res => {

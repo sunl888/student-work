@@ -7,7 +7,7 @@
           <el-form-item label="会议名称" prop="title">
              <el-input v-model="ruleForm.title" placeholder="请输入会议名称"></el-input>
           </el-form-item>
-            <el-form-item label="开会地点" prop="title">
+            <el-form-item label="开会地点" prop="place">
                 <el-input v-model="ruleForm.place" placeholder="请输入开会地点"></el-input>
             </el-form-item>
           <!--对口科室-->
@@ -20,8 +20,7 @@
               class="el-col-22"
               v-model="ruleForm.time"
               type="date"
-              placeholder="选择日期"
-              >
+              placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
           <!--完成时间-->
@@ -173,17 +172,7 @@
         }
     },
     methods: {
-      // removeTag(x){
-      //   for(let y in this.tags){
-      //     if(this.tags[y] === x){
-      //       this.tags.splice(y,1);
-      //       this.ruleForm.people.splice(y,1);
-      //     }
-      //   }
-      // },
       changeUser(){
-        // this.absent_cause.splice(0,this.absent_cause.length);
-
         for(let i in this.late){
           this.absent_cause.push({
             assess_id: this.ruleForm.late_id,
@@ -198,15 +187,6 @@
           }
          }
         }
-
-        // console.log(this.absent_cause);
-        // for(let x in this.late){
-        //  for(let y in this.attendPeo){
-        //   if(this.late[x] === this.attendPeo[y].key){
-        //      this.attendPeo.splice(y,1);   
-        //   }
-        //  }
-       // }
       },
       allAttend(){
         this.attendPeo.splice(0, this.attendPeo.length);
@@ -256,6 +236,7 @@
                 title: this.ruleForm.title,
                 detail: this.ruleForm.detail,
                 users: tempPeple,
+                address: this.ruleForm.place,
                 start_time: this.ruleForm.time,
                 absent_cause:this.absent_cause
             }).then(res => {

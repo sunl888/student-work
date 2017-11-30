@@ -9,8 +9,8 @@ s<template>
                 <!--任务详情-->
                 <div class="text item">
                     <div class="cahierProps">
-                        <span>会议日期：{{ item.created_at }}</span>
-                        <span>会议地点：{{ item.created_at }}</span>
+                        <span>开会日期：{{ item.start_time | filterTime}}</span>
+                        <span>会议地点：{{ item.address }}</span>
                     </div>
                     <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>
@@ -25,7 +25,7 @@ s<template>
                         <el-table-column
                           prop="name"
                           label="应参会人员(工号)"
-                          min-width="180">
+                          min-width="80">
                         </el-table-column>
                         <el-table-column
                           prop="nickname"
@@ -35,7 +35,7 @@ s<template>
                         <el-table-column
                           inline-template
                           label="出勤情况"
-                          min-width="180">
+                          min-width="100">
                             <span>{{row.status ? '缺勤' : '出勤'}}</span>
                         </el-table-column>
                           <el-table-column
@@ -62,6 +62,11 @@ s<template>
         computed: {
             me () {
                 return this.$store.state.me ? this.$store.state.me : {};
+            }
+        },
+        filters: {
+            filterTime (val) {
+                return (val || '').split(' ')[0];
             }
         },
         methods: {

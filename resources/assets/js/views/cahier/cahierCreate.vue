@@ -13,16 +13,24 @@
                        border
                       style="width: 100%">
                 <el-table-column
-                        prop="created_at"
                         sortable
+                        inline-template
                         label="发布日期"
                         width="200">
+                        <span>{{row.start_time | filterTime}}</span>
                 </el-table-column>
                 <el-table-column
                         prop="title"
                         sortable
-                        min-width="400"
-                        label="任务名称"
+                        min-width="150"
+                        label="会议名称"
+                >
+                </el-table-column>
+                <el-table-column
+                        prop="address"
+                        sortable
+                        min-width="100"
+                        label="会议地点"
                 >
                 </el-table-column>
                 <el-table-column
@@ -65,6 +73,11 @@
         computed: {
             me () {
                 return this.$store.state.me ? this.$store.state.me : {};
+            }
+        },
+        filters: {
+            filterTime (val) {
+                return (val || '').split(' ')[0];
             }
         },
         methods: {

@@ -12,15 +12,9 @@
                                     border
                                     style="width: 100%">
                                 <el-table-column
-                                        prop="created_at"
-                                        sortable
-                                        label="创建日期"
-                                        width="120">
-                                </el-table-column>
-                                <el-table-column
                                         inline-template
                                         sortable
-                                        width="70px"
+                                        width="100px"
                                         label="头像">
                                     <img style="border-radius:50%;width:30px;height:30px" v-if="row.picture!==null" :src="row.picture" alt="">
                                     <img style="border-radius:50%;width:30px;height:30px;" v-else src="../../assets/images/picture.jpg" alt="">
@@ -28,6 +22,7 @@
                                 <el-table-column
                                         prop="name"
                                         sortable
+                                        min-width="100"
                                         label="用户名（工号）">
                                 </el-table-column>
                                 <el-table-column
@@ -39,7 +34,7 @@
                                 <el-table-column
                                         prop="gender_str"
                                         sortable
-                                        width="70px"
+                                        width="90px"
                                         label="性别">
                                 </el-table-column>
                                 <el-table-column
@@ -54,12 +49,6 @@
                                         sortable
                                 >
                                     <span>{{row.role_dispname}}</span>
-                                </el-table-column>
-                                <el-table-column
-                                        prop="email"
-                                        label="邮箱"
-                                        sortable
-                                >
                                 </el-table-column>
                                 <el-table-column
                                         width="200"
