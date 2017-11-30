@@ -44,7 +44,7 @@ class ImportUsers extends Command
         $option = $this->option('admin');
         if ($option) {
             $users = [
-                [
+                /*[
                     'name' => 'xsc',
                     'nickname' => 'xsc',
                     'gender' => 0,
@@ -52,7 +52,7 @@ class ImportUsers extends Command
                     'email' => app(\Faker\Generator::class)->freeEmail,
                     'picture' => 'images/picture.jpg',
                     'college_id' => null,
-                ], [
+                ],*/ [
                     'name' => 'admin',
                     'nickname' => 'admin',
                     'gender' => 1,
@@ -81,7 +81,7 @@ class ImportUsers extends Command
                     $user['name'] = (int)$value[0]; //工号
                     $user['nickname'] = $value[1];// 姓名
                     $user['gender'] = $value[2] == '男' ? 0 : 1;// 性别
-                    $user['password'] = bcrypt(trim($value[0]));// 密码
+                    $user['password'] = bcrypt(trim('hnnu'.$value[0]));// 密码
                     $user['email'] = app(\Faker\Generator::class)->freeEmail;// email
                     $user['picture'] = 'images/picture.jpg';//app(\Faker\Generator::class)->imageUrl(640, 480);// 头像
                     $user['college_id'] = College::where('title', $value[4])->first()->id;// 学院id

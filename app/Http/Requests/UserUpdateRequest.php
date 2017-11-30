@@ -32,7 +32,7 @@ class UserUpdateRequest extends FormRequest
             'college_id' => 'nullable',// 学院id
             'picture' => 'nullable',// 头像
             'gender' => 'nullable|boolean', // 性别
-            'password' => 'nullable|confirmed',// 密码
+            'password' => 'nullable|confirmed|min:5|max:20|alpha_num|regex:/^(?!([A-Za-z]+|d\d+)$)[A-Za-z\d]$/',// 密码
             'role_id' => 'nullable', // 角色id
         ];
     }
@@ -43,6 +43,10 @@ class UserUpdateRequest extends FormRequest
             //'name.unique' =>'用户名已存在',
             //'role_id.exists' =>'该角色不存在',
             'password.confirmed' => '两次密码不一致',
+            'password.min' =>'密码最少5位',
+            'password.max' =>'密码最多20位',
+            'password.alpha_num' =>'密码必须是字母或数字',
+            'password.regex' =>'密码必须是字母和数字的组合',
         ];
     }
 }

@@ -51,7 +51,7 @@ class CollegesSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
-                'title' => '外国语学院（大学外语教学部）',
+                'title' => '外国语学院',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -59,7 +59,7 @@ class CollegesSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
-                'title' => '体育学院（公共体育教学部）',
+                'title' => '体育学院',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -67,7 +67,7 @@ class CollegesSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
-                'title' => '音乐与舞蹈学院（少儿舞蹈研究中心）',
+                'title' => '音乐与舞蹈学院',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [

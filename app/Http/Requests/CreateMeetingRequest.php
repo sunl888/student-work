@@ -26,6 +26,7 @@ class CreateMeetingRequest extends FormRequest
         return [
             'title' => 'required|max:255',
             'detail' => 'required',
+            'address' => 'required',
             'users' => 'required|users',
             'absent_cause' => 'array',
             'start_time' => 'required|date',
