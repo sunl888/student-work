@@ -10,15 +10,15 @@
                 <el-input v-model="userName" placeholder="请输入用户名" size="small"></el-input>
             </el-col>
             <el-col :span="20" :offset="2">
-              <el-input v-model="userPsw" type="password" placeholder="请输入密码" size="small"></el-input>
+              <el-input v-model="userPsw" @keyup.enter.native="isVaildCode()" type="password" placeholder="请输入密码" size="small"></el-input>
             </el-col>
-            <el-col class="vaild_code" :span="20" :offset="2">
-              <img src="../assets/images/vaildCode.png" alt="">
-              <input class="vaild_code_input" @keyup.enter.native="login()" v-model="userCode" type="text" placeholder="请输入验证码" size="small"></input>
+            <el-col v-if="vaildCodeImg !== ''" class="vaild_code" :span="20" :offset="2">
+              <img title="点击更改验证码" @click="getVaildCode()" :src="vaildCodeImg" alt="">
+              <input class="vaild_code_input" @keyup.enter.native="isVaildCode()" v-model="userCode" type="text" placeholder="请输入验证码" size="small"></input>
             </el-col>
           </el-form>
           <el-col :span="12" :offset="6">
-            <el-button type="success" @click="login()" class="el-col-24" :loading="this.isLoading">登录</el-button>
+            <el-button type="success" @click="isVaildCode()" class="el-col-24" :loading="this.isLoading">登录</el-button>
           </el-col>
         </el-row>
       </div>
@@ -34,6 +34,7 @@
               userPsw: 'xsc',
               userCode: '',
               wrong: '',
+              vaildCodeImg: '',
               isLoading: false
           }
       },
@@ -42,25 +43,42 @@
         menus: state => state.menus
       }),
       methods: {
-          login() {
-              this.isLoading = true
-              this.$http.post('login', {
-                  name: this.userName,
-                  password: this.userPsw
-              }).then(res => {
-                  this.isLoading = false
-                  this.$router.push({name: 'home'})
-              }).catch(err => {
-                this.isLoading = false
-                for(let i in err.response.data.errors){
-                    this.$message({
-                      type: 'error',
-                      message: err.response.data.errors[i]
-                  })  
+        getVaildCode () {
+          this.$http.get('captcha').then(res => {
+            this.vaildCodeImg = res.data.src;
+          });
+        },
+        isVaildCode () {
+            this.$http.get('need_verification_code').then(res => {
+                if(res.data.need){
+                  this.getVaildCode();
+                  this.login();
+                } else {
+                  this.login();
                 }
-                                             
-              })
-          }
+            })
+
+        },
+        login() {
+            this.isLoading = true
+                this.$http.post('login', {
+                  name: this.userName,
+                  password: this.userPsw,
+                  captcha: this.userCode
+                }).then(res => {
+                    this.isLoading = false
+                    this.$router.push({name: 'home'})
+                }).catch(err => {
+                  this.isLoading = false;
+                  for(let i in err.response.data.errors){                    
+                      this.$message({
+                        type: 'error',
+                        message: err.response.data.errors[i]
+                     })  
+                     this.$message.error('请输入正确的验证码');
+                  }
+                })
+            }
       }
   }
 </script>

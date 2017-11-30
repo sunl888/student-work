@@ -25,7 +25,7 @@ class LoginController extends BaseController
     }
     // 验证码
     public function captcha(){
-        return captcha_src();
+        return response()->json(['src' => captcha_src()]);
     }
     public function getUser()
     {

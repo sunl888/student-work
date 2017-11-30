@@ -33,6 +33,7 @@
                                 <el-table-column
                                         prop="nickname"
                                         sortable
+                                        min-width="150"
                                         label="用户昵称">
                                 </el-table-column>
                                 <el-table-column
