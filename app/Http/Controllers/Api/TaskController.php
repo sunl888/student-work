@@ -50,7 +50,11 @@ class TaskController extends BaseController
     public function createTask(CreateTaskRequest $taskRequest)
     {
         if ($this->allowCreateTask()) {
-            $task = $this->taskRepository->createTask($taskRequest->all());
+            $data = $taskRequest->all();
+            if (isset($data['end_time'])){
+                $data['end_time'] = \Carbon\Carbon::createFromTimestamp(strtotime($data['end_time']));
+            }
+            $task = $this->taskRepository->createTask($data);
             event(new TaskSaved($task));
         }
         return $this->response->noContent();
@@ -90,7 +94,11 @@ class TaskController extends BaseController
     public function updateTask(UpdateTaskRequest $request, $taskId)
     {
         if ($this->allowUpdateTask()) {
-            $this->taskRepository->updateTask($request->all(), $taskId);
+            $data = $request->all();
+            if (isset($data['end_time'])){
+                $data['end_time'] = \Carbon\Carbon::createFromTimestamp(strtotime($data['end_time']));
+            }
+            $this->taskRepository->updateTask($data, $taskId);
         }
     }
 
