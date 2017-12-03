@@ -39,6 +39,10 @@ php artisan key:generate
 ```php
 php artisan migrate --seed
 ```
+导入老师信息
+```php
+php artisan import:users
+```
 
 ## UML模型
 <p align="center">
