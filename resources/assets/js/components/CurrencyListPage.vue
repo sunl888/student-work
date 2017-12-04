@@ -15,7 +15,7 @@
                     <!-- <el-button type="primary" icon="plus" @click="$router.push({path: 'add_task'})"></el-button> -->
                   </p>
                 </div>
-                <div v-else-if="queryName.match('trashed_tasks=1')">
+                <div v-else-if="queryName.match('only_trashed=1')">
                   <p>
                     当前还没有已删除的任务
                   </p>
