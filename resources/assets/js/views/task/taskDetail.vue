@@ -312,6 +312,7 @@
         text-align:left;
         color:#444;
         margin-left:20px;
+        word-break: break-all;
         margin-bottom:10px;
     }
     .seal>span{

@@ -9,8 +9,9 @@ s<template>
                 <!--任务详情-->
                 <div class="text item">
                     <div class="cahierProps">
-                        <span>开会日期：{{ item.start_time | filterTime}}</span>
+                        <span>会议时间：{{ item.start_time }}</span>
                         <span>会议地点：{{ item.address }}</span>
+                        <span v-if="isPeople">参会人员：全体人员</span>
                     </div>
                     <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>
@@ -19,6 +20,7 @@ s<template>
                     <template>
                       <el-table
                         :data="absent"
+                        :default-sort="{prop: 'attention', order: 'descending'}"
                         stripe
                         border
                         style="width: 100%">
@@ -33,10 +35,10 @@ s<template>
                           min-width="180">
                         </el-table-column>
                         <el-table-column
-                          inline-template
+                          sortable
+                          prop="attention"
                           label="出勤情况"
                           min-width="100">
-                            <span>{{row.status ? '缺勤' : '出勤'}}</span>
                         </el-table-column>
                           <el-table-column
                                   prop="status"
@@ -56,7 +58,8 @@ s<template>
             return {
                 item: [],
                 absent:[],
-                leading: []
+                leading: [],
+                isPeople: false
             }
         },
         computed: {
@@ -74,14 +77,28 @@ s<template>
             loadItem () {
                     this.$http.get('metting/' + this.$route.params.id).then(res => {
                         this.item = res.data.data
-                        for(let i in this.item.users){
+                        if((this.item.users[0].id || '') === 'all'){
+                            this.isPeople = true;
                             for(let j in this.item.absentees) {
-                                if (this.item.users[i].id === this.item.absentees[j].user_id) {
-                                    this.item.users[i].status = this.item.absentees[j].assess.title
+                                this.absent.push({
+                                    name: this.item.absentees[j].user.name,
+                                    nickname: this.item.absentees[j].user.nickname,
+                                    attention: '缺勤',
+                                    status: this.item.absentees[j].assess.title
+                                });
+                            }
+                        } else {
+                            for(let i in this.item.users){
+                                this.item.users[i].attention = '出勤';
+                                for(let j in this.item.absentees) {
+                                    if (this.item.users[i].id === this.item.absentees[j].user_id) {
+                                        this.item.users[i].attention = '缺勤';
+                                        this.item.users[i].status = this.item.absentees[j].assess.title
+                                    }
                                 }
                             }
+                            this.absent = this.item.users;
                         }
-                        this.absent = this.item.users;
                     })
 
             }

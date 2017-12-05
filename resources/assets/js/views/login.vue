@@ -42,6 +42,9 @@
         // 箭头函数可使代码更简练
         menus: state => state.menus
       }),
+      mounted () {
+        this.isVaildCode();
+      },
       methods: {
         getVaildCode () {
           this.$http.get('captcha').then(res => {
@@ -66,8 +69,8 @@
                     this.isLoading = false
                     this.$router.push({name: 'home'})
                 }).catch(err => {
-                  this.isVaildCode();
                   this.isLoading = false;
+                  this.getVaildCode();
                   for(let i in err.response.data.errors){                    
                       this.$message({
                         type: 'error',

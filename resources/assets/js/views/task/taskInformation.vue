@@ -26,7 +26,7 @@
 
                          <p v-if="taskPro.remark !== null" class="scoreRes">{{'备&emsp;&emsp;注：&emsp;' + taskPro.remark}}</p>
                     </div>
-                    <div class="el-col-8 el-col-push-8" v-else>
+                    <div style="padding-bottom: 20px;" class="el-col-8 el-col-push-8" v-else>
                         <span>尚未评分</span>
                     </div>
                         </el-card>
@@ -280,6 +280,7 @@
         color:#444;
         margin-left:20px;
         margin-bottom:10px;
+        word-break: break-all;
     }
     .seal>span{
         position:absolute;
