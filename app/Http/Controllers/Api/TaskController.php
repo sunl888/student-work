@@ -247,7 +247,7 @@ class TaskController extends BaseController
 
     public function getTasksByTeacher()
     {
-        $tasks = app(TaskProgress::class)->asUsers(Auth::id())->with(['task' => function ($query) {
+        $tasks = app(TaskProgress::class)->where('college_id',$this->college())->asUsers(Auth::id())->with(['task' => function ($query) {
             $query->publish();
         }])->get();
         $res = new Collection();

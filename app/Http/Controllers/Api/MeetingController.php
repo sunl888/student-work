@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\CreatedMeeting;
 use App\Http\Requests\CreateMeetingRequest;
 use App\Models\Absentee;
 use App\Models\Meeting;
@@ -25,7 +26,7 @@ class MeetingController extends BaseController
                 Absentee::create($val);
             });
         }
-        // event(new CreatedMeeting($meeting->users, $meeting));
+         event(new CreatedMeeting($meeting->users, $meeting));
         return $this->response()->noContent();
     }
 

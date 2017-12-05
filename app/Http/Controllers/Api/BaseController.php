@@ -21,4 +21,8 @@ class BaseController extends Controller
         return Auth::guard('web');
     }
 
+    public function college(){
+        return request('college_id')?request('college_id') : Auth::user()->college_id;
+    }
+
 }

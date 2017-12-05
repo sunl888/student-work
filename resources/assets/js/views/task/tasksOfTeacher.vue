@@ -4,7 +4,7 @@
             <el-tab-pane label="任务列表" name="list">
                 <div class="table">
                     <currency-list-page ref="list" queryName="tasks_of_teacher">
-                        <template scope="list">
+                        <template slot-scope="list">
                             <el-table
                                     :default-sort="{prop: 'created_at', order: 'descending'}"
                                     :data="list.data"

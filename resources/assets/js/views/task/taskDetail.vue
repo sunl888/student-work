@@ -40,8 +40,8 @@
                              <h4 style="margin-bottom:10px">评分结果</h4>
                         <p class="scoreRes">{{'完成情况：&emsp;' + taskPro.quality}}</p>
                         <p class="scoreRes">考核等级：&emsp;<el-tag style="font-size: 15px;" :type="color">{{taskPro.assess.title}}</el-tag></p>
-                        
-                        <p class="scoreRes">{{'备&emsp;&emsp;注：&emsp;' + (taskPro.remark !== null ? taskPro.remark : '无')}}</p>
+
+                        <p v-if="taskPro.remark !== null" class="scoreRes">{{'备&emsp;&emsp;注：&emsp;' + taskPro.remark}}</p>
                     </div>
                     <div style="padding-bottom:30px;" class="el-col-8 el-col-push-8" v-else>
                         <span >尚未评分</span>

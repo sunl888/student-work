@@ -34,4 +34,5 @@ class Meeting extends BaseModel
             ->orWhere('users', 'like', "$user," . '%')
             ->orWhere('users', 'like', '%' . ",$user");
     }
+
 }

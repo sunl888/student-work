@@ -12,9 +12,6 @@
 // 登陆
 $api->post('login', 'LoginController@login');
 $api->get('captcha', 'LoginController@captcha');
-/* $api->get('captcha', function () {
-    return captcha_src();
-}); */
 $api->get('need_verification_code', 'LoginController@needVerificationCodeRequest');
 $api->get('export2table', 'TaskController@export2table');
 $api->group(['middleware' => 'auth:web'], function ($api) {
