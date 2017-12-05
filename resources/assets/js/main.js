@@ -46,22 +46,22 @@ function getMe() {
         Vue.prototype.$http.get('me').then(res => {
             store.commit('UPDATE_ME', res.data.data);
             if(store.state.me.is_super_admin){
-                getUsers();
+                // getUsers();
             }
         });
     }
 }
-function getUsers() {
-    if(store.state.users === null) {
-        Vue.prototype.$http.get('all_users',{
-          params: {
-            limit: 0
-          }
-      }).then(res => {
-        store.commit('allUser', res.data.data);
-      })
-    }
-}
+// function getUsers() {
+//     if(store.state.users === null) {
+//         Vue.prototype.$http.get('all_users',{
+//           params: {
+//             limit: 0
+//           }
+//       }).then(res => {
+//         store.commit('allUser', res.data.data);
+//       })
+//     }
+// }
 function getMenu(next) {
     if(store.state.menus === null) {
         Vue.prototype.$http.get('menus').then(res => {
@@ -83,7 +83,7 @@ router.beforeEach((to, from, next) => {
     } else if(to.name === 'login'){
         store.state.menus = null;
         store.state.me = null;
-        store.state.users = null;
+        // store.state.users = null;
         next();
     } else {
         getMe();
