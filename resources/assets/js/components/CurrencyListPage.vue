@@ -120,7 +120,6 @@
                             page
                         }
                     }).then(res => {
-                        console.log(res);
                         this.loading = false;
                         if(this.queryName === 'tasks_of_teacher') {
                             this.list = res.data.data;
