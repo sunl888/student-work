@@ -23,7 +23,7 @@
         <el-button :disabled="!me.is_super_admin" :plain="true" type="primary" @click="$router.push({name: 'cahier_create'})">添加会议</el-button>
         <el-button style="margin:0 10px;" :disabled="!me.is_super_admin" type="primary" @click="$router.push({name: 'add_task'})">添加任务</el-button>
         <el-badge :value=unread class="item">
-          <el-button style="background:#f5f5f5;" type="text" @click="setAlread"><i style="color:#444;background:#f5f5f5" :title="tips" @click="setAlread" class="material-icons">notifications</i></el-button>
+          <el-button style="background:#f5f5f5;" type="text"><i @click="setAlread" style="color:#444;background:#f5f5f5" :title="tips" class="material-icons">notifications</i></el-button>
         </el-badge>
       </div>
     </el-col>
