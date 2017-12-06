@@ -18,6 +18,11 @@ export default {
       return {
       }
   },
+  watch: {
+    '$route' () {
+      this.$router.push({name: this.$router.name});
+    }
+  },
   components: {
     JHeader, navMenu
   },
