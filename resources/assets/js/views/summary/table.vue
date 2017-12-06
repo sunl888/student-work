@@ -73,14 +73,24 @@
                 <span>{{row.status === 'publish' ? '已审核' : '未审核'}}</span>
           </el-table-column>
           <el-table-column
-            inline-template
-            label="操作">
-            <template>
-              <el-button-group>
-                <el-button @click="jump(row)" type="primary" size="small">查看</el-button>
-              </el-button-group>
-            </template>
-          </el-table-column>
+                width='220'
+                inline-template
+                label="操作">
+                <template>
+                    <template v-if="row.status === 'draft'">
+                      <el-button-group>
+                        <el-button type="success" size="small" @click="auditing(row.id)">审核</el-button>
+                        <el-button type="primary" size="small"  @click="modifyTask(row.id)">修改</el-button>
+                        <el-button type="danger" size="small" @click="deleteTask(row.id)">删除</el-button>
+                        <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
+                      </el-button-group>
+                    </template>
+                    <template v-else>
+                      <el-button type="primary" size="small" @click="browseTask(row.id)">考核</el-button>
+                    <el-button type="danger" size="small" @click="cancelAudit(row.id)">取消审核</el-button>
+                    </template>
+                </template>
+              </el-table-column>
         </el-table>
       </div>
   </div>
@@ -158,6 +168,162 @@ export default{
       //   this.$message.success(res);        
       // })
     },
+    // 恢复任务
+    restoreTask (id) {
+      this.$confirm('该操作将恢复该任务。, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http.get('restore_task/' + id).then(res => {
+          this.refresh();
+          this.$message({
+            type: 'success',
+            message: '恢复成功!'
+          });
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消恢复'
+        });
+      });
+    },
+      //查看任务
+    browseTask (id) {
+      this.$router.push({name: 'task_item',
+          params: {
+              id: id,
+              college: this.$store.state.me.college_id
+          }
+      })
+    },
+    refresh () {
+      this.$nextTick(() => {
+          this.getTaskPro();
+      })
+    },
+    jump (row) {
+      if(this.me.role_id === 1){
+         this.$router.push({name: 'task_item', params: {id: row.id}})
+      } else if(this.me.role_id === 2){
+         this.$router.push({name: 'task_detail', params: {id: row.id,college: this.me.college_id}})
+      } else if(this.me.role_id === 3){
+         this.$router.push({name: 'task_information', params: {id: row.id,college: this.me.college_id}})
+      }
+     
+    },
+    // 取消审核
+      cancelAudit (id) {
+        this.$http.get('cancel_audit/' + id).then(res => {
+            this.refresh();
+          this.$message({
+              type: 'success',
+              message: '已取消对该任务的审核'
+          })
+        })
+    },
+    // 硬删除任务
+    force_delete_task (id) {
+        this.$confirm('此操作将永久删除该任务, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }).then(() => {
+            this.$http.get('force_delete_task/' + id).then(res => {
+                 this.refresh();
+                this.$message({
+                    type: 'success',
+                    message: '删除成功!'
+                });
+            })
+        }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '已取消删除'
+            });
+        });
+    },
+    // 软删除任务
+    deleteTask (id) {
+      this.$confirm('此操作将把该任务放入回收站, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http.get('delete_task/' + id).then(res => {
+           this.refresh();
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+    // 审核任务
+    auditing (id) {
+      this.$confirm('任务审核后将无法删除, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http.get('audit_task/' + id).then(res => {
+          this.refresh();
+          this.$message({
+            type: 'success',
+            message: '审核成功!'
+          });
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消审核'
+        });
+      });
+    },
+    // 恢复任务
+    restoreTask (id) {
+      this.$confirm('该操作将恢复该任务。, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http.get('restore_task/' + id).then(res => {
+           this.refresh();
+          this.$message({
+            type: 'success',
+            message: '恢复成功!'
+          });
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消恢复'
+        });
+      });
+    },
+        // 修改任务
+    modifyTask (id) {
+      this.$router.push({name: 'edit_task',
+        params: {
+          id
+        }
+      })
+    },
+      //查看任务
+    browseTask (id) {
+      this.$router.push({name: 'task_item',
+          params: {
+              id: id,
+              college: this.$store.state.me.college_id
+          }
+      })
+    },
     // 获取工作类型列表
     getWorkTypeList () {
       this.$http.get('work_types').then(res => {
@@ -181,11 +347,6 @@ export default{
     },
     change (currentPage) {
       this.getTaskPro(currentPage);
-    },
-    refresh () {
-      this.$nextTick(() => {
-          this.getTaskPro(this.currentPage);
-      })
     },
     getTaskPro (page = 1, sort) {
       let url = new Array();

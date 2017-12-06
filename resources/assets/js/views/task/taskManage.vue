@@ -143,8 +143,7 @@ export default{
   components: {CurrencyListPage},
   data () {
     return {
-      activeName: 'list',
-      list: []
+      activeName: 'list'
     }
   },
   mounted () {

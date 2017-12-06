@@ -11,7 +11,7 @@
                 </div>
                 <div v-else-if="queryName.match('task_progresses')">
                   <p>
-                    正在加载数据中...
+                    正在加载数据中...``
                     <!-- <el-button type="primary" icon="plus" @click="$router.push({path: 'add_task'})"></el-button> -->
                   </p>
                 </div>
@@ -140,6 +140,7 @@
                             }
                           } else if(this.queryName.match('task_progresses&college=')){
                            this.list = res.data.data;
+                           console.log(this.list);
                           this.total = res.data.meta.pagination.total;
                           this.perPage = res.data.meta.pagination.per_page
                             

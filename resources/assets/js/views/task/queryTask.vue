@@ -97,10 +97,7 @@ export default{
     }
   },
   mounted () {
-    this.getList();
-    if(this.autoRequest){
       this.getList();
-    }
   },
   computed: {
     me () {
@@ -126,7 +123,7 @@ export default{
     // 取消审核
       cancelAudit (id) {
         this.$http.get('cancel_audit/' + id).then(res => {
-            this.$refs['list'].refresh()
+             this.refresh();
           this.$message({
               type: 'success',
               message: '已取消对该任务的审核'
@@ -141,7 +138,7 @@ export default{
             type: 'warning'
         }).then(() => {
             this.$http.get('force_delete_task/' + id).then(res => {
-                this.$refs['trashed_list'].refresh();
+                 this.refresh();
                 this.$message({
                     type: 'success',
                     message: '删除成功!'
@@ -162,7 +159,7 @@ export default{
         type: 'warning'
       }).then(() => {
         this.$http.get('delete_task/' + id).then(res => {
-          this.$refs['list'].refresh();
+        this.refresh();
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -183,7 +180,7 @@ export default{
         type: 'warning'
       }).then(() => {
         this.$http.get('audit_task/' + id).then(res => {
-          this.$refs['list'].refresh();
+          this.refresh();
           this.$message({
             type: 'success',
             message: '审核成功!'
@@ -204,7 +201,7 @@ export default{
         type: 'warning'
       }).then(() => {
         this.$http.get('restore_task/' + id).then(res => {
-          this.$refs['trashed_list'].refresh();
+          this.refresh();
           this.$message({
             type: 'success',
             message: '恢复成功!'
@@ -243,14 +240,42 @@ export default{
                     page
                 }
             }).then(res => {
-              console.log(res);
               this.item = res.data.data;
-              console.log(this.item)
                this.total = res.data.meta.pagination.total;
                 this.loading = false;
               }).catch(err => {
                 this.loading = false;
             })
+    },
+    // 恢复任务
+    restoreTask (id) {
+      this.$confirm('该操作将恢复该任务。, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http.get('restore_task/' + id).then(res => {
+           this.refresh();
+          this.$message({
+            type: 'success',
+            message: '恢复成功!'
+          });
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消恢复'
+        });
+      });
+    },
+      //查看任务
+    browseTask (id) {
+      this.$router.push({name: 'task_item',
+          params: {
+              id: id,
+              college: this.$store.state.me.college_id
+          }
+      })
     },
     change (currentPage) {
         this.getList(currentPage);

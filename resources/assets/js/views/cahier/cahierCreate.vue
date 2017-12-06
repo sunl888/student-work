@@ -5,7 +5,6 @@
         <div class="table">
           <currency-list-page ref="list" :queryName="query">
             <template scope="list">
-              <!-- {{list}} -->
               <el-table
                       :default-sort = "{prop: 'created_at', order: 'descending'}"
                       :data="list.data"
@@ -67,8 +66,7 @@
         data () {
             return {
                 activeName: 'list',
-                query: '',
-                list: []
+                query: ''
             }
         },
         computed: {
