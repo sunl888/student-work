@@ -4,7 +4,7 @@
             <el-tab-pane label="用户列表" name="list">
                 <div class="table">
                     <currency-list-page ref="list" queryName="all_users">
-                        <template slot-scope="list">
+                        <template scope="list">
                             <el-table
                                     :default-sort = "{prop: 'created_at', order: 'descending'}"
                                     :data="list.data"
@@ -95,7 +95,8 @@
             return {
                 activeName: 'list',
                 isProfile: false,
-                item: []
+                item: [],
+                list: []
             }
         },
         filters: {

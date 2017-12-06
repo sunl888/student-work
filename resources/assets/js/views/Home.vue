@@ -37,6 +37,6 @@ export default {
 }
 .info_box{
   padding: 10px 15px;
-  overflow: hidden;
+  overflow: auto;
 }
 </style>

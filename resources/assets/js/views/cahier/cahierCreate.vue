@@ -4,7 +4,7 @@
       <el-tab-pane label="会议列表" name="list">
         <div class="table">
           <currency-list-page ref="list" :queryName="query">
-            <template slot-scope="list">
+            <template scope="list">
               <!-- {{list}} -->
               <el-table
                       :default-sort = "{prop: 'created_at', order: 'descending'}"
@@ -67,7 +67,8 @@
         data () {
             return {
                 activeName: 'list',
-                query: ''
+                query: '',
+                list: []
             }
         },
         computed: {

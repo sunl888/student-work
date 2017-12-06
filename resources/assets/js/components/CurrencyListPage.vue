@@ -95,7 +95,7 @@
             }
         },
         mounted () {
-          this.getList();
+        //   this.getList();
           if(this.autoRequest){
             this.getList();
           }
@@ -120,6 +120,7 @@
                             page
                         }
                     }).then(res => {
+                        console.log(res);
                         this.loading = false;
                         if(this.queryName === 'tasks_of_teacher') {
                             this.list = res.data.data;

@@ -28,7 +28,7 @@
   </div>
   <div class="table">
          <currency-list-page ref="list" :queryName="'tasks?include=task_progresses&college='+this.$route.params.id+'&status=publish'"> 
-          <template slot-scope="list">
+          <template scope="list">
             <!-- <div class="table"> -->
               <el-table
               :data="list.data"

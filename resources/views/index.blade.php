@@ -10,9 +10,6 @@
     <link rel="icon" href="../../favicon.ico" type="image/x-icon">
     <title>淮南师范学院学生事务进程考核系统</title>
     <style type="text/css">
-    	body{
-    		overflow: hidden;
-    	}
     	.browsehappy{
     		text-align: center;
     		position: absolute;

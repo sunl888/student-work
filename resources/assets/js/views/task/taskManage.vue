@@ -4,7 +4,7 @@
      <el-tab-pane label="任务列表" name="list">
        <div class="table">
          <currency-list-page ref="list" queryName="tasks">
-           <template slot-scope="list">
+           <template scope="list">
              <el-table
                :default-sort = "{prop: 'created_at', order: 'descending'}"
                :data="list.data"
@@ -61,7 +61,7 @@
                      <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
                    </el-button-group>
                  </template>
-                 <template slot-scope="scope" v-else>
+                 <template scope="scope" v-else>
                    <el-button type="primary" size="small" @click="browseTask(row.id)">考核</el-button>
                    <el-button type="danger" size="small" @click="cancelAudit(row.id)">取消审核</el-button>
                  </template>
@@ -74,7 +74,7 @@
      <el-tab-pane label="回收站" name="trashed_list">
        <div class="table">
          <currency-list-page :autoRequest="false" ref="trashed_list" queryName="tasks?only_trashed=1">
-           <template slot-scope="list">
+           <template scope="list">
              <el-table
                :default-sort = "{prop: 'date', order: 'descending'}"
                :data="list.data"
@@ -143,7 +143,8 @@ export default{
   components: {CurrencyListPage},
   data () {
     return {
-      activeName: 'list'
+      activeName: 'list',
+      list: []
     }
   },
   mounted () {

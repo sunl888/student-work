@@ -42,6 +42,7 @@ a,a:hover,a:visited{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+    /* overflow: auto; */
 }
 .slide-fade-enter-active {
   transition: all .3s ease;
