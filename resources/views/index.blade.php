@@ -10,27 +10,38 @@
     <link rel="icon" href="../../favicon.ico" type="image/x-icon">
     <title>淮南师范学院学生事务进程考核系统</title>
     <style type="text/css">
+        body, html{
+            width: 100%;
+            height: 100%;
+        }
     	.browsehappy{
-    		text-align: center;
-    		position: absolute;
-    		top: 50%;
+            width: 100%;
+            height: 100%;
+    		position: fixed;
     		font-size: 18px;
     		margin-top: -18px;
-    		width: 100%;
+            padding: 25% 30%;
+            color: #444;
+            background: rgba(255, 255, 255, 0.7);
             z-index: 9999;
     	}
+        .link{
+            color: #20a0ff;
+        }
+        .link:hover{
+            color: #20a0ff;
+            text-decoration: underline;
+        }
     </style>
 
 </head>
 <body>
-    <div id="app"></div>
     <!--[if lt IE 10]>
     <p class="browsehappy">
-      你正在使用一个<strong>过时</strong>的浏览器。请<a class="link" href="http://browsehappy.com 
-
-">升级你的浏览器</a>以查看此页面。
+      你正在使用一个<strong>过时</strong>的浏览器。请<a class="link" href="http://browsehappy.com">升级你的浏览器</a>以查看此页面。
     </p>
     <![endif]-->
+    <div id="app"></div>
 
     <script src="{{asset(mix('js/main.js'))}}"></script>
 </body>
