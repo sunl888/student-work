@@ -25,7 +25,6 @@ Homestead.json
 /public/hot
 /public/uploads
 /public/js
-/public/fonts
 /public/images
 /public/mix-manifest.json
 npm-debug.log
