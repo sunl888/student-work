@@ -37,17 +37,38 @@ class UsersController extends BaseController
 
     /**
      * 用户列表
-     *
+     * 筛选:学院、角色、性别、
      * @return \Dingo\Api\Http\Response
      */
     public function lists()
     {
+        // select * from `e8_users` u left join `e8_role_user` ru on u.id = ru.user_id left join `e8_roles` r on ru.role_id = r.id where u.college_id like "%11%" order by ru.role_id desc
+
+        /*$users = \DB::table('users')
+                ->leftJoin('role_user', 'users.id', '=', 'role_user.user_id')
+                ->leftJoin('roles', 'role_user.role_id', '=', 'roles.id')
+                ->where('users.college_id','like','%11%')
+                ->where('roles.id','=',2)
+                ->orderBy('role_user.role_id','asc')
+                ->get();*/
+        $users = User::leftJoin('role_user', 'users.id', '=', 'role_user.user_id')
+            ->leftJoin('roles', 'role_user.role_id', '=', 'roles.id')
+            ->withSimpleSearch()
+            ->whereHas('roles', function ($query) {
+                $role_id = request('role_id', null);
+                if ($role_id) {
+                    $query->where('roles.id', '=', $role_id);
+                }
+            })
+            ->orderBy('role_user.role_id', 'desc');
+        // 获取所有的用户
         if (0 == request('limit')) {
-            $users = User::recent()->get();
-            return $this->response->collection($users, new UserTransformer());
+            return $this->response->collection($users->get(), new UserTransformer())
+                ->setMeta(User::getAllowSortFieldsMeta() + User::getAllowSearchFieldsMeta());
         } else {
-            $users = User::recent()->paginate($this->perPage());
-            return $this->response->paginator($users, new UserTransformer());
+            $users = $users->paginate($this->perPage());
+            return $this->response->paginator($users, new UserTransformer())
+                ->setMeta(User::getAllowSortFieldsMeta() + User::getAllowSearchFieldsMeta());
         }
 
     }

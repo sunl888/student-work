@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Listable;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -14,7 +15,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends BaseModel implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
-    use Authenticatable, Authorizable, CanResetPassword, Notifiable;
+    use Authenticatable, Authorizable, CanResetPassword, Notifiable, Listable;
     use EntrustUserTrait {
         EntrustUserTrait::can as may;
         Authorizable::can insteadof EntrustUserTrait;
@@ -28,6 +29,9 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     protected $fillable = [
         'name', 'email', 'password', 'avatar', 'nickname', 'phone', 'gender', 'college_id', 'department_id', 'picture'
     ];
+
+    protected static $allowSearchFields = ['name', 'nickname', 'college_id'];
+    protected static $allowSortFields = ['name', 'nickname', 'gender', 'college_id', 'department_id'];
 
     protected $casts = [
         'gender' => 'boolean',

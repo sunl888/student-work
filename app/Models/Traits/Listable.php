@@ -69,7 +69,7 @@ trait Listable
     }
 
     /**
-     * 例子：?keywords=ty&
+     * 例子：?keywords=ty&search_scope=college_id
      * @param $query
      * @param null $keywords
      * @param null $searchScope 查询的字段范围
@@ -79,7 +79,6 @@ trait Listable
     {
         $keywords = is_null($keywords) ? request('keywords', null) : $keywords;
         $searchScope = empty($searchScope) ? request('search_scope', []) : $searchScope;
-
         if (empty($searchScope) || $searchScope === 'all') {
             $searchScope = static::$allowSearchFields;
         } else {
