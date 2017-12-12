@@ -26,7 +26,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'avatar', 'nickname', 'gender', 'college_id', 'department_id', 'picture'
+        'name', 'email', 'password', 'avatar', 'nickname', 'phone', 'gender', 'college_id', 'department_id', 'picture'
     ];
 
     protected $casts = [

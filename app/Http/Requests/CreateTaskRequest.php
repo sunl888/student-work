@@ -28,7 +28,7 @@ class CreateTaskRequest extends FormRequest
             'detail' => 'required',
             'work_type_id' => 'required|exists:work_types,id',
             'department_id' => 'required|exists:departments,id',
-            'end_time' => 'required|date|after:now',
+            'end_time' => 'required|date',
         ];
     }
 
@@ -43,7 +43,6 @@ class CreateTaskRequest extends FormRequest
             'department_id.exists' => '对口科室不存在',
             'end_time.required' => '结束时间必须要填写',
             'end_time.date' => '请填写正确的日期格式',
-            'end_time.after' => '完成日期必须大于现在的日期',
         ];
     }
 }

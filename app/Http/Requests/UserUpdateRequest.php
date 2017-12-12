@@ -24,29 +24,30 @@ class UserUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        //$user = $this->route()->parameter('user');
         return [
-            //'name' => [Rule::unique('users')->ignore($user->id)],
             'nickname' => 'nullable',
             'email' => 'nullable|email',// email
-            'college_id' => 'nullable',// 学院id
+            'college_id' => 'bail|nullable|exists:colleges,id',// 学院id
             'picture' => 'nullable',// 头像
             'gender' => 'nullable|boolean', // 性别
-            'password' => 'bail|nullable|confirmed|min:5|max:20|alpha_num|regex:/^(?!([A-Za-z]+|d\d+)$)[A-Za-z\d]$/',// 密码
-            'role_id' => 'nullable', // 角色id
+            'phone' =>['bail', 'nullable', 'regex:/^1[34578][0-9]{9}$/'],
+            'password' => ['bail','nullable','confirmed','between:6,16','regex:/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z_]{6,16}$/'],// 密码
+            'role_id' => 'bail|nullable|exists:roles,id', // 角色id
         ];
     }
 
     public function messages()
     {
         return [
-            //'name.unique' =>'用户名已存在',
-            //'role_id.exists' =>'该角色不存在',
-            'password.confirmed' => '两次密码不一致',
-            'password.min' =>'密码最少5位',
-            'password.max' =>'密码最多20位',
-            'password.alpha_num' =>'密码必须是字母或数字',
-            'password.regex' =>'密码必须是字母和数字的组合',
+            'email' => ':attribute 格式不正确',
+            'unique' => ':attribute 已存在',
+            'college_id.exists' => '该学院不存在',
+            'gender.boolean' => ':gender 必须是bool型(true:女 false:男)',
+            'confirmed' => '两次 :attribute 不一致',// 注意传password_confirmation字段
+            'between' => ':attribute 的必须长度在 :min - :max 位之间.',
+            'alpha_num' => ':attribute 必须是字母或数字',
+            'regex' => ':attribute 格式不正确',
+            'role_id.exists' => '该角色不存在',
         ];
     }
 }

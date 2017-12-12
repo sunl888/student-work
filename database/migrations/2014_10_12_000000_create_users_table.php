@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('nickname')->nullable();
             $table->string('email')->nullable();
             $table->string('college_id')->nullable()->comment('学院id');
+            $table->string('phone')->nullable()->comment('手机号码');
             $table->string('picture', 255)->nullable();
             $table->boolean('gender')->comment('性别 false-男 true-女');
             $table->string('password');
