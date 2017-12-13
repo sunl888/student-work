@@ -43,7 +43,6 @@ class UsersController extends BaseController
     public function lists()
     {
         // select * from `e8_users` u left join `e8_role_user` ru on u.id = ru.user_id left join `e8_roles` r on ru.role_id = r.id where u.college_id like "%11%" order by ru.role_id desc
-
         /*$users = \DB::table('users')
                 ->leftJoin('role_user', 'users.id', '=', 'role_user.user_id')
                 ->leftJoin('roles', 'role_user.role_id', '=', 'roles.id')
@@ -53,6 +52,31 @@ class UsersController extends BaseController
                 ->get();*/
         $users = User::leftJoin('role_user', 'users.id', '=', 'role_user.user_id')
             ->leftJoin('roles', 'role_user.role_id', '=', 'roles.id')
+            ->select(['users.*', 'roles.name as role_name', 'roles.display_name as role_disp_name', 'roles.id as role_id'])
+            ->WithSort()
+            ->orderBy('role_user.role_id', 'asc');
+        // 性别筛选
+        if (!is_null(request('gender'))) {
+            $users = $users->where('users.gender', '=', request('gender'));
+        }
+        // 角色筛选
+        if (request('role_id')) {
+            $users = $users->where('roles.id', '=', request('role_id'));
+        }
+        // 姓名筛选
+        if (request('nickname')) {
+            $users = $users->where('users.nickname', '=', request('nickname'));
+        }
+        // 工号筛选
+        if (request('name')) {
+            $users = $users->where('users.name', '=', request('name'));
+        }
+        // 学院筛选
+        if (request('college_id')) {
+            $users = $users->where('users.college_id', '=', request('college_id'));
+        }
+        /*$users = User::leftJoin('role_user', 'users.id', '=', 'role_user.user_id')
+            ->leftJoin('roles', 'role_user.role_id', '=', 'roles.id')
             ->withSimpleSearch()
             ->whereHas('roles', function ($query) {
                 $role_id = request('role_id', null);
@@ -60,7 +84,7 @@ class UsersController extends BaseController
                     $query->where('roles.id', '=', $role_id);
                 }
             })
-            ->orderBy('role_user.role_id', 'desc');
+            ->WithSort();*/
         // 获取所有的用户
         if (0 == request('limit')) {
             return $this->response->collection($users->get(), new UserTransformer())

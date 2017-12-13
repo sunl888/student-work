@@ -2,7 +2,6 @@
 
 namespace App\Transformers;
 
-
 use App\Models\User;
 use App\Repositories\CollegeRepository;
 use League\Fractal\TransformerAbstract;
@@ -16,20 +15,20 @@ class UserTransformer extends TransformerAbstract
         return [
             'id' => $user->id,
             'name' => $user->name,
-            'nickname' => $user->nickname,
-            'gender_str' => $user->gender ? '女' : '男',
-            'gender' => $user->gender,
-            'college_id' => (int)$user->college_id,
             'phone' => $user->phone,
             'email' => $user->email,
-            'college' => app(CollegeRepository::class)->find($user->college_id, ['title']),
+            'gender' => $user->gender,
+            'role_id' => $user->role_id,
             'picture' => $user->picture,
+            'nickname' => $user->nickname,
+            'role_name' => $user->role_name,
+            'college_id' => (int)$user->college_id,
+            'role_dispname' => $user->role_disp_name,
             'is_super_admin' => $user->isSuperAdmin(),
+            'gender_str' => $user->gender ? '女' : '男',
             'created_at' => $user->created_at->toDateTimeString(),
             'updated_at' => $user->updated_at->toDateTimeString(),
-            'role_id' => $user->roles->first()->id,
-            'role_name' => $user->roles->first()->name,
-            'role_dispname' => $user->roles->first()->display_name,
+            'college' => app(CollegeRepository::class)->find($user->college_id, ['title']),
         ];
     }
 
