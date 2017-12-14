@@ -23,6 +23,10 @@ class CollegeRepository extends Repository
     {
         return $this->all()->find($id, $columns);
     }
+    /*public function findByName($name, $columns = array('*'))
+    {
+        return $this->all()->where(['title'=>$name])->first();
+    }*/
 
     public function all($columns = array('*'))
     {

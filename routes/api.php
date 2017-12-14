@@ -14,6 +14,7 @@ $api->post('login', 'LoginController@login');
 $api->get('captcha', 'LoginController@captcha');
 $api->get('need_verification_code', 'LoginController@needVerificationCodeRequest');
 $api->get('export2table', 'TaskController@export2table');
+$api->post('upload_users', 'ExcelController@upload_users');
 $api->group(['middleware' => 'auth:web'], function ($api) {
     // 获取当前用户信息
     $api->get('me', 'UsersController@me');
