@@ -33,6 +33,10 @@
                     <el-form-item label="用户昵称" prop="nickname">
                         <el-input v-model="ruleForm.nickname" placeholder="请输入用户昵称"></el-input>
                     </el-form-item>
+                    <!--手机号-->
+                    <el-form-item label="手机号码" prop="telephone">
+                        <el-input v-model="ruleForm.telephone" placeholder="请输入手机号码"></el-input>
+                    </el-form-item>
                     <!--性别-->
                     <el-form-item label="性别" prop="gender">
                         <div style="margin-left: 25px;">
@@ -108,6 +112,7 @@
                     picture: '',
                     gender: null,
                     password: '',
+                    telephone: null,
                     password_confirmation: '',
                     role_id: null
                 },
@@ -135,6 +140,9 @@
                     ],
                     password_confirmation: [
                         { type: 'string', required: true, message: '请填写确认密码', trigger: 'blur' }
+                    ],
+                    telephone: [
+                        {type: 'number', required: true, message: '请填写手机号码', trigger: 'blur'}
                     ]
                 }
             }

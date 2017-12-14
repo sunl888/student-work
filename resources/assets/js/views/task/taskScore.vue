@@ -215,7 +215,7 @@
                     delay: this.formData.delayReson
                 }).then(res => {
                     this.$message.success('成功评分！')
-                    this.$router.go(-1);
+                    this.$router.back();
                 }).catch(err => {
                             for(let i in err.response.data.message){
                                 this.$message({

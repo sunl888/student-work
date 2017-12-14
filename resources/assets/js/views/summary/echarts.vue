@@ -1,6 +1,7 @@
 <template>
 <div>
-  <h1 style="padding:10px 0">各学院任务完成情况汇总图示</h1>
+  <h1 style="padding:10px 0">淮南师范学院二级学院任务完成情况汇总图示</h1>
+  <span style="color: #666;font-size: 15px;"><strong style="color: red;">*</strong> 默认显示当前学期的任务</span>
   <div class="query">
       <el-select class="el-col-pull-1" @change="getSememter()" v-model="query.schoolYear" clearable placeholder="按学年汇总">
         <el-option

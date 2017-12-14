@@ -1,6 +1,25 @@
 <template>
     <div class="taskManage item">
         <el-tabs v-model="activeName" @tab-click="request" >
+            <div class="query">
+                <el-select class="querySelect" clearable v-model="query.college" placeholder="按学院汇总">
+                    <el-option
+                    v-for="item in collegesList"
+                    :key="item.id"
+                    :label="item.title"
+                    :value="item.id"></el-option>
+                </el-select>
+                <el-select class="querySelect" clearable v-model="query.role" placeholder="按用户角色任务">
+                    <el-option
+                        v-for="item in rolesList"
+                        :key="item.id"
+                        :label="item.description"
+                        :value="item.id"
+                    ></el-option>
+                </el-select>
+                <el-input class="querySelect" v-model="query.nickname" placeholder="请输入老师昵称"></el-input>
+   
+            </div>
             <el-tab-pane label="用户列表" name="list">
                 <div class="table">
                     <currency-list-page ref="list" queryName="all_users">
@@ -95,8 +114,15 @@
             return {
                 activeName: 'list',
                 isProfile: false,
+                collegesList: [],
+                rolesList: [],
                 item: [],
-                list: []
+                list: [],
+                query: {
+                    college: null,
+                    role: null,
+                    nickname: null
+                }
             }
         },
         filters: {
@@ -107,8 +133,21 @@
           }
         },
         mounted () {
+            this.getCollegesList();
+            this.getRolesList();
         },
         methods: {
+            getRolesList () {
+                this.$http.get('roles').then(res => {
+                    this.rolesList = res.data.data
+                })
+            },
+             // 获取学院
+            getCollegesList () {
+                this.$http.get('colleges').then(res => {
+                    this.collegesList = res.data.data
+                })
+            },
             //删除用户
             deleteUser (id) {
                 this.$confirm('该操作将删除此用户, 是否继续?', '提示', {
@@ -165,6 +204,9 @@
         bottom:0;
         z-index:2000;
     }
+      .querySelect{
+    width:18%;
+  }
     .head{
         height:60px;
         border-bottom:1px solid #eee;

@@ -41,6 +41,10 @@
                         <img v-if="me.picture" style="border-radius:50%;width:50px;margin-top:20px;height:50px;margin-left:-300px;" width="100%" :src="me.picture">
                         <span v-else-if="!me.picture">您还没有上传过头像哦</span>
                     </el-form-item>
+                      <!--用户名-->
+                    <el-form-item label="手机号码" prop="telephone">
+                        <el-input v-model="me.telephone" placeholder="请输入手机号码"></el-input>
+                    </el-form-item>
                     <!--邮箱-->
                     <el-form-item label="邮箱" prop="email">
                         <el-input v-model="me.email" type="email" placeholder="请输入邮箱"></el-input>
@@ -112,6 +116,9 @@
                     ],
                     password_confirmation: [
                         { type: 'string', required: true, message: '请填写确认密码', trigger: 'blur' }
+                    ],
+                    telephone: [
+                        { type: 'number', required: true, message: '请填写手机号码', trigger: 'blur' }
                     ]
                 }
             }

@@ -30,8 +30,8 @@
   export default {
       data() {
           return {
-              userName: 'xsc',
-              userPsw: 'xsc',
+              userName: '',
+              userPsw: '',
               userCode: '',
               wrong: '',
               vaildCodeImg: '',
