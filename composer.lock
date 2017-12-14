@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "748a3a60797d8a95c794c7e6d38fdb5e",
+    "content-hash": "450ad0dac471bc822206f061f85aef11",
     "packages": [
         {
             "name": "dingo/api",
@@ -534,61 +534,6 @@
                 "watermark"
             ],
             "time": "2017-09-21T16:29:17+00:00"
-        },
-        {
-            "name": "itsgoingd/clockwork",
-            "version": "v1.14.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/itsgoingd/clockwork.git",
-                "reference": "55ec557cc8cc60944de0eefbe27f905d538a8f70"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://files.phpcomposer.com/files/itsgoingd/clockwork/55ec557cc8cc60944de0eefbe27f905d538a8f70.zip",
-                "reference": "55ec557cc8cc60944de0eefbe27f905d538a8f70",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9",
-                "psr/log": "1.*"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Clockwork\\Support\\Laravel\\ClockworkServiceProvider"
-                    ],
-                    "aliases": {
-                        "Clockwork": "Clockwork\\Support\\Laravel\\Facade"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Clockwork\\": "Clockwork/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "itsgoingd",
-                    "email": "itsgoingd@luzer.sk",
-                    "homepage": "http://twitter.com/itsgoingd"
-                }
-            ],
-            "description": "Server-side component of Clockwork, a Chrome extension for PHP development",
-            "homepage": "http://github.com/itsgoingd/clockwork",
-            "keywords": [
-                "debugging",
-                "laravel",
-                "logging",
-                "profiling"
-            ],
-            "time": "2017-09-15T14:50:14+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

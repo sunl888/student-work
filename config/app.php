@@ -171,7 +171,6 @@ return [
          */
         Laravel\Tinker\TinkerServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
-        Clockwork\Support\Laravel\ClockworkServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
