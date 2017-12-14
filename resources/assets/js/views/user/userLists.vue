@@ -2,14 +2,14 @@
     <div class="taskManage item">
         <el-tabs v-model="activeName" @tab-click="request" >
             <div class="query">
-                <el-select class="querySelect" clearable v-model="query.college" placeholder="按学院汇总">
+                <el-select class="querySelect"  @change="getUrl()" clearable v-model="query.college" placeholder="按学院汇总">
                     <el-option
                     v-for="item in collegesList"
                     :key="item.id"
                     :label="item.title"
                     :value="item.id"></el-option>
                 </el-select>
-                <el-select class="querySelect" clearable v-model="query.role" placeholder="按用户角色汇总">
+                <el-select class="querySelect"  @change="getUrl()" clearable v-model="query.role" placeholder="按用户角色汇总">
                     <el-option
                         v-for="item in rolesList"
                         :key="item.id"
@@ -17,7 +17,16 @@
                         :value="item.id"
                     ></el-option>
                 </el-select>
-                <el-input class="querySelect" v-model="query.nickname" placeholder="按姓名筛选"></el-input>
+                <el-select class="querySelect"  @change="getUrl()" clearable v-model="query.gender" placeholder="按用户性别汇总">
+                    <el-option
+                        v-for="item in genders"
+                        :key="item.id"
+                        :label="item.gender_str"
+                        :value="item.gender">
+                    </el-option>
+                </el-select>
+                <el-input class="querySelect" @blur="getUrl()" v-model="query.name" placeholder="按用户工号筛选"></el-input>
+                <el-input class="querySelect" @blur="getUrl()" v-model="query.nickname" placeholder="按用户姓名筛选"></el-input>
                 <el-upload
                     class="upload-demo"
                     style="float: right;"
@@ -127,11 +136,17 @@
                 user_url: 'all_users',
                 item: [],
                 list: [],
+                genders: [
+                    {gender_str: '男', gender: false, id: 2},
+                    {gender_str: '女', gender: true, id: 1}
+                ],
                 file_url: null,
                 query: {
                     college: null,
                     role: null,
-                    nickname: null
+                    nickname: null,
+                    name: null,
+                    gender: null
                 }
             }
         },
@@ -142,6 +157,9 @@
               return tempStr[0]
           }
         },
+        // watch: {
+        //     'user_url' : 
+        // },
         mounted () {
             this.getCollegesList();
             this.getRolesList();
@@ -151,7 +169,26 @@
                 this.file_url = response.path
             },
             getUrl () {
-                
+                let url = new Array();
+                let i = 0;
+                url[i] = 'all_users?';
+                if(this.query.college !== null){
+                    url[++i] = 'college_id=' + this.query.college;
+                }
+                if(this.query.role !== null){
+                    url[++i] = '&role_id=' + this.query.role; 
+                }
+                if(this.query.gender !== null){
+                   url[++i] = '&gender=' + (this.query.gender );
+                }
+                if(this.query.name !== null){
+                    url[++i] = '&name=' + this.query.name;
+                }
+                if(this.query.nickname !== null){
+                    url[i] = '&nickname=' + this.query.nickname;
+                }
+                this.user_url = url.join('');
+                this.$refs['list'].refresh();
             },
             getRolesList () {
                 this.$http.get('roles').then(res => {
@@ -220,8 +257,8 @@
         bottom:0;
         z-index:2000;
     }
-      .querySelect{
-    width:18%;
+    .querySelect{
+    width:16%;
   }
     .head{
         height:60px;
