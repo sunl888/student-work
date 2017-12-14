@@ -35,6 +35,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\CreatedMeeting' => [
             'App\Listeners\SendNotificationListener'
         ],
+        'App\Events\ImportUsers' =>[
+            'App\Listeners\ImportUsers',
+        ]
     ];
 
     /**

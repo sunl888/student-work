@@ -64,11 +64,6 @@ class UsersController extends BaseController
             ->leftJoin('roles', 'role_user.role_id', '=', 'roles.id')
             ->select(['users.*', 'roles.name as role_name', 'roles.display_name as role_disp_name', 'roles.id as role_id'])
             ->WithSort();
-        // 学院排序
-        /*if (!is_null(request('order'))) {
-            $temp = explode('-', request('order'), 2);
-            $users = $users->orderBy('users.' . $temp[0], $temp[1]);
-        }*/
         // 性别筛选
         if (!is_null(request('gender'))) {
             $users = $users->where('users.gender', '=', request('gender'));
