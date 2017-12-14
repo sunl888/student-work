@@ -27,7 +27,7 @@
                 </div>
               <div v-else-if="queryName.match('users')">
                   <p>
-                      当前没有已创建的用户
+                      无数据
                   </p>
               </div>
               <div v-else-if="queryName.match('mettings')">

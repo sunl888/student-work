@@ -34,13 +34,13 @@
                         <el-input v-model="ruleForm.nickname" placeholder="请输入用户昵称"></el-input>
                     </el-form-item>
                     <!--手机号-->
-                    <el-form-item label="手机号码" prop="telephone">
-                        <el-input v-model="ruleForm.telephone" placeholder="请输入手机号码"></el-input>
+                    <el-form-item label="手机号码" prop="phone">
+                        <el-input v-model="ruleForm.phone" placeholder="请输入手机号码"></el-input>
                     </el-form-item>
                     <!--性别-->
                     <el-form-item label="性别" prop="gender">
                         <div style="margin-left: 25px;">
-                            <el-radio v-for="item in genders" :key=item.id class="radio" v-model="ruleForm.gender" :label="item.gender">{{item.gender_str}}</el-radio>
+                            <el-radio v-for="item in genders" :key="item.id" class="radio" v-model="ruleForm.gender" :label="item.gender">{{item.gender_str}}</el-radio>
                         </div>
                     </el-form-item>
                     <!--上传头像-->
@@ -112,7 +112,7 @@
                     picture: '',
                     gender: null,
                     password: '',
-                    telephone: null,
+                    phone: null,
                     password_confirmation: '',
                     role_id: null
                 },
@@ -130,7 +130,7 @@
                         { type: 'number', required: true, message: '请选择所属学院', trigger: 'change' }
                     ],
                     gender: [
-                        {type: 'boolean', required: true, message: '请选择性别', trigger: 'change' }
+                        { type: 'boolean', required: true, message: '请选择性别', trigger: 'change' }
                     ],
                     role_id: [
                         { type: 'number', required: true, message: '请选择用户角色', trigger: 'blur' }
@@ -141,8 +141,8 @@
                     password_confirmation: [
                         { type: 'string', required: true, message: '请填写确认密码', trigger: 'blur' }
                     ],
-                    telephone: [
-                        {type: 'number', required: true, message: '请填写手机号码', trigger: 'blur'}
+                    phone: [
+                        {required: true, message: '请填写手机号码', trigger: 'blur'}
                     ]
                 }
             }
@@ -155,6 +155,7 @@
                     college_id: null,
                     picture: '',
                     gender: false,
+                    phone: null,
                     nickname: '',
                     password: '',
                     password_confirmation: '',
@@ -172,7 +173,8 @@
                 this.isEdit = true
                 this.isPass = false
                 this.$http.get('user/' + this.$route.params.id).then(res => {
-                    this.ruleForm = res.data.data
+                    this.ruleForm = res.data.data;
+                    this.ruleForm.role_id = res.data.meta.role[0].pivot.role_id;
                     this.$diff.save(this.ruleForm)
                     this.rules = {
                         role_id: [
@@ -185,13 +187,16 @@
                             { type: 'string', required: true, message: '请填写邮箱', trigger: 'blur' }
                         ],
                         gender: [
-                            {type: 'boolean', required: true, message: '请选择性别', trigger: 'change' }
+                            { type: 'boolean', required: true, message: '请选择性别', trigger: 'change' }
                         ],
                         password: [
                             { type: 'string', required: true, message: '请填写密码', trigger: 'blur' }
                         ],
                         password_confirmation: [
                             { type: 'string', required: true, message: '请填写确认密码', trigger: 'blur' }
+                        ],
+                        phone: [
+                            {required: true, message: '请填写手机号码', trigger: 'blur'}
                         ]
 
                     }
