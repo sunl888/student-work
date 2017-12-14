@@ -19,7 +19,7 @@ Homestead.json
 
 # Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
 .rocketeer/
-
+uploads/*
 /node_modules
 /public/storage
 /public/hot
