@@ -18,7 +18,13 @@
                     ></el-option>
                 </el-select>
                 <el-input class="querySelect" v-model="query.nickname" placeholder="请输入老师昵称"></el-input>
-   
+                <el-upload
+                    class="upload-demo"
+                    style="float: right;"
+                    multiple
+                >
+                    <el-button type="primary">导入数据<i class="el-icon-upload el-icon--right"></i></el-button>
+                </el-upload>
             </div>
             <el-tab-pane label="用户列表" name="list">
                 <div class="table">
