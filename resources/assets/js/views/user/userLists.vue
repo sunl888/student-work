@@ -2,14 +2,14 @@
     <div class="taskManage item">
         <el-tabs v-model="activeName" @tab-click="request" >
             <div class="query">
-                <el-select class="querySelect"  @change="getUrl()" clearable v-model="query.college" placeholder="按学院汇总">
+                <el-select class="querySelect"  @change="getUrl()" clearable v-model="query.college" placeholder="按学院筛选">
                     <el-option
                     v-for="item in collegesList"
                     :key="item.id"
                     :label="item.title"
                     :value="item.id"></el-option>
                 </el-select>
-                <el-select class="querySelect"  @change="getUrl()" clearable v-model="query.role" placeholder="按用户角色汇总">
+                <el-select class="querySelect"  @change="getUrl()" clearable v-model="query.role" placeholder="按用户角色筛选">
                     <el-option
                         v-for="item in rolesList"
                         :key="item.id"
@@ -17,12 +17,12 @@
                         :value="item.id"
                     ></el-option>
                 </el-select>
-                <el-select class="querySelect"  @change="getUrl()" clearable v-model="query.gender" placeholder="按用户性别汇总">
+                <el-select class="querySelect"  @change="getUrl()" clearable v-model="query.gender" placeholder="按用户性别筛选">
                     <el-option
                         v-for="item in genders"
                         :key="item.id"
                         :label="item.gender_str"
-                        :value="item.gender">
+                        :value="item.id">
                     </el-option>
                 </el-select>
                 <el-input class="querySelect" @blur="getUrl()" v-model="query.name" placeholder="按用户工号筛选"></el-input>
@@ -31,8 +31,10 @@
                     class="upload-demo"
                     style="float: right;"
                     multiple
+                    :show-file-list="false"
                     action="api/upload_users"
                     :on-success="handleSuccess"
+                    :on-progress="upload_user = true"
                 >
                     <el-button type="primary">导入数据<i class="el-icon-upload el-icon--right"></i></el-button>
                 </el-upload>
@@ -42,6 +44,7 @@
                     <currency-list-page ref="list" :queryName="user_url">
                         <template scope="list">
                             <el-table
+                                    :v-loading="upload_user"
                                     :default-sort = "{prop: 'created_at', order: 'descending'}"
                                     :data="list.data"
                                     stripe
@@ -108,17 +111,18 @@
         <el-card v-if="isProfile" class="proCard el-col-5">
             <div class="head">
                 <i class="el-icon-close" style="position:absolute;right:20px;" @click="isProfile =false"></i>
-                <img style="border-radius:50%;" v-if="item.picture" :src="item.picture">
+                <img style="border-radius:50%;" v-if="item.data.picture" :src="item.data.picture">
                 <img style="border-radius:50%;" v-else src="../../assets/images/picture.jpg" alt="">
             </div>
             <div class="profile el-col-20 el-col-push-2">
-                <p>用户名(工号)：<span>{{item.name}}</span></p>
-                <p>用户昵称：<span>{{item.nickname}}</span></p>
-                <p>性&emsp;别：<span>{{item.gender_str}}</span></p>
-                <p>用户邮箱：<span>{{item.email}}</span></p>
-                <p>用户角色：<span>{{item.role_dispname}}</span></p>
-                <p v-if="item.college != undefined">所属学院：<span>{{item.college.title}}</span></p>
-                <p>用户创建时间：<span>{{item.created_at | dateFilter}}</span></p>
+                <p>用户名(工号)：<span>{{item.data.name}}</span></p>
+                <p>用户昵称：<span>{{item.data.nickname}}</span></p>
+                <p>性&emsp;别：<span>{{item.data.gender_str}}</span></p>
+                <p>手机号码：<span>{{item.data.phone}}</span></p>
+                <p>用户邮箱：<span>{{item.data.email}}</span></p>
+                <p>用户角色：<span>{{item.meta.role[0].display_name}}</span></p>
+                <p v-if="item.data.college != undefined">所属学院：<span>{{item.data.college.title}}</span></p>
+                <p>用户创建时间：<span>{{item.data.created_at | dateFilter}}</span></p>
             </div>
         </el-card>
     </div>
@@ -135,10 +139,11 @@
                 rolesList: [],
                 user_url: 'all_users',
                 item: [],
+                upload_user: false,
                 list: [],
                 genders: [
-                    {gender_str: '男', gender: false, id: 2},
-                    {gender_str: '女', gender: true, id: 1}
+                    {gender_str: '男', gender: false, id: "0"},
+                    {gender_str: '女', gender: true, id: "1"}
                 ],
                 file_url: null,
                 query: {
@@ -166,23 +171,29 @@
         },
         methods: {
             handleSuccess(response){
-                this.file_url = response.path
+                this.file_url = response.path;
+                this.upload_user = false;
             },
             getUrl () {
                 let url = new Array();
-                let i = 0;
-                url[i] = 'all_users?';
+                let i = 1;
+                url[0] = 'all_users?';
                 if(this.query.college !== null){
-                    url[++i] = 'college_id=' + this.query.college;
+                    url[i] = 'college_id=' + this.query.college;
+                    i++;
                 }
                 if(this.query.role !== null){
-                    url[++i] = '&role_id=' + this.query.role; 
+                    url[i] = '&role_id=' + this.query.role; 
+                    i++;
                 }
                 if(this.query.gender !== null){
-                   url[++i] = '&gender=' + (this.query.gender );
+                   url[i] = '&gender=' + this.query.gender;
+                //    console.log(this.query.gender);
+                    i++;
                 }
                 if(this.query.name !== null){
-                    url[++i] = '&name=' + this.query.name;
+                    url[i] = '&name=' + this.query.name;
+                    i++;
                 }
                 if(this.query.nickname !== null){
                     url[i] = '&nickname=' + this.query.nickname;
@@ -220,7 +231,7 @@
             browserUser (id) {
                 this.isProfile = !this.isProfile
                 this.$http.get('user/' + id).then(res => {
-                    this.item = res.data.data
+                    this.item = res.data;
                 })
             },
             //修改用户信息
