@@ -32,7 +32,7 @@
               </div>
               <div v-else-if="queryName.match('mettings')">
                   <p>
-                      当前没有会议记录
+                      当前没有会议查询
                   </p>
               </div>
               <div v-else>

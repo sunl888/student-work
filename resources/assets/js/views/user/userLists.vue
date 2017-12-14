@@ -9,7 +9,7 @@
                     :label="item.title"
                     :value="item.id"></el-option>
                 </el-select>
-                <el-select class="querySelect" clearable v-model="query.role" placeholder="按用户角色任务">
+                <el-select class="querySelect" clearable v-model="query.role" placeholder="按用户角色汇总">
                     <el-option
                         v-for="item in rolesList"
                         :key="item.id"
@@ -17,18 +17,20 @@
                         :value="item.id"
                     ></el-option>
                 </el-select>
-                <el-input class="querySelect" v-model="query.nickname" placeholder="请输入老师昵称"></el-input>
+                <el-input class="querySelect" v-model="query.nickname" placeholder="按姓名筛选"></el-input>
                 <el-upload
                     class="upload-demo"
                     style="float: right;"
                     multiple
+                    action="api/upload"
+                    :on-success="handleSuccess"
                 >
                     <el-button type="primary">导入数据<i class="el-icon-upload el-icon--right"></i></el-button>
                 </el-upload>
             </div>
             <el-tab-pane label="用户列表" name="list">
                 <div class="table">
-                    <currency-list-page ref="list" queryName="all_users">
+                    <currency-list-page ref="list" :queryName="user_url">
                         <template scope="list">
                             <el-table
                                     :default-sort = "{prop: 'created_at', order: 'descending'}"
@@ -122,8 +124,10 @@
                 isProfile: false,
                 collegesList: [],
                 rolesList: [],
+                user_url: 'all_users',
                 item: [],
                 list: [],
+                file_url: null,
                 query: {
                     college: null,
                     role: null,
@@ -143,6 +147,12 @@
             this.getRolesList();
         },
         methods: {
+            handleSuccess(response){
+                this.file_url = response.path
+            },
+            getUrl () {
+                
+            },
             getRolesList () {
                 this.$http.get('roles').then(res => {
                     this.rolesList = res.data.data
