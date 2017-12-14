@@ -22,7 +22,7 @@
                     class="upload-demo"
                     style="float: right;"
                     multiple
-                    action="api/upload"
+                    action="api/upload_users"
                     :on-success="handleSuccess"
                 >
                     <el-button type="primary">导入数据<i class="el-icon-upload el-icon--right"></i></el-button>
