@@ -34,7 +34,8 @@
                     :show-file-list="false"
                     action="api/upload_users"
                     :on-success="handleSuccess"
-                    :on-progress="upload_user = true"
+                    :on-error="handleError"
+                    :on-progress="handleProgress"
                 >
                     <el-button type="primary">导入数据<i class="el-icon-upload el-icon--right"></i></el-button>
                 </el-upload>
@@ -44,7 +45,7 @@
                     <currency-list-page ref="list" :queryName="user_url">
                         <template scope="list">
                             <el-table
-                                    :v-loading="upload_user"
+                                    v-loading="upload_user"
                                     :default-sort = "{prop: 'created_at', order: 'descending'}"
                                     :data="list.data"
                                     stripe
@@ -173,6 +174,16 @@
             handleSuccess(response){
                 this.file_url = response.path;
                 this.upload_user = false;
+                this.$refs['list'].refresh();
+                this.$message.success('成功导入数据');
+            },
+            handleError(err){
+                this.$message.error('数据错误或重复，请重试');
+                this.upload_user = false;
+                this.$refs['list'].refresh();
+            },
+            handleProgress(){
+                this.upload_user = true;
             },
             getUrl () {
                 let url = new Array();
