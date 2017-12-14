@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call(MenusSeeder::class);
         $this->call(MenuRoleSeeder::class);
         $this->call(SemestersSeeder::class);
-        factory(App\Models\Task::class, $this->taskCount)->create();
-        factory(App\Models\Meeting::class, $this->meetCount)->create();
+        //factory(App\Models\Task::class, $this->taskCount)->create();
+        //factory(App\Models\Meeting::class, $this->meetCount)->create();
     }
 }

@@ -30,7 +30,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         'name', 'email', 'password', 'avatar', 'nickname', 'phone', 'gender', 'college_id', 'department_id', 'picture'
     ];
 
-    protected static $allowSearchFields = ['name', 'nickname', 'college_id'];
+    protected static $allowSearchFields = ['name', 'gender', 'role_id', 'nickname', 'college_id'];
     protected static $allowSortFields = ['name', 'nickname', 'gender', 'college_id', 'department_id'];
 
     protected $casts = [

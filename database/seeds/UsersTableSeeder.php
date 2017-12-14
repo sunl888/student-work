@@ -19,7 +19,7 @@ class   UsersTableSeeder extends Seeder
                 'password' => bcrypt('admin2017'),
                 'email' => app(Faker\Generator::class)->freeEmail,
                 'college_id' => null,
-                'picture' => 'images/picture.jpg',//app(Faker\Generator::class)->imageUrl(),
+                'picture' => app(Faker\Generator::class)->imageUrl(),
                 'gender' => app(Faker\Generator::class)->boolean,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()

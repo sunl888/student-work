@@ -50,11 +50,25 @@ class UsersController extends BaseController
                 ->where('roles.id','=',2)
                 ->orderBy('role_user.role_id','asc')
                 ->get();*/
+        /*$users = User::leftJoin('role_user', 'users.id', '=', 'role_user.user_id')
+            ->leftJoin('roles', 'role_user.role_id', '=', 'roles.id')
+            ->withSimpleSearch()
+            ->whereHas('roles', function ($query) {
+                $role_id = request('role_id', null);
+                if ($role_id) {
+                    $query->where('roles.id', '=', $role_id);
+                }
+            })
+            ->WithSort();*/
         $users = User::leftJoin('role_user', 'users.id', '=', 'role_user.user_id')
             ->leftJoin('roles', 'role_user.role_id', '=', 'roles.id')
             ->select(['users.*', 'roles.name as role_name', 'roles.display_name as role_disp_name', 'roles.id as role_id'])
-            ->WithSort()
-            ->orderBy('role_user.role_id', 'asc');
+            ->WithSort();
+        // 学院排序
+        /*if (!is_null(request('order'))) {
+            $temp = explode('-', request('order'), 2);
+            $users = $users->orderBy('users.' . $temp[0], $temp[1]);
+        }*/
         // 性别筛选
         if (!is_null(request('gender'))) {
             $users = $users->where('users.gender', '=', request('gender'));
@@ -75,16 +89,8 @@ class UsersController extends BaseController
         if (request('college_id')) {
             $users = $users->where('users.college_id', '=', request('college_id'));
         }
-        /*$users = User::leftJoin('role_user', 'users.id', '=', 'role_user.user_id')
-            ->leftJoin('roles', 'role_user.role_id', '=', 'roles.id')
-            ->withSimpleSearch()
-            ->whereHas('roles', function ($query) {
-                $role_id = request('role_id', null);
-                if ($role_id) {
-                    $query->where('roles.id', '=', $role_id);
-                }
-            })
-            ->WithSort();*/
+        $users = $users->orderBy('role_user.role_id', 'asc');
+
         // 获取所有的用户
         if (0 == request('limit')) {
             return $this->response->collection($users->get(), new UserTransformer())
@@ -94,7 +100,6 @@ class UsersController extends BaseController
             return $this->response->paginator($users, new UserTransformer())
                 ->setMeta(User::getAllowSortFieldsMeta() + User::getAllowSearchFieldsMeta());
         }
-
     }
 
     /**

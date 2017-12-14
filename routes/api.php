@@ -145,6 +145,10 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         //删除指定权限
         $api->get('delete_permission/{permission}', 'PermissionsController@destroy');
         // 用户列表
+        /**
+         * 排序:orders=college_id-asc
+         * 筛选:college_id=9
+         */
         $api->get('all_users', 'UsersController@lists');
         // 获取用户角色
         $api->get('user/{user}/roles', 'UsersController@roles');
