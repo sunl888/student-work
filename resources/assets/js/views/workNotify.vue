@@ -47,14 +47,14 @@
                 if(x.type.match('CreatedMeeting')){
                     this.$router.push({name: 'cahier_detail', params: {id: x.data.id}});
                 } else{
-                    if(this.me.role_id == 1){
+                    if(this.me.roles.data[0].id == 1){
                         url = 'task_item';
-                    } else if(this.me.role_id == 2){
+                    } else if(this.me.roles.data[0].id == 2){
                         url = 'task_detail';
                     } else {
                         url = 'task_information';
                     }  
-                    this.$router.push({name: url, params: {id: x.data.task_id,college:this.me.college_id}});
+                    this.$router.push({name: url, params: {id: x.data.task_id,college:this.me.college.data.id}});
                 }
                
             },

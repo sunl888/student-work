@@ -5,7 +5,7 @@
         <i :title="me.nickname" v-if="me.picture == null" @click="$router.push({name:'user_update'})" style="cursor:pointer;color:white;" class="material-icons">account_circle</i>
         <img :title="me.nickname" @click="$router.push({name:'user_update'})" class="photo" v-else :src="me.picture" alt="">
         <p :title="me.nickname" style="cursor:pointer;" @click="$router.push({name:'user_update'})">{{'您好，' + me.nickname}}</p>
-        <p v-if="me.college!=undefined">{{me.college.title}}</p>
+        <p v-if="me.college!=undefined">{{me.college.data.title}}</p>
       </div>
       <el-submenu v-for="values in menus" :index=values.name :key="values.id">
         <template slot="title" >

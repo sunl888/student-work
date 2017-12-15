@@ -93,7 +93,7 @@
                 this.$router.push({name: 'task_information',
                     params: {
                         id: id,
-                        college: this.$store.state.me.college_id
+                        college: this.$store.state.me.college.data.id
                     }
                 })
             },

@@ -43,7 +43,7 @@ Vue.prototype.$http.interceptors.response.use((response) => {
 });
 function getMe() {
     if(store.state.me === null) {
-        Vue.prototype.$http.get('me').then(res => {
+        Vue.prototype.$http.get('me?include=roles,college').then(res => {
             store.commit('UPDATE_ME', res.data.data);
             if(store.state.me.is_super_admin){
                 // getUsers();

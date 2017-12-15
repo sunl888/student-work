@@ -5,16 +5,16 @@
                 <!--表单-->
                 <el-form :model="me" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                     <!--用户角色-->
-                    <el-form-item label="用户角色" prop="role_id">
-                        <el-input disabled v-model="me.role_dispname"></el-input>
+                    <el-form-item label="用户角色">
+                        <el-input disabled v-model="me.roles.data[0].display_name"></el-input>
                     </el-form-item>
                     <!--所属学院-->
-                    <el-form-item v-if="me.college_name === null" label="所属学院" prop="college_id">
+                    <el-form-item v-if="me.college_name === null" label="所属学院">
                         <el-input disabled v-model="me.college_name"></el-input>
                     </el-form-item>
                     <!--用户ID-->
 
-                    <el-form-item label="用户名" prop="name">
+                    <el-form-item label="用户名">
                         <el-input disabled v-model="me.name" placeholder="请输入用户名(推荐使用工号)"></el-input>
                     </el-form-item>
                       <!--用户名-->
@@ -108,9 +108,6 @@
                     gender: [
                         {type: 'boolean', required: true, message: '请选择性别', trigger: 'change' }
                     ],
-                    role_id: [
-                        { type: 'number', required: true, message: '请选择用户角色', trigger: 'blur' }
-                    ],
                     password: [
                         { type: 'string', required: true, message: '请填写密码', trigger: 'blur' }
                     ],
@@ -118,7 +115,7 @@
                         { type: 'string', required: true, message: '请填写确认密码', trigger: 'blur' }
                     ],
                     telephone: [
-                        { type: 'number', required: true, message: '请填写手机号码', trigger: 'blur' }
+                        { required: true, message: '请填写手机号码', trigger: 'blur' }
                     ]
                 }
             }

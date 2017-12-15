@@ -248,7 +248,7 @@ export default{
       this.$router.push({name: 'task_item',
           params: {
               id: id,
-              college: this.$store.state.me.college_id
+              college: this.$store.state.me.college.data.id
           }
       })
     },

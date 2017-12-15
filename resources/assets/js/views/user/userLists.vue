@@ -78,7 +78,7 @@
                                         label="性别">
                                 </el-table-column>
                                 <el-table-column
-                                        prop="college.title"
+                                        prop="college.data.title"
                                         sortable
                                         label="所属学院"
                                 >
@@ -88,7 +88,7 @@
                                         label="用户角色"
                                         sortable
                                 >
-                                    <span>{{row.role_dispname}}</span>
+                                    <span>{{row.roles.data[0].display_name}}</span>
                                 </el-table-column>
                                 <el-table-column
                                         width="200"
@@ -122,7 +122,7 @@
                 <p>手机号码：<span>{{item.data.phone}}</span></p>
                 <p>用户邮箱：<span>{{item.data.email}}</span></p>
                 <p>用户角色：<span>{{item.meta.role[0].display_name}}</span></p>
-                <p v-if="item.data.college != undefined">所属学院：<span>{{item.data.college.title}}</span></p>
+                <p v-if="item.data.college.data !== {}">所属学院：<span>{{item.data.college.data.title}}</span></p>
                 <p>用户创建时间：<span>{{item.data.created_at | dateFilter}}</span></p>
             </div>
         </el-card>
@@ -138,7 +138,7 @@
                 isProfile: false,
                 collegesList: [],
                 rolesList: [],
-                user_url: 'all_users',
+                user_url: 'all_users?include=roles,college',
                 item: [],
                 upload_user: false,
                 list: [],
@@ -188,9 +188,9 @@
             getUrl () {
                 let url = new Array();
                 let i = 1;
-                url[0] = 'all_users?';
+                url[0] = 'all_users?include=roles,college';
                 if(this.query.college !== null){
-                    url[i] = 'college_id=' + this.query.college;
+                    url[i] = '&college_id=' + this.query.college;
                     i++;
                 }
                 if(this.query.role !== null){
@@ -241,7 +241,7 @@
             //查看用户信息
             browserUser (id) {
                 this.isProfile = !this.isProfile
-                this.$http.get('user/' + id).then(res => {
+                this.$http.get('user/' + id + '?include=roles,college').then(res => {
                     this.item = res.data;
                 })
             },
