@@ -7,8 +7,11 @@ use League\Fractal\TransformerAbstract;
 
 class CollegeTransformer extends TransformerAbstract
 {
-    public function transform(College $college)
+    public function transform(?College $college)
     {
+        if ($college == null) {
+            return [$this->null()];
+        }
         return [
             'id' => $college->id,
             'title' => $college->title,

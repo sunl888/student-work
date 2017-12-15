@@ -7,7 +7,6 @@
     "require": {
         "php": ">=5.6.4",
         "dingo/api": "1.0.x@dev",
-        "itsgoingd/clockwork": "^1.14",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "maatwebsite/excel": "~2.1.0",

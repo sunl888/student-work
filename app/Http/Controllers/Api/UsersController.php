@@ -30,9 +30,8 @@ class UsersController extends BaseController
      */
     public function show(User $user)
     {
-        $role = $user->roles;
         return $this->response->item($user, new UserTransformer())
-            ->addMeta('role', $role);
+            ->addMeta('role', $user->roles);
     }
 
     /**
@@ -62,7 +61,7 @@ class UsersController extends BaseController
             ->WithSort();*/
         $users = User::leftJoin('role_user', 'users.id', '=', 'role_user.user_id')
             ->leftJoin('roles', 'role_user.role_id', '=', 'roles.id')
-            ->select(['users.*', 'roles.name as role_name', 'roles.display_name as role_disp_name', 'roles.id as role_id'])
+            ->select(['users.*'])
             ->WithSort();
         // 性别筛选
         if (!is_null(request('gender'))) {
