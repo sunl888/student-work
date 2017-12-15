@@ -1,12 +1,8 @@
 vendor/
 node_modules/
 npm-debug.log
-
-# Laravel 4 specific
 bootstrap/compiled.php
 app/storage/
-
-# Laravel 5 & Lumen specific
 public/storage
 public/hot
 storage/*.key
@@ -16,8 +12,6 @@ storage/*.key
 .idea
 Homestead.yaml
 Homestead.json
-
-# Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
 .rocketeer/
 storage/uploads/*
 /node_modules
@@ -27,7 +21,7 @@ storage/uploads/*
 /public/js
 /public/images
 /public/mix-manifest.json
-npm-debug.log
 npm-debug.log*
 .DS_Store
 .gitignore
+composer.lock
