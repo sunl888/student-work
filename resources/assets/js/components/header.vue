@@ -2,7 +2,7 @@
   <div class="item el-col-24">
     <div class="top el-col-24">
       <img class="el-col-1 logo el-col-push-1" src="../assets/images/logo.png">
-      <h2 style="margin:0 20px" class="el-col-8 el-col-push-1">淮南师范学院学生事务进程考核系统</h2>
+      <h2 style="margin:0 5px" class="el-col-8 el-col-push-1">淮南师范学院学生事务进程考核系统</h2>
       <el-input
         placeholder="输入关键字查询系统中的任务"
         icon="search"
