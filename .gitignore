@@ -31,3 +31,5 @@ npm-debug.log
 npm-debug.log*
 .DS_Store
 .gitignore
+.vscode/
+storage/clockwork/
