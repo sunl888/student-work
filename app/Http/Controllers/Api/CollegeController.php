@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\CreateCollegeRequest;
 use App\Http\Requests\UpdateCollegeRequest;
 use App\Repositories\CollegeRepository;
+use App\Repositories\TaskProgressRepository;
 use App\Transformers\CollegeTransformer;
 
 class CollegeController extends BaseController
@@ -30,6 +31,7 @@ class CollegeController extends BaseController
     public function delete($CollegeId)
     {
         app(CollegeRepository::class)->delete($CollegeId);
+        app(TaskProgressRepository::class)->deleteByCollegeId($CollegeId);
         return $this->response->noContent();
     }
 }

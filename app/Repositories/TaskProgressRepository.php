@@ -70,4 +70,13 @@ class TaskProgressRepository extends Repository
         return $this->model->where($conditions)->get();
     }
 
+    public function deleteByCollegeId($college_id)
+    {
+        try {
+            return $this->model->where('college_id', $college_id)->delete();
+        } catch (\Exception $e) {
+            throw new ModelNotFoundException($e->getMessage());
+        }
+    }
+
 }
