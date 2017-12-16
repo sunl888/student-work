@@ -89,9 +89,9 @@
           })
       },
       goItem (x) {
-        if(this.me.role_id === 2){
+        if(this.me.roles.data[0].id === 2){
             this.$router.push({name: 'task_detail', params:{id: x}})
-        } else if(this.me.role_id === 3) {
+        } else if(this.me.roles.data[0].id === 3) {
             this.$router.push({name: 'task_information', params:{id: x}})
         } else {
             this.$router.push({name: 'task_item', params:{id: x}})

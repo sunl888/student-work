@@ -205,12 +205,12 @@ export default{
       })
     },
     jump (row) {
-      if(this.me.role_id === 1){
+      if(this.me.roles.data[0].id === 1){
          this.$router.push({name: 'task_item', params: {id: row.id}})
-      } else if(this.me.role_id === 2){
-         this.$router.push({name: 'task_detail', params: {id: row.id,college: this.me.college_id}})
-      } else if(this.me.role_id === 3){
-         this.$router.push({name: 'task_information', params: {id: row.id,college: this.me.college_id}})
+      } else if(this.me.roles.data[0].id === 2){
+         this.$router.push({name: 'task_detail', params: {id: row.id,college: this.me.college.data.id}})
+      } else if(this.me.roles.data.id === 3){
+         this.$router.push({name: 'task_information', params: {id: row.id,college: this.me.college.data.id}})
       }
      
     },
@@ -321,7 +321,7 @@ export default{
       this.$router.push({name: 'task_item',
           params: {
               id: id,
-              college: this.$store.state.me.college_id
+              college: this.$store.state.me.college.data.id
           }
       })
     },

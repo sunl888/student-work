@@ -150,7 +150,7 @@
         },
         computed: {
             me () {
-                return this.$store.state.me.college_id ? this.$store.state.me.college_id : {};
+                return this.$store.state.me.college.data.id ? this.$store.state.me.college.data.id : {};
             }
         },
         methods: {

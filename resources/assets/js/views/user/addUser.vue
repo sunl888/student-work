@@ -172,9 +172,18 @@
             if(this.$route.name === 'edit_user'){
                 this.isEdit = true
                 this.isPass = false
-                this.$http.get('user/' + this.$route.params.id).then(res => {
-                    this.ruleForm = res.data.data;
-                    this.ruleForm.role_id = res.data.meta.role[0].pivot.role_id;
+                this.$http.get('user/' + this.$route.params.id + '?include=roles,college').then(res => {
+                    // this.ruleForm = res.data.data;
+                    this.ruleForm = {
+                        name: res.data.data.name,
+                        email: res.data.data.email,
+                        college_id: res.data.data.college.data.id,
+                        picture: res.data.data.picture,
+                        gender: res.data.data.gender,
+                        phone: res.data.data.phone,
+                        nickname: res.data.data.nickname,
+                        role_id: res.data.data.roles.data[0].id
+                    }
                     this.$diff.save(this.ruleForm)
                     this.rules = {
                         role_id: [

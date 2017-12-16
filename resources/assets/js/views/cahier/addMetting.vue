@@ -135,28 +135,22 @@
       this.getLate();
       // this.getAllUsers();
     },
-    watch:{
-      'checked' () {
-        this.theAllUsers();
-      }
-    },
     methods: {
       theAllUsers () {
         if(this.checked === true){
           this.restoreCheck = true;
           this.tips = '数据加载中...请稍侯';
-          this.$http.get('all_users').then(res => {
+          this.$http.get('all_users?include=roles,college').then(res => {
             this.restoreCheck = false;
             this.$message.success('选择成功！当前参会人员为全体人员')
             for(let x in res.data.data){
               this.attendPeo.push({
-                label: (res.data.data[x].college.title || '学生处') + ' - ' + res.data.data[x].nickname,
+                label: (res.data.data[x].college.data.title || '学生处') + ' - ' + res.data.data[x].nickname,
                 key: res.data.data[x].id,
                 status: null
               })
             }
           })
-          // this.attendPeo
         } else {
           this.attendPeo.splice(0, this.attendPeo.length);
           this.tips = '当前参会人员为空, 请先选择参会人员';
