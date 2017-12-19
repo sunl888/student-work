@@ -20,12 +20,17 @@
       </el-option>
     </el-select>
     <el-date-picker
-      v-model="query.range"
-      type="daterange"
-      placeholder="在日期范围内汇总"
-      disabled>
-    </el-date-picker>
-    <el-button style="position:absolute;right:100px;" @click="$router.back()" type="text">回到图表</el-button>
+          v-model="query.range.start_date"
+          type="date"
+          placeholder="请选择开始日期">
+      </el-date-picker>
+      <el-date-picker
+          v-model="query.range.end_date"
+          type="date"
+          @change="getTaskPro()"
+          placeholder="请选择结束日期">
+      </el-date-picker>
+    <el-button style="float: right;margin-right: 20px;" @click="$router.back()" type="text">回到图表</el-button>
   </div>
   <div class="table">
          <currency-list-page ref="list" :queryName="'tasks?include=task_progresses&college='+this.$route.params.id+'&status=publish'"> 
@@ -132,8 +137,8 @@ export default{
         semester:'',
         schoolYear: '',
         range:{
-          start_time: null,
-          end_time: null 
+          start_date: null,
+          end_date: null 
         },
       },
       total: 0,

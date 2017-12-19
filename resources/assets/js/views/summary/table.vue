@@ -11,12 +11,16 @@
           :value="value.status"></el-option>
     </el-select>
     <el-date-picker
-    class="querySelect"
-      v-model="query.range"
-       @change="getTaskPro()"
-      type="daterange"
-      placeholder="在日期范围内汇总任务">
-    </el-date-picker>
+          v-model="query.range.start_date"
+          type="date"
+          placeholder="请选择开始日期">
+      </el-date-picker>
+      <el-date-picker
+          v-model="query.range.end_date"
+          type="date"
+          @change="getTaskPro()"
+          placeholder="请选择结束日期">
+      </el-date-picker>
     <el-select class="querySelect" clearable @change="getTaskPro()" v-model="query.college_id" placeholder="按学院汇总任务">
         <el-option
                 v-for="item in collegesList"
@@ -352,7 +356,8 @@ export default{
     getTaskPro (page = 1, sort) {
       let url = new Array();
       let i = 1;
-      let range = this.query.range.toLocaleString().split(',');
+      let start_date = (this.query.range.start_date || '').toLocaleString().split(' ')[0];
+      let end_date = (this.query.range.end_date || '').toLocaleString().split(' ')[0];
       url[0] = 'tasks?';
       if(this.query.status !== null){
          url[i] = 'status='+this.query.status;
@@ -371,13 +376,13 @@ export default{
         i++;
       }
       if (this.query.range.start_date !== null){
-        this.query.range.start_date = (range[0] || '').substr(0,range[0].indexOf(' '));
-        url[i] = '&start_date='+this.query.range.start_date;
+        // this.query.range.start_date = (range[0] || '').substr(0,range[0].indexOf(' '));
+        url[i] = '&start_date='+start_date;
         i++;
       } 
       if (this.query.range.end_date !== null){
-        this.query.range.end_date = (range[1] || '').substr(0,range[1].indexOf(' '));
-        url[i] = '&end_date='+this.query.range.end_date;
+        // this.query.range.end_date = (range[1] || '').substr(0,range[1].indexOf(' '));
+        url[i] = '&end_date='+end_date;
         i++;
       }
       this.url = url.join('');
@@ -407,7 +412,7 @@ export default{
     width:100%;
   }
   .querySelect{
-    width:18%;
+    width:14%;
   }
   .footer{
   padding: 15px 20px;

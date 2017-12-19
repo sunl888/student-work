@@ -19,13 +19,19 @@
           :value="item.value">
         </el-option>
       </el-select>
-    <el-date-picker
-    :disabled="query.schoolYear!==''"
-      v-model="query.range"
-      type="daterange"
-      @change="getData()"
-      placeholder="按日期范围汇总">
-    </el-date-picker>
+       <el-date-picker
+          :disabled="query.schoolYear!==''"
+          v-model="query.range.start_date"
+          type="date"
+          placeholder="请选择开始日期">
+      </el-date-picker>
+      <el-date-picker
+          :disabled="query.schoolYear!==''"
+          v-model="query.range.end_date"
+          type="date"
+          @change="getData()"
+          placeholder="请选择结束日期">
+      </el-date-picker>
   </div>
   <div id="main">
   </div>
@@ -195,20 +201,20 @@ export default{
     getData(){
       let url = new Array();
       let i = 1;
-      let range = this.query.range.toLocaleString().split(',');
+      let start_date = (this.query.range.start_date || '').toLocaleString().split(' ')[0];
+      let end_date = (this.query.range.end_date || '').toLocaleString().split(' ')[0];
+      console.log(start_date, end_date);
       url[0] = 'echart/lists';
       if (this.query.range.start_date !== null){
-                // echarts.dispose();
-        this.query.range.start_date = (range[0] || '').substr(0,range[0].indexOf(' '));
-        url[i] = '?start_date='+this.query.range.start_date;
+        // echarts.dispose();
+        url[i] = '?start_date='+ start_date;
         i++;
       } 
       if (this.query.range.end_date !== null){
-        this.query.range.end_date = (range[1] || '').substr(0,range[1].indexOf(' '));
-        url[i] = '&end_date='+this.query.range.end_date;
+        url[i] = '&end_date=' + end_date;
         i++;
       }
-            this.score.splice(0,this.score.length);
+      this.score.splice(0,this.score.length);
       this.college.splice(0,this.college.length);
       this.getList(url.join(''));
     },
