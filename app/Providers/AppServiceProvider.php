@@ -78,7 +78,7 @@ class AppServiceProvider extends ServiceProvider
                     [
                         'status_code' => 401,
                         'code' => 401.1,
-                        'message' => '你还没有登陆^^'
+                        'message' => '你还没有登陆^_^'
                     ], 401
                 );
             }

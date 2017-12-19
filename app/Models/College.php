@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class College extends BaseModel
 {
+    protected $fillable = ['title'];
+
     use SoftDeletes {
         restore as private restoreA;
     }
@@ -23,8 +25,14 @@ class College extends BaseModel
         $this->restoreB();
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'college_id', 'id');
+    }
+
     public function clearCache()
     {
         Cache::forget('colleges');
     }
+
 }

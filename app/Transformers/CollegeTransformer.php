@@ -7,16 +7,16 @@ use League\Fractal\TransformerAbstract;
 
 class CollegeTransformer extends TransformerAbstract
 {
-    public function transform(?College $college)
+    public function transform($college)
     {
-        if ($college == null) {
-            return [$this->null()];
+        if ($college instanceof College) {
+            return [
+                'id' => $college->id,
+                'title' => $college->title,
+                'created_at' => $college->created_at->toDateTimeString(),
+                'updated_at' => $college->updated_at->toDateTimeString()
+            ];
         }
-        return [
-            'id' => $college->id,
-            'title' => $college->title,
-            'created_at' => $college->created_at->toDateTimeString(),
-            'updated_at' => $college->updated_at->toDateTimeString()
-        ];
+        return $this->null();
     }
 }

@@ -9,7 +9,7 @@ class UserTransformer extends TransformerAbstract
 {
     protected $availableIncludes = ['roles', 'college'];
 
-    public function transform(?User $user)
+    public function transform(User $user)
     {
         return [
             'id' => $user->id,
@@ -19,15 +19,10 @@ class UserTransformer extends TransformerAbstract
             'gender' => $user->gender,
             'picture' => $user->picture,
             'nickname' => $user->nickname,
-            /*'role_id' => $user->role_id,
-            'role_name' => $user->role_name,
-            'college_id' => (int)$user->college_id,
-            'role_dispname' => $user->role_disp_name,*/
             'is_super_admin' => $user->isSuperAdmin(),
             'gender_str' => $user->gender ? '女' : '男',
             'created_at' => $user->created_at->toDateTimeString(),
-            'updated_at' => $user->updated_at->toDateTimeString(),
-            //'college' => app(CollegeRepository::class)->find($user->college_id, ['title']),
+            'updated_at' => $user->updated_at->toDateTimeString()
         ];
     }
 
@@ -39,6 +34,9 @@ class UserTransformer extends TransformerAbstract
 
     public function includeCollege(User $user)
     {
-        return $this->item($user->college()->first(), new CollegeTransformer());
+        if (!!$user->college()->count()) {
+            return $this->item($user->college, new CollegeTransformer());
+        }
+        return $this->null();
     }
 }

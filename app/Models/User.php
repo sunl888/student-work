@@ -77,7 +77,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
 
     public function college()
     {
-        return $this->belongsTo(College::class);
+        return $this->hasOne(College::class, 'id', 'college_id');
     }
 }
 
