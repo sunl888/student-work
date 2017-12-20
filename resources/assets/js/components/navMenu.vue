@@ -43,6 +43,7 @@ export default{
     bottom: 0;
   }
   .menu{
+    overflow: auto;
     font-size:30px;
     line-height:80px;
     margin-left:20px;
@@ -74,5 +75,9 @@ export default{
     height:35px;
     margin-bottom:10px;
     border-radius:50%;
+  }
+  .powerd{
+    position: absolute;
+    bottom: 0;
   }
 </style>

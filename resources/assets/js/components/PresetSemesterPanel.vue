@@ -8,11 +8,17 @@
         
         <div>
             <el-input style="margin-right:10px;width:130px;" class="add_input" v-model="inputTitle" placeholder="请输入学年名称"></el-input>
+
             <el-date-picker
-        style="margin-right:10px;" 
-          v-model="range"
-          type="daterange"
-          placeholder="选择学年范围">
+                v-model="range.start_date"
+                type="date"
+                placeholder="请选择学年开始日期">
+            </el-date-picker>
+            <el-date-picker
+                v-model="range.end_date"
+                type="date"
+                @change="getTaskPro()"
+                placeholder="请选择学年结束日期">
             </el-date-picker>
             <el-button icon="plus" style="color:#666" title="添加学年" @click="addType()">
             </el-button>
@@ -23,16 +29,21 @@
                 <Ttag @update="update($event, item.id, 2)" @on-close="deleteWorkType(item.id,'parent', index)" :range="item.start_time + ' - ' +item.end_time"></Ttag>
                <el-button style="position:absolute;margin-left:20px" v-if="item.parent_id == 0" type="text" @click="openDia(item.id)">添加学期</el-button>
                <p style="width:80%;margin:5px auto;background:#999;height:1px;"></p>
-               <el-dialog title="添加学期" :visible.sync="isSemester">
+               <el-dialog title="添加学期" :visible.sync="isSemester"> 
                   <el-form>
                     <el-col>
                          <el-input style="margin-right:10px;width:200px;" class="add_input" v-model="inputTitle" placeholder="请输入学期名称"></el-input>
                         <el-date-picker
-                        style="margin-right:10px;" 
-                          v-model="range"
-                          type="daterange"
-                          placeholder="选择学期范围">
+                            v-model="range.start_date"
+                            type="date"
+                            placeholder="请选择学年开始日期">
                         </el-date-picker>
+                        <el-date-picker
+                            v-model="range.end_date"
+                            type="date"
+                            @change="getTaskPro()"
+                            placeholder="请选择学年结束日期">
+            </el-date-picker>
                         <el-checkbox v-model="currentSemester">设为当前学期</el-checkbox>
                     </el-col>
                
@@ -71,7 +82,10 @@
             return {
                 currentSemester:false,
                 isSemester:false,
-            	range:[],
+            	range:{
+                    start_date: '',
+                    end_date: ''
+                },
                 inputTitle: '',
                 tags:[],
                 inputGra: '',
@@ -114,15 +128,9 @@
                                                          
                           })
                 } else {
-
                 	let tempNewVal = new Array();
                     tempNewVal = newVal.split(' - ');
                           console.log(tempNewVal)           
-        //         	this.range = this.range.toLocaleString().split(',')
-		    		// this.range.push({
-		    		//    start_time: (this.range[0] || '').substr(0,(this.range[0] || '').indexOf(' ')),
-		    		//    end_time: (this.range[1] || '').substr(0,(this.range[1] || '').indexOf(' '))
-		    		// })
                     this.$http.post('update_' + this.url + '/' + id, {
 	                    start_time:tempNewVal[0],
 	                    end_time:tempNewVal[1]
@@ -132,29 +140,23 @@
                             type: 'success'
                         })
                     }).catch(err => {
-                            for(let i in err.response.data.message){
-                                this.$message({
-                                  type: 'error',
-                                  message: err.response.data.message[i]
-                              })  
-                            }
-                                                         
-                          })
+                        for(let i in err.response.data.message){
+                            this.$message({
+                                type: 'error',
+                                message: err.response.data.message[i]
+                            })  
+                        }                               
+                    })
                 }
             },
             // 添加工作类型
             addType () {
-            	this.range = this.range.toLocaleString().split(',')
-        		this.range.push({
-        		   start_time: this.range[0].substr(0,this.range[0].indexOf(' ')),
-        		   end_time: this.range[1].substr(0,this.range[1].indexOf(' '))
-        		})
                 if(this.isSemester){
                     if(this.currentSemester){
                         this.$http.post('create_' + this.url, {
                         title: this.inputTitle,
-                        start_time:this.range[2].start_time,
-                        end_time: this.range[2].end_time,
+                        start_time: this.range.start_date.toLocaleString().split(' ')[0],
+                        end_time:  this.range.end_date.toLocaleString().split(' ')[0],
                         parent_id: this.temp,
                         checked: 1
                         }).then(res => {
@@ -179,8 +181,8 @@
                     } else {
                        this.$http.post('create_' + this.url, {
                             title: this.inputTitle,
-                            start_time:this.range[2].start_time,
-                            end_time: this.range[2].end_time,
+                            start_time: this.range.start_date.toLocaleString().split(' ')[0],
+                            end_time:  this.range.end_date.toLocaleString().split(' ')[0],
                             parent_id: this.temp,
                         }).then(res => {
                             this.inputTitle = ''
@@ -205,8 +207,8 @@
                 } else {
                         this.$http.post('create_' + this.url, {
                         title: this.inputTitle,
-                        start_time:this.range[2].start_time.trim(),
-                        end_time: this.range[2].end_time.trim()
+                        start_time: this.range.start_date.toLocaleString().split(' ')[0],
+                        end_time:  this.range.end_date.toLocaleString().split(' ')[0],
                         // parent_id: this.temp,
                         // checked: this.currentSemester
                         }).then(res => {
@@ -276,6 +278,9 @@
         width: 60%;
         padding: 25px;
         margin: 0 auto;
+    }
+    .el-dialog--small{
+        width: 60%!important;
     }
     .prese_data_panel>.title,.title{
         font-size: 18px;

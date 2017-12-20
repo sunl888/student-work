@@ -44,6 +44,12 @@ a,a:hover,a:visited{
   text-align: center;
     /* overflow: auto; */
 }
+.power{
+  font-size: 13px;
+  text-align: right;
+  padding-right: 5px;
+  color: #888;
+}
 .slide-fade-enter-active {
   transition: all .3s ease;
 }

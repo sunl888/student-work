@@ -198,13 +198,13 @@ export default new Router({
                 {
                     path: 'absence',
                     name: 'absence',
-                    meta: {title: '考核等级设置'},
+                    meta: {title: '缺勤原因设置'},
                     component: require('../views/precut/absence.vue')
                 },
                 {
                     path: 'semester',
                     name: 'semester',
-                    meta: {title: '考核等级设置'},
+                    meta: {title: '学期学年设置'},
                     component: require('../views/precut/semester.vue')
                 }
             ]
