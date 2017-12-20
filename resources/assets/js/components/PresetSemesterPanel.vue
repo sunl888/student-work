@@ -36,13 +36,13 @@
                         <el-date-picker
                             v-model="range.start_date"
                             type="date"
-                            placeholder="请选择学年开始日期">
+                            placeholder="请选择学期开始日期">
                         </el-date-picker>
                         <el-date-picker
                             v-model="range.end_date"
                             type="date"
                             @change="getTaskPro()"
-                            placeholder="请选择学年结束日期">
+                            placeholder="请选择学期结束日期">
             </el-date-picker>
                         <el-checkbox v-model="currentSemester">设为当前学期</el-checkbox>
                     </el-col>
