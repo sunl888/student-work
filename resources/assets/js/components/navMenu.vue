@@ -2,8 +2,8 @@
   <div class="menuBox">
     <el-menu router unique-opened theme="dark" default-active="1" >
       <div class="mine">
-        <i :title="me.nickname" v-if="me.picture == null" @click="$router.push({name:'user_update'})" style="cursor:pointer;color:white;" class="material-icons">account_circle</i>
-        <img :title="me.nickname" @click="$router.push({name:'user_update'})" class="photo" v-else :src="me.picture" alt="">
+        <i title="点击修改个人资料" v-if="me.picture == null" @click="$router.push({name:'user_update'})" style="cursor:pointer;color:white;" class="material-icons">account_circle</i>
+        <img title="点击修改个人资料" @click="$router.push({name:'user_update'})" class="photo" v-else :src="me.picture" alt="">
         <p :title="me.nickname" style="cursor:pointer;" @click="$router.push({name:'user_update'})">{{'您好，' + me.nickname}}</p>
         <p v-if="me.college!=undefined">{{me.college.data.title}}</p>
       </div>
@@ -55,10 +55,10 @@ export default{
   }
   .mine{
     height:100px;
-    margin-top:20px;
+    margin:40px 0;
   }
   .mine i{
-    font-size:35px;
+    font-size:70px;
     margin-bottom:10px;
   }
   .mine>p{
@@ -71,8 +71,8 @@ export default{
   }
   .photo{
     cursor:pointer;
-    width:35px;
-    height:35px;
+    width: 70px;
+    height: 70px;
     margin-bottom:10px;
     border-radius:50%;
   }

@@ -13,7 +13,7 @@ s<template>
                         <span>会议地点：{{ item.address }}</span>
                         <span v-if="isPeople">参会人员：全体人员</span>
                     </div>
-                    <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
+                    <p class="content"><span style="color: #aaa;">会议内容：</span> <span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>
                 <div class="table">
                     <h3 style="margin-bottom: 10px;color: #444;">会议出勤情况</h3>

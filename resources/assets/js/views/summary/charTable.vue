@@ -20,11 +20,13 @@
       </el-option>
     </el-select>
     <el-date-picker
+          disabled
           v-model="query.range.start_date"
           type="date"
           placeholder="请选择开始日期">
       </el-date-picker>
       <el-date-picker
+          disabled
           v-model="query.range.end_date"
           type="date"
           @change="getTaskPro()"

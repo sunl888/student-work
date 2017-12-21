@@ -3,7 +3,7 @@
   <h1 style="padding:10px 0">淮南师范学院二级学院任务完成情况汇总图示</h1>
   <span style="color: #666;font-size: 15px;"><strong style="color: red;">*</strong> 默认显示当前学期的任务</span>
   <div class="query">
-      <el-select class="el-col-pull-1" @change="getSememter()" v-model="query.schoolYear" clearable placeholder="按学年汇总">
+      <el-select class="query_select query_select_new" @change="getSememter()" v-model="query.schoolYear" clearable placeholder="按学年汇总">
         <el-option
           v-for="item in schoolYear"
           :key="item.value"
@@ -11,7 +11,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-select class="el-col-pull-1" @change="getMode()" :disabled="query.schoolYear===''" v-model="query.semester" placeholder="按学期汇总">
+      <el-select class="query_select query_select_new" @change="getMode()" :disabled="query.schoolYear===''" v-model="query.semester" placeholder="按学期汇总">
         <el-option
           v-for="item in semester"
           :key="item.value"
@@ -19,19 +19,32 @@
           :value="item.value">
         </el-option>
       </el-select>
-       <el-date-picker
+      <div class="date_range">
+        <el-date-picker
           :disabled="query.schoolYear!==''"
-          v-model="query.range.start_date"
-          type="date"
-          placeholder="请选择开始日期">
-      </el-date-picker>
-      <el-date-picker
+            class="query_select query_select_new"
+            v-model="query.range.start_date"
+            type="date"
+            placeholder="请选择开始日期">
+        </el-date-picker>
+        <span>至</span>
+        <el-date-picker
           :disabled="query.schoolYear!==''"
-          v-model="query.range.end_date"
-          type="date"
-          @change="getData()"
-          placeholder="请选择结束日期">
-      </el-date-picker>
+            class="query_select query_select_new"
+            v-model="query.range.end_date"
+            type="date"
+            @change="getData()"
+            placeholder="请选择结束日期">
+        </el-date-picker>
+      </div>
+      <el-select class="query_select query_select_new" @change="getMode()" v-model="query.work" placeholder="按工作类型汇总" clearable>
+        <el-option
+          v-for="item in workTypeList"
+          :key="item.id"
+          :label="item.title"
+          :value="item.id">
+        </el-option>
+      </el-select>
   </div>
   <div id="main">
   </div>
@@ -46,11 +59,13 @@ export default{
     return {
       semester: [],
       schoolYear: [],
+      workTypeList: [],
       query:{
          range:{
           start_date: null,
           end_date: null
         },
+        work: '',
         semester: '',
         schoolYear: ''
       },
@@ -192,6 +207,7 @@ export default{
 	mounted () {
     this.getData()
     this.getschoolYear()
+    this.getWorkTypeList()
     this.myChart = echarts.init(document.getElementById('main'));
   },
   methods: {
@@ -263,6 +279,12 @@ export default{
           
         }    
     },
+     // 获取工作类型列表
+    getWorkTypeList () {
+      this.$http.get('work_types').then(res => {
+        this.workTypeList = res.data.data
+      })
+    },
     eConsole2(param) {    
         if (typeof param.seriesIndex == 'undefined') {    
             return;    
@@ -332,7 +354,7 @@ export default{
 }
 
 </script>
-<style scoped>
+<style >
 	#main{
     width:100%;
     min-height:850px;
@@ -342,5 +364,8 @@ export default{
   .query{
     padding:20px 0;
     width:100%;
+  }
+  .query_select_new{
+    width: 21%!important;
   }
 </style>
