@@ -10,7 +10,9 @@ class Role extends BaseModel implements EntrustRoleInterface
     use EntrustRoleTrait;
 
     protected $fillable = ['name', 'display_name', 'description', 'order'];
-
+    const TEACHER = 'teacher';
+    const COLLEGE = 'college';
+    const SUPER_ADMIN = 'super_admin';
     /**
      * 角色用户
      */

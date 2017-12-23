@@ -12,16 +12,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class ImportUsers implements ShouldQueue
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the event.
      *
      * @param  ImportUsers $event
@@ -30,12 +20,11 @@ class ImportUsers implements ShouldQueue
     public function handle(Events\ImportUsers $event)
     {
         Excel::load($event->xls_path, function ($reader) {
-            //获取excel的第n张表
+            //获取excel的第1张表
             $reader = $reader->getSheet(0);
             //获取表中的数据
             $data = $reader->toArray();
             $data = $this->validated($data);
-            dd($data);
             $this->import_users($data);
         });
     }
@@ -43,27 +32,36 @@ class ImportUsers implements ShouldQueue
     //Excel文件导入功能
     public function import_users($data)
     {
-        array_shift($data);// 将表头移除
+        //array_shift($data);// 将表头移除
         try {
             foreach ($data as $key => $value) {
-                $user['name'] = (int)$value[0]; //工号
-                $user['nickname'] = $value[1];// 姓名
-                $user['gender'] = $value[2] == '男' ? 0 : 1;// 性别
-                $user['password'] = bcrypt(trim('hnnu' . $value[0]));// 密码
-                $user['email'] = app(\Faker\Generator::class)->freeEmail;// email
+                $user['name'] = trim($value[1]); //工号
+                $user['nickname'] = trim($value[2]);// 姓名
+                $user['gender'] = random_int(0, 1);// 性别
+                $user['password'] = bcrypt(trim($value[1]));// 密码
+                $user['email'] = 'test@admin.com';//app(\Faker\Generator::class)->freeEmail;// email
                 $user['picture'] = 'images/picture.jpg';// 头像
-                $user['college_id'] = College::where('title', $value[4])->first()->id;// 学院id//app(CollegeRepository::class)->findByName($value[3])->id;// 学院id
-                $userInfo = User::create($user);
-                if (strpos($value[3], '书记') != false || strpos($value[5], '书记') != false) {
-                    $role = Role::where(['name' => 'college'])->first()->id;
-                } else {
-                    $role = Role::where(['name' => 'teacher'])->first()->id ?: 1;
+                $user['phone'] = $value[4];// 电话
+                if (is_null($value[5])) {
+                    // 一般用户
+                    $role = Role::where(['name' => Role::TEACHER])->first()->id ?: 3;
+                } else if ($value[5] === '学院') {
+                    $role = Role::where(['name' => Role::COLLEGE])->first()->id ?: 2;
+                } else if ($value[5] === '管理员') {
+                    $role = Role::where(['name' => Role::SUPER_ADMIN])->first()->id ?: 1;
                 }
+                $college = College::where('title', $value[0])->first();
+                if (!!$college) {
+                    $user['college_id'] = $college->id;
+                } else {
+                    $user['college_id'] = null;
+                }
+                $userInfo = User::create($user);
                 $userInfo->roles()->attach($role);
                 unset($userInfo, $role, $userRoleInfo);
             }
         } catch (\Exception $e) {
-            throw new \Exception('即将导入的教师已经存在于数据库中: ' . $e->getMessage());
+            throw new \Exception('未知错误 ' . $e->getMessage());
         }
     }
 
@@ -74,7 +72,7 @@ class ImportUsers implements ShouldQueue
             if (is_null($item)) {
                 continue;
             }
-            if (!is_numeric($item[1])){
+            if (!is_numeric($item[1])) {
                 continue;
             }
             // 是否已经存在
