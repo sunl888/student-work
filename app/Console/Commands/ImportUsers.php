@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Console\Command;
 
@@ -13,14 +12,14 @@ class ImportUsers extends Command
      *
      * @var string
      */
-    protected $signature = 'import:users {--admin}';
+    protected $signature = 'import:users {--truncate}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '导入老师的数据';
+    protected $description = '导入用户数据 --truncate 清空以前的数据并导入新数据';
 
     /**
      * Create a new command instance.
@@ -39,33 +38,19 @@ class ImportUsers extends Command
      */
     public function handle()
     {
-        $option = $this->option('admin');
-        if ($option) {
-            $users = [
-                [
-                    'name' => 'admin',
-                    'nickname' => 'admin',
-                    'gender' => 1,
-                    'password' => bcrypt('admin'),
-                    'email' => app(\Faker\Generator::class)->freeEmail,
-                    'picture' => 'images/picture.jpg',
-                    'college_id' => null,
-                ]
-            ];
-            foreach ($users as $user) {
-                $userInfo = User::create($user);
-                $role = Role::where(['name' => 'super_admin'])->first()->id ?: 1;
-                $userInfo->roles()->attach($role);
-                unset($userInfo, $role, $userRoleInfo);
+        $option = $this->option('truncate');
+        if ($option){
+            if ($this->confirm('你确定要清空以前的数据并重新执行导入操作?')) {
+                \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+                User::all()->each(function ($user){
+                    $user->roles()->detach();
+                });
+                User::truncate();
+                \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
             }
-        } else {
-            /**
-             * $value[0]; 工号   $value[1]; 姓名
-             * $value[2]; 性别   $value[3]; 所属类型
-             * $value[4]; 所在单位  $value[5]; 职位
-             */
-            event(new \App\Events\ImportUsers($this->getFilePath()));
         }
+        event(new \App\Events\ImportUsers($this->getFilePath()));
+
     }
 
     public function getFilePath()

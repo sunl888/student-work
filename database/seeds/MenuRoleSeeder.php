@@ -126,6 +126,9 @@ class MenuRoleSeeder extends Seeder
             ], [// 学期学年设置
                 'menu_id' => 24,
                 'role_id' => 1,
+            ], [// 会议考勤
+                'menu_id' => 25,
+                'role_id' => 1,
             ]
         ]);
     }

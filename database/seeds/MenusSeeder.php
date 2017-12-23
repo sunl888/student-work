@@ -80,7 +80,7 @@ class MenusSeeder extends Seeder
                 'icon' => '',
                 'url' => 'user_update',
                 'description' => '更新用户',
-                'is_nav' => true,
+                'is_nav' => false,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ], [
@@ -253,7 +253,17 @@ class MenusSeeder extends Seeder
                 'is_nav' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ]
+            ], [
+                'id' => 25,
+                'name' => '会议考勤',
+                'parent_id' => 17,
+                'icon' => '',
+                'url' => 'task_attendance',
+                'description' => '会议考勤',
+                'is_nav' => true,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
         ]);
     }
 }
