@@ -3,46 +3,51 @@
   <h1 style="padding:10px 0">淮南师范学院二级学院任务完成情况汇总</h1>
     <span style="color: #666;font-size: 15px;"><strong style="color: red;">*</strong> 默认显示当前学期的任务</span>
   <div class="query">
-    <el-select class="querySelect" clearable @change="getTaskPro()" v-model="query.status" placeholder="按任务状态汇总">
+    <div class="date_range">
+      <el-date-picker
+          class="query_select"
+          v-model="query.range.start_date"
+          type="date"
+          placeholder="请选择开始日期">
+      </el-date-picker>
+      <span>至</span>
+      <el-date-picker
+          class="query_select"
+          v-model="query.range.end_date"
+          type="date"
+          @change="getTaskPro()"
+          placeholder="请选择结束日期">
+      </el-date-picker>
+    </div>
+    <el-select class="query_select" clearable @change="getTaskPro()" v-model="query.status" placeholder="按任务状态汇总">
         <el-option
           v-for="(value,index) in taskStatus"
           :key="index" 
           :label="value.title"
           :value="value.status"></el-option>
     </el-select>
-    <el-date-picker
-          v-model="query.range.start_date"
-          type="date"
-          placeholder="请选择开始日期">
-      </el-date-picker>
-      <el-date-picker
-          v-model="query.range.end_date"
-          type="date"
-          @change="getTaskPro()"
-          placeholder="请选择结束日期">
-      </el-date-picker>
-    <el-select class="querySelect" clearable @change="getTaskPro()" v-model="query.college_id" placeholder="按学院汇总任务">
+    <el-select class="query_select" clearable @change="getTaskPro()" v-model="query.college_id" placeholder="按学院汇总任务">
         <el-option
                 v-for="item in collegesList"
                 :key="item.id"
                 :label="item.title"
                 :value="item.id"></el-option>
     </el-select>
-    <el-select class="querySelect" clearable v-model="query.work_type_id" @change="getTaskPro()" placeholder="按任务类型汇总任务">
+    <el-select class="query_select" clearable v-model="query.work_type_id" @change="getTaskPro()" placeholder="按任务类型汇总任务">
         <el-option
                 v-for="item in workTypeList"
                 :key="item.id"
                 :label="item.title"
                 :value="item.id"></el-option>
     </el-select>
-    <el-select class="querySelect" clearable @change="getTaskPro()" v-model="query.department_id" placeholder="按对口科室汇总任务">
+    <el-select class="query_select" clearable @change="getTaskPro()" v-model="query.department_id" placeholder="按对口科室汇总任务">
         <el-option
                 v-for="item in departmentList"
                 :key="item.id"
                 :label="item.title"
                 :value="item.id"></el-option>
     </el-select>
-    <el-button icon="upload2" title="导出图表" style="transform:rotate(180deg);" @click="exportTable()"></el-button>
+    <el-button icon="upload2" title="导出图表" style="transform:rotate(180deg);float: left;" @click="exportTable()"></el-button>
   </div>
   <div class="table">
         <div class="table">
@@ -400,7 +405,7 @@ export default{
 }
 
 </script>
-<style scoped>
+<style >
 	#main{
     width:100%;
     min-height:400px;
@@ -408,11 +413,15 @@ export default{
     margin-bottom:20px;
   }
   .query{
-    padding:20px 0;
+    overflow: hidden;
+    padding:10px 0;
     width:100%;
+    /* margin: 10px 0; */
   }
-  .querySelect{
-    width:14%;
+  .query_select{
+    float: left;
+    width:15%;
+    margin-right: 10px;
   }
   .footer{
   padding: 15px 20px;
@@ -428,5 +437,30 @@ export default{
 }
 .footer .page{
   float: right;
+}
+.date_range{
+  width: 30%;
+  background: #fff;
+  border: 1px solid #bfcbd9;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+.date_range,.date_range>span{
+  float: left;
+}
+.date_range>span{
+  width: 8%;
+  box-sizing: border-box;
+  padding: 5px;
+  color: #888;
+  display: inline-block;
+}
+.date_range>.query_select{
+  width: 46%!important;
+  border: none;
+  margin-right: 0px;
+}
+.date_range .el-input__icon+.el-input__inner{
+  border: none!important;
 }
 </style>

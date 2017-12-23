@@ -17,6 +17,7 @@
     </div>
     <el-col class="local">
       <el-breadcrumb separator="/">
+        <i @click="$router.back()" class="el-icon-arrow-left return_btn"></i>
         <el-breadcrumb-item v-for="(item, index) in breadcrumbs" :key="index" :to="{ path: item.path }">{{item.title}}</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="operation">
@@ -155,7 +156,13 @@
   margin-top:22.5px;
   min-width:80px;
 }
-
+.return_btn{
+  float: left;
+  margin-right: 10px;
+  cursor: pointer;
+  line-height: 30px;
+  color: #888;
+}
 .el-submenu .el-menu{
   background-color: white;
 }

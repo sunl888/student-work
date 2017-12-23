@@ -27,6 +27,9 @@ export default new Router({
             {
               path: 'query_task/:state',
               name: 'query_task',
+              meta: {
+                  title: '查询任务'
+              },
               component: require('../views/task/queryTask.vue')
             },
             {

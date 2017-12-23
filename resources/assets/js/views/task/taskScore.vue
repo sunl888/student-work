@@ -217,14 +217,13 @@
                     this.$message.success('成功评分！')
                     this.$router.back();
                 }).catch(err => {
-                            for(let i in err.response.data.message){
-                                this.$message({
-                                  type: 'error',
-                                  message: err.response.data.message[i]
-                              })  
-                            } 
-                                                         
-                          })
+                    for(let i in err.response.data.message){
+                        this.$message({
+                            type: 'error',
+                            message: err.response.data.message[i][0]
+                        })  
+                    }                                
+                })
             },
             //获取考核等级
             getAccess () {

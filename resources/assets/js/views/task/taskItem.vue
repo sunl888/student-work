@@ -10,7 +10,7 @@
                     <div>任务类型：<span>{{ item.work_type }}</span></div>
                     <div> 对口科室：<span>{{ item.department }}</span></div>
                     <div>截止日期：<span>{{ item.end_time }}</span></div>
-                    <p class="content"><span style="max-width=100%;">{{ item.detail }}</span></p>
+                    <p class="content"><span style="color: #aaa;">任务内容：</span><span style="max-width=100%;">{{ item.detail }}</span></p>
                 </div>
                 <el-button v-if="item.status === 'draft'"  class="btn" @click="auditing()" type="success">审核任务</el-button>
                 <div class="taskWatch" v-else>
