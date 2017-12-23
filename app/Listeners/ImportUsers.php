@@ -29,11 +29,13 @@ class ImportUsers implements ShouldQueue
      */
     public function handle(Events\ImportUsers $event)
     {
-        Excel::load($event->xls_path, function ($reader){
+        Excel::load($event->xls_path, function ($reader) {
             //获取excel的第n张表
             $reader = $reader->getSheet(0);
             //获取表中的数据
             $data = $reader->toArray();
+            $data = $this->validated($data);
+            dd($data);
             $this->import_users($data);
         });
     }
@@ -63,5 +65,25 @@ class ImportUsers implements ShouldQueue
         } catch (\Exception $e) {
             throw new \Exception('即将导入的教师已经存在于数据库中: ' . $e->getMessage());
         }
+    }
+
+    public function validated(array $data)
+    {
+        $news = [];
+        foreach ($data as $item) {
+            if (is_null($item)) {
+                continue;
+            }
+            if (!is_numeric($item[1])){
+                continue;
+            }
+            // 是否已经存在
+            $hasUser = !!(User::where('name', $item[1])->first());
+            if ($hasUser == true) {
+                continue;
+            }
+            $news[] = $item;
+        }
+        return $news;
     }
 }
