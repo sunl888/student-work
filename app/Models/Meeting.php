@@ -17,6 +17,8 @@ class Meeting extends BaseModel
     protected static $allowSortFields = ['id'];
     protected $fillable = ['id', 'title', 'detail', 'address', 'start_time', 'late_id', 'users'];
 
+    const BASE_COURSE = 50;
+
     public function scopeApplyFilter($query, $data)
     {
         $data = $data->only('user');

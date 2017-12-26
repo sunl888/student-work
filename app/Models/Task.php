@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\Listable;
 use App\Service\CurrentSemester;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,6 +35,15 @@ class Task extends BaseModel
     {
         return $this->hasMany(TaskProgress::class);
     }
+
+    /*public function getEndTimeAttribute($value)
+    {
+        return $value->format('Y-m-d');
+    }
+    public function setEndTimeAttribute($value)
+    {
+        $this->attributes['end_time'] = $value;
+    }*/
 
     public function isPublish()
     {
@@ -73,7 +83,7 @@ class Task extends BaseModel
             $query->onlyTrashed();
         }
         if (isset($data['start_date']) && $data['end_date']) {
-            $query->range($data['start_date'], $data['end_date']);
+            $query->whereBetween('end_time', [$data['start_date'], $data['end_date']]);
         } else {
             // 默认显示当前学期的任务
             $query->currentSemester();

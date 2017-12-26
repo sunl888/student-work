@@ -25,16 +25,16 @@ class RolesTableSeeder extends Seeder
                 [
                     'id' => 2,
                     'name' => 'college',
-                    'display_name' => '学院',
-                    'description' => '学院',
+                    'display_name' => '二级学院',
+                    'description' => '二级学院',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ],
                 [
                     'id' => 3,
                     'name' => 'teacher',
-                    'display_name' => '老师',
-                    'description' => '老师',
+                    'display_name' => '教师',
+                    'description' => '教师',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]

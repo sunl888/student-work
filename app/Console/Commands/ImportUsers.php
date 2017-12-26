@@ -50,7 +50,6 @@ class ImportUsers extends Command
             }
         }
         event(new \App\Events\ImportUsers($this->getFilePath()));
-
     }
 
     public function getFilePath()

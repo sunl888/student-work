@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
                 }
             );
         }
-        \Carbon\Carbon::setLocale('zh');
+        //date_default_timezone_set('Asia/Shanghai');
         /**
          * 如果你现在运行的 MySQL 版本低于 5.7.7（或者低于 10.2.2 版本的 MariaDB），需要手动配置迁移命令生成的默认字符串长度，以便 MySQL 为它们创建索引。
          */
