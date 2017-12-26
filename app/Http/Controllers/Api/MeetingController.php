@@ -7,7 +7,6 @@ use App\Http\Requests\CreateMeetingRequest;
 use App\Models\Absentee;
 use App\Models\Meeting;
 use App\Transformers\MeetingTransformer;
-use Barryvdh\Reflection\DocBlock\Tag\MethodTag;
 use Illuminate\Http\Request;
 
 class MeetingController extends BaseController
