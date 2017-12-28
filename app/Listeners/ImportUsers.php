@@ -3,9 +3,9 @@
 namespace App\Listeners;
 
 use App\Events;
-use App\Models\College;
 use App\Models\Role;
 use App\Models\User;
+use App\Repositories\CollegeRepository;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -19,49 +19,52 @@ class ImportUsers implements ShouldQueue
      */
     public function handle(Events\ImportUsers $event)
     {
-        Excel::load($event->xls_path, function ($reader) {
+        $role = app(Role::class);
+        Excel::load($event->xls_path, function ($reader) use ($role) {
             //获取excel的第1张表
             $reader = $reader->getSheet(0);
             //获取表中的数据
             $data = $reader->toArray();
             $data = $this->validated($data);
-            $this->import_users($data);
+            $this->import_users($data, $role);
         });
     }
 
     //Excel文件导入功能
-    public function import_users($data)
+
+    /**
+     * @param $data
+     */
+    public function import_users($data, Role $role)
     {
-        //array_shift($data);// 将表头移除
-        try {
-            foreach ($data as $key => $value) {
-                $user['name'] = trim($value[1]); //工号
-                $user['nickname'] = trim($value[2]);// 姓名
-                $user['gender'] = random_int(0, 1);// 性别
-                $user['password'] = bcrypt(trim($value[1]));// 密码
-                $user['email'] = 'test@admin.com';//app(\Faker\Generator::class)->freeEmail;// email
-                $user['picture'] = 'images/picture.jpg';// 头像
-                $user['phone'] = $value[4];// 电话
-                if (is_null($value[5])) {
-                    // 一般用户
-                    $role = Role::where(['name' => Role::TEACHER])->first()->id ?: 3;
-                } else if ($value[5] === '学院') {
-                    $role = Role::where(['name' => Role::COLLEGE])->first()->id ?: 2;
-                } else if ($value[5] === '管理员') {
-                    $role = Role::where(['name' => Role::SUPER_ADMIN])->first()->id ?: 1;
-                }
-                $college = College::where('title', $value[0])->first();
-                if (!!$college) {
-                    $user['college_id'] = $college->id;
-                } else {
-                    $user['college_id'] = null;
-                }
-                $userInfo = User::create($user);
-                $userInfo->roles()->attach($role);
-                unset($userInfo, $role, $userRoleInfo);
+        $teacher_id = $role->where(['name' => Role::TEACHER])->first()->id ?: 3;
+        $xueyuan_id = $role->where(['name' => Role::COLLEGE])->first()->id ?: 2;
+        $admin_id = $role->where(['name' => Role::SUPER_ADMIN])->first()->id ?: 1;
+        foreach ($data as $key => $value) {
+            $user['name'] = trim($value[1]); //工号
+            $user['nickname'] = trim($value[2]);// 姓名
+            $user['gender'] = random_int(0, 1);// 性别
+            $user['password'] = bcrypt(trim('hnnu' . $value[1]));// 密码
+            $user['email'] = 'test@admin.com';//app(\Faker\Generator::class)->freeEmail;// email
+            $user['picture'] = 'images/picture.jpg';// 头像
+            $user['phone'] = $value[4];// 电话
+            if (is_null($value[5])) {
+                // 一般用户
+                $role = $teacher_id;
+            } else if ($value[5] === '学院') {
+                $role = $xueyuan_id;
+            } else if ($value[5] === '管理员') {
+                $role = $admin_id;
             }
-        } catch (\Exception $e) {
-            throw new \Exception('未知错误 ' . $e->getMessage());
+            $college = app(CollegeRepository::class)->where(['title' => $value[0]])->first();
+            if (!!$college) {
+                $user['college_id'] = $college->id;
+            } else {
+                $user['college_id'] = null;
+            }
+            $userInfo = User::create($user);
+            $userInfo->roles()->attach($role);
+            unset($userInfo, $role, $userRoleInfo);
         }
     }
 

@@ -12,6 +12,8 @@ class MenusSeeder extends Seeder
      */
     public function run()
     {
+        $now = Carbon::now();
+        
         DB::table('menus')->insert([
             [
                 'id' => 1,
@@ -21,8 +23,8 @@ class MenusSeeder extends Seeder
                 'url' => '',
                 'description' => '任务管理',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 2,
                 'name' => '任务管理',
@@ -31,8 +33,8 @@ class MenusSeeder extends Seeder
                 'url' => 'task_manage',
                 'description' => '任务管理',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 3,
                 'name' => '创建任务',
@@ -41,8 +43,8 @@ class MenusSeeder extends Seeder
                 'url' => 'add_task',
                 'description' => '创建任务',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 4,
                 'name' => '用户管理',
@@ -51,8 +53,8 @@ class MenusSeeder extends Seeder
                 'url' => '',
                 'description' => '用户管理',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 5,
                 'name' => '用户列表',
@@ -61,8 +63,8 @@ class MenusSeeder extends Seeder
                 'url' => 'user_lists',
                 'description' => '用户列表',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 6,
                 'name' => '创建用户',
@@ -71,8 +73,8 @@ class MenusSeeder extends Seeder
                 'url' => 'add_user',
                 'description' => '创建用户',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 7,
                 'name' => '更新用户',
@@ -81,8 +83,8 @@ class MenusSeeder extends Seeder
                 'url' => 'user_update',
                 'description' => '更新用户',
                 'is_nav' => false,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 8,
                 'name' => '工作通知',
@@ -91,8 +93,8 @@ class MenusSeeder extends Seeder
                 'url' => '',
                 'description' => '工作通知',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 9,
                 'name' => '任务通知',
@@ -101,8 +103,8 @@ class MenusSeeder extends Seeder
                 'url' => 'notify',
                 'description' => '任务通知',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 10,
                 'name' => '预置数据',
@@ -111,8 +113,8 @@ class MenusSeeder extends Seeder
                 'url' => '',
                 'description' => '预置数据',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 11,
                 'name' => '学院名称设置',
@@ -121,8 +123,8 @@ class MenusSeeder extends Seeder
                 'url' => 'colleges',
                 'description' => '学院名称设置',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 12,
                 'name' => '工作类型设置',
@@ -131,8 +133,8 @@ class MenusSeeder extends Seeder
                 'url' => 'work_type',
                 'description' => '工作类型设置',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 13,
                 'name' => '对口科室设置',
@@ -141,8 +143,8 @@ class MenusSeeder extends Seeder
                 'url' => 'department',
                 'description' => '对口科室设置',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 14,
                 'name' => '考核等级设置',
@@ -151,8 +153,8 @@ class MenusSeeder extends Seeder
                 'url' => 'access',
                 'description' => '考核等级设置',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 15,
                 'name' => '任务列表',
@@ -161,8 +163,8 @@ class MenusSeeder extends Seeder
                 'url' => 'tasks_of_college',
                 'description' => '学院显示的任务列表',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 16,
                 'name' => '任务列表',
@@ -171,8 +173,8 @@ class MenusSeeder extends Seeder
                 'url' => 'tasks_of_teacher',
                 'description' => '老师显示的任务列表',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 17,
                 'name' => '会议管理',
@@ -181,8 +183,8 @@ class MenusSeeder extends Seeder
                 'url' => '',
                 'description' => '会议管理',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 18,
                 'name' => '会议查询',
@@ -191,8 +193,8 @@ class MenusSeeder extends Seeder
                 'url' => 'cahier_lists',
                 'description' => '会议查询',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 19,
                 'name' => '会议记录',
@@ -201,8 +203,8 @@ class MenusSeeder extends Seeder
                 'url' => 'cahier_create',
                 'description' => '会议记录',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 20,
                 'name' => '任务汇总',
@@ -211,8 +213,8 @@ class MenusSeeder extends Seeder
                 'url' => '',
                 'description' => '任务汇总',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 21,
                 'name' => '任务汇总',
@@ -221,8 +223,8 @@ class MenusSeeder extends Seeder
                 'url' => 'task_summary',
                 'description' => '任务汇总',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 22,
                 'name' => '图表显示',
@@ -231,8 +233,8 @@ class MenusSeeder extends Seeder
                 'url' => 'echart',
                 'description' => '图表显示',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 23,
                 'name' => '缺勤原因设置',
@@ -241,8 +243,8 @@ class MenusSeeder extends Seeder
                 'url' => 'absence',
                 'description' => '缺勤原因',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 24,
                 'name' => '学期学年设置',
@@ -251,18 +253,18 @@ class MenusSeeder extends Seeder
                 'url' => 'semester',
                 'description' => '学期学年设置',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ], [
                 'id' => 25,
-                'name' => '会议考勤',
+                'name' => '会议考核',
                 'parent_id' => 17,
                 'icon' => '',
                 'url' => 'task_attendance',
-                'description' => '会议考勤',
+                'description' => '会议考核',
                 'is_nav' => true,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'created_at' => $now,
+                'updated_at' => $now,
             ],
         ]);
     }

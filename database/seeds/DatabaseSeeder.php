@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesTableSeeder::class);
         //factory(App\Models\User::class, $this->userCount)->create();
         $this->call(RoleUserTableSeeder::class);
+        $this->call(MenusSeeder::class);
+        $this->call(MenuRoleSeeder::class);
         $this->call(PermissionsTableSeeder::class);
         $this->call(PermissionRoleTableSeeder::class);
 
@@ -26,8 +28,7 @@ class DatabaseSeeder extends Seeder
         $this->call(WorkTypesSeeder::class);
         $this->call(CollegesSeeder::class);
         $this->call(AssessSeeder::class);
-        $this->call(MenusSeeder::class);
-        $this->call(MenuRoleSeeder::class);
+
         $this->call(SemestersSeeder::class);
         //factory(App\Models\Task::class, $this->taskCount)->create();
         //factory(App\Models\Meeting::class, $this->meetCount)->create();

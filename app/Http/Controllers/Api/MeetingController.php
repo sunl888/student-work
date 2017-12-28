@@ -26,17 +26,20 @@ class MeetingController extends BaseController
                 Absentee::create($val);
             });
         }
-         event(new CreatedMeeting($meeting->users, $meeting));
+        event(new CreatedMeeting($meeting->users, $meeting));
         return $this->response()->noContent();
     }
 
     public function lists(Request $request)
     {
-        return $this->response()->paginator(Meeting::applyFilter($request)->paginate($this->perPage()), new MeetingTransformer());
+        return $this->response()->paginator(Meeting::applyFilter($request)->paginate($this->perPage()), new MeetingTransformer())
+            ->setMeta([Meeting::getAllowSearchFieldsMeta() + Meeting::getAllowSortFieldsMeta()]);
     }
 
     public function show(Meeting $meeting)
     {
         return $this->response()->item($meeting, new MeetingTransformer());
     }
+
+    //public function
 }

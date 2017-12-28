@@ -66,8 +66,7 @@ return [
     | ahead and set this to a sensible default for you out of the box.
     |
     */
-
-    'timezone' => 'Asia/Shanghai',
+    'timezone' => env('TIMEZONE', 'Asia/Shanghai'),
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +79,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => env('LOCALE', 'en'),
 
     /*
     |--------------------------------------------------------------------------

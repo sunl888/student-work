@@ -22,6 +22,7 @@ use App\Service\Export2Excel;
 use App\Transformers\TaskAndProgressTransformer;
 use App\Transformers\TaskOfTeacherTransformer;
 use App\Transformers\TaskTransformer;
+use DateTimeZone;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -51,7 +52,7 @@ class TaskController extends BaseController
     {
         if ($this->allowCreateTask()) {
             $data = $taskRequest->all();
-            if (isset($data['end_time'])){
+            if (isset($data['end_time'])) {
                 $data['end_time'] = \Carbon\Carbon::createFromTimestamp(strtotime($data['end_time']));
             }
             $task = $this->taskRepository->createTask($data);
@@ -95,7 +96,7 @@ class TaskController extends BaseController
     {
         if ($this->allowUpdateTask()) {
             $data = $request->all();
-            if (isset($data['end_time'])){
+            if (isset($data['end_time'])) {
                 $data['end_time'] = \Carbon\Carbon::createFromTimestamp(strtotime($data['end_time']));
             }
             $this->taskRepository->updateTask($data, $taskId);
@@ -236,7 +237,6 @@ class TaskController extends BaseController
      */
     public function getTasksByCollege($college = null)
     {
-
         if ($college instanceof College) {
             $condisions['college_id'] = $college;
         } else {
@@ -247,7 +247,7 @@ class TaskController extends BaseController
 
     public function getTasksByTeacher()
     {
-        $tasks = app(TaskProgress::class)->where('college_id',$this->college())->asUsers(Auth::id())->with(['task' => function ($query) {
+        $tasks = app(TaskProgress::class)->where('college_id', $this->college())->asUsers(Auth::id())->with(['task' => function ($query) {
             $query->publish();
         }])->get();
         $res = new Collection();
@@ -263,7 +263,7 @@ class TaskController extends BaseController
 
     public function task(Task $task)
     {
-        return $this->response->item(Task::findOrFail($task->id), new TaskTransformer());
+        return $this->response->item($task, new TaskTransformer());
     }
 
     /**

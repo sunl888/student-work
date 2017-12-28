@@ -31,6 +31,11 @@ class CollegeRepository extends Repository
         });
     }
 
+    public function get($name)
+    {
+        return $this->all()->get($name);
+    }
+
     public function create(array $data)
     {
         return $this->model->create($data);

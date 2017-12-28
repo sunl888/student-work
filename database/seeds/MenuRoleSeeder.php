@@ -53,17 +53,11 @@ class MenuRoleSeeder extends Seeder
                 'role_id' => 3,
             ], [// parent通知公告
                 'menu_id' => 8,
-                'role_id' => 1,
-            ], [
-                'menu_id' => 8,
                 'role_id' => 2,
             ], [
                 'menu_id' => 8,
                 'role_id' => 3,
             ], [// 工作通知
-                'menu_id' => 9,
-                'role_id' => 1,
-            ], [
                 'menu_id' => 9,
                 'role_id' => 2,
             ], [

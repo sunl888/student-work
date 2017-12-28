@@ -13,9 +13,9 @@
 $api->post('login', 'LoginController@login');
 $api->get('captcha', 'LoginController@captcha');
 $api->get('need_verification_code', 'LoginController@needVerificationCodeRequest');
-$api->get('export2table', 'TaskController@export2table');
-$api->post('upload_users', 'ExcelController@upload_users');
 $api->group(['middleware' => 'auth:web'], function ($api) {
+    $api->get('export2table', 'TaskController@export2table');
+    $api->post('upload_users', 'ExcelController@upload_users');
     // 获取当前用户信息
     $api->get('me', 'UsersController@me');
     // 退出登陆
@@ -40,11 +40,7 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     //获取所有会议 ?user=1 ?title=  ?detail=
     $api->get('mettings', 'MeetingController@lists');
     //获取会议 meeting_id
-    $api->get('
-    
-    
-    
-    /{meeting}', 'MeetingController@show');
+    $api->get('metting/{meeting}', 'MeetingController@show')->name('metting.show');
     // 任务列表 ?only_trashed=0|1 ?status=draft|publish ?orders=work_type_id,department_id ?start_date=?&end_date=?
     // ?work_type_id=  ?department_id=
     $api->get('tasks', 'TaskController@tasks');

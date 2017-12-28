@@ -42,23 +42,6 @@ class UsersController extends BaseController
     public function lists()
     {
         // select * from `e8_users` u left join `e8_role_user` ru on u.id = ru.user_id left join `e8_roles` r on ru.role_id = r.id where u.college_id like "%11%" order by ru.role_id desc
-        /*$users = \DB::table('users')
-                ->leftJoin('role_user', 'users.id', '=', 'role_user.user_id')
-                ->leftJoin('roles', 'role_user.role_id', '=', 'roles.id')
-                ->where('users.college_id','like','%11%')
-                ->where('roles.id','=',2)
-                ->orderBy('role_user.role_id','asc')
-                ->get();*/
-        /*$users = User::leftJoin('role_user', 'users.id', '=', 'role_user.user_id')
-            ->leftJoin('roles', 'role_user.role_id', '=', 'roles.id')
-            ->withSimpleSearch()
-            ->whereHas('roles', function ($query) {
-                $role_id = request('role_id', null);
-                if ($role_id) {
-                    $query->where('roles.id', '=', $role_id);
-                }
-            })
-            ->WithSort();*/
         $users = User::leftJoin('role_user', 'users.id', '=', 'role_user.user_id')
             ->leftJoin('roles', 'role_user.role_id', '=', 'roles.id')
             ->select(['users.*'])
@@ -83,8 +66,6 @@ class UsersController extends BaseController
         if (request('college_id')) {
             $users = $users->where('users.college_id', '=', request('college_id'));
         }
-        $users = $users->orderBy('role_user.role_id', 'asc');
-
         // 获取所有的用户
         if (0 == request('limit')) {
             return $this->response->collection($users->get(), new UserTransformer())
