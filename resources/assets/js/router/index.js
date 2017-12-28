@@ -234,7 +234,15 @@ export default new Router({
               name: 'cahier_create',
               meta: {title: '添加会议'},
               component: require('../views/cahier/addMetting.vue')
-            }
+            },
+            {
+                path: 'task_attendance',
+                name: 'task_attendance',
+                meta: {
+                    title: '会议考勤'
+                },
+                component: require('../views/cahier/taskAttendance.vue')
+            },
           ]
         },
         {

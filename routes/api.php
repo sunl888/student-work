@@ -40,7 +40,11 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
     //获取所有会议 ?user=1 ?title=  ?detail=
     $api->get('mettings', 'MeetingController@lists');
     //获取会议 meeting_id
-    $api->get('metting/{meeting}', 'MeetingController@show');
+    $api->get('
+    
+    
+    
+    /{meeting}', 'MeetingController@show');
     // 任务列表 ?only_trashed=0|1 ?status=draft|publish ?orders=work_type_id,department_id ?start_date=?&end_date=?
     // ?work_type_id=  ?department_id=
     $api->get('tasks', 'TaskController@tasks');
