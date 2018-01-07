@@ -55,7 +55,7 @@ class MeetingController extends BaseController
      */
     public function attendance(Request $request)
     {
-        $da = $request->only('start_time', 'end_time', 'college_id', 'export');
+        $inputs = $request->all();
         $meetings = Meeting::all();
         $current_Semester = app(SemestersRepository::class)->where(['checked' => 1])->first();
         $college = app(CollegeRepository::class)->all()->toArray();
@@ -65,8 +65,8 @@ class MeetingController extends BaseController
             $data[$item['id']]['college_total_score'] = 0;
         }
         foreach ($meetings as $meeting) {
-            if (isset($da['start_time'])) {
-                if (!Carbon::parse($meeting->start_time)->between(Carbon::parse($da['start_time']), isset($da['end_time']) ? Carbon::parse($da['end_time']) : Carbon::now())) {
+            if (isset($inputs['start_time'])) {
+                if (!Carbon::parse($meeting->start_time)->between(Carbon::parse($inputs['start_time']), isset($inputs['end_time']) ? Carbon::parse($inputs['end_time']) : Carbon::now())) {
                     continue;
                 }
             } else {
@@ -134,11 +134,11 @@ class MeetingController extends BaseController
             }
         }
         // 按request学院筛选
-        if (isset($da['college_id'])) {
-            $data = [$data[$da['college_id']]];
+        if (isset($inputs['college_id'])) {
+            $data = [$data[$inputs['college_id']]];
         }
         // 导出数据
-        if (array_key_exists('export', $da)) {
+        if (array_key_exists('export', $inputs)) {
             $this->export2table($request, $data);
         }
         return $this->response()->array($data);
