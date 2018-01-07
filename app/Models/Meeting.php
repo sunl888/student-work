@@ -19,25 +19,32 @@ class Meeting extends BaseModel
     protected static $allowSortFields = ['id'];
     protected $fillable = ['id', 'title', 'detail', 'address', 'start_time', 'late_id', 'users'];
 
-    const BASE_COURSE = 50;
+    const BASE_SCORE = 50;
     const ALL_USER = 'all';
+
+    public function absentees()
+    {
+        return $this->hasMany(Absentee::class, 'meeting_id', 'id');
+    }
 
     public function scopeApplyFilter($query, $data)
     {
-        $data = $data->only('user', 'start_time');
+        $data = $data->only('user', 'start_time', 'end_time');
         $query->withSimpleSearch()
             ->withSort();
         if (isset($data['user'])) {
             $query->byUser($data['user']);
         }
+        // 如果是学院账号可以获取该学院所有会议
         if (\Auth::user()->isCollege()) {
             $userIds = User::byCollege(auth()->user()->college->id)->get()->pluck('id');
             foreach ($userIds as $userId) {
                 $query->byUser($userId);
             }
         }
+
         if (isset($data['start_time'])) {
-            $query->whereBetween('start_time', [$data['start_time'], Carbon::now()]);
+            $query->whereBetween('start_time', [$data['start_time'], isset($data['end_time']) ? Carbon::parse($data['end_time']) : Carbon::now()]);
         } else {
             $query->currentSemester('start_time');
         }

@@ -48,7 +48,7 @@ class MeetingTransformer extends Transformer
             $uInfo = $user->find($user_id);
             $data = $absentee->where('user_id', $user_id)->where('meeting_id', $meeting->id)->first();
             if (!isset($datas[$uInfo->college->title]['score'])) {
-                $datas[$uInfo->college->title]['score'] = Meeting::BASE_COURSE;
+                $datas[$uInfo->college->title]['score'] = Meeting::BASE_SCORE;
             }
             $userinfo = collect();
             $userinfo->push($uInfo->toArray());

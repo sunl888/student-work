@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Events\CreatedMeeting;
 use App\Http\Requests\CreateMeetingRequest;
 use App\Models\Absentee;
+use App\Models\College;
 use App\Models\Meeting;
 use App\Models\User;
 use App\Repositories\CollegeRepository;
@@ -12,6 +13,7 @@ use App\Repositories\SemestersRepository;
 use App\Transformers\MeetingTransformer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use League\Fractal\Resource\NullResource;
 
 class MeetingController extends BaseController
 {
@@ -50,7 +52,7 @@ class MeetingController extends BaseController
      * @param Request $request
      * @return mixed
      */
-    public function attendance(Request $request)
+    /*public function attendance(Request $request)
     {
         $data = [];
         $queqin = Absentee::all();
@@ -77,10 +79,6 @@ class MeetingController extends BaseController
                 if (!Carbon::parse($item->meeting->start_time)->between(Carbon::parse($current_Semester->start_time), Carbon::parse($current_Semester->end_time))) {
                     continue;
                 }
-                /*if (Carbon::parse($item->meeting->start_time)->lte(Carbon::parse($current_Semester->start_time)) ||
-                    Carbon::parse($item->meeting->start_time)->gte(Carbon::parse($current_Semester->end_time))) {
-                    continue;
-                }*/
             }
 
             if (!isset($data[$college->id]['meetings'][$item->meeting->id])) {
@@ -88,7 +86,7 @@ class MeetingController extends BaseController
             }
 
             if (!isset($data[$college->id]['score'])) {
-                $data[$college->id]['score'] = Meeting::BASE_COURSE;
+                $data[$college->id]['score'] = Meeting::BASE_SCORE;
             }
 
             if (!isset($data[$college->id]['college'])) {
@@ -99,6 +97,96 @@ class MeetingController extends BaseController
                 $data[$college->id]['score'] += $item->assess->score;
             else
                 $data[$college->id]['score'] = 0;
+        }
+        // 导出数据
+        if (isset($da['export'])) {
+            $this->export2table($request, $data);
+        }
+        return $this->response()->array($data);
+    }*/
+
+    public function attendance(Request $request)
+    {
+        $da = $request->only('start_time', 'end_time', 'college_id', 'export');
+        $meetings = Meeting::all();
+        $current_Semester = app(SemestersRepository::class)->where(['checked' => 1])->first();
+        $college = app(CollegeRepository::class)->all()->toArray();
+        foreach ($college as $item) {
+            $data[$item['id']] = $item;
+            $data[$item['id']]['college_total_score'] = 0;
+        }
+        foreach ($meetings as $meeting) {
+            if (isset($da['start_time'])) {
+                if (!Carbon::parse($meeting->start_time)->between(Carbon::parse($da['start_time']), isset($da['end_time']) ? Carbon::parse($da['end_time']) : Carbon::now())) {
+                    continue;
+                }
+            } else {
+                if (!Carbon::parse($meeting->start_time)->between(Carbon::parse($current_Semester->start_time), Carbon::parse($current_Semester->end_time))) {
+                    continue;
+                }
+            }
+            // 这个会议的缺勤名单
+            $absentees = $meeting->absentees;
+            unset($meeting->absentees);
+            // is 全体人员
+            if ($meeting->users == Meeting::ALL_USER) {
+                foreach ($data as $index => $v) {
+                    $data[$index]['meetings'][$meeting->id] = $meeting->toArray();
+                    $data[$index]['meetings'][$meeting->id]['meeting_total_score'] = Meeting::BASE_SCORE;
+                }
+            } else {
+                $users = explode(',', $meeting->users);
+                foreach ($users as $user) {
+                    $collegeOfUser = User::findOrFail($user)->college;
+                    // 用户没有院系跳过
+                    if (is_null($collegeOfUser)) {
+                        continue;
+                    }
+                    // 学院不存在
+                    if (!isset($data[$collegeOfUser->id])) {
+                        continue;
+                    }
+                    // 该学院没有此会议则添加进去
+                    if (!isset($data[$collegeOfUser->id]['meetings'][$meeting->id])) {
+                        $data[$collegeOfUser->id]['meetings'][$meeting->id] = $meeting->toArray();
+                    }
+                    // 每个会议的默认分数
+                    if (!isset($data[$collegeOfUser->id]['meetings'][$meeting->id]['meeting_total_score'])) {
+                        $data[$collegeOfUser->id]['meetings'][$meeting->id]['meeting_total_score'] = Meeting::BASE_SCORE;
+                    }
+                }
+            }
+            // 缺勤
+            foreach ($absentees as $absentee) {
+                $collegeOfUser = User::findOrFail($absentee->user_id)->college;
+                // 用户没有院系跳过
+                if (is_null($collegeOfUser)) {
+                    continue;
+                }
+                // 学院不存在
+                if (!isset($data[$collegeOfUser->id])) {
+                    continue;
+                }
+                // 分数相关
+                // todo $absentee->assess->score 必须是负数
+                $data[$collegeOfUser->id]['meetings'][$meeting->id]['meeting_total_score'] += $absentee->assess->score;
+                if ($data[$collegeOfUser->id]['meetings'][$meeting->id]['meeting_total_score'] < 0) {
+                    $data[$collegeOfUser->id]['meetings'][$meeting->id]['meeting_total_score'] = 0;
+                }
+            }//缺勤结束
+        }
+        foreach ($data as $index => $v) {
+            if (!isset($v['meetings'])) {
+                $data[$index]['meetings'] = null;
+            } else {
+                foreach ($v['meetings'] as $meeting) {
+                    $data[$index]['college_total_score'] += $meeting['meeting_total_score'];
+                }
+            }
+        }
+        // 按request学院筛选
+        if (isset($da['college_id'])) {
+            $data = $data[$da['college_id']];
         }
         // 导出数据
         if (isset($da['export'])) {
