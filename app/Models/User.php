@@ -57,6 +57,20 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         return $this->hasRole(['teacher','college',]);
     }
 
+    public function isCollege()
+    {
+        return $this->hasRole(['college']);
+    }
+
+    public function scopeByCollege($query,$college)
+    {
+        return $query->where('college_id',$college);
+    }
+
+    public function isTeacher()
+    {
+        return $this->hasRole(['teacher']);
+    }
     /*public function scopeByNotSuperAdmin($query)
     {$this->isSuperAdmin();
         return $query->isNotSuperAdmin();

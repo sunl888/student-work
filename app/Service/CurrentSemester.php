@@ -19,16 +19,20 @@ trait CurrentSemester
      * @param $end
      * @return mixed
      */
-    public function scopeRange($query, $start, $end)
+    public function scopeRange($query, $start, $end, $key = 'created_at')
     {
-        return $query->whereBetween('created_at', [$start, $end]);
+        return $query->whereBetween($key, [$start, $end]);
     }
 
 
-    public function scopeCurrentSemester($query)
+    public function scopeCurrentSemester($query, $key = null)
     {
         $current_Semester = app(SemestersRepository::class)->where(['checked' => 1])->first();
-        return $query->range($current_Semester->start_time, $current_Semester->end_time);
+        if (!is_null($key)) {
+            return $query->range($current_Semester->start_time, $current_Semester->end_time, $key);
+        }else{
+            return $query->range($current_Semester->start_time, $current_Semester->end_time);
+        }
     }
 
 }

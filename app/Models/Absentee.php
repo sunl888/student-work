@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Service\CurrentSemester;
 
 /**
  * Class Absentee
@@ -8,6 +9,8 @@ namespace App\Models;
  */
 class Absentee extends BaseModel
 {
+    use CurrentSemester;
+
     protected $fillable = ['user_id', 'meeting_id', 'assess_id', 'remark', 'id'];
 
     public function user()
@@ -23,6 +26,11 @@ class Absentee extends BaseModel
     public function assess()
     {
         return $this->hasOne(Assess::class, 'id', 'assess_id');
+    }
+
+    public function scopeApplyFilter($query, $data)
+    {
+        return $query->recent();
     }
 
 }

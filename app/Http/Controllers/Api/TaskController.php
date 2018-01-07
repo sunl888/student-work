@@ -178,7 +178,7 @@ class TaskController extends BaseController
     public function export2table(Request $request)
     {
         $tasks = Task::applyFilter($request)->get()->load('task_progresses');
-        $rows = ['任务ID', '标题', '详情', '结束时间', '工作类型', '对口科室', '学院名称', '完成状态', '责任人'];
+        $rows = ['任务ID', '工作标题', '工作内容', '截止时间', '工作类型', '对口科室', '学院名称', '完成状态', '责任人'];
         $data = [];
         foreach ($tasks as $task) {
             foreach ($task->task_progresses as $progress) {

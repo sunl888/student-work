@@ -14,6 +14,7 @@ $api->post('login', 'LoginController@login');
 $api->get('captcha', 'LoginController@captcha');
 $api->get('need_verification_code', 'LoginController@needVerificationCodeRequest');
 $api->group(['middleware' => 'auth:web'], function ($api) {
+    $api->get('attendance','MeetingController@attendance');// 会议考勤
     $api->get('export2table', 'TaskController@export2table');
     $api->post('upload_users', 'ExcelController@upload_users');
     // 获取当前用户信息

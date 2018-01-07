@@ -17,6 +17,7 @@ trait Export2Excel
      * @param array $rows 行标题
      * @param array $data 数据
      * @param string $tableName 导出的表格文件名
+     * @throws \Maatwebsite\Excel\Exceptions\LaravelExcelException
      */
     public function export(array $rows, array $data, $tableName = 'default')
     {
