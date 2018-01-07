@@ -12,6 +12,7 @@
           <i class="material-icons newIcon">{{values.icon}}</i>
           <span class="menu_txt">{{values.name}}</span>
         </template>
+        
         <div v-for="value in values.child">
           <el-menu-item :index=value.name :route="{name: value.url}">{{value.name}}</el-menu-item>
         </div>
