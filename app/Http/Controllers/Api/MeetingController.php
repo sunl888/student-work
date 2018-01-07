@@ -55,8 +55,7 @@ class MeetingController extends BaseController
         $data = [];
         $queqin = Absentee::all();
         $current_Semester = app(SemestersRepository::class)->where(['checked' => 1])->first();
-        //$college = app(CollegeRepository::class)->all();
-        $da = $request->only('start_time', 'college_id', 'export');
+        $da = $request->only('start_time', 'end_time', 'college_id', 'export');
         foreach ($queqin as $item) {
             $college = User::findOrFail($item->user_id)->college;
             // 用户没有院系跳过
@@ -71,15 +70,17 @@ class MeetingController extends BaseController
             }
             // start_time lt 小于
             if (isset($da['start_time'])) {
-                dd($da['start_time']);
-                if (Carbon::parse($item->meeting->start_time)->lte(Carbon::parse($da['start_time']))) {
+                if (!Carbon::parse($item->meeting->start_time)->between(Carbon::parse($da['start_time']), isset($da['end_time']) ? Carbon::parse($da['end_time']) : Carbon::now())) {
                     continue;
                 }
             } else {
-                if (Carbon::parse($item->meeting->start_time)->lte(Carbon::parse($current_Semester->start_time)) ||
-                    Carbon::parse($item->meeting->start_time)->gte(Carbon::parse($current_Semester->end_time))) {
+                if (!Carbon::parse($item->meeting->start_time)->between(Carbon::parse($current_Semester->start_time), Carbon::parse($current_Semester->end_time))) {
                     continue;
                 }
+                /*if (Carbon::parse($item->meeting->start_time)->lte(Carbon::parse($current_Semester->start_time)) ||
+                    Carbon::parse($item->meeting->start_time)->gte(Carbon::parse($current_Semester->end_time))) {
+                    continue;
+                }*/
             }
 
             if (!isset($data[$college->id]['meetings'][$item->meeting->id])) {
