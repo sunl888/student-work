@@ -35,13 +35,6 @@ class Meeting extends BaseModel
         if (isset($data['user'])) {
             $query->byUser($data['user']);
         }
-        // 如果是学院账号可以获取该学院所有会议
-        if (\Auth::user()->isCollege()) {
-            $userIds = User::byCollege(auth()->user()->college->id)->get()->pluck('id');
-            foreach ($userIds as $userId) {
-                $query->byUser($userId);
-            }
-        }
 
         if (isset($data['start_time'])) {
             $query->whereBetween('start_time', [$data['start_time'], isset($data['end_time']) ? Carbon::parse($data['end_time']) : Carbon::now()]);
