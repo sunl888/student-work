@@ -14,7 +14,6 @@ use App\Transformers\MeetingTransformer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 use Maatwebsite\Excel\Excel;
 
 class MeetingController extends BaseController
@@ -208,11 +207,16 @@ class MeetingController extends BaseController
                 }
                 // 这个会议的缺勤名单
                 $absentees = $meeting->absentees;
-                unset($meeting->absentees);
+                $meeting->absentees = format_absentees($meeting->absentees->pluck('id'), \Auth::user()->college);
+                //unset($meeting->absentees);
                 // is 全体人员
                 if ($meeting->users == Meeting::ALL_USER) {
                     foreach ($data as $index => $v) {
-                        $data[$index]['meetings'][$meeting->id] = $meeting->toArray();
+                        $meet = $meeting->toArray();
+                        $meet['absentees'] = $meeting->absentees;
+                        $meet['users'] = getCollegeUsersByAllUsers($meet['users'], \Auth::user()->college);
+                        $meet['users'] = get_lead_official($meet['users']);
+                        $data[$index]['meetings'][$meeting->id] = $meet;
                         $data[$index]['meetings'][$meeting->id]['meeting_total_score'] = Meeting::BASE_SCORE;
                     }
                 } else {
@@ -229,7 +233,11 @@ class MeetingController extends BaseController
                         }
                         // 该学院没有此会议则添加进去
                         if (!isset($data[$collegeOfUser->id]['meetings'][$meeting->id])) {
-                            $data[$collegeOfUser->id]['meetings'][$meeting->id] = $meeting->toArray();
+                            $meet = $meeting->toArray();
+                            $meet['absentees'] = $meeting->absentees;
+                            $meet['users'] = getCollegeUsersByAllUsers($meet['users'], \Auth::user()->college);
+                            $meet['users'] = get_lead_official($meet['users']);
+                            $data[$collegeOfUser->id]['meetings'][$meeting->id] = $meet;
                         }
                         // 每个会议的默认分数
                         if (!isset($data[$collegeOfUser->id]['meetings'][$meeting->id]['meeting_total_score'])) {

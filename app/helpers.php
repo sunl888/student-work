@@ -31,10 +31,12 @@ if (!function_exists('get_lead_official')) {
     function get_lead_official($taskProgress)
     {
         if ($taskProgress instanceof Model) {
-            $userIds = explode(',', $taskProgress->user_id);
+            $userIds = $taskProgress->user_id;
         } else {
-            $userIds = explode(',', $taskProgress);
+            $userIds = $taskProgress;
         }
+        if (!is_array($userIds))
+            $userIds = explode(',', $userIds);
 
         if (array_first($userIds) != null) {
             if (strtolower(array_first($userIds)) == TaskProgress::$personnelSign) {
@@ -49,7 +51,40 @@ if (!function_exists('get_lead_official')) {
             return null;
         }
     }
+}
 
+/**
+ * 在用户IDs中提取指定学院的用户
+ */
+if (!function_exists('getCollegeUsersByAllUsers')) {
+
+    /**
+     * @param $users array|string
+     * @param $college
+     * @return array|mixed
+     */
+    function getCollegeUsersByAllUsers($users, $college)
+    {
+        if ($college instanceof \App\Models\College) {
+            $college = $college->id;
+        }
+        if (is_string($users))
+            $users = explode(',', $users);
+
+        if (!is_null($users)) {
+            // 如果是全体人员则直接返回
+            if (strtolower(array_first($users)) == Meeting::ALL_USER) {
+                return array_first($users);
+            }
+            foreach ($users as $index => $user) {
+                $user_model = User::find($user);
+                if (!isset($user_model) || !isset($user_model->college) || $user_model->college->id != $college) {
+                    unset($users[$index]);
+                }
+            }
+        }
+        return $users;
+    }
 }
 
 /**
@@ -66,6 +101,30 @@ if (!function_exists('get_absentees')) {
             return null;
         }
         return $absentee;
+    }
+
+}
+
+if (!function_exists('format_absentees')) {
+    function format_absentees($absentees, $college = null)
+    {
+        if (is_null($absentees))
+            return $absentees;
+        $results = [];
+        if ($college != null) {
+            //todo
+            $userIds = null;
+            foreach ($absentees as $absentee) {
+                $userIds[] = Absentee::find($absentee)->user_id;
+            }
+            if (!is_null($userIds)) {
+                $userIds = getCollegeUsersByAllUsers($userIds, $college);
+                foreach ($userIds as $userId) {
+                    $results[] = User::select(['id', 'name', 'email', 'password', 'picture', 'nickname', 'phone', 'gender'])->find($userId);
+                }
+            }
+        }
+        return $results;
     }
 
 }
