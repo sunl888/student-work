@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Maatwebsite\Excel\Excel;
+use Maatwebsite\Excel\Exceptions\LaravelExcelException;
 
 class MeetingController extends BaseController
 {
@@ -137,9 +138,9 @@ class MeetingController extends BaseController
             if (!isset($v['meetings'])) {
                 $data[$index]['meetings'] = null;
             } else {
-                foreach ($v['meetings'] as $index1 => $meeting) {
-                    $data[$index1]['meetings'] = array_values($data[$index1]['meetings']);
-                    $data[$index1]['college_total_score'] += $meeting['meeting_total_score'];
+                foreach ($v['meetings'] as $meeting) {
+                    $data[$index]['meetings'] = array_values($data[$index]['meetings']);
+                    $data[$index]['college_total_score'] += $meeting['meeting_total_score'];
                 }
             }
         }
@@ -166,7 +167,10 @@ class MeetingController extends BaseController
             ];
         }
         $tableName = Carbon::now()->toDateString() . ' - 会议考核汇总表';
-        $this->export($rows, $data, $tableName);
+        try {
+            $this->export($rows, $data, $tableName);
+        } catch (LaravelExcelException $e) {
+        }
     }
 
     /**
