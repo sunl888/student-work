@@ -37,7 +37,6 @@ if (!function_exists('get_lead_official')) {
         }
         if (!is_array($userIds))
             $userIds = explode(',', $userIds);
-
         if (array_first($userIds) != null) {
             if (strtolower(array_first($userIds)) == TaskProgress::$personnelSign) {
                 return array_values([['id' => 'all', 'name' => '全体人员', 'nickname' => '全体人员']]);
@@ -70,7 +69,7 @@ if (!function_exists('getCollegeUsersByAllUsers')) {
         }
         if (is_string($users))
             $users = explode(',', $users);
-
+        // 市政府A座136 - 何留进
         if (!is_null($users)) {
             // 如果是全体人员则直接返回
             if (strtolower(array_first($users)) == Meeting::ALL_USER) {

@@ -84,12 +84,14 @@ class MeetingController extends BaseController
             unset($meeting->absentees);
             // is 全体人员
             if ($meeting->users == Meeting::ALL_USER) {
+                $meeting->users = get_lead_official($meeting->users);
                 foreach ($data as $index => $v) {
                     $data[$index]['meetings'][$meeting->id] = $meeting->toArray();
                     $data[$index]['meetings'][$meeting->id]['meeting_total_score'] = Meeting::BASE_SCORE;
                 }
             } else {
                 $users = explode(',', $meeting->users);
+                $meeting->users = get_lead_official($meeting->users);
                 foreach ($users as $user) {
                     $collegeOfUser = User::findOrFail($user)->college;
                     // 用户没有院系跳过

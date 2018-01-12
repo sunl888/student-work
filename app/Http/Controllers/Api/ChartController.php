@@ -9,36 +9,7 @@ use Illuminate\Http\Request;
 
 class ChartController extends Controller
 {
-    //图表
-    /*public function export2chart(Request $request)
-    {
-        $datas = $this->lists($request)->getData();
-        $labels = [];
-        $unfinisheds = [];
-        $finisheds = [];
-        unset($datas->meta);
-        foreach ($datas as $data) {
-            $data = get_object_vars($data);
-            $labels[] = $data['college_name'];
-            $unfinisheds[] = $data['unfinisheds'];
-            $finisheds[] = $data['finisheds'];
-        }
-        $chart = Charts::multi('bar', 'material')
-            // Setup the chart settings
-            ->title("图表")
-            // A dimension of 0 means it will take 100% of the space
-            ->dimensions(0, 400)// Width x Height
-            // This defines a preset of colors already done:)
-            ->template("material")
-            // You could always set them manually
-            // ->colors(['#2196F3', '#F44336', '#FFC107'])
-            // Setup the diferent datasets (this is a multi chart)
-            ->dataset('已完成', $finisheds)
-            ->dataset('未完成', $unfinisheds)
-            // Setup what the values mean
-            ->labels($labels);
-    }*/
-
+    // 图表
     public function lists(Request $request)
     {
         $data = [];
