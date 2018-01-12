@@ -9,7 +9,6 @@ use App\Models\Meeting;
 use App\Models\User;
 use App\Repositories\CollegeRepository;
 use App\Repositories\SemestersRepository;
-use App\Transformers\MeetingByCollegeTransformer;
 use App\Transformers\MeetingTransformer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -136,9 +135,9 @@ class MeetingController extends BaseController
             if (!isset($v['meetings'])) {
                 $data[$index]['meetings'] = null;
             } else {
-                foreach ($v['meetings'] as $index => $meeting) {
-                    $data[$index]['meetings'] = array_values($data[$index]['meetings']);
-                    $data[$index]['college_total_score'] += $meeting['meeting_total_score'];
+                foreach ($v['meetings'] as $index1 => $meeting) {
+                    $data[$index1]['meetings'] = array_values($data[$index1]['meetings']);
+                    $data[$index1]['college_total_score'] += $meeting['meeting_total_score'];
                 }
             }
         }
