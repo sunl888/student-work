@@ -45,6 +45,10 @@ class MeetingController extends BaseController
 
     public function show(Meeting $meeting)
     {
+        // 学院用户只能查看自己学院的用户
+        if (\Auth::user()->isCollege()) {
+            $meeting->users = getCollegeUsersByAllUsers($meeting->users, \Auth::user()->college);
+        }
         return $this->response()->item($meeting, new MeetingTransformer());
     }
 
@@ -132,7 +136,7 @@ class MeetingController extends BaseController
             if (!isset($v['meetings'])) {
                 $data[$index]['meetings'] = null;
             } else {
-                foreach ($v['meetings'] as $index=>$meeting) {
+                foreach ($v['meetings'] as $index => $meeting) {
                     $data[$index]['meetings'] = array_values($data[$index]['meetings']);
                     $data[$index]['college_total_score'] += $meeting['meeting_total_score'];
                 }

@@ -26,7 +26,7 @@ if (!function_exists('get_lead_official')) {
     /**
      * 获取责任人
      * @param $taskProgress
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|string|static|static[]
+     * @return array
      */
     function get_lead_official($taskProgress)
     {

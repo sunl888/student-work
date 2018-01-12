@@ -30,6 +30,10 @@ class MeetingTransformer extends Transformer
     public function getDetailOfColleges(Meeting $meeting)
     {
         $datas = [];
+        // 学院用户
+        if (\Auth::user()->college) {
+            return $datas;
+        }
         $user = app(User::class);
         $absentee = app(Absentee::class);
         if ($meeting->users == 'all') {
