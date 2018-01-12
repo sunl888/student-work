@@ -30,6 +30,11 @@
                       无数据
                   </p>
               </div>
+              <div v-else-if="queryName.match('attendance')">
+                  <p>
+                      当前暂无会议考核情况
+                  </p>
+              </div>
               <div v-else-if="queryName.match('mettings')">
                   <p>
                       当前没有会议查询
@@ -42,7 +47,7 @@
               </div>
               </template>
           </div>
-          <div v-if="isPage">
+          <div v-if="isPage == true">
             <div v-if="list.length > 0" class="footer">
               <div class="page_num_box">
                   显示:
@@ -81,8 +86,10 @@
               default: true
             },
             isPage: {
-              type:Boolean,
-              default: true
+                default: true,
+                validator (value) {
+                    return Boolean(value)
+                }
             }
         },
         data () {
@@ -140,7 +147,6 @@
                             }
                           } else if(this.queryName.match('task_progresses&college=')){
                            this.list = res.data.data;
-                           console.log(this.list);
                           this.total = res.data.meta.pagination.total;
                           this.perPage = res.data.meta.pagination.per_page
                             
@@ -155,7 +161,13 @@
                                   }
                               }
                             
-                          } else{
+                          }
+                          else if(this.queryName.match('attendance')){
+                            for(let i in res.data){
+                                this.list.push(res.data[i])
+                            }
+                          } 
+                          else{
                           this.list = res.data.data;
                           this.total = res.data.meta.pagination.total;
                           this.perPage = res.data.meta.pagination.per_page
@@ -163,7 +175,6 @@
                               this.list[x].created_at = this.dataFilter(this.list[x].created_at)
                           }
                         }
-
                     }).catch(err => {
                         this.loading = false;
                     })

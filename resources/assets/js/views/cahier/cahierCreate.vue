@@ -2,10 +2,10 @@
   <div class="taskManage item">
     <el-tabs v-model="activeName" @tab-click="request" >
       <el-tab-pane label="会议列表" name="list">
-        <div class="table">
+        <div class="table" v-if="me.roles.data[0].id === 2">
           <currency-list-page ref="list" :queryName="query">
             <template scope="list">
-              <el-table
+              <el-table 
                       :default-sort = "{prop: 'created_at', order: 'descending'}"
                       :data="list.data"
                       stripe
@@ -39,7 +39,69 @@
                         label="参会人员"
                 >
                 <span>
-                  <span>{{row.users[0].nickname === '全体人员' ? row.users[0].nickname : row.users[0].nickname + '等共'+ row.users.length + '人'}}</span>
+                  <span v-if="me.is_super_admin === true">{{row.users[0].nickname === '全体人员' ? row.users[0].nickname : row.users[0].nickname + '等共'+ row.users.length + '人'}}</span>
+                  <span v-else>{{row.users === 'all' ? '全体人员' : row.users[0].nickname + '等共'+ row.users.length + '人'}}</span>
+                </span>
+                </el-table-column>
+                <el-table-column
+                        prop="meeting_total_score"
+                        sortable
+                        min-width="100"
+                        label="会议得分"
+                >
+                </el-table-column>
+                <el-table-column
+                        label="操作"
+                        width="170"
+                        inline-template
+                >
+                  <template>
+                    <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </template>
+          </currency-list-page>
+        </div>
+                <div class="table" v-else>
+          <currency-list-page ref="list" :queryName="query">
+            <template scope="list">
+              <el-table 
+                      :default-sort = "{prop: 'created_at', order: 'descending'}"
+                      :data="list.data"
+                      stripe
+                       border
+                      style="width: 100%">
+                <el-table-column
+                        sortable
+                        inline-template
+                        label="发布日期"
+                        width="200">
+                        <span>{{row.start_time | filterTime}}</span>
+                </el-table-column>
+                <el-table-column
+                        prop="title"
+                        sortable
+                        min-width="150"
+                        label="会议名称"
+                >
+                </el-table-column>
+                <el-table-column
+                        prop="address"
+                        sortable
+                        min-width="100"
+                        label="会议地点"
+                >
+                </el-table-column>
+                <el-table-column
+                        inline-template
+                        min-width="200"
+                        sortable
+                        label="参会人员"
+                >
+                <span>
+                  <span v-if="me.is_super_admin === true">{{row.users[0].nickname === '全体人员' ? row.users[0].nickname : row.users[0].nickname + '等共'+ row.users.length + '人'}}</span>
+                  <span v-else>{{row.users === 'all' ? '全体人员' : row.users[0].nickname + '等共'+ row.users.length + '人'}}</span>
                 </span>
                 </el-table-column>
                 <el-table-column
@@ -89,10 +151,10 @@
                 })
             },
             querys () {
-                if(this.me.is_super_admin){
+                if(this.me.roles.data[0].id === 1){
                     this.query = 'mettings';
                 } else {
-                    this.query = 'mettings?user=' + this.me.id;
+                    this.query = 'get_meetings_by_college_user';
                 }
             },
             //刷新表格

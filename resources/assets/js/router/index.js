@@ -213,7 +213,7 @@ export default new Router({
             ]
         },
         {
-          path: 'cahier_lists',
+          path: 'cahier_lists/:id',
           meta: {title: '会议管理'},
           component: parentComponent,
           children: [
@@ -236,13 +236,21 @@ export default new Router({
               component: require('../views/cahier/addMetting.vue')
             },
             {
-                path: 'task_attendance',
+                path: 'task_attendance/:id',
                 name: 'task_attendance',
                 meta: {
-                    title: '会议考勤'
+                    title: '会议考核'
                 },
                 component: require('../views/cahier/taskAttendance.vue')
             },
+            {
+                path: 'cahier_list/:id',
+                name: 'cahier_list',
+                meta: {
+                    title: '会议考核'
+                },
+                component: require('../views/cahier/cahierList.vue')
+            }
           ]
         },
         {

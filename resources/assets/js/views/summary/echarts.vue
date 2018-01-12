@@ -75,132 +75,113 @@ export default{
       college: [],
       item:[],
       option:{
-         tooltip : {
-                trigger: 'axis',
-                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                }
+        tooltip : {
+          trigger: 'axis',
+          axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+              type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        legend: {
+          data:['所有任务的总得分情况'],
+          textStyle:{  
+            fontWeight:"bolder",  
+            color:"#000",
+            
+            fontSize: 18
+          }
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '40%',
+        },
+        xAxis : [{
+          clickable : true,
+          type : 'category',
+          axisLabel:{  
+            interval:0,
+            formatter:function(value)
+            {
+                return value.split("").join("\n");
             },
-            legend: {
-                data:['所有任务的总得分情况'],
-                textStyle:{  
-                            fontWeight:"bolder",  
-                            color:"#000",
-                            
-                            fontSize: 18
-                        }
+            margin:10, 
+            textStyle:{  
+              fontWeight:"bolder",  
+              color:"#000",
+              fontSize: 18
+            }
+          },
+          z: 10
+        }],
+        yAxis: {
+          axisLine: {
+            show: true
+          },
+          axisTick: {
+            show: true
+          },
+          axisLabel: {
+            textStyle: {
+              color: '#999'
+            }
+          }
+        },
+        dataZoom: [
+          {
+            type: 'inside'
+          }
+        ],
+        series : [
+          { // For shadow
+            type: 'bar',
+            itemStyle: {
+              normal: {color: 'rgba(0,0,0,0.05)'}
             },
-            grid: {
-                left: '3%',
-                right: '4%',
-                 bottom: '40%',
-//                containLabel: true
-            },
-            xAxis : [
-                {
-                    clickable : true,
-                    type : 'category',
-                    axisLabel:{  
-                        interval:0,
-                        formatter:function(value)
-                        {
-                            return value.split("").join("\n");
-                        },
-                        //rotate:45,//倾斜度 -90 至 90 默认为0
-                        margin:10, 
-//                        inside: true,
-                        textStyle:{  
-                            fontWeight:"bolder",  
-                            color:"#000",
-                            
-                            fontSize: 18
-                        }
-                    },
-                    // itemStyle:{
-                    //   normal:{
-                    //     label:{
-                    //       position:bottom
-                    //     }
-                    //   }
-                    // },
-                    // axisTick: {
-                    //     show: false
-                    // },
-                    // axisLine: {
-                    //     show: false
-                    // },
-                    z: 10
-                }
-            ],
-            yAxis: {
-                axisLine: {
-                    show: true
-                },
-                axisTick: {
-                    show: true
-                },
-                axisLabel: {
-                    textStyle: {
-                        color: '#999'
-                    }
-                }
-            },
-            dataZoom: [
-                {
-                    type: 'inside'
-                }
-            ],
-            series : [
-                { // For shadow
-                    type: 'bar',
-                    itemStyle: {
-                        normal: {color: 'rgba(0,0,0,0.05)'}
-                    },
-                    barGap:'-100%',
-                    barCategoryGap:'40%',
-                    animation: false,
-                    data: ['100%']
-                },
-                {
-                   // name:'总分',
-                    clickable : true,
-                    name:'所有任务的总得分情况',
-                    stack: '所有任务的总得分情况',
-                    type:'bar',
-                    itemStyle: {
-                        normal: {
-                          label: {  
-                                show: true,//是否展示  
-                                 position:'top',
-                                textStyle: {  
-                                    fontWeight:'bolder',  
-                                    fontSize : '16',
-                                    color:'red',
-                                    fontFamily : '微软雅黑',  
-                                }  
-                            } ,
-                            color: new echarts.graphic.LinearGradient(
-                                0, 0, 0, 1,
-                                [
-                                    {offset: 0, color: '#83bff6'},
-                                    {offset: 0.5, color: '#188df0'},
-                                    {offset: 1, color: '#188df0'}
-                                ]
-                            )
-                      },
-                      emphasis: {
-                          color: new echarts.graphic.LinearGradient(
-                              0, 0, 0, 1,
-                              [
-                                  {offset: 0, color: '#2378f7'},
-                                  {offset: 0.7, color: '#2378f7'},
-                                  {offset: 1, color: '#83bff6'}
-                              ]
-                          )
-                      }
-                  }
-                }
-            ]   
+            barGap:'-100%',
+            barCategoryGap:'40%',
+            animation: false,
+            data: ['100%']
+          },
+          {
+            // name:'总分',
+            clickable : true,
+            name:'所有任务的总得分情况',
+            stack: '所有任务的总得分情况',
+            type:'bar',
+            itemStyle: {
+              normal: {
+                label: {  
+                  show: true,//是否展示  
+                  position:'top',
+                  textStyle: {  
+                    fontWeight:'bolder',  
+                    fontSize : '16',
+                    color:'red',
+                    fontFamily : '微软雅黑',  
+                  }  
+                } ,
+                color: new echarts.graphic.LinearGradient(
+                  0, 0, 0, 1,
+                  [
+                      {offset: 0, color: '#83bff6'},
+                      {offset: 0.5, color: '#188df0'},
+                      {offset: 1, color: '#188df0'}
+                  ]
+                )
+              },
+              emphasis: {
+                color: new echarts.graphic.LinearGradient(
+                  0, 0, 0, 1,
+                  [
+                      {offset: 0, color: '#2378f7'},
+                      {offset: 0.7, color: '#2378f7'},
+                      {offset: 1, color: '#83bff6'}
+                  ]
+                )
+              }
+            }
+          }
+        ]   
       }
     }
   },

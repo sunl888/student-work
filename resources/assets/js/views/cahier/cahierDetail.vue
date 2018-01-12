@@ -11,6 +11,7 @@ s<template>
                     <div class="cahierProps">
                         <span>会议时间：{{ item.start_time }}</span>
                         <span>会议地点：{{ item.address }}</span>
+                        <span>会议考核分数：{{ item.detail_of_colleges[0] }}</span>
                         <span v-if="isPeople">参会人员：全体人员</span>
                     </div>
                     <p class="content"><span style="color: #aaa;">会议内容：</span> <span style="max-width=100%;">{{ item.detail }}</span></p>

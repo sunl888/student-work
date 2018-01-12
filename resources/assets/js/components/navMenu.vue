@@ -14,7 +14,7 @@
         </template>
         
         <div v-for="value in values.child">
-          <el-menu-item :index=value.name :route="{name: value.url}">{{value.name}}</el-menu-item>
+          <el-menu-item :index=value.name :route="{name: value.url ,params:{id: me.id}}">{{value.name}}</el-menu-item>
         </div>
       </el-submenu>
     </el-menu>

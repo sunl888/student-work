@@ -133,7 +133,8 @@ class MeetingController extends BaseController
             if (!isset($v['meetings'])) {
                 $data[$index]['meetings'] = null;
             } else {
-                foreach ($v['meetings'] as $meeting) {
+                foreach ($v['meetings'] as $index=>$meeting) {
+                    $data[$index]['meetings'] = array_values($data[$index]['meetings']);
                     $data[$index]['college_total_score'] += $meeting['meeting_total_score'];
                 }
             }
