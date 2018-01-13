@@ -37,7 +37,7 @@
             placeholder="请选择结束日期">
         </el-date-picker>
       </div>
-      <el-select class="query_select query_select_new" @change="getMode()" v-model="query.work" placeholder="按工作类型汇总" clearable>
+      <el-select class="query_select  " @change="getMode()" v-model="query.work" placeholder="按工作类型汇总" clearable>
         <el-option
           v-for="item in workTypeList"
           :key="item.id"
@@ -319,15 +319,19 @@ export default{
     getMode(){
        let url = new Array();
        let i = 1;
-        url[0] = 'echart/lists';
+        url[0] = 'echart/lists?';
         for(let z in this.semester){
           if(this.semester[z].value === this.query.semester){
-            url[i] = '?start_date='+this.semester[z].start_time;
+            url[i] = '&start_date='+this.semester[z].start_time;
             i++;
             url[i] = '&end_date='+this.semester[z].end_time;
+            i++;
           }
         }
-              this.score.splice(0,this.score.length);
+        if(this.query.work !== null){
+          url[i] = '&work_type_id=' + this.query.work
+        }
+      this.score.splice(0,this.score.length);
       this.college.splice(0,this.college.length);
         this.getList(url.join(''));
     }

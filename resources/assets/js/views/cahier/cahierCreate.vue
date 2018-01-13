@@ -39,8 +39,7 @@
                         label="参会人员"
                 >
                 <span>
-                  <span v-if="me.is_super_admin === true">{{row.users[0].nickname === '全体人员' ? row.users[0].nickname : row.users[0].nickname + '等共'+ row.users.length + '人'}}</span>
-                  <span v-else>{{row.users === 'all' ? '全体人员' : row.users[0].nickname + '等共'+ row.users.length + '人'}}</span>
+                  <span>{{row.users[0].nickname === '全体人员' ? row.users[0].nickname : row.users[0].nickname + '等共'+ row.users.length + '人'}}</span>
                 </span>
                 </el-table-column>
                 <el-table-column
@@ -100,8 +99,7 @@
                         label="参会人员"
                 >
                 <span>
-                  <span v-if="me.is_super_admin === true">{{row.users[0].nickname === '全体人员' ? row.users[0].nickname : row.users[0].nickname + '等共'+ row.users.length + '人'}}</span>
-                  <span v-else>{{row.users === 'all' ? '全体人员' : row.users[0].nickname + '等共'+ row.users.length + '人'}}</span>
+                  <span>{{row.users[0].nickname === '全体人员' ? row.users[0].nickname : row.users[0].nickname + '等共'+ row.users.length + '人'}}</span>
                 </span>
                 </el-table-column>
                 <el-table-column

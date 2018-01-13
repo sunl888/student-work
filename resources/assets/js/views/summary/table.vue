@@ -171,7 +171,10 @@ export default{
   },
   methods: {
     exportTable(){
-      window.open("/api/export2table");
+      this.url.splice(0,1)
+      console.log(this.url)
+      window.open('/api/export2table?' + this.url);
+
       // this.$http.get('export2table').then(res => {
       //   this.$message.success('导出成功！');
       // }).catch(res => {
@@ -390,8 +393,8 @@ export default{
         url[i] = '&end_date='+end_date;
         i++;
       }
-      this.url = url.join('');
-      this.$http.get(url.join(''),{
+      this.url = url;
+      this.$http.get(this.url.join(''),{
         params: {
           limit: this.perPage,
           page

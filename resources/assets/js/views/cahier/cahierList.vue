@@ -1,7 +1,7 @@
 <template>
     <div class="taskManage item">
         <el-tabs v-model="activeName" @tab-click="request" >
-            <el-tab-pane label="用户列表" name="list">
+            <el-tab-pane label="会议考核" name="list">
                 <div class="table">
                             <el-table
                                     :data="item"
@@ -24,9 +24,10 @@
                                         label="开会地点">
                                 </el-table-column>
                                 <el-table-column
-                                        prop="users"
+                                        inline-template
                                         sortable
                                         label="参会人员">
+                                        <span>{{row.users[0].id == 'all' ? row.users[0].nickname : row.users[0].nickname + '等共'+row.users.length + '人123'}}</span>
                                 </el-table-column>
                                 <el-table-column
                                         prop="meeting_total_score"

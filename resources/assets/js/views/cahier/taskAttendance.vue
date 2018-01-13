@@ -1,25 +1,36 @@
 <template>
     <div class="taskManage item">
         <el-tabs v-model="activeName" @tab-click="request" >
-            <div class="query">
-                <el-select class="querySelect sort_by_date"  @change="getUrl()" clearable v-model="query.college" placeholder="按学院筛选">
+              <h1 style="padding:10px 0">淮南师范学院二级学院任务完成情况汇总图示</h1>
+            <div class="query" style="width: 70%;margin: 10px auto;">
+                <el-select class="querySelect sort_by_date" style="width: 30%;" @change="getUrl()" clearable v-model="query.college" placeholder="按学院筛选">
                     <el-option
                     v-for="item in collegesList"
                     :key="item.id"
                     :label="item.title"
                     :value="item.id"></el-option>
                 </el-select>
-                <el-date-picker
-                    class="el-col-22"
-                    v-model="query.start"
-                    type="datetime"
-                    @change="getUrl()"
-                    placeholder="选择日期时间">
-                </el-date-picker>
+                <div class="date_range" style="width: 50%">
+                    <el-date-picker
+                        class="query_select"
+                        v-model="query.range.start_date"
+                        type="date"
+                        placeholder="请选择开始日期">
+                    </el-date-picker>
+                    <span>至</span>
+                    <el-date-picker
+                        class="query_select"
+                        v-model="query.range.end_date"
+                        type="date"
+                        @change="getUrl()"
+                        placeholder="请选择结束日期">
+                    </el-date-picker>
+                </div>
+                <el-button icon="upload2" title="导出图表" style="transform:rotate(180deg);float: left;margin-left: 20px;" @click="exportTable()"></el-button>
             </div>
-            <el-tab-pane label="用户列表" name="list"  style="width: 20%;float: right;">
+            <el-tab-pane label="会议考核" name="list"  style="width: 20%;float: right;">
                 <div class="table metting_text">
-                    <currency-list-page ref="list" isPage="false" :queryName="user_url">
+                    <!-- <currency-list-page ref="list" isPage="false" :queryName="user_url">
                         <template scope="list">
                             <el-table
                                     :data="list.data"
@@ -49,7 +60,7 @@
                                 </el-table-column>                                                                    
                             </el-table>
                         </template>
-                    </currency-list-page>
+                    </currency-list-page> -->
                 </div>
             </el-tab-pane>
             <div id="metting_chart"></div>
@@ -79,7 +90,10 @@
                     nickname: null,
                     name: null,
                     gender: null,
-                    start: ''
+                    range: {
+                        start_date: null,
+                        end_date: null
+                    }
                 },
                 zoomSize: 4,
                 yChart: null,
@@ -93,7 +107,7 @@
                         }
                     },
                     legend: {
-                        data:['所有任务的总得分情况'],
+                        data:['所有会议的总得分情况'],
                         textStyle:{  
                             fontWeight:"bolder",  
                             color:"#000",
@@ -211,7 +225,16 @@
             this.myChart = echarts.init(document.getElementById('metting_chart'));
         },
         methods: {
+            exportTable(){
+                window.open("/api/" + this.user_url + '&export');
+            // this.$http.get('export2table').then(res => {
+            //   this.$message.success('导出成功！');
+            // }).catch(res => {
+            //   this.$message.success(res);        
+            // })
+            },
             getList(url){
+                console.log(url)
                 this.item.splice(0, this.item.length)
                 this.$http.get(url).then(res => {
                     for(let i in res.data){
@@ -286,15 +309,11 @@
                     url[i] = '&college_id=' + this.query.college;
                     i++;
                 }
-                if(this.query.start !== null){
-                    let datetime = new Array();
-                    datetime[0] = this.query.start.toLocaleString().split(' ')[0]
-                    datetime[1] = (this.query.start.toLocaleString().split(' ')[1] || '').substr(2)
-                    console.log(datetime.join(' '))
-                    url[i] = '&start_time=' + datetime.join(' ');
+                if(this.query.range.end_date!== null){
+                    url[i] = '&start_time='+ (this.query.range.start_date || '').toLocaleString().split(' ')[0] + '&end_time=' +(this.query.range.end_date || '').toLocaleString().split(' ')[0]
+                    i++;
                 }
                 this.user_url = url.join('');
-                this.$refs['list'].refresh();
                 this.getList(this.user_url)
             },
             getRolesList () {
@@ -400,7 +419,7 @@
         display:inline-block;
     }
     #metting_chart{
-        width: 78%;
+        width: 100%;
         margin-left: 20px;
         min-height:850px;
         margin-top:20px;
