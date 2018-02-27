@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\CreatedMeeting;
 use App\Http\Requests\CreateMeetingRequest;
+use App\Http\Requests\UpdateMeetingRequest;
 use App\Models\Absentee;
 use App\Models\Meeting;
 use App\Models\User;
@@ -34,6 +35,28 @@ class MeetingController extends BaseController
             });
         }
         event(new CreatedMeeting($meeting->users, $meeting));
+        return $this->response()->noContent();
+    }
+
+    public function update(Meeting $meeting, UpdateMeetingRequest $request)
+    {
+        $data = $request->all();
+        if (isset($data['start_time']))
+            $data['start_time'] = \Carbon\Carbon::createFromTimestamp(strtotime($data['start_time']));
+        $meeting = $meeting->update($data);
+        // 判断哪些人缺勤，分别为他们创建缺勤记录
+        if (isset($data['absent_cause'])) {
+            Absentee::where(['meeting_id'=>$meeting->id])->delete();
+            array_walk($data['absent_cause'], function (&$value, $key, $joinUsing) {
+                $value[$joinUsing['key']] = $joinUsing['val'];
+            }, array('key' => 'meeting_id', 'val' => $meeting->id));
+            // 将每个用户的缺勤记录存入数据库
+            array_walk($data['absent_cause'], function (&$val) {
+                Absentee::create($val);
+            });
+        }
+        // todo 更新时不发送通知
+        //event(new CreatedMeeting($meeting->users, $meeting));
         return $this->response()->noContent();
     }
 

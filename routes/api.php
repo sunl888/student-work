@@ -157,6 +157,8 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         $api->get('user/{user}/roles', 'UsersController@roles');
         //创建会议
         $api->post('metting', 'MeetingController@store');
+        // 更新
+        $api->post('metting/{metting_id}', 'MeetingController@update');
 
         // 图表
         $api->get('echart/lists', 'ChartController@lists');
