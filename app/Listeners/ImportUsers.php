@@ -60,7 +60,7 @@ class ImportUsers implements ShouldQueue
             if (!!$college) {
                 $user['college_id'] = $college->id;
             } else {
-                $user['college_id'] = null;
+                $user['college_id'] = 1;
             }
             $userInfo = User::create($user);
             $userInfo->roles()->attach($role);

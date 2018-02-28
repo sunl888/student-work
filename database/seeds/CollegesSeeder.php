@@ -15,6 +15,10 @@ class CollegesSeeder extends Seeder
         //
         DB::table('colleges')->insert([
             [
+                'title' => '学生处',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ], [
                 'title' => '化学与材料工程学院',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

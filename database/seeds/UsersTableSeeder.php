@@ -18,7 +18,7 @@ class   UsersTableSeeder extends Seeder
                 'nickname' => 'admin',
                 'password' => bcrypt('admin2017'),
                 'email' => app(Faker\Generator::class)->freeEmail,
-                'college_id' => null,
+                'college_id' => 1,
                 'picture' => 'images/picture.jpg',
                 'gender' => app(Faker\Generator::class)->boolean,
                 'created_at' => Carbon::now(),
