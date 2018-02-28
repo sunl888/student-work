@@ -67,6 +67,7 @@ class MeetingController extends BaseController
      */
     public function destory(Meeting $meeting)
     {
+        $meeting->absentees()->delete();
         $meeting->delete();
         return $this->response()->noContent();
     }
