@@ -74,6 +74,7 @@ class CollegesSeeder extends Seeder
                 'title' => '美术与设计学院',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ]]);
+            ]
+        ]);
     }
 }
