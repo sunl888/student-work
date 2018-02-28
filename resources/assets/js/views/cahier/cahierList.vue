@@ -27,7 +27,7 @@
                                         inline-template
                                         sortable
                                         label="参会人员">
-                                        <span>{{row.users[0].id == 'all' ? row.users[0].nickname : row.users[0].nickname + '等共'+row.users.length + '人123'}}</span>
+                                        <span>{{row.users[0].id == 'all' ? row.users[0].nickname : row.users[0].nickname + '等共'+row.users.length + '人'}}</span>
                                 </el-table-column>
                                 <el-table-column
                                         prop="meeting_total_score"
@@ -42,8 +42,8 @@
                                     <template>
                                         <el-button-group>
                                             <el-button type="primary" size="small" @click="browserUser(row.id)">查看</el-button>
-                                            <el-button type="primary" size="small"  @click="modifyTask(row.id)">修改</el-button>
-                                            <el-button type="danger" size="small" @click="deleteTask(row.id)">删除</el-button>
+                                            <!-- <el-button type="primary" size="small"  @click="modifyTask(row.id)">修改</el-button>
+                                            <el-button type="danger" size="small" @click="deleteTask(row.id)">删除</el-button> -->
                                         </el-button-group>
                                     </template>
                                 </el-table-column>

@@ -181,7 +181,7 @@
             message: '修改成功',
             type: 'success'
           });
-          this.$router.back();
+          this.$router.push({name: 'cahier_lists'});
         })
       },
       // 获取会议信息
@@ -308,11 +308,11 @@
       },
       getAllUsers(college_id){
         this.allUsers.splice(0, this.allUsers.length);
-        this.$http.get('users/' + college_id).then(res => {
+        this.$http.get('users/' + (college_id)).then(res => {
           for(let x in res.data.users){
             this.allUsers.push({
               key:  res.data.users[x].id,
-              label: (this.collegesList[res.data.users[x].college_id-1].title || '学生处') + ' - ' + res.data.users[x].nickname
+              label: (this.collegesList[res.data.users[x].college_id-2].title || '学生处') + ' - ' + res.data.users[x].nickname
             });
           }
         })

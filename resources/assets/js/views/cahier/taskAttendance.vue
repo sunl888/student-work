@@ -284,7 +284,7 @@
                         return;    
                     }    
                     if (param.type == 'dblclick') {
-                    this.$router.push({name: 'cahier_list', params: {id: param.dataIndex+1}});
+                    this.$router.push({name: 'cahier_list', params: {id: param.dataIndex+2}});
                     }    
                 },
             handleSuccess(response){
