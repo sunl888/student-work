@@ -60,6 +60,17 @@ class MeetingController extends BaseController
         return $this->response()->noContent();
     }
 
+    /**
+     * @param Meeting $meeting
+     * @return \Dingo\Api\Http\Response
+     * @throws \Exception
+     */
+    public function destory(Meeting $meeting)
+    {
+        $meeting->delete();
+        return $this->response()->noContent();
+    }
+
     public function lists(Request $request)
     {
         return $this->response()->paginator(Meeting::applyFilter($request)->paginate($this->perPage()), new MeetingTransformer())

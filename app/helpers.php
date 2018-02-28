@@ -39,12 +39,12 @@ if (!function_exists('get_lead_official')) {
             $userIds = explode(',', $userIds);
         if (array_first($userIds) != null) {
             if (strtolower(array_first($userIds)) == TaskProgress::$personnelSign) {
-                return array_values([['id' => 'all', 'name' => '全体人员', 'nickname' => '全体人员']]);
+                return array_values([['id' => 'all', 'name' => '全体人员', 'nickname' => '全体人员', 'college_info' => null]]);
             } elseif (count($userIds) == 1) {
-                $user = User::find(array_first($userIds), ['id', 'name', 'nickname']);
+                $user = User::find(array_first($userIds), ['id', 'name', 'nickname', 'college_info']);
                 return [$user];
             } elseif (count($userIds) > 1) {
-                return User::whereIn('id', $userIds)->get(['id', 'name', 'nickname']);
+                return User::whereIn('id', $userIds)->get(['id', 'name', 'nickname', 'college_info']);
             }
         } else {
             return null;

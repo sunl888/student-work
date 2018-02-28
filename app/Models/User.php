@@ -38,6 +38,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         'gender' => 'boolean',
     ];
 
+    protected $appends = ['college_info'];
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -95,6 +96,11 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     public function college()
     {
         return $this->hasOne(College::class, 'id', 'college_id');
+    }
+
+    public function getCollegeInfoAttribute()
+    {
+        return $this->attributes['college_info']  = $this->college;
     }
 }
 
