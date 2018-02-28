@@ -158,9 +158,9 @@ $api->group(['middleware' => 'auth:web'], function ($api) {
         //创建会议
         $api->post('metting', 'MeetingController@store');
         // 更新
-        $api->post('metting/{metting_id}', 'MeetingController@update');
+        $api->post('metting/{meeting}', 'MeetingController@update');
         // 删除
-        $api->get('metting/{metting_id}/destory', 'MeetingController@destory');
+        $api->get('metting/{meeting}/destory', 'MeetingController@destory');
 
         // 图表
         $api->get('echart/lists', 'ChartController@lists');

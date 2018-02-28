@@ -236,6 +236,14 @@ export default new Router({
               component: require('../views/cahier/addMetting.vue')
             },
             {
+              path: 'cahier_edit/:id',
+              name: 'cahier_edit',
+              meta: {
+                  title: '修改会议'
+              },
+              component: require('../views/cahier/addMetting.vue')
+            },
+            {
                 path: 'task_attendance/:id',
                 name: 'task_attendance',
                 meta: {

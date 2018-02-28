@@ -35,6 +35,11 @@ s<template>
                           min-width="180">
                         </el-table-column>
                         <el-table-column
+                          prop="nickname"
+                          label="所属学院"
+                          min-width="180">
+                        </el-table-column>
+                        <el-table-column
                           sortable
                           prop="attention"
                           label="出勤情况"

@@ -42,6 +42,8 @@
                                     <template>
                                         <el-button-group>
                                             <el-button type="primary" size="small" @click="browserUser(row.id)">查看</el-button>
+                                            <el-button type="primary" size="small"  @click="modifyTask(row.id)">修改</el-button>
+                                            <el-button type="danger" size="small" @click="deleteTask(row.id)">删除</el-button>
                                         </el-button-group>
                                     </template>
                                 </el-table-column>
@@ -49,23 +51,6 @@
                 </div>
             </el-tab-pane>
         </el-tabs>
-        <el-card v-if="isProfile" class="proCard el-col-5">
-            <div class="head">
-                <i class="el-icon-close" style="position:absolute;right:20px;" @click="isProfile =false"></i>
-                <img style="border-radius:50%;" v-if="item.data.picture" :src="item.data.picture">
-                <img style="border-radius:50%;" v-else src="../../assets/images/picture.jpg" alt="">
-            </div>
-            <div class="profile el-col-20 el-col-push-2">
-                <p>用户名(工号)：<span>{{item.data.name}}</span></p>
-                <p>用户昵称：<span>{{item.data.nickname}}</span></p>
-                <p>性&emsp;别：<span>{{item.data.gender_str}}</span></p>
-                <p>手机号码：<span>{{item.data.phone}}</span></p>
-                <p>用户邮箱：<span>{{item.data.email}}</span></p>
-                <p>用户角色：<span>{{item.meta.role[0].display_name}}</span></p>
-                <p v-if="item.data.college.data !== {}">所属学院：<span>{{item.data.college.data.title}}</span></p>
-                <p>用户创建时间：<span>{{item.data.created_at | dateFilter}}</span></p>
-            </div>
-        </el-card>
     </div>
 </template>
 <script>

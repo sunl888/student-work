@@ -108,7 +108,11 @@
                         inline-template
                 >
                   <template>
-                    <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
+                    <el-button-group>
+                      <el-button type="primary" size="small" @click="browseTask(row.id)">查看</el-button>
+                      <el-button type="success" size="small"  @click="modifyTask(row.id)">修改</el-button>
+                      <el-button type="danger" size="small" @click="deleteTask(row.id)">删除</el-button>
+                    </el-button-group>
                   </template>
                 </el-table-column>
               </el-table>
@@ -154,6 +158,31 @@
                 } else {
                     this.query = 'get_meetings_by_college_user';
                 }
+            },
+            // 修改会议内容
+            modifyTask (id) {
+              this.$router.push({name: 'cahier_edit', params: {id: id}});
+            },
+            // 删除会议
+            deleteTask (id) {
+              this.$confirm('此操作将永久删除该会议, 是否继续?', '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'warning'
+              }).then(() => {
+                  this.$http.get('metting/' + id + '/destory').then(res => {
+                      this.$refs['list'].refresh();
+                      this.$message({
+                          type: 'success',
+                          message: '删除成功!'
+                      });
+                  })
+              }).catch(() => {
+                  this.$message({
+                      type: 'info',
+                      message: '已取消删除'
+                  });
+              });
             },
             //刷新表格
             request (tab) {
