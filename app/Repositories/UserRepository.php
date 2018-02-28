@@ -28,7 +28,7 @@ class UserRepository extends Repository
         if (null == $collegeId) {
             $collegeId = \Auth::guard()->user()->college_id;
         }
-        $containCollege ? $data = ['teacher', 'college'] : $data = ['teacher'];
+        $containCollege ? $data = ['teacher', 'college', 'super_admin'] : $data = ['teacher'];
         return $this->usersWithRoles($data)->where('college_id', $collegeId);
     }
 
