@@ -271,7 +271,7 @@ export default{
             return;    
         }    
         if (param.type == 'dblclick') {
-           this.$router.push({name: 'char_table', params: {id: param.dataIndex+1}});
+           this.$router.push({name: 'char_table', params: {id: param.dataIndex+2}});
         }    
     },
     getschoolYear(){

@@ -23,6 +23,9 @@
               placeholder="选择日期时间">
             </el-date-picker>
           </el-form-item>
+          <el-form-item v-if="$route.name === 'cahier_edit'">
+            <span>请重新选择参会人员</span>
+          </el-form-item>
           <!--完成时间-->
             <el-form-item style="margin-bottom:0px;" label="全体人员参会">
                <el-checkbox :disabled="restoreCheck" @change="theAllUsers()" style="margin-left:-25px;" class="el-col-pull-11" v-model="checked"></el-checkbox>
@@ -59,7 +62,8 @@
          
           <!--按钮组-->
           <el-form-item>
-            <el-button type="primary" @click="createTask('ruleForm')">立即添加</el-button>
+            <el-button v-if="$route.name === 'cahier_create'" type="primary" @click="createTask('ruleForm')">立即添加</el-button>
+            <el-button v-else type="primary" @click="modifyTask()">修改</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
         </el-form>
@@ -119,23 +123,82 @@
         }
       };
     },
-    // watch:{
-    //   late: function(){
-    //     this.ruleForm.late.splice(this.ruleForm.late)
-    //     for(let i in this.late){
-    //       this.ruleForm.late.push({
-    //         id: this.ruleForm.late_id,
-    //         users: this.late[i]
-    //       })
-    //     }
-    //   }
-    // },
+     watch:{
+      '$route' () {
+        console.log(this.$route.name);
+        if (this.$route.name === 'cahier_edit') {
+          this.getMeetingItem();
+        } else {
+          this.ruleForm = {
+            title: '',
+            place: '',
+            detail: '',
+            people: [],
+            time: '',
+            college: null,
+            late_id: null,
+            late: []
+          }
+        }
+      }
+    },
     mounted () {
       this.getCollegesList();
       this.getLate();
-      // this.getAllUsers();
+      if (this.$route.name === 'cahier_edit') {
+        this.getMeetingItem();
+      } else {
+        this.ruleForm = {
+          title: '',
+          place: '',
+          detail: '',
+          people: [],
+          time: '',
+          college: null,
+          late_id: null,
+          late: []
+        }
+      }
     },
     methods: {
+      // 修改会议
+      modifyTask () {
+        let tempPeple = ''; 
+         if(this.checked){
+            tempPeple = 'all'
+          } else {
+            tempPeple = this.ruleForm.people.join(',')
+          }
+        this.$http.post('metting/' + this.$route.params.id, {
+          title: this.ruleForm.title,
+          detail: this.ruleForm.detail,
+          users: tempPeple,
+          address: this.ruleForm.place,
+          start_time: this.ruleForm.time,
+          absent_cause:this.absent_cause
+        }).then(res => {
+          this.$message({
+            message: '修改成功',
+            type: 'success'
+          });
+          this.$router.push({name: 'cahier_lists'});
+        })
+      },
+      // 获取会议信息
+      getMeetingItem () {
+        this.$http.get('metting/' + this.$route.params.id).then(res => {
+          this.ruleForm = {
+            title: res.data.data.title,
+            place: res.data.data.address,
+            detail: res.data.data.detail,
+            time: res.data.data.start_time,
+            people: [],
+            college: null,
+            late_id: null,
+            late: []
+          };
+        })
+      },
       theAllUsers () {
         if(this.checked === true){
           this.restoreCheck = true;
@@ -245,11 +308,11 @@
       },
       getAllUsers(college_id){
         this.allUsers.splice(0, this.allUsers.length);
-        this.$http.get('users/' + college_id).then(res => {
+        this.$http.get('users/' + (college_id)).then(res => {
           for(let x in res.data.users){
             this.allUsers.push({
               key:  res.data.users[x].id,
-              label: (this.collegesList[res.data.users[x].college_id-1].title || '学生处') + ' - ' + res.data.users[x].nickname
+              label: (this.collegesList[res.data.users[x].college_id-2].title || '学生处') + ' - ' + res.data.users[x].nickname
             });
           }
         })

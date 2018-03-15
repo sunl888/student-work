@@ -172,7 +172,6 @@ export default{
   methods: {
     exportTable(){
       this.url.splice(0,1)
-      console.log(this.url)
       window.open('/api/export2table?' + this.url);
 
       // this.$http.get('export2table').then(res => {
