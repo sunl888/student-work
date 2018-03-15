@@ -1,0 +1,69 @@
+version: "3"
+services:
+  backend_dev:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./:/var/www/
+    links:
+      - mysql
+      - redis
+    entrypoint: /var/www/deploy/docker-entrypoint-dev.sh
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_CONNECTION=${DB_CONNECTION}
+      - DB_HOST=${DB_HOST}
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+
+  redis:
+    image: redis:4.0-alpine
+
+  nginx:
+    build:
+      context: ./deploy/nginx
+      args:
+        - PHP_UPSTREAM_CONTAINER=backend_dev
+    links:
+      - backend_dev
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www:ro
+      - ./deploy/nginx/sites-available/:/etc/nginx/sites-available/
+    depends_on:
+      - backend_dev
+
+  php_worker:
+    build:
+      context: ./deploy/php_worker
+    volumes:
+      - ./:/var/www/
+    depends_on:
+      - backend_dev
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8081:80"
+    environment: 
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=${DB_USERNAME}
+      - PMA_PASSWORD=${DB_PASSWORD}
+    links:
+      - mysql
+    depends_on:
+      - mysql
