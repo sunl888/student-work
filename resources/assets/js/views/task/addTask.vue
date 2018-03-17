@@ -46,7 +46,7 @@
           <el-form-item>
             <el-button v-if="isEdit" type="primary" @click="editTask('ruleForm')">立即修改</el-button>
             <el-button v-else type="primary" @click="createTask('ruleForm')">立即创建</el-button>
-            <el-button @click="resetForm('ruleForm')">重置</el-button>
+            <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
           </el-form-item>
         </el-form>
       </div>

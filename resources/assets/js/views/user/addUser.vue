@@ -76,7 +76,7 @@
                     <el-form-item class="btnGroup">
                         <el-button v-if="isEdit" type="primary" @click="editUser('ruleForm')">立即修改</el-button>
                         <el-button v-else type="primary" @click="createUser('ruleForm')">立即创建</el-button>
-                        <el-button @click="resetForm('ruleForm')">重置</el-button>
+                        <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
                     </el-form-item>
                 </el-form>
             </div>

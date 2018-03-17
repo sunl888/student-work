@@ -64,7 +64,7 @@
           <el-form-item>
             <el-button v-if="$route.name === 'cahier_create'" type="primary" @click="createTask('ruleForm')">立即添加</el-button>
             <el-button v-else type="primary" @click="modifyTask()">修改</el-button>
-            <el-button @click="resetForm('ruleForm')">重置</el-button>
+            <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
           </el-form-item>
         </el-form>
       </div>

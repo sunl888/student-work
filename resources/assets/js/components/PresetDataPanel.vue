@@ -77,7 +77,7 @@ export default {
     },
     // 删除工作类型
     deleteWorkType (id, index) {
-      this.$confirm('此操作将删除该数据项, 是否继续?', '提示', {
+      this.$confirm('删除此项后与之相关的任务或用户将被全部永久清除, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

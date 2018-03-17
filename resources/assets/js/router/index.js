@@ -213,7 +213,7 @@ export default new Router({
             ]
         },
         {
-          path: 'cahier_lists/:id',
+          path: 'cahier_lists/:id?',
           meta: {title: '会议管理'},
           component: parentComponent,
           children: [
