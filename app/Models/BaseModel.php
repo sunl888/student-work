@@ -38,4 +38,9 @@ class BaseModel extends Model
         }
         return Carbon::parse($date)->diffForHumans();
     }*/
+
+    public function scopeByKey($query, $key, $value)
+    {
+        return $query->where($key, $value);
+    }
 }

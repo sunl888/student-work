@@ -34,6 +34,9 @@ export default{
 }
 </script>
 <style scoped>
+  ::-webkit-scrollbar{
+    display:none;
+  }
   .el-menu{
     border-radius: 0;
     width: 180px;
@@ -42,6 +45,8 @@ export default{
     top: 0;
     left: 0;
     bottom: 0;
+    height: 100%;
+    overflow: auto;
   }
   .menu{
     overflow: auto;

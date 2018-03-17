@@ -309,11 +309,15 @@
       getAllUsers(college_id){
         this.allUsers.splice(0, this.allUsers.length);
         this.$http.get('users/' + (college_id)).then(res => {
-          for(let x in res.data.users){
-            this.allUsers.push({
-              key:  res.data.users[x].id,
-              label: (this.collegesList[res.data.users[x].college_id-2].title || '学生处') + ' - ' + res.data.users[x].nickname
-            });
+          for(let x in this.collegesList){
+            for(let y in res.data.users) {
+              if(college_id == this.collegesList[x].id) {
+                this.allUsers.push({
+                  key:  res.data.users[y].id,
+                  label:  (this.collegesList[x].title || '学生处') + ' - ' + res.data.users[y].nickname
+                });
+              }
+            }
           }
         })
      },

@@ -30,6 +30,7 @@ class CollegeController extends BaseController
 
     public function delete($CollegeId)
     {
+        // TODO 这里不知道是个什么东西
         app(CollegeRepository::class)->delete($CollegeId);
         app(TaskProgressRepository::class)->deleteByCollegeId($CollegeId);
         return $this->response->noContent();

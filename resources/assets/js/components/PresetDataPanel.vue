@@ -40,14 +40,14 @@ export default {
           type: 'success'
         })
       }).catch(err => {
-                           for(let i in err.response.data.message){
-                                this.$message({
-                                  type: 'error',
-                                  message: err.response.data.message[i]
-                              })  
-                            }
-                                                         
-                          })
+        for(let i in err.response.data.message){
+          this.$message({
+              type: 'error',
+              message: err.response.data.message[i]
+          })  
+        }
+                                      
+      })
     },
     // 添加工作类型
     addType () {

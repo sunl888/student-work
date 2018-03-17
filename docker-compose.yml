@@ -8,11 +8,9 @@ services:
       - ./:/var/www/
     links:
       - mysql
-      - redis
     entrypoint: /var/www/deploy/docker-entrypoint-dev.sh
     depends_on:
       - mysql
-      - redis
     environment:
       - DB_DATABASE=${DB_DATABASE}
       - DB_USERNAME=${DB_USERNAME}
@@ -27,9 +25,6 @@ services:
       - MYSQL_USER=${DB_USERNAME}
       - MYSQL_PASSWORD=${DB_PASSWORD}
       - MYSQL_RANDOM_ROOT_PASSWORD=true
-
-  redis:
-    image: redis:4.0-alpine
 
   nginx:
     build:

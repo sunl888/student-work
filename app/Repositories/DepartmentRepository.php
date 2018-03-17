@@ -9,6 +9,8 @@
 namespace App\Repositories;
 
 use App\Models\Department;
+use App\Models\Task;
+use App\Models\TaskProgress;
 use Cache;
 
 class DepartmentRepository extends Repository
@@ -43,6 +45,10 @@ class DepartmentRepository extends Repository
 
     public function delete($id)
     {
+        // TODO 删除对口科室的同事删除相关联的任务
+        $task_ids = Task::ByKey('department_id', $id)->pluck('id');
+        TaskProgress::whereIn('task_id', $task_ids)->forceDelete();
+        Task::ByKey('department_id', $id)->forceDelete();
         return $this->model->delete(['id' => $id]);
     }
 }

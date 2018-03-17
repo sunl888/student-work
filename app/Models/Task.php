@@ -104,10 +104,4 @@ class Task extends BaseModel
         else
             return $query->publishAndDraft();
     }
-
-    public function scopeByKey($query, $key, $value)
-    {
-        return $query->where($key, $value);
-    }
-
 }

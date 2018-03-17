@@ -55,7 +55,7 @@ class SemestersSeeder extends Seeder
             'start_time' => '2017/09/01',
             'end_time' => '2018/02/15',
             'parent_id' => 4,
-            'checked' => 1,
+            'checked' => 0,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ], [
@@ -64,7 +64,7 @@ class SemestersSeeder extends Seeder
             'start_time' => '2018/02/16',
             'end_time' => '2018/07/01',
             'parent_id' => 4,
-            'checked' => 0,
+            'checked' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]]);

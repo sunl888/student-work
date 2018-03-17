@@ -60,6 +60,7 @@ export default{
       semester: [],
       schoolYear: [],
       workTypeList: [],
+      collegesList: [],
       query:{
          range:{
           start_date: null,
@@ -189,6 +190,7 @@ export default{
     this.getData()
     this.getschoolYear()
     this.getWorkTypeList()
+    this.getCollegesList()
     this.myChart = echarts.init(document.getElementById('main'));
   },
   methods: {
@@ -200,7 +202,6 @@ export default{
       let i = 1;
       let start_date = (this.query.range.start_date || '').toLocaleString().split(' ')[0];
       let end_date = (this.query.range.end_date || '').toLocaleString().split(' ')[0];
-      console.log(start_date, end_date);
       url[0] = 'echart/lists';
       if (this.query.range.start_date !== null){
         // echarts.dispose();
@@ -271,9 +272,19 @@ export default{
             return;    
         }    
         if (param.type == 'dblclick') {
-           this.$router.push({name: 'char_table', params: {id: param.dataIndex+2}});
+          console.log(param);
+          for(let i in this.collegesList){
+            if(param.name === this.collegesList[i].title){
+              this.$router.push({name: 'char_table', params: {id: this.collegesList[i].id}});
+            }
+          }
         }    
     },
+    getCollegesList () {
+      this.$http.get('colleges').then(res => {
+          this.collegesList = res.data.data
+      })
+      },
     getschoolYear(){
       this.$http.get('semesters').then(res => {
         for(let i in res.data){

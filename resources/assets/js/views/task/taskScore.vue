@@ -192,7 +192,11 @@
             getTaskPro () {
                 this.$http.get('task/' + this.$route.params.id + '?include=task_progresses').then(res => {
                     this.item = res.data.data
-                    this.taskPro = res.data.data.task_progresses.data[this.$route.params.college_id-2]
+                    for(let i in res.data.data.task_progresses.data){
+                        if(this.$route.params.college_id == res.data.data.task_progresses.data[i].college_id){
+                            this.taskPro = res.data.data.task_progresses.data[i];
+                        }
+                    }
                     if(this.taskPro.delay!==null)this.isDelay = true;
                     this.alloter = this.taskPro.leading_official ? this.taskPro.leading_official.length : '';
                     this.taskPro.end_time = (this.taskPro.end_time || '').split(' ');

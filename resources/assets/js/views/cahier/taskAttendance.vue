@@ -284,7 +284,11 @@
                         return;    
                     }    
                     if (param.type == 'dblclick') {
-                    this.$router.push({name: 'cahier_list', params: {id: param.dataIndex+2}});
+                    for(let i in this.collegesList){
+                        if(param.name === this.collegesList[i].title){
+                            this.$router.push({name: 'cahier_list', params: {id: this.collegesList[i].id}});
+                            }
+                        }
                     }    
                 },
             handleSuccess(response){

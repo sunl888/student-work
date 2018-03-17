@@ -19,14 +19,15 @@ class ImportUsers implements ShouldQueue
      */
     public function handle(Events\ImportUsers $event)
     {
-        $role = app(Role::class);
-        Excel::load($event->xls_path, function ($reader) use ($role) {
+        //$role = app(Role::class);
+        Excel::load($event->xls_path, function ($reader)/* use ($role) */{
             //获取excel的第1张表
             $reader = $reader->getSheet(0);
             //获取表中的数据
             $data = $reader->toArray();
+
             $data = $this->validated($data);
-            $this->import_users($data, $role);
+            $this->import_users($data/*, $role*/);
         });
     }
 
@@ -35,8 +36,9 @@ class ImportUsers implements ShouldQueue
     /**
      * @param $data
      */
-    public function import_users($data, Role $role)
+    public function import_users($data/*, Role $role*/)
     {
+        $role = app(Role::class);
         $teacher_id = $role->where(['name' => Role::TEACHER])->first()->id ?: 3;
         $xueyuan_id = $role->where(['name' => Role::COLLEGE])->first()->id ?: 2;
         $admin_id = $role->where(['name' => Role::SUPER_ADMIN])->first()->id ?: 1;
@@ -51,7 +53,7 @@ class ImportUsers implements ShouldQueue
             if (is_null($value[5])) {
                 // 一般用户
                 $role = $teacher_id;
-            } else if ($value[5] === '学院') {
+            } else if ($value[5] === '二级学院') {
                 $role = $xueyuan_id;
             } else if ($value[5] === '管理员') {
                 $role = $admin_id;
