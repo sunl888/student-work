@@ -50,9 +50,14 @@ class MeetingTransformer extends Transformer
         }
         foreach ($users as $user_id) {
             $uInfo = $user->find($user_id);
+           // dd($uInfo->college);
             $data = $absentee->where('user_id', $user_id)->where('meeting_id', $meeting->id)->first();
-            if (!isset($datas[$uInfo->college->title]['score'])) {
-                $datas[$uInfo->college->title]['score'] = Meeting::BASE_SCORE;
+            try{
+                if (!isset($datas[$uInfo->college->title]['score'])) {
+                    $datas[$uInfo->college->title]['score'] = Meeting::BASE_SCORE;
+                }
+            }catch(\Exception $e){
+                dd($uInfo);
             }
             $userinfo = collect();
             $userinfo->push($uInfo->toArray());
