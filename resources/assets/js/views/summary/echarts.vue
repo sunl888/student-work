@@ -272,7 +272,6 @@ export default{
             return;    
         }    
         if (param.type == 'dblclick') {
-          console.log(param);
           for(let i in this.collegesList){
             if(param.name === this.collegesList[i].title){
               this.$router.push({name: 'char_table', params: {id: this.collegesList[i].id}});

@@ -125,7 +125,6 @@
     },
      watch:{
       '$route' () {
-        console.log(this.$route.name);
         if (this.$route.name === 'cahier_edit') {
           this.getMeetingItem();
         } else {
@@ -169,6 +168,10 @@
           } else {
             tempPeple = this.ruleForm.people.join(',')
           }
+          if(this.ruleForm.title === '' || this.ruleForm.detail === '' || tempPeple === '' || this.ruleForm.place === '' || this.ruleForm.time === ''){
+            this.$message.warning('请将表单补充完整！')
+            console.log(this.ruleForm)
+          } else {
         this.$http.post('metting/' + this.$route.params.id, {
           title: this.ruleForm.title,
           detail: this.ruleForm.detail,
@@ -183,6 +186,8 @@
           });
           this.$router.push({name: 'cahier_lists'});
         })
+          }
+
       },
       // 获取会议信息
       getMeetingItem () {
