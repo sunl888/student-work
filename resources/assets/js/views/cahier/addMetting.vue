@@ -170,7 +170,6 @@
           }
           if(this.ruleForm.title === '' || this.ruleForm.detail === '' || tempPeple === '' || this.ruleForm.place === '' || this.ruleForm.time === ''){
             this.$message.warning('请将表单补充完整！')
-            console.log(this.ruleForm)
           } else {
         this.$http.post('metting/' + this.$route.params.id, {
           title: this.ruleForm.title,

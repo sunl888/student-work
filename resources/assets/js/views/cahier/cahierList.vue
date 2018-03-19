@@ -134,7 +134,6 @@
                 }
                 if(this.query.gender !== null){
                    url[i] = '&gender=' + this.query.gender;
-                //    console.log(this.query.gender);
                     i++;
                 }
                 if(this.query.name !== null){

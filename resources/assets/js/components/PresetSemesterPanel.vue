@@ -130,7 +130,6 @@
                 } else {
                 	let tempNewVal = new Array();
                     tempNewVal = newVal.split(' - ');
-                          console.log(tempNewVal)           
                     this.$http.post('update_' + this.url + '/' + id, {
 	                    start_time:tempNewVal[0],
 	                    end_time:tempNewVal[1]
@@ -253,7 +252,6 @@
                         this.tags.splice(index, 1)
                     } else{
                         this.tags[index].childs.splice(key,1);
-                        console.log()
                     }
                     this.$message({
                         message: '删除成功',

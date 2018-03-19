@@ -232,7 +232,6 @@ export default{
           this.option.series[1].data = this.score
           this.college.pop();
           this.option.xAxis[0].data = this.college
-          // console.log(this.option);
           this.myChart = echarts.init(document.getElementById('main'));
           this.myChart.setOption(this.option)
           this.myChart.on('click', this.eConsole);

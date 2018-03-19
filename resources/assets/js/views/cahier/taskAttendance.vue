@@ -234,7 +234,6 @@
             // })
             },
             getList(url){
-                console.log(url)
                 this.item.splice(0, this.item.length)
                 this.$http.get(url).then(res => {
                     for(let i in res.data){
