@@ -50,12 +50,12 @@ class ImportUsers implements ShouldQueue
             $user['email'] = 'test@admin.com';//app(\Faker\Generator::class)->freeEmail;// email
             $user['picture'] = 'images/picture.jpg';// 头像
             $user['phone'] = $value[4];// 电话
-            if (is_null($value[5])) {
+            if ($value[5] == '教师' || is_null($value[5])) {
                 // 一般用户
                 $role = $teacher_id;
-            } else if ($value[5] === '二级学院') {
+            } else if ($value[5] == '二级学院') {
                 $role = $xueyuan_id;
-            } else if ($value[5] === '管理员') {
+            } else if ($value[5] == '管理员') {
                 $role = $admin_id;
             }
             $college = app(CollegeRepository::class)->where(['title' => $value[0]])->first();
@@ -64,6 +64,7 @@ class ImportUsers implements ShouldQueue
             } else {
                 $user['college_id'] = 1;
             }
+            \Log::info($role);
             $userInfo = User::create($user);
             $userInfo->roles()->attach($role);
             unset($userInfo, $role, $userRoleInfo);

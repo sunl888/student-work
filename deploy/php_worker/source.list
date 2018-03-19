@@ -1,3 +1,2 @@
-http://mirrors.aliyun.com/alpine/latest-stable/main
-@community http://mirrors.aliyun.com/alpine/latest-stable/community
-@testing http://mirrors.aliyun.com/alpine/edge/testing
+http://mirrors.ustc.edu.cn/alpine/v3.7/main
+http://mirrors.ustc.edu.cn/alpine/v3.7/community

@@ -1,7 +1,7 @@
 FROM php:7.2-alpine3.7
 
 #替换国内镜像
-# COPY source.list /etc/apk/repositories
+COPY source.list /etc/apk/repositories
 
 RUN apk update && apk --no-cache add freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev supervisor \
  && docker-php-ext-configure gd \
