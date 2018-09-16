@@ -43,7 +43,7 @@
             <el-tab-pane label="用户列表" name="list">
                 <div class="table">
                     <currency-list-page ref="list" :queryName="user_url">
-                        <template scope="list">
+                        <template slot-scope="list">
                             <el-table
                                     v-loading="upload_user"
                                     :default-sort = "{prop: 'created_at', order: 'descending'}"

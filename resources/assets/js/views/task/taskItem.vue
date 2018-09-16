@@ -15,7 +15,7 @@
                 <el-button v-if="item.status === 'draft'"  class="btn" @click="auditing()" type="success">审核任务</el-button>
                 <div class="taskWatch" v-else>
                      <currency-list-page :isPage="false" ref="list" :queryName="'task/' + this.$route.params.id + '?include=task_progresses'">
-                    <template scope="list">
+                    <template slot-scope="list">
                         <el-table
                                 border
                                 stripe

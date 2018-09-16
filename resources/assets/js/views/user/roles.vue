@@ -4,7 +4,7 @@
             <el-tab-pane label="角色列表" name="list">
                 <div class="table">
                     <currency-list-page ref="list" queryName="roles">
-                        <template scope="list">
+                        <template slot-scope="list">
                             <el-table
                                     :default-sort = "{prop: 'date', order: 'descending'}"
                                     :data="list.data"

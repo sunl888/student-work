@@ -4,7 +4,7 @@
       <el-tab-pane label="会议列表" name="list">
         <div class="table" v-if="me.roles.data[0].id === 2">
           <currency-list-page ref="list" :queryName="query">
-            <template scope="list">
+            <template slot-scope="list">
               <el-table 
                       :default-sort = "{prop: 'created_at', order: 'descending'}"
                       :data="list.data"
@@ -64,7 +64,7 @@
         </div>
                 <div class="table" v-else>
           <currency-list-page ref="list" :queryName="query">
-            <template scope="list">
+            <template slot-scope="list">
               <el-table 
                       :default-sort = "{prop: 'created_at', order: 'descending'}"
                       :data="list.data"
