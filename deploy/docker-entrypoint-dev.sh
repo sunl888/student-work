@@ -4,7 +4,7 @@ set -e
 
 if [ ! -d vendor ]
 then
-    composer config -g repo.packagist composer https://packagist.phpcomposer.com
+    composer config -g repo.packagist composer https://packagist.laravel-china.org
     composer install --prefer-dist --optimize-autoloader
 fi
 
@@ -12,6 +12,7 @@ fi
 #then
 #   npm install --registry=https://registry.npm.taobao.org
 #fi
+
 chown -R www-data:www-data /var/www/storage
 chown -R www-data:www-data /var/www/bootstrap
 php /var/www/artisan key:generate
@@ -31,7 +32,7 @@ until php -r 'try {
 done
 
 
-php /var/www/artisan migrate --seed
-php /var/www/artisan import:users
+#php /var/www/artisan migrate --seed
+#php /var/www/artisan import:users
 
 php-fpm

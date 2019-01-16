@@ -58,7 +58,7 @@ services:
     image: phpmyadmin/phpmyadmin
     ports:
       - "8081:80"
-    environment: 
+    environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=mysql
       - PMA_USER=${DB_USERNAME}

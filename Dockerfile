@@ -17,12 +17,16 @@ RUN apk update && apk --no-cache add freetype libpng libjpeg-turbo freetype-dev 
 RUN echo "memory_limit=-1" > "$PHP_INI_DIR/conf.d/memory-limit.ini" \
  && echo "date.timezone=${PHP_TIMEZONE:-UTC}" > "$PHP_INI_DIR/conf.d/date_timezone.ini"
 
-ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_VERSION 1.6.3
 
-RUN php -r "copy('https://install.phpcomposer.com/installer', 'composer-setup.php');" \
- && php composer-setup.php --no-ansi --install-dir=/usr/bin --filename=composer --version=${COMPOSER_VERSION} \
- && php -r "unlink('composer-setup.php');"
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+  && php -r "if (hash_file('sha384', 'composer-setup.php') === '93b54496392c062774670ac18b134c3b3a95e5a5e5c8f1a9f115f203b75bf9a129d5daa8ba6a13e2cc8a1da0806388a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
+  && php composer-setup.php --no-ansi --install-dir=/usr/bin --filename=composer --version=${COMPOSER_VERSION} \
+  && php -r "unlink('composer-setup.php');"
+
+# grant all privileges to www-data
+ARG USERID=1000
+RUN apk --no-cache add shadow && usermod -u $USERID www-data
 
 WORKDIR /var/www/
 
