@@ -32,7 +32,7 @@ until php -r 'try {
 done
 
 
-#php /var/www/artisan migrate --seed
-#php /var/www/artisan import:users
+php /var/www/artisan migrate --seed
+php /var/www/artisan import:users
 
 php-fpm
